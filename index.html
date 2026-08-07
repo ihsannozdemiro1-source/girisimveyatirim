@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Girişim ve Yatırım</title>
+  <title>Girişim ve Yatırım - Ekosistem Portalı</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     .gradient-text {
@@ -21,7 +21,7 @@
       
       <!-- Logo -->
       <div class="flex items-center space-x-6">
-        <button type="button" onclick="openTab('startups')" class="flex items-center space-x-2.5 group outline-none">
+        <button type="button" onclick="switchPage('startups')" class="flex items-center space-x-2.5 group outline-none text-left">
           <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-purple-600 to-emerald-400 p-0.5 shadow-md group-hover:scale-105 transition transform">
             <div class="w-full h-full bg-slate-900 rounded-[10px] flex items-center justify-center">
               <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -34,22 +34,22 @@
 
         <!-- Menü Sekmeleri -->
         <nav class="hidden xl:flex space-x-2">
-          <button type="button" id="btn-startups" onclick="openTab('startups')" class="nav-tab-btn px-4 py-2 rounded-xl text-sm font-bold text-indigo-600 bg-indigo-50 transition">Girişimler</button>
-          <button type="button" id="btn-syndicates" onclick="openTab('syndicates')" class="nav-tab-btn px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition flex items-center gap-1.5">
+          <button type="button" id="btn-startups" onclick="switchPage('startups')" class="menu-tab-btn px-4 py-2 rounded-xl text-sm font-bold text-indigo-600 bg-indigo-50 transition">Girişimler</button>
+          <button type="button" id="btn-syndicates" onclick="switchPage('syndicates')" class="menu-tab-btn px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition flex items-center gap-1.5">
             <span>🔥 Canlı Turlar</span>
             <span class="bg-rose-100 text-rose-700 text-xs font-black px-2 py-0.5 rounded-full">Süre Sınırlı</span>
           </button>
-          <button type="button" id="btn-acquisitions" onclick="openTab('acquisitions')" class="nav-tab-btn px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition flex items-center gap-1.5">
+          <button type="button" id="btn-acquisitions" onclick="switchPage('acquisitions')" class="menu-tab-btn px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition flex items-center gap-1.5">
             <span>🛒 Proje Pazarı</span>
             <span class="bg-emerald-100 text-emerald-700 text-xs font-black px-2 py-0.5 rounded-full">Acquire</span>
           </button>
-          <button type="button" id="btn-investors" onclick="openTab('investors')" class="nav-tab-btn px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">💼 Yatırımcılar & Portföyler</button>
-          <button type="button" id="btn-aiTools" onclick="openTab('aiTools')" class="nav-tab-btn px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">🤖 AI Pitch Analiz</button>
+          <button type="button" id="btn-investors" onclick="switchPage('investors')" class="menu-tab-btn px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">💼 Yatırımcılar & Portföyler</button>
+          <button type="button" id="btn-aiTools" onclick="switchPage('aiTools')" class="menu-tab-btn px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">🤖 AI Pitch Analiz</button>
         </nav>
       </div>
 
       <div class="flex items-center space-x-3">
-        <button type="button" onclick="openFormModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm px-5 py-2.5 rounded-xl shadow-md transition">
+        <button type="button" onclick="openCreateModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm px-5 py-2.5 rounded-xl shadow-md transition">
           + İlan / Proje Yayınla
         </button>
       </div>
@@ -59,7 +59,7 @@
   <main class="max-w-7xl mx-auto px-4 py-8">
 
     <!-- 1. GİRİŞİMLER -->
-    <div id="tab-startups" class="page-tab space-y-6" style="display: block;">
+    <div id="view-startups" class="view-panel space-y-6" style="display: block;">
       <section class="relative overflow-hidden bg-slate-900 text-white p-8 rounded-3xl shadow-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border border-slate-800">
         <div class="relative z-10 max-w-xl">
           <div class="inline-flex items-center gap-2 bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 text-xs font-bold px-3 py-1 rounded-full mb-3">
@@ -108,12 +108,12 @@
     </div>
 
     <!-- 2. CANLI TURLAR -->
-    <div id="tab-syndicates" class="page-tab space-y-6" style="display: none;">
+    <div id="view-syndicates" class="view-panel space-y-6" style="display: none;">
       <div class="bg-gradient-to-r from-rose-900 via-indigo-900 to-slate-900 text-white p-8 rounded-3xl shadow-lg border border-rose-800/50">
         <span class="bg-rose-400 text-slate-900 text-xs font-black px-3 py-1 rounded-full uppercase tracking-wider mb-2 inline-block">Süre Sınırlı Yatırım Turları</span>
         <h2 class="text-3xl font-black mb-2">Lider Yatırımcı Sendikaları & Mikro Katılım</h2>
         <p class="text-rose-200 text-sm max-w-xl mb-4">Tecrübeli melek yatırımcıların liderlik ettiği aktif turlar.</p>
-        <button type="button" onclick="openFormModal()" class="bg-rose-500 hover:bg-rose-600 text-white font-extrabold text-sm px-5 py-2.5 rounded-xl shadow-md transition">
+        <button type="button" onclick="openCreateModal()" class="bg-rose-500 hover:bg-rose-600 text-white font-extrabold text-sm px-5 py-2.5 rounded-xl shadow-md transition">
           🔥 Yatırım Turu Başlat
         </button>
       </div>
@@ -123,14 +123,14 @@
     </div>
 
     <!-- 3. PROJE PAZARI -->
-    <div id="tab-acquisitions" class="page-tab space-y-6" style="display: none;">
+    <div id="view-acquisitions" class="view-panel space-y-6" style="display: none;">
       <div class="bg-gradient-to-r from-emerald-900 via-teal-900 to-slate-900 text-white p-8 rounded-3xl shadow-lg border border-emerald-800/50 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
         <div>
           <span class="bg-emerald-400 text-slate-900 text-xs font-black px-3 py-1 rounded-full uppercase tracking-wider mb-2 inline-block">Micro-Acquisition Pazarı</span>
           <h2 class="text-3xl font-black mb-2">Devredilebilir Projeler & Mikro SaaS Satışı</h2>
           <p class="text-emerald-200 text-sm max-w-xl">Gelir getiren yan projeleri ve devredilebilir SaaS ürünlerini satın alın veya projenizi devredin.</p>
         </div>
-        <button type="button" onclick="openFormModal()" class="bg-emerald-400 hover:bg-emerald-300 text-slate-900 font-extrabold text-sm px-5 py-3 rounded-2xl shadow-md transition">
+        <button type="button" onclick="openCreateModal()" class="bg-emerald-400 hover:bg-emerald-300 text-slate-900 font-extrabold text-sm px-5 py-3 rounded-2xl shadow-md transition">
           🛒 Satılık Proje İlanı Ver
         </button>
       </div>
@@ -140,13 +140,13 @@
     </div>
 
     <!-- 4. YATIRIMCILAR -->
-    <div id="tab-investors" class="page-tab space-y-6" style="display: none;">
+    <div id="view-investors" class="view-panel space-y-6" style="display: none;">
       <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex justify-between items-center">
         <div>
           <h2 class="text-2xl font-black text-slate-900 mb-1">Yatırımcı Portföyleri</h2>
           <p class="text-slate-500 text-xs">Aktif yatırımcılar ve fon performansları.</p>
         </div>
-        <button type="button" onclick="openFormModal()" class="bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs px-4 py-2.5 rounded-xl transition">
+        <button type="button" onclick="openCreateModal()" class="bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs px-4 py-2.5 rounded-xl transition">
           💼 Yatırımcı Profili Oluştur
         </button>
       </div>
@@ -156,7 +156,7 @@
     </div>
 
     <!-- 5. AI PITCH ANALİZ -->
-    <div id="tab-aiTools" class="page-tab space-y-6" style="display: none;">
+    <div id="view-aiTools" class="view-panel space-y-6" style="display: none;">
       <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm space-y-4">
         <div>
           <span class="bg-purple-100 text-purple-700 text-xs font-black px-3 py-1 rounded-full uppercase">Otomatik Kontrolör</span>
@@ -186,7 +186,7 @@
   <!-- İLAN EKLEME MODALI -->
   <div id="addModal" class="fixed inset-0 bg-slate-900/60 hidden z-50 flex items-center justify-center p-4 backdrop-blur-sm">
     <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
-      <button type="button" onclick="closeFormModal()" class="absolute top-4 right-4 text-slate-400 text-2xl font-bold">&times;</button>
+      <button type="button" onclick="closeCreateModal()" class="absolute top-4 right-4 text-slate-400 text-2xl font-bold hover:text-slate-600">&times;</button>
       <h2 class="text-xl font-extrabold mb-4 text-slate-900">Girişim ve Yatırım'a Yeni İlan Ekle</h2>
       
       <form onsubmit="handleAddStartup(event)" class="space-y-4">
@@ -227,64 +227,63 @@
           <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Açıklama</label>
           <textarea id="addDesc" rows="3" required placeholder="Girişimin çözdüğü problem..." class="w-full p-2.5 border rounded-xl text-sm outline-none"></textarea>
         </div>
-        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-xl text-sm shadow-md">Yayınla</button>
+        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-xl text-sm shadow-md transition">Yayınla</button>
       </form>
     </div>
   </div>
 
-  <!-- Supabase SDK -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- Supabase JS v2 -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 
   <script>
-    // Supabase URL ve Anon Key
     const SUPABASE_URL = 'https://kaovkjsttcyyrwbmtpb.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_NrZ4UXAzYjs7VZ52t7XJww_gMTDBJJl'; 
 
-    let supabase = null;
-    if (window.supabase && typeof window.supabase.createClient === 'function') {
-      supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    let supabaseClient = null;
+    try {
+      if (window.supabase && typeof window.supabase.createClient === 'function') {
+        supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      }
+    } catch (e) {
+      console.error("Supabase yükleme hatası:", e);
     }
 
-    // SEKME GEÇİŞİ
-    function openTab(tabName) {
-      var tabs = document.querySelectorAll('.page-tab');
-      for (var i = 0; i < tabs.length; i++) {
-        tabs[i].style.display = 'none';
-      }
+    // SAYFA GEÇİŞLERİ
+    function switchPage(pageKey) {
+      const panels = document.querySelectorAll('.view-panel');
+      panels.forEach(p => p.style.display = 'none');
 
-      var buttons = document.querySelectorAll('.nav-tab-btn');
-      for (var j = 0; j < buttons.length; j++) {
-        buttons[j].className = "nav-tab-btn px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition flex items-center gap-1.5";
-      }
+      const btns = document.querySelectorAll('.menu-tab-btn');
+      btns.forEach(b => {
+        b.className = "menu-tab-btn px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition flex items-center gap-1.5";
+      });
 
-      var activeTab = document.getElementById('tab-' + tabName);
-      if (activeTab) {
-        activeTab.style.display = 'block';
-      }
+      const activePanel = document.getElementById('view-' + pageKey);
+      if (activePanel) activePanel.style.display = 'block';
 
-      var activeBtn = document.getElementById('btn-' + tabName);
+      const activeBtn = document.getElementById('btn-' + pageKey);
       if (activeBtn) {
-        activeBtn.className = "nav-tab-btn px-4 py-2 rounded-xl text-sm font-bold text-indigo-600 bg-indigo-50 transition flex items-center gap-1.5";
+        activeBtn.className = "menu-tab-btn px-4 py-2 rounded-xl text-sm font-bold text-indigo-600 bg-indigo-50 transition flex items-center gap-1.5";
       }
     }
 
     // MODAL
-    function openFormModal() {
-      var modal = document.getElementById('addModal');
+    function openCreateModal() {
+      const modal = document.getElementById('addModal');
       if (modal) modal.classList.remove('hidden');
     }
 
-    function closeFormModal() {
-      var modal = document.getElementById('addModal');
+    function closeCreateModal() {
+      const modal = document.getElementById('addModal');
       if (modal) modal.classList.add('hidden');
     }
 
     let startups = [];
 
     async function fetchStartups() {
-      if (supabase) {
+      if (supabaseClient) {
         try {
-          const { data, error } = await supabase
+          const { data, error } = await supabaseClient
             .from('startups')
             .select('*')
             .order('created_at', { ascending: false });
@@ -295,18 +294,18 @@
             return;
           }
         } catch (err) {
-          console.error("Supabase veri okuma hatası:", err);
+          console.error("Sorgu hatası:", err);
         }
       }
-      
-      var localData = localStorage.getItem('my_startups_list');
+
+      const localData = localStorage.getItem('my_startups_list');
       startups = localData ? JSON.parse(localData) : [];
       renderStartups(startups);
     }
 
     function renderStartups(data) {
-      var grid = document.getElementById('startupGrid');
-      var countElem = document.getElementById('statStartupCount');
+      const grid = document.getElementById('startupGrid');
+      const countElem = document.getElementById('statStartupCount');
       if (countElem) countElem.innerText = data.length;
       if (!grid) return;
 
@@ -317,12 +316,12 @@
         return;
       }
 
-      data.forEach(function(item) {
-        var goal = item.fundingGoal || item.goal || 10000;
-        var raised = item.raised || 0;
-        var percent = Math.min(100, Math.round((raised / goal) * 100));
+      data.forEach(item => {
+        const goal = item.fundingGoal || item.goal || 10000;
+        const raised = item.raised || 0;
+        const percent = Math.min(100, Math.round((raised / goal) * 100));
         
-        var card = document.createElement('div');
+        const card = document.createElement('div');
         card.className = "bg-white border border-slate-200 rounded-3xl p-5 shadow-sm hover:shadow-md transition flex flex-col justify-between";
         card.innerHTML = 
           '<div>' +
@@ -349,7 +348,7 @@
 
     async function handleAddStartup(e) {
       e.preventDefault();
-      var newStartup = {
+      const newStartup = {
         name: document.getElementById('addTitle').value,
         sector: document.getElementById('addSector').value,
         stage: document.getElementById('addStage').value,
@@ -358,11 +357,11 @@
         description: document.getElementById('addDesc').value
       };
 
-      if (supabase) {
+      if (supabaseClient) {
         try {
-          const { error } = await supabase.from('startups').insert([newStartup]);
+          const { error } = await supabaseClient.from('startups').insert([newStartup]);
           if (error) {
-            console.error("Yazma hatası:", error.message);
+            console.error("Supabase yazma hatası:", error.message);
             startups.unshift(newStartup);
             localStorage.setItem('my_startups_list', JSON.stringify(startups));
           }
@@ -376,7 +375,7 @@
       }
 
       await fetchStartups();
-      closeFormModal();
+      closeCreateModal();
       
       document.getElementById('addTitle').value = '';
       document.getElementById('addGoal').value = '';
@@ -387,16 +386,16 @@
     }
 
     function filterStartups() {
-      var search = document.getElementById('searchInput').value.toLowerCase();
-      var sector = document.getElementById('sectorFilter').value;
-      var stage = document.getElementById('stageFilter').value;
+      const search = document.getElementById('searchInput').value.toLowerCase();
+      const sector = document.getElementById('sectorFilter').value;
+      const stage = document.getElementById('stageFilter').value;
 
-      var filtered = startups.filter(function(s) {
-        var matchesSearch = (s.name || '').toLowerCase().indexOf(search) !== -1 || 
-                            (s.founder || '').toLowerCase().indexOf(search) !== -1 ||
-                            (s.description || '').toLowerCase().indexOf(search) !== -1;
-        var matchesSector = sector === "" || s.sector === sector;
-        var matchesStage = stage === "" || s.stage === stage;
+      const filtered = startups.filter(s => {
+        const matchesSearch = (s.name || '').toLowerCase().includes(search) || 
+                              (s.founder || '').toLowerCase().includes(search) ||
+                              (s.description || '').toLowerCase().includes(search);
+        const matchesSector = sector === "" || s.sector === sector;
+        const matchesStage = stage === "" || s.stage === stage;
         return matchesSearch && matchesSector && matchesStage;
       });
 
@@ -411,14 +410,12 @@
     }
 
     function analyzeDeck() {
-      var text = document.getElementById('aiDeckText').value;
+      const text = document.getElementById('aiDeckText').value;
       if (!text) { alert('Lütfen sunum özetinizi yazın.'); return; }
       document.getElementById('aiResultBox').style.display = 'block';
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
-      fetchStartups();
-    });
+    document.addEventListener('DOMContentLoaded', fetchStartups);
   </script>
 </body>
 </html>
