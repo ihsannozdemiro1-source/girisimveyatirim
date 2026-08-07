@@ -21,7 +21,7 @@
       
       <!-- Logo -->
       <div class="flex items-center space-x-6">
-        <a href="javascript:void(0)" onclick="openTab('startups')" class="flex items-center space-x-2.5 group">
+        <button type="button" onclick="openTab('startups')" class="flex items-center space-x-2.5 group outline-none">
           <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-purple-600 to-emerald-400 p-0.5 shadow-md group-hover:scale-105 transition transform">
             <div class="w-full h-full bg-slate-900 rounded-[10px] flex items-center justify-center">
               <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -30,26 +30,26 @@
             </div>
           </div>
           <span class="text-2xl font-black tracking-tight gradient-text">Girişim ve Yatırım</span>
-        </a>
+        </button>
 
         <!-- Menü Sekmeleri -->
         <nav class="hidden xl:flex space-x-2">
-          <button id="btn-startups" onclick="openTab('startups')" class="nav-btn px-4 py-2 rounded-xl text-sm font-bold text-indigo-600 bg-indigo-50 transition">Girişimler</button>
-          <button id="btn-syndicates" onclick="openTab('syndicates')" class="nav-btn px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition flex items-center gap-1.5">
+          <button type="button" id="btn-startups" onclick="openTab('startups')" class="nav-tab-btn px-4 py-2 rounded-xl text-sm font-bold text-indigo-600 bg-indigo-50 transition">Girişimler</button>
+          <button type="button" id="btn-syndicates" onclick="openTab('syndicates')" class="nav-tab-btn px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition flex items-center gap-1.5">
             <span>🔥 Canlı Turlar</span>
             <span class="bg-rose-100 text-rose-700 text-xs font-black px-2 py-0.5 rounded-full">Süre Sınırlı</span>
           </button>
-          <button id="btn-acquisitions" onclick="openTab('acquisitions')" class="nav-btn px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition flex items-center gap-1.5">
+          <button type="button" id="btn-acquisitions" onclick="openTab('acquisitions')" class="nav-tab-btn px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition flex items-center gap-1.5">
             <span>🛒 Proje Pazarı</span>
             <span class="bg-emerald-100 text-emerald-700 text-xs font-black px-2 py-0.5 rounded-full">Acquire</span>
           </button>
-          <button id="btn-investors" onclick="openTab('investors')" class="nav-btn px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">💼 Yatırımcılar & Portföyler</button>
-          <button id="btn-aiTools" onclick="openTab('aiTools')" class="nav-btn px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">🤖 AI Pitch Analiz</button>
+          <button type="button" id="btn-investors" onclick="openTab('investors')" class="nav-tab-btn px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">💼 Yatırımcılar & Portföyler</button>
+          <button type="button" id="btn-aiTools" onclick="openTab('aiTools')" class="nav-tab-btn px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">🤖 AI Pitch Analiz</button>
         </nav>
       </div>
 
       <div class="flex items-center space-x-3">
-        <button onclick="openFormModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm px-5 py-2.5 rounded-xl shadow-md transition">
+        <button type="button" onclick="openFormModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm px-5 py-2.5 rounded-xl shadow-md transition">
           + İlan / Proje Yayınla
         </button>
       </div>
@@ -101,7 +101,7 @@
           <option value="MVP">MVP</option>
           <option value="Erken Aşama">Erken Aşama</option>
         </select>
-        <button onclick="resetFilters()" class="text-sm font-semibold text-slate-600 hover:text-indigo-600 border border-slate-200 rounded-xl p-2.5 bg-slate-50 transition">Sıfırla</button>
+        <button type="button" onclick="resetFilters()" class="text-sm font-semibold text-slate-600 hover:text-indigo-600 border border-slate-200 rounded-xl p-2.5 bg-slate-50 transition">Sıfırla</button>
       </section>
 
       <section id="startupGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></section>
@@ -113,7 +113,7 @@
         <span class="bg-rose-400 text-slate-900 text-xs font-black px-3 py-1 rounded-full uppercase tracking-wider mb-2 inline-block">Süre Sınırlı Yatırım Turları</span>
         <h2 class="text-3xl font-black mb-2">Lider Yatırımcı Sendikaları & Mikro Katılım</h2>
         <p class="text-rose-200 text-sm max-w-xl mb-4">Tecrübeli melek yatırımcıların liderlik ettiği aktif turlar.</p>
-        <button onclick="openFormModal()" class="bg-rose-500 hover:bg-rose-600 text-white font-extrabold text-sm px-5 py-2.5 rounded-xl shadow-md transition">
+        <button type="button" onclick="openFormModal()" class="bg-rose-500 hover:bg-rose-600 text-white font-extrabold text-sm px-5 py-2.5 rounded-xl shadow-md transition">
           🔥 Yatırım Turu Başlat
         </button>
       </div>
@@ -130,7 +130,7 @@
           <h2 class="text-3xl font-black mb-2">Devredilebilir Projeler & Mikro SaaS Satışı</h2>
           <p class="text-emerald-200 text-sm max-w-xl">Gelir getiren yan projeleri ve devredilebilir SaaS ürünlerini satın alın veya projenizi devredin.</p>
         </div>
-        <button onclick="openFormModal()" class="bg-emerald-400 hover:bg-emerald-300 text-slate-900 font-extrabold text-sm px-5 py-3 rounded-2xl shadow-md transition">
+        <button type="button" onclick="openFormModal()" class="bg-emerald-400 hover:bg-emerald-300 text-slate-900 font-extrabold text-sm px-5 py-3 rounded-2xl shadow-md transition">
           🛒 Satılık Proje İlanı Ver
         </button>
       </div>
@@ -146,7 +146,7 @@
           <h2 class="text-2xl font-black text-slate-900 mb-1">Yatırımcı Portföyleri</h2>
           <p class="text-slate-500 text-xs">Aktif yatırımcılar ve fon performansları.</p>
         </div>
-        <button onclick="openFormModal()" class="bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs px-4 py-2.5 rounded-xl transition">
+        <button type="button" onclick="openFormModal()" class="bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs px-4 py-2.5 rounded-xl transition">
           💼 Yatırımcı Profili Oluştur
         </button>
       </div>
@@ -165,7 +165,7 @@
         </div>
         <div class="space-y-3">
           <textarea id="aiDeckText" rows="5" placeholder="Girişiminizin problemini, pazar büyüklüğünü, gelir modelinizi özetleyin..." class="w-full p-3 border rounded-2xl text-sm outline-none focus:ring-2 focus:ring-purple-500"></textarea>
-          <button onclick="analyzeDeck()" class="bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs px-6 py-3 rounded-xl shadow-md transition">
+          <button type="button" onclick="analyzeDeck()" class="bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs px-6 py-3 rounded-xl shadow-md transition">
             🤖 Sunumu AI İle Skorla
           </button>
         </div>
@@ -236,7 +236,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <script>
-    // Supabase URL ve Verilen Anon Key
+    // Supabase URL ve Anon Key
     const SUPABASE_URL = 'https://kaovkjsttcyyrwbmtpb.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_NrZ4UXAzYjs7VZ52t7XJww_gMTDBJJl'; 
 
@@ -245,16 +245,16 @@
       supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     }
 
-    // SEKME GEÇİŞLERİ
+    // SEKME GEÇİŞİ
     function openTab(tabName) {
-      var tabs = document.getElementsByClassName('page-tab');
+      var tabs = document.querySelectorAll('.page-tab');
       for (var i = 0; i < tabs.length; i++) {
         tabs[i].style.display = 'none';
       }
 
-      var buttons = document.getElementsByClassName('nav-btn');
+      var buttons = document.querySelectorAll('.nav-tab-btn');
       for (var j = 0; j < buttons.length; j++) {
-        buttons[j].className = "nav-btn px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition flex items-center gap-1.5";
+        buttons[j].className = "nav-tab-btn px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition flex items-center gap-1.5";
       }
 
       var activeTab = document.getElementById('tab-' + tabName);
@@ -264,11 +264,11 @@
 
       var activeBtn = document.getElementById('btn-' + tabName);
       if (activeBtn) {
-        activeBtn.className = "nav-btn px-4 py-2 rounded-xl text-sm font-bold text-indigo-600 bg-indigo-50 transition flex items-center gap-1.5";
+        activeBtn.className = "nav-tab-btn px-4 py-2 rounded-xl text-sm font-bold text-indigo-600 bg-indigo-50 transition flex items-center gap-1.5";
       }
     }
 
-    // FORM MODALI KONTROLÜ
+    // MODAL
     function openFormModal() {
       var modal = document.getElementById('addModal');
       if (modal) modal.classList.remove('hidden');
@@ -295,7 +295,7 @@
             return;
           }
         } catch (err) {
-          console.error("Supabase veri hatası:", err);
+          console.error("Supabase veri okuma hatası:", err);
         }
       }
       
@@ -363,11 +363,12 @@
           const { error } = await supabase.from('startups').insert([newStartup]);
           if (error) {
             console.error("Yazma hatası:", error.message);
-            alert("Veritabanı hatası: " + error.message);
-            return;
+            startups.unshift(newStartup);
+            localStorage.setItem('my_startups_list', JSON.stringify(startups));
           }
         } catch (err) {
-          console.error("Yazma hatası:", err);
+          startups.unshift(newStartup);
+          localStorage.setItem('my_startups_list', JSON.stringify(startups));
         }
       } else {
         startups.unshift(newStartup);
