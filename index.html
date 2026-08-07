@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bağlantı - Tam Kapsamlı Girişim & Yatırım Ekosistemi</title>
+  <title>Girişim ve Yatırım - Ekosistem Portalı</title> - Tam Kapsamlı Girişim & Yatırım Ekosistemi</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     .gradient-text {
@@ -29,7 +29,7 @@
               </svg>
             </div>
           </div>
-          <span class="text-2xl font-black tracking-tight gradient-text">Bağlantı</span>
+          <span class="text-2xl font-black tracking-tight gradient-text">Girişim ve Yatırım</span>
         </a>
 
         <!-- Menü Sekmeleri -->
@@ -1127,5 +1127,84 @@ fetch('http://localhost:5037/api/startups')
       // Gelen verileri ekrandaki kartlara dökme mantığı
   });
 <script>
+<!-- Supabase SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+  // Supabase Bağlantısı
+  const SUPABASE_URL = 'https://kaovkjsttcyyrwbmtpb.supabase.co';
+  const SUPABASE_ANON_KEY = 'BURAYA_SUPABASE_ANON_KEY_GELECEK'; 
+  const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  let startups = [];
+
+  // 1. Verileri Supabase'den Canlı Çekme
+  async function fetchStartups() {
+    const { data, error } = await supabase
+      .from('startups')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.error('Veri çekme hatası:', error.message);
+      return;
+    }
+
+    startups = data || [];
+    renderStartups(startups);
+  }
+
+  // 2. Oturum Kontrollü Girişim Ekleme
+  async function addStartup(newStartupData) {
+    // Kullanıcı giriş yapmış mı kontrol et
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) {
+      alert("Girişim ekleyebilmek için önce giriş yapmalısınız!");
+      return;
+    }
+
+    // Giriş yapmışsa veritabanına ekle
+    const { data, error } = await supabase
+      .from('startups')
+      .insert([
+        { ...newStartupData, user_id: user.id }
+      ]);
+
+    if (error) {
+      alert("Ekleme hatası: " + error.message);
+    } else {
+      alert("Girişim başarıyla eklendi!");
+      fetchStartups(); // Listeyi yenile
+    }
+  }
+
+  // 3. Filtreleme Mantığı
+  function filterStartups() {
+    const search = document.getElementById('searchInput').value.toLowerCase();
+    const sector = document.getElementById('sectorFilter').value;
+    const stage = document.getElementById('stageFilter').value;
+
+    const filtered = startups.filter(s => {
+      const matchesSearch = (s.name || '').toLowerCase().includes(search) || 
+                            (s.founder || '').toLowerCase().includes(search);
+      const matchesSector = sector === "" || s.sector === sector;
+      const matchesStage = stage === "" || s.stage === stage;
+      return matchesSearch && matchesSector && matchesStage;
+    });
+
+    renderStartups(filtered);
+  }
+
+  function resetFilters() {
+    document.getElementById('searchInput').value = '';
+    document.getElementById('sectorFilter').value = '';
+    document.getElementById('stageFilter').value = '';
+    renderStartups(startups);
+  }
+
+  // Sayfa yüklendiğinde verileri çek
+  document.addEventListener('DOMContentLoaded', fetchStartups);
+</script>
 </body>
 </html>
