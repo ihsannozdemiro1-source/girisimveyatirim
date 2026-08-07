@@ -21,7 +21,7 @@
       
       <!-- Logo -->
       <div class="flex items-center space-x-6">
-        <button type="button" onclick="switchPage('startups')" class="flex items-center space-x-2.5 group outline-none text-left">
+        <button type="button" onclick="showTab('startups')" class="flex items-center space-x-2.5 group outline-none text-left">
           <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-purple-600 to-emerald-400 p-0.5 shadow-md group-hover:scale-105 transition transform">
             <div class="w-full h-full bg-slate-900 rounded-[10px] flex items-center justify-center">
               <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -34,22 +34,22 @@
 
         <!-- Menü Sekmeleri -->
         <nav class="hidden xl:flex space-x-2">
-          <button type="button" id="btn-startups" onclick="switchPage('startups')" class="menu-tab-btn px-4 py-2 rounded-xl text-sm font-bold text-indigo-600 bg-indigo-50 transition">Girişimler</button>
-          <button type="button" id="btn-syndicates" onclick="switchPage('syndicates')" class="menu-tab-btn px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition flex items-center gap-1.5">
+          <button type="button" id="btn-startups" onclick="showTab('startups')" class="tab-btn px-4 py-2 rounded-xl text-sm font-bold text-indigo-600 bg-indigo-50 transition">Girişimler</button>
+          <button type="button" id="btn-syndicates" onclick="showTab('syndicates')" class="tab-btn px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition flex items-center gap-1.5">
             <span>🔥 Canlı Turlar</span>
             <span class="bg-rose-100 text-rose-700 text-xs font-black px-2 py-0.5 rounded-full">Süre Sınırlı</span>
           </button>
-          <button type="button" id="btn-acquisitions" onclick="switchPage('acquisitions')" class="menu-tab-btn px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition flex items-center gap-1.5">
+          <button type="button" id="btn-acquisitions" onclick="showTab('acquisitions')" class="tab-btn px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition flex items-center gap-1.5">
             <span>🛒 Proje Pazarı</span>
             <span class="bg-emerald-100 text-emerald-700 text-xs font-black px-2 py-0.5 rounded-full">Acquire</span>
           </button>
-          <button type="button" id="btn-investors" onclick="switchPage('investors')" class="menu-tab-btn px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">💼 Yatırımcılar & Portföyler</button>
-          <button type="button" id="btn-aiTools" onclick="switchPage('aiTools')" class="menu-tab-btn px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">🤖 AI Pitch Analiz</button>
+          <button type="button" id="btn-investors" onclick="showTab('investors')" class="tab-btn px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">💼 Yatırımcılar & Portföyler</button>
+          <button type="button" id="btn-aiTools" onclick="showTab('aiTools')" class="tab-btn px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">🤖 AI Pitch Analiz</button>
         </nav>
       </div>
 
       <div class="flex items-center space-x-3">
-        <button type="button" onclick="openCreateModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm px-5 py-2.5 rounded-xl shadow-md transition">
+        <button type="button" onclick="openModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm px-5 py-2.5 rounded-xl shadow-md transition">
           + İlan / Proje Yayınla
         </button>
       </div>
@@ -59,7 +59,7 @@
   <main class="max-w-7xl mx-auto px-4 py-8">
 
     <!-- 1. GİRİŞİMLER -->
-    <div id="view-startups" class="view-panel space-y-6" style="display: block;">
+    <div id="tab-startups" class="content-tab space-y-6" style="display: block;">
       <section class="relative overflow-hidden bg-slate-900 text-white p-8 rounded-3xl shadow-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border border-slate-800">
         <div class="relative z-10 max-w-xl">
           <div class="inline-flex items-center gap-2 bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 text-xs font-bold px-3 py-1 rounded-full mb-3">
@@ -108,12 +108,12 @@
     </div>
 
     <!-- 2. CANLI TURLAR -->
-    <div id="view-syndicates" class="view-panel space-y-6" style="display: none;">
+    <div id="tab-syndicates" class="content-tab space-y-6" style="display: none;">
       <div class="bg-gradient-to-r from-rose-900 via-indigo-900 to-slate-900 text-white p-8 rounded-3xl shadow-lg border border-rose-800/50">
         <span class="bg-rose-400 text-slate-900 text-xs font-black px-3 py-1 rounded-full uppercase tracking-wider mb-2 inline-block">Süre Sınırlı Yatırım Turları</span>
         <h2 class="text-3xl font-black mb-2">Lider Yatırımcı Sendikaları & Mikro Katılım</h2>
         <p class="text-rose-200 text-sm max-w-xl mb-4">Tecrübeli melek yatırımcıların liderlik ettiği aktif turlar.</p>
-        <button type="button" onclick="openCreateModal()" class="bg-rose-500 hover:bg-rose-600 text-white font-extrabold text-sm px-5 py-2.5 rounded-xl shadow-md transition">
+        <button type="button" onclick="openModal()" class="bg-rose-500 hover:bg-rose-600 text-white font-extrabold text-sm px-5 py-2.5 rounded-xl shadow-md transition">
           🔥 Yatırım Turu Başlat
         </button>
       </div>
@@ -123,14 +123,14 @@
     </div>
 
     <!-- 3. PROJE PAZARI -->
-    <div id="view-acquisitions" class="view-panel space-y-6" style="display: none;">
+    <div id="tab-acquisitions" class="content-tab space-y-6" style="display: none;">
       <div class="bg-gradient-to-r from-emerald-900 via-teal-900 to-slate-900 text-white p-8 rounded-3xl shadow-lg border border-emerald-800/50 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
         <div>
           <span class="bg-emerald-400 text-slate-900 text-xs font-black px-3 py-1 rounded-full uppercase tracking-wider mb-2 inline-block">Micro-Acquisition Pazarı</span>
           <h2 class="text-3xl font-black mb-2">Devredilebilir Projeler & Mikro SaaS Satışı</h2>
           <p class="text-emerald-200 text-sm max-w-xl">Gelir getiren yan projeleri ve devredilebilir SaaS ürünlerini satın alın veya projenizi devredin.</p>
         </div>
-        <button type="button" onclick="openCreateModal()" class="bg-emerald-400 hover:bg-emerald-300 text-slate-900 font-extrabold text-sm px-5 py-3 rounded-2xl shadow-md transition">
+        <button type="button" onclick="openModal()" class="bg-emerald-400 hover:bg-emerald-300 text-slate-900 font-extrabold text-sm px-5 py-3 rounded-2xl shadow-md transition">
           🛒 Satılık Proje İlanı Ver
         </button>
       </div>
@@ -140,13 +140,13 @@
     </div>
 
     <!-- 4. YATIRIMCILAR -->
-    <div id="view-investors" class="view-panel space-y-6" style="display: none;">
+    <div id="tab-investors" class="content-tab space-y-6" style="display: none;">
       <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex justify-between items-center">
         <div>
           <h2 class="text-2xl font-black text-slate-900 mb-1">Yatırımcı Portföyleri</h2>
           <p class="text-slate-500 text-xs">Aktif yatırımcılar ve fon performansları.</p>
         </div>
-        <button type="button" onclick="openCreateModal()" class="bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs px-4 py-2.5 rounded-xl transition">
+        <button type="button" onclick="openModal()" class="bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs px-4 py-2.5 rounded-xl transition">
           💼 Yatırımcı Profili Oluştur
         </button>
       </div>
@@ -156,7 +156,7 @@
     </div>
 
     <!-- 5. AI PITCH ANALİZ -->
-    <div id="view-aiTools" class="view-panel space-y-6" style="display: none;">
+    <div id="tab-aiTools" class="content-tab space-y-6" style="display: none;">
       <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm space-y-4">
         <div>
           <span class="bg-purple-100 text-purple-700 text-xs font-black px-3 py-1 rounded-full uppercase">Otomatik Kontrolör</span>
@@ -186,7 +186,7 @@
   <!-- İLAN EKLEME MODALI -->
   <div id="addModal" class="fixed inset-0 bg-slate-900/60 hidden z-50 flex items-center justify-center p-4 backdrop-blur-sm">
     <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
-      <button type="button" onclick="closeCreateModal()" class="absolute top-4 right-4 text-slate-400 text-2xl font-bold hover:text-slate-600">&times;</button>
+      <button type="button" onclick="closeModal()" class="absolute top-4 right-4 text-slate-400 text-2xl font-bold hover:text-slate-600">&times;</button>
       <h2 class="text-xl font-extrabold mb-4 text-slate-900">Girişim ve Yatırım'a Yeni İlan Ekle</h2>
       
       <form onsubmit="handleAddStartup(event)" class="space-y-4">
@@ -232,81 +232,70 @@
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
   <script>
-    const SUPABASE_URL = 'https://kaovkjsttcyyrwrbmtpb.supabase.co';
+    // SIFIR KİLİTLENME - YALIN JAVASCRIPT
+    function showTab(name) {
+      var tabs = document.querySelectorAll('.content-tab');
+      for (var i = 0; i < tabs.length; i++) {
+        tabs[i].style.display = 'none';
+      }
+
+      var btns = document.querySelectorAll('.tab-btn');
+      for (var j = 0; j < btns.length; j++) {
+        btns[j].className = "tab-btn px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition flex items-center gap-1.5";
+      }
+
+      var targetTab = document.getElementById('tab-' + name);
+      if (targetTab) targetTab.style.display = 'block';
+
+      var targetBtn = document.getElementById('btn-' + name);
+      if (targetBtn) {
+        targetBtn.className = "tab-btn px-4 py-2 rounded-xl text-sm font-bold text-indigo-600 bg-indigo-50 transition flex items-center gap-1.5";
+      }
+    }
+
+    function openModal() {
+      var m = document.getElementById('addModal');
+      if (m) m.classList.remove('hidden');
+    }
+
+    function closeModal() {
+      var m = document.getElementById('addModal');
+      if (m) m.classList.add('hidden');
+    }
+
+    const SUPABASE_URL = 'https://kaovkjsttcyyrwrbmtpb.supabase.co/rest/v1/startups';
     const SUPABASE_KEY = 'sb_publishable_NrZ4UXAzYjs7VZ52t7XJww_gMTDBJJl';
-
-    let supabase = null;
-    try {
-      if (window.supabase && typeof window.supabase.createClient === 'function') {
-        supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-      }
-    } catch (e) {
-      console.error("Supabase istemci başlatma hatası:", e);
-    }
-
-    // SAYFA GEÇİŞLERİ
-    function switchPage(pageKey) {
-      const panels = document.querySelectorAll('.view-panel');
-      panels.forEach(p => p.style.display = 'none');
-
-      const btns = document.querySelectorAll('.menu-tab-btn');
-      btns.forEach(b => {
-        b.className = "menu-tab-btn px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition flex items-center gap-1.5";
-      });
-
-      const activePanel = document.getElementById('view-' + pageKey);
-      if (activePanel) activePanel.style.display = 'block';
-
-      const activeBtn = document.getElementById('btn-' + pageKey);
-      if (activeBtn) {
-        activeBtn.className = "menu-tab-btn px-4 py-2 rounded-xl text-sm font-bold text-indigo-600 bg-indigo-50 transition flex items-center gap-1.5";
-      }
-    }
-
-    // MODAL
-    function openCreateModal() {
-      const modal = document.getElementById('addModal');
-      if (modal) modal.classList.remove('hidden');
-    }
-
-    function closeCreateModal() {
-      const modal = document.getElementById('addModal');
-      if (modal) modal.classList.add('hidden');
-    }
 
     let startups = [];
 
-    async function fetchStartups() {
-      if (supabase) {
-        try {
-          const { data, error } = await supabase
-            .from('startups')
-            .select('*')
-            .order('id', { ascending: false });
-
-          if (!error && data) {
-            startups = data;
-            renderStartups(startups);
-            return;
-          } else if (error) {
-            console.error("Supabase okuma hatası:", error.message);
-          }
-        } catch (err) {
-          console.error("Supabase sorgu hatası:", err);
-        }
-      }
-
-      const localData = localStorage.getItem('my_startups_list');
+    function loadStartups() {
+      // 1. Önce ekrana anında yerel veriyi yaz (sayfa bekletilmez)
+      var localData = localStorage.getItem('my_startups_list');
       startups = localData ? JSON.parse(localData) : [];
       renderStartups(startups);
+
+      // 2. Arka planda veritabanından çek (çökse bile sekmeleri etkilemez)
+      fetch(SUPABASE_URL + '?select=*&order=id.desc', {
+        headers: {
+          'apikey': SUPABASE_KEY,
+          'Authorization': 'Bearer ' + SUPABASE_KEY
+        }
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (Array.isArray(data)) {
+          startups = data;
+          localStorage.setItem('my_startups_list', JSON.stringify(startups));
+          renderStartups(startups);
+        }
+      })
+      .catch(err => console.log("DB Baglanti pasif, yerel veri kullaniliyor."));
     }
 
     function renderStartups(data) {
-      const grid = document.getElementById('startupGrid');
-      const countElem = document.getElementById('statStartupCount');
+      var grid = document.getElementById('startupGrid');
+      var countElem = document.getElementById('statStartupCount');
       if (countElem) countElem.innerText = data.length;
       if (!grid) return;
 
@@ -317,12 +306,12 @@
         return;
       }
 
-      data.forEach(item => {
-        const goal = item.fundingGoal || item.goal || 10000;
-        const raised = item.raised || 0;
-        const percent = Math.min(100, Math.round((raised / goal) * 100));
+      data.forEach(function(item) {
+        var goal = item.fundingGoal || item.goal || 10000;
+        var raised = item.raised || 0;
+        var percent = Math.min(100, Math.round((raised / goal) * 100));
         
-        const card = document.createElement('div');
+        var card = document.createElement('div');
         card.className = "bg-white border border-slate-200 rounded-3xl p-5 shadow-sm hover:shadow-md transition flex flex-col justify-between";
         card.innerHTML = 
           '<div>' +
@@ -337,8 +326,8 @@
           '<div>' +
             '<div class="mb-4">' +
               '<div class="flex justify-between text-xs font-bold mb-1">' +
-                '<span class="text-emerald-600">$' + raised.toLocaleString() + ' toplandı</span>' +
-                '<span class="text-slate-400">Hedef: $' + goal.toLocaleString() + '</span>' +
+                '<span class="text-emerald-600">$' + Number(raised).toLocaleString() + ' toplandı</span>' +
+                '<span class="text-slate-400">Hedef: $' + Number(goal).toLocaleString() + '</span>' +
               '</div>' +
               '<div class="w-full bg-slate-100 rounded-full h-2"><div class="bg-indigo-600 h-2 rounded-full" style="width: ' + percent + '%"></div></div>' +
             '</div>' +
@@ -347,9 +336,9 @@
       });
     }
 
-    async function handleAddStartup(e) {
+    function handleAddStartup(e) {
       e.preventDefault();
-      const newStartup = {
+      var newStartup = {
         name: document.getElementById('addTitle').value,
         sector: document.getElementById('addSector').value,
         stage: document.getElementById('addStage').value,
@@ -358,27 +347,24 @@
         description: document.getElementById('addDesc').value
       };
 
-      let dbSuccess = false;
-      if (supabase) {
-        try {
-          const { data, error } = await supabase.from('startups').insert([newStartup]);
-          if (!error) {
-            dbSuccess = true;
-          } else {
-            console.error("Supabase yazma hatası:", error.message);
-          }
-        } catch (err) {
-          console.error("Supabase ekleme hatası:", err);
-        }
-      }
+      // Anında ekrana ver
+      startups.unshift(newStartup);
+      localStorage.setItem('my_startups_list', JSON.stringify(startups));
+      renderStartups(startups);
 
-      if (!dbSuccess) {
-        startups.unshift(newStartup);
-        localStorage.setItem('my_startups_list', JSON.stringify(startups));
-      }
+      // Veritabanına gönder
+      fetch(SUPABASE_URL, {
+        method: 'POST',
+        headers: {
+          'apikey': SUPABASE_KEY,
+          'Authorization': 'Bearer ' + SUPABASE_KEY,
+          'Content-Type': 'application/json',
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify(newStartup)
+      }).catch(err => console.log("DB kayıt hatası"));
 
-      await fetchStartups();
-      closeCreateModal();
+      closeModal();
       
       document.getElementById('addTitle').value = '';
       document.getElementById('addGoal').value = '';
@@ -389,16 +375,16 @@
     }
 
     function filterStartups() {
-      const search = document.getElementById('searchInput').value.toLowerCase();
-      const sector = document.getElementById('sectorFilter').value;
-      const stage = document.getElementById('stageFilter').value;
+      var search = document.getElementById('searchInput').value.toLowerCase();
+      var sector = document.getElementById('sectorFilter').value;
+      var stage = document.getElementById('stageFilter').value;
 
-      const filtered = startups.filter(s => {
-        const matchesSearch = (s.name || '').toLowerCase().includes(search) || 
-                              (s.founder || '').toLowerCase().includes(search) ||
-                              (s.description || '').toLowerCase().includes(search);
-        const matchesSector = sector === "" || s.sector === sector;
-        const matchesStage = stage === "" || s.stage === stage;
+      var filtered = startups.filter(function(s) {
+        var matchesSearch = (s.name || '').toLowerCase().indexOf(search) !== -1 || 
+                            (s.founder || '').toLowerCase().indexOf(search) !== -1 ||
+                            (s.description || '').toLowerCase().indexOf(search) !== -1;
+        var matchesSector = sector === "" || s.sector === sector;
+        var matchesStage = stage === "" || s.stage === stage;
         return matchesSearch && matchesSector && matchesStage;
       });
 
@@ -413,12 +399,12 @@
     }
 
     function analyzeDeck() {
-      const text = document.getElementById('aiDeckText').value;
+      var text = document.getElementById('aiDeckText').value;
       if (!text) { alert('Lütfen sunum özetinizi yazın.'); return; }
       document.getElementById('aiResultBox').style.display = 'block';
     }
 
-    document.addEventListener('DOMContentLoaded', fetchStartups);
+    document.addEventListener('DOMContentLoaded', loadStartups);
   </script>
 </body>
 </html>
