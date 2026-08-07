@@ -224,8 +224,20 @@
     </div>
   </div>
 
+  <!-- Supabase SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <script>
-    // SEKME GEÇİŞİ (GARANTİ METOT)
+    // Supabase Bağlantısı
+    const SUPABASE_URL = 'https://kaovkjsttcyyrwrbmtpb.supabase.co';
+    const SUPABASE_ANON_KEY = 'BURAYA_ANON_KEY_GELECEK'; // Supabase API sekmesindeki 'anon' 'public' key'inizi yapıştırın.
+
+    let supabase = null;
+    if (window.supabase && typeof window.supabase.createClient === 'function' && SUPABASE_ANON_KEY !== 'BURAYA_ANON_KEY_GELECEK') {
+      supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    }
+
+    // SEKME GEÇİŞİ
     function openTab(tabName) {
       var tabs = document.querySelectorAll('.page-tab');
       for (var i = 0; i < tabs.length; i++) {
@@ -249,6 +261,26 @@
     }
 
     let startups = [];
+
+    async function fetchStartups() {
+      if (supabase) {
+        const { data, error } = await supabase
+          .from('startups')
+          .select('*')
+          .order('created_at', { ascending: false });
+
+        if (!error && data) {
+          startups = data;
+          renderStartups(startups);
+          return;
+        }
+      }
+      
+      // Supabase bağlı değilse yerel depolamadan oku
+      const localData = localStorage.getItem('my_startups');
+      startups = localData ? JSON.parse(localData) : [];
+      renderStartups(startups);
+    }
 
     function renderStartups(data) {
       const grid = document.getElementById('startupGrid');
@@ -298,7 +330,7 @@
       document.getElementById('addModal').classList.toggle('hidden', !show); 
     }
 
-    function handleAddStartup(e) {
+    async function handleAddStartup(e) {
       e.preventDefault();
       const newStartup = {
         name: document.getElementById('addTitle').value,
@@ -308,10 +340,21 @@
         founder: document.getElementById('addFounder').value,
         description: document.getElementById('addDesc').value
       };
-      startups.unshift(newStartup);
-      renderStartups(startups);
+
+      if (supabase) {
+        const { error } = await supabase.from('startups').insert([newStartup]);
+        if (error) {
+          alert("Ekleme hatası: " + error.message);
+          return;
+        }
+      } else {
+        startups.unshift(newStartup);
+        localStorage.setItem('my_startups', JSON.stringify(startups));
+      }
+
+      fetchStartups();
       toggleModal(false);
-      alert('İlan eklendi!');
+      alert('İlan başarıyla yayınlandı!');
     }
 
     function filterStartups() {
@@ -345,7 +388,7 @@
     }
 
     document.addEventListener('DOMContentLoaded', function() {
-      renderStartups([]);
+      fetchStartups();
     });
   </script>
 </body>
