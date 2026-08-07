@@ -49,7 +49,7 @@
       </div>
 
       <div class="flex items-center space-x-3">
-        <button onclick="toggleModal(true)" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm px-5 py-2.5 rounded-xl shadow-md transition">
+        <button onclick="openFormModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm px-5 py-2.5 rounded-xl shadow-md transition">
           + İlan / Proje Yayınla
         </button>
       </div>
@@ -113,7 +113,7 @@
         <span class="bg-rose-400 text-slate-900 text-xs font-black px-3 py-1 rounded-full uppercase tracking-wider mb-2 inline-block">Süre Sınırlı Yatırım Turları</span>
         <h2 class="text-3xl font-black mb-2">Lider Yatırımcı Sendikaları & Mikro Katılım</h2>
         <p class="text-rose-200 text-sm max-w-xl mb-4">Tecrübeli melek yatırımcıların liderlik ettiği aktif turlar.</p>
-        <button onclick="toggleModal(true)" class="bg-rose-500 hover:bg-rose-600 text-white font-extrabold text-sm px-5 py-2.5 rounded-xl shadow-md transition">
+        <button onclick="openFormModal()" class="bg-rose-500 hover:bg-rose-600 text-white font-extrabold text-sm px-5 py-2.5 rounded-xl shadow-md transition">
           🔥 Yatırım Turu Başlat
         </button>
       </div>
@@ -130,7 +130,7 @@
           <h2 class="text-3xl font-black mb-2">Devredilebilir Projeler & Mikro SaaS Satışı</h2>
           <p class="text-emerald-200 text-sm max-w-xl">Gelir getiren yan projeleri ve devredilebilir SaaS ürünlerini satın alın veya projenizi devredin.</p>
         </div>
-        <button onclick="toggleModal(true)" class="bg-emerald-400 hover:bg-emerald-300 text-slate-900 font-extrabold text-sm px-5 py-3 rounded-2xl shadow-md transition">
+        <button onclick="openFormModal()" class="bg-emerald-400 hover:bg-emerald-300 text-slate-900 font-extrabold text-sm px-5 py-3 rounded-2xl shadow-md transition">
           🛒 Satılık Proje İlanı Ver
         </button>
       </div>
@@ -146,7 +146,7 @@
           <h2 class="text-2xl font-black text-slate-900 mb-1">Yatırımcı Portföyleri</h2>
           <p class="text-slate-500 text-xs">Aktif yatırımcılar ve fon performansları.</p>
         </div>
-        <button onclick="toggleModal(true)" class="bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs px-4 py-2.5 rounded-xl transition">
+        <button onclick="openFormModal()" class="bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs px-4 py-2.5 rounded-xl transition">
           💼 Yatırımcı Profili Oluştur
         </button>
       </div>
@@ -186,7 +186,7 @@
   <!-- İLAN EKLEME MODALI -->
   <div id="addModal" class="fixed inset-0 bg-slate-900/60 hidden z-50 flex items-center justify-center p-4 backdrop-blur-sm">
     <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
-      <button onclick="toggleModal(false)" class="absolute top-4 right-4 text-slate-400 text-2xl font-bold">&times;</button>
+      <button onclick="closeFormModal()" class="absolute top-4 right-4 text-slate-400 text-2xl font-bold">&times;</button>
       <h2 class="text-xl font-extrabold mb-4 text-slate-900">Girişim ve Yatırım'a Yeni İlan Ekle</h2>
       
       <form onsubmit="handleAddStartup(event)" class="space-y-4">
@@ -236,7 +236,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <script>
-    // Supabase URL ve Gerçek Anon Key Bağlantısı
+    // Supabase URL ve Key
     const SUPABASE_URL = 'https://kaovkjsttcyyrwbmtpb.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imthb3ZranN0dGN5eXJ3Ym10cGIiLCJyb2xlIjoiYW5vbiIsImlhdCI6MTc0MDIzODIzMSwiZXhwIjoyMDU1ODE0MjMxfQ.2vR3K6vV9K4Pz3-x4s_a0M11N7xL2Z3-Q4a5b6c7d8e'; 
 
@@ -266,6 +266,17 @@
       if (activeBtn) {
         activeBtn.className = "nav-btn px-4 py-2 rounded-xl text-sm font-bold text-indigo-600 bg-indigo-50 transition flex items-center gap-1.5";
       }
+    }
+
+    // MODAL AÇ/KAPAT
+    function openFormModal() {
+      var modal = document.getElementById('addModal');
+      if (modal) modal.classList.remove('hidden');
+    }
+
+    function closeFormModal() {
+      var modal = document.getElementById('addModal');
+      if (modal) modal.classList.add('hidden');
     }
 
     let startups = [];
@@ -337,17 +348,6 @@
       });
     }
 
-    function toggleModal(show) { 
-      var modal = document.getElementById('addModal');
-      if (modal) {
-        if (show) {
-          modal.classList.remove('hidden');
-        } else {
-          modal.classList.add('hidden');
-        }
-      }
-    }
-
     async function handleAddStartup(e) {
       e.preventDefault();
       const newStartup = {
@@ -364,7 +364,6 @@
           const { error } = await supabase.from('startups').insert([newStartup]);
           if (error) {
             console.error("Supabase yazma hatası:", error.message);
-            // Hata verirse yedek olarak yerel hafızaya kaydet
             startups.unshift(newStartup);
             localStorage.setItem('my_startups', JSON.stringify(startups));
           }
@@ -378,7 +377,7 @@
       }
 
       await fetchStartups();
-      toggleModal(false);
+      closeFormModal();
       
       document.getElementById('addTitle').value = '';
       document.getElementById('addGoal').value = '';
