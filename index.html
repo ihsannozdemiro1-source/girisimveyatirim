@@ -32,7 +32,7 @@
           <span class="text-2xl font-black tracking-tight gradient-text">Girişim ve Yatırım</span>
         </a>
 
-        <!-- Menü Sekmeleri -->
+        <!-- Menü Sekmeleri (Öğrenci Pasaportu Kaldırıldı) -->
         <nav class="hidden xl:flex space-x-1">
           <button id="tabBtn-startups" onclick="switchTab('startups')" class="px-3 py-2 rounded-xl text-xs font-bold text-indigo-600 bg-indigo-50/80 transition">Girişimler</button>
           <button id="tabBtn-syndicates" onclick="switchTab('syndicates')" class="px-3 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition flex items-center gap-1">
@@ -44,10 +44,6 @@
             <span class="bg-emerald-100 text-emerald-700 text-[10px] font-black px-1.5 py-0.5 rounded-full">Acquire</span>
           </button>
           <button id="tabBtn-investors" onclick="switchTab('investors')" class="px-3 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">💼 Yatırımcılar & Portföyler</button>
-          <button id="tabBtn-studentPerks" onclick="switchTab('studentPerks')" class="px-3 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition flex items-center gap-1">
-            <span>🎓 Öğrenci Pasaportu</span>
-            <span class="bg-indigo-100 text-indigo-700 text-[10px] font-black px-1.5 py-0.5 rounded-full">8 Ayrıcalık</span>
-          </button>
           <button id="tabBtn-aiTools" onclick="switchTab('aiTools')" class="px-3 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">🤖 AI Pitch Analiz</button>
         </nav>
       </div>
@@ -70,7 +66,7 @@
             <span>🚀 Ekosistem Portalı</span>
           </div>
           <h1 class="text-3xl sm:text-4xl font-black tracking-tight mb-2">Geleceğin Şirketlerini Keşfet & Destekle</h1>
-          <p class="text-slate-400 text-sm leading-relaxed">Aktif girişimler, mikro-proje pazarı, canlı yatırım turları ve öğrenci ayrıcalıkları.</p>
+          <p class="text-slate-400 text-sm leading-relaxed">Aktif girişimler, mikro-proje pazarı ve canlı yatırım turları.</p>
         </div>
         
         <div class="relative z-10 grid grid-cols-3 gap-3 bg-slate-800/80 p-4 rounded-2xl border border-slate-700/50 text-center w-full md:w-auto">
@@ -128,7 +124,9 @@
         </div>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="syndicatesGrid"></div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="syndicatesGrid">
+        <div class="col-span-full text-center py-12 text-slate-400 text-sm font-semibold">Henüz aktif bir yatırım turu bulunmuyor.</div>
+      </div>
     </div>
 
     <!-- 3. PROJE SATIŞ PAZARI -->
@@ -144,7 +142,9 @@
         </button>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="acquisitionsGrid"></div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="acquisitionsGrid">
+        <div class="col-span-full text-center py-12 text-slate-400 text-sm font-semibold">Henüz devredilecek satılık proje eklenmedi.</div>
+      </div>
     </div>
 
     <!-- 4. YATIRIMCILAR -->
@@ -156,55 +156,12 @@
         </div>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="investorsGrid"></div>
-    </div>
-
-    <!-- 5. ÖĞRENCİ AYRICALIKLARI -->
-    <div id="view-studentPerks" class="hidden space-y-8">
-      <div class="bg-gradient-to-r from-indigo-900 via-purple-900 to-slate-900 text-white p-8 rounded-3xl shadow-lg border border-indigo-700/50 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-        <div>
-          <span class="bg-emerald-400 text-slate-900 text-xs font-black px-3 py-1 rounded-full uppercase tracking-wider mb-2 inline-block">.edu.tr Pasaportu</span>
-          <h2 class="text-3xl font-black mb-2">Öğrenci Girişimci Fast-Track Paneli</h2>
-          <p class="text-indigo-200 text-sm max-w-xl">Üniversite öğrencisi olarak fikrinizi ticarileştirirken yararlanabileceğiniz ayrıcalıklar.</p>
-        </div>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col justify-between space-y-4">
-          <div class="space-y-2">
-            <div class="w-10 h-10 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-black text-lg">📄</div>
-            <h3 class="text-base font-extrabold text-slate-900">Staj Yerine Kendi Girişimin</h3>
-            <p class="text-slate-600 text-xs leading-relaxed">Kendi şirketinde çalışan öğrencilerin zorunlu okul stajından muaf tutulması için resmi onay raporu.</p>
-          </div>
-        </div>
-
-        <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col justify-between space-y-4">
-          <div class="space-y-2">
-            <div class="w-10 h-10 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-black text-lg">💰</div>
-            <h3 class="text-base font-extrabold text-slate-900">Genç Girişimci Vergi Desteği</h3>
-            <p class="text-slate-600 text-xs leading-relaxed">29 yaş altı kuruculara özel vergi muafiyeti rehberi.</p>
-          </div>
-        </div>
-
-        <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col justify-between space-y-4">
-          <div class="space-y-2">
-            <div class="w-10 h-10 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center font-black text-lg">🚀</div>
-            <h3 class="text-base font-extrabold text-slate-900">Öğrenci Prototip Fonu</h3>
-            <p class="text-slate-600 text-xs leading-relaxed">MVP çıkaran öğrenci ekiplerine sunulan cloud ve altyapı hibe imkanları.</p>
-          </div>
-        </div>
-
-        <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col justify-between space-y-4">
-          <div class="space-y-2">
-            <div class="w-10 h-10 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center font-black text-lg">🏢</div>
-            <h3 class="text-base font-extrabold text-slate-900">Teknokent Çalışma Alanları</h3>
-            <p class="text-slate-600 text-xs leading-relaxed">Partner kuluçka merkezlerinde paylaşımlı masa imkanı.</p>
-          </div>
-        </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="investorsGrid">
+        <div class="col-span-full text-center py-12 text-slate-400 text-sm font-semibold">Kayıtlı yatırımcı profili bulunmuyor.</div>
       </div>
     </div>
 
-    <!-- 6. AI PITCH ANALİZ -->
+    <!-- 5. AI PITCH ANALİZ -->
     <div id="view-aiTools" class="hidden space-y-6">
       <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm space-y-4">
         <div>
@@ -381,14 +338,17 @@
     }
 
     function switchTab(tab) {
-      ['startups', 'syndicates', 'acquisitions', 'investors', 'studentPerks', 'aiTools'].forEach(t => {
+      const tabs = ['startups', 'syndicates', 'acquisitions', 'investors', 'aiTools'];
+      tabs.forEach(t => {
         const view = document.getElementById(`view-${t}`);
         if(view) view.classList.add('hidden');
         const btn = document.getElementById(`tabBtn-${t}`);
         if(btn) btn.className = "px-3 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition flex items-center gap-1";
       });
 
-      document.getElementById(`view-${tab}`).classList.remove('hidden');
+      const selectedView = document.getElementById(`view-${tab}`);
+      if(selectedView) selectedView.classList.remove('hidden');
+
       const activeBtn = document.getElementById(`tabBtn-${tab}`);
       if(activeBtn) activeBtn.className = "px-3 py-2 rounded-xl text-xs font-bold text-indigo-600 bg-indigo-50/80 transition flex items-center gap-1";
     }
