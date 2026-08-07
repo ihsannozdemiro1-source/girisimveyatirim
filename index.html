@@ -59,7 +59,7 @@
   <main class="max-w-7xl mx-auto px-4 py-8">
 
     <!-- 1. GİRİŞİMLER -->
-    <div id="tab-startups" class="page-tab space-y-6">
+    <div id="tab-startups" class="page-tab space-y-6" style="display: block;">
       <section class="relative overflow-hidden bg-slate-900 text-white p-8 rounded-3xl shadow-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border border-slate-800">
         <div class="relative z-10 max-w-xl">
           <div class="inline-flex items-center gap-2 bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 text-xs font-bold px-3 py-1 rounded-full mb-3">
@@ -108,7 +108,7 @@
     </div>
 
     <!-- 2. CANLI TURLAR -->
-    <div id="tab-syndicates" class="page-tab hidden space-y-6">
+    <div id="tab-syndicates" class="page-tab space-y-6" style="display: none;">
       <div class="bg-gradient-to-r from-rose-900 via-indigo-900 to-slate-900 text-white p-8 rounded-3xl shadow-lg border border-rose-800/50">
         <span class="bg-rose-400 text-slate-900 text-xs font-black px-3 py-1 rounded-full uppercase tracking-wider mb-2 inline-block">Süre Sınırlı Yatırım Turları</span>
         <h2 class="text-3xl font-black mb-2">Lider Yatırımcı Sendikaları & Mikro Katılım</h2>
@@ -120,7 +120,7 @@
     </div>
 
     <!-- 3. PROJE PAZARI -->
-    <div id="tab-acquisitions" class="page-tab hidden space-y-6">
+    <div id="tab-acquisitions" class="page-tab space-y-6" style="display: none;">
       <div class="bg-gradient-to-r from-emerald-900 via-teal-900 to-slate-900 text-white p-8 rounded-3xl shadow-lg border border-emerald-800/50 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
         <div>
           <span class="bg-emerald-400 text-slate-900 text-xs font-black px-3 py-1 rounded-full uppercase tracking-wider mb-2 inline-block">Micro-Acquisition Pazarı</span>
@@ -137,7 +137,7 @@
     </div>
 
     <!-- 4. YATIRIMCILAR -->
-    <div id="tab-investors" class="page-tab hidden space-y-6">
+    <div id="tab-investors" class="page-tab space-y-6" style="display: none;">
       <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
         <h2 class="text-2xl font-black text-slate-900 mb-1">Yatırımcı Portföyleri</h2>
         <p class="text-slate-500 text-xs">Aktif yatırımcılar ve fon performansları.</p>
@@ -148,7 +148,7 @@
     </div>
 
     <!-- 5. AI PITCH ANALİZ -->
-    <div id="tab-aiTools" class="page-tab hidden space-y-6">
+    <div id="tab-aiTools" class="page-tab space-y-6" style="display: none;">
       <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm space-y-4">
         <div>
           <span class="bg-purple-100 text-purple-700 text-xs font-black px-3 py-1 rounded-full uppercase">Otomatik Kontrolör</span>
@@ -161,7 +161,7 @@
             🤖 Sunumu AI İle Skorla
           </button>
         </div>
-        <div id="aiResultBox" class="hidden bg-slate-900 text-white p-6 rounded-2xl space-y-3">
+        <div id="aiResultBox" style="display: none;" class="bg-slate-900 text-white p-6 rounded-2xl space-y-3">
           <div class="flex justify-between items-center">
             <span class="font-extrabold text-sm text-emerald-400">AI Analiz Skoru: <span>85 / 100</span></span>
           </div>
@@ -224,64 +224,31 @@
     </div>
   </div>
 
-  <!-- Supabase SDK -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
   <script>
-    const SUPABASE_URL = 'https://kaovkjsttcyyrwbmtpb.supabase.co';
-    const SUPABASE_ANON_KEY = 'BURAYA_SUPABASE_ANON_KEY_GELECEK'; 
-    let supabase = null;
-    
-    if (window.supabase && typeof window.supabase.createClient === 'function') {
-      supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    // SEKME GEÇİŞİ (GARANTİ METOT)
+    function openTab(tabName) {
+      var tabs = document.querySelectorAll('.page-tab');
+      for (var i = 0; i < tabs.length; i++) {
+        tabs[i].style.display = 'none';
+      }
+
+      var buttons = document.querySelectorAll('.nav-btn');
+      for (var j = 0; j < buttons.length; j++) {
+        buttons[j].className = "nav-btn px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition flex items-center gap-1.5";
+      }
+
+      var activeTab = document.getElementById('tab-' + tabName);
+      if (activeTab) {
+        activeTab.style.display = 'block';
+      }
+
+      var activeBtn = document.getElementById('btn-' + tabName);
+      if (activeBtn) {
+        activeBtn.className = "nav-btn px-4 py-2 rounded-xl text-sm font-bold text-indigo-600 bg-indigo-50 transition flex items-center gap-1.5";
+      }
     }
 
     let startups = [];
-
-    // SEKME DEĞİŞTİRME FONKSİYONU
-    function openTab(tabName) {
-      // 1. Tüm sayfaları gizle
-      const tabs = document.querySelectorAll('.page-tab');
-      tabs.forEach(t => t.classList.add('hidden'));
-
-      // 2. Tüm butonların aktifliğini kaldır
-      const buttons = document.querySelectorAll('.nav-btn');
-      buttons.forEach(b => {
-        b.className = "nav-btn px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition flex items-center gap-1.5";
-      });
-
-      // 3. Tıklanan sayfayı aç
-      const targetTab = document.getElementById('tab-' + tabName);
-      if (targetTab) {
-        targetTab.classList.remove('hidden');
-      }
-
-      // 4. Tıklanan butonu renklendir
-      const targetBtn = document.getElementById('btn-' + tabName);
-      if (targetBtn) {
-        targetBtn.className = "nav-btn px-4 py-2 rounded-xl text-sm font-bold text-indigo-600 bg-indigo-50 transition flex items-center gap-1.5";
-      }
-    }
-
-    async function fetchStartups() {
-      if (!supabase) {
-        renderStartups([]);
-        return;
-      }
-      const { data, error } = await supabase
-        .from('startups')
-        .select('*')
-        .order('created_at', { ascending: false });
-
-      if (error) {
-        console.error('Hata:', error.message);
-        renderStartups([]);
-        return;
-      }
-
-      startups = data || [];
-      renderStartups(startups);
-    }
 
     function renderStartups(data) {
       const grid = document.getElementById('startupGrid');
@@ -327,9 +294,13 @@
       });
     }
 
-    async function handleAddStartup(e) {
+    function toggleModal(show) { 
+      document.getElementById('addModal').classList.toggle('hidden', !show); 
+    }
+
+    function handleAddStartup(e) {
       e.preventDefault();
-      const newStartupData = {
+      const newStartup = {
         name: document.getElementById('addTitle').value,
         sector: document.getElementById('addSector').value,
         stage: document.getElementById('addStage').value,
@@ -337,23 +308,10 @@
         founder: document.getElementById('addFounder').value,
         description: document.getElementById('addDesc').value
       };
-
-      if (supabase) {
-        const { error } = await supabase.from('startups').insert([newStartupData]);
-        if (error) {
-          alert("Ekleme hatası: " + error.message);
-        } else {
-          alert("Girişim başarıyla eklendi!");
-          fetchStartups();
-          toggleModal(false);
-        }
-      } else {
-        alert("Veritabanı bağlantısı henüz aktif değil.");
-      }
-    }
-
-    function toggleModal(show) { 
-      document.getElementById('addModal').classList.toggle('hidden', !show); 
+      startups.unshift(newStartup);
+      renderStartups(startups);
+      toggleModal(false);
+      alert('İlan eklendi!');
     }
 
     function filterStartups() {
@@ -383,10 +341,12 @@
     function analyzeDeck() {
       const text = document.getElementById('aiDeckText').value;
       if(!text) { alert('Lütfen sunum özetinizi yazın.'); return; }
-      document.getElementById('aiResultBox').classList.remove('hidden');
+      document.getElementById('aiResultBox').style.display = 'block';
     }
 
-    document.addEventListener('DOMContentLoaded', fetchStartups);
+    document.addEventListener('DOMContentLoaded', function() {
+      renderStartups([]);
+    });
   </script>
 </body>
 </html>
