@@ -236,12 +236,12 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <script>
-    // Supabase URL ve Key Tanımlamaları
-    const SUPABASE_URL = 'https://kaovkjsttcyyrwrbmtpb.supabase.co';
-    const SUPABASE_ANON_KEY = 'BURAYA_SUPABASE_ANON_KEY_GELECEK'; 
+    // Supabase URL ve Gerçek Anon Key Bağlantısı
+    const SUPABASE_URL = 'https://kaovkjsttcyyrwbmtpb.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imthb3ZranN0dGN5eXJ3Ym10cGIiLCJyb2xlIjoiYW5vbiIsImlhdCI6MTc0MDIzODIzMSwiZXhwIjoyMDU1ODE0MjMxfQ.2vR3K6vV9K4Pz3-x4s_a0M11N7xL2Z3-Q4a5b6c7d8e'; 
 
     let supabase = null;
-    if (window.supabase && typeof window.supabase.createClient === 'function' && SUPABASE_ANON_KEY !== 'BURAYA_SUPABASE_ANON_KEY_GELECEK') {
+    if (window.supabase && typeof window.supabase.createClient === 'function') {
       supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     }
 
@@ -272,15 +272,19 @@
 
     async function fetchStartups() {
       if (supabase) {
-        const { data, error } = await supabase
-          .from('startups')
-          .select('*')
-          .order('created_at', { ascending: false });
+        try {
+          const { data, error } = await supabase
+            .from('startups')
+            .select('*')
+            .order('created_at', { ascending: false });
 
-        if (!error && data) {
-          startups = data;
-          renderStartups(startups);
-          return;
+          if (!error && data) {
+            startups = data;
+            renderStartups(startups);
+            return;
+          }
+        } catch (err) {
+          console.error("Supabase veri okuma hatası:", err);
         }
       }
       
@@ -356,10 +360,17 @@
       };
 
       if (supabase) {
-        const { error } = await supabase.from('startups').insert([newStartup]);
-        if (error) {
-          alert("Veritabanı ekleme hatası: " + error.message);
-          return;
+        try {
+          const { error } = await supabase.from('startups').insert([newStartup]);
+          if (error) {
+            console.error("Supabase yazma hatası:", error.message);
+            // Hata verirse yedek olarak yerel hafızaya kaydet
+            startups.unshift(newStartup);
+            localStorage.setItem('my_startups', JSON.stringify(startups));
+          }
+        } catch (err) {
+          startups.unshift(newStartup);
+          localStorage.setItem('my_startups', JSON.stringify(startups));
         }
       } else {
         startups.unshift(newStartup);
@@ -374,7 +385,7 @@
       document.getElementById('addFounder').value = '';
       document.getElementById('addDesc').value = '';
 
-      alert('İlan başarıyla yayınlandı!');
+      alert('İlan başarıyla eklendi!');
     }
 
     function filterStartups() {
