@@ -232,7 +232,19 @@
     </div>
   </div>
 
+  <!-- Supabase SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <script>
+    // Supabase URL ve Key Tanımlamaları
+    const SUPABASE_URL = 'https://kaovkjsttcyyrwrbmtpb.supabase.co';
+    const SUPABASE_ANON_KEY = 'BURAYA_SUPABASE_ANON_KEY_GELECEK'; 
+
+    let supabase = null;
+    if (window.supabase && typeof window.supabase.createClient === 'function' && SUPABASE_ANON_KEY !== 'BURAYA_SUPABASE_ANON_KEY_GELECEK') {
+      supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    }
+
     // SEKME GEÇİŞİ
     function openTab(tabName) {
       var tabs = document.getElementsByClassName('page-tab');
@@ -258,7 +270,20 @@
 
     let startups = [];
 
-    function fetchStartups() {
+    async function fetchStartups() {
+      if (supabase) {
+        const { data, error } = await supabase
+          .from('startups')
+          .select('*')
+          .order('created_at', { ascending: false });
+
+        if (!error && data) {
+          startups = data;
+          renderStartups(startups);
+          return;
+        }
+      }
+      
       const localData = localStorage.getItem('my_startups');
       startups = localData ? JSON.parse(localData) : [];
       renderStartups(startups);
@@ -319,7 +344,7 @@
       }
     }
 
-    function handleAddStartup(e) {
+    async function handleAddStartup(e) {
       e.preventDefault();
       const newStartup = {
         name: document.getElementById('addTitle').value,
@@ -330,13 +355,20 @@
         description: document.getElementById('addDesc').value
       };
 
-      startups.unshift(newStartup);
-      localStorage.setItem('my_startups', JSON.stringify(startups));
+      if (supabase) {
+        const { error } = await supabase.from('startups').insert([newStartup]);
+        if (error) {
+          alert("Veritabanı ekleme hatası: " + error.message);
+          return;
+        }
+      } else {
+        startups.unshift(newStartup);
+        localStorage.setItem('my_startups', JSON.stringify(startups));
+      }
 
-      fetchStartups();
+      await fetchStartups();
       toggleModal(false);
       
-      // Formu temizle
       document.getElementById('addTitle').value = '';
       document.getElementById('addGoal').value = '';
       document.getElementById('addFounder').value = '';
