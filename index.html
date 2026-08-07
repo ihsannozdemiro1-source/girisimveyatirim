@@ -21,7 +21,7 @@
       
       <!-- Logo -->
       <div class="flex items-center space-x-6">
-        <a href="#" onclick="switchTab('startups')" class="flex items-center space-x-2.5 group">
+        <a href="javascript:void(0)" onclick="switchTab('startups')" class="flex items-center space-x-2.5 group">
           <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-purple-600 to-emerald-400 p-0.5 shadow-md group-hover:scale-105 transition transform">
             <div class="w-full h-full bg-slate-900 rounded-[10px] flex items-center justify-center">
               <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -32,19 +32,19 @@
           <span class="text-2xl font-black tracking-tight gradient-text">Girişim ve Yatırım</span>
         </a>
 
-        <!-- Menü Sekmeleri (Eski Font & Boyut Düzeltildi) -->
+        <!-- Menü Sekmeleri -->
         <nav class="hidden xl:flex space-x-2">
-          <button id="tabBtn-startups" onclick="switchTab('startups')" class="px-4 py-2 rounded-xl text-sm font-bold text-indigo-600 bg-indigo-50/80 transition">Girişimler</button>
-          <button id="tabBtn-syndicates" onclick="switchTab('syndicates')" class="px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition flex items-center gap-1.5">
+          <button id="tabBtn-startups" onclick="switchTab('startups')" class="tab-btn px-4 py-2 rounded-xl text-sm font-bold text-indigo-600 bg-indigo-50/80 transition">Girişimler</button>
+          <button id="tabBtn-syndicates" onclick="switchTab('syndicates')" class="tab-btn px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition flex items-center gap-1.5">
             <span>🔥 Canlı Turlar</span>
             <span class="bg-rose-100 text-rose-700 text-xs font-black px-2 py-0.5 rounded-full">Süre Sınırlı</span>
           </button>
-          <button id="tabBtn-acquisitions" onclick="switchTab('acquisitions')" class="px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition flex items-center gap-1.5">
+          <button id="tabBtn-acquisitions" onclick="switchTab('acquisitions')" class="tab-btn px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition flex items-center gap-1.5">
             <span>🛒 Proje Pazarı</span>
             <span class="bg-emerald-100 text-emerald-700 text-xs font-black px-2 py-0.5 rounded-full">Acquire</span>
           </button>
-          <button id="tabBtn-investors" onclick="switchTab('investors')" class="px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">💼 Yatırımcılar & Portföyler</button>
-          <button id="tabBtn-aiTools" onclick="switchTab('aiTools')" class="px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">🤖 AI Pitch Analiz</button>
+          <button id="tabBtn-investors" onclick="switchTab('investors')" class="tab-btn px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">💼 Yatırımcılar & Portföyler</button>
+          <button id="tabBtn-aiTools" onclick="switchTab('aiTools')" class="tab-btn px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">🤖 AI Pitch Analiz</button>
         </nav>
       </div>
 
@@ -59,7 +59,7 @@
   <main class="max-w-7xl mx-auto px-4 py-8">
 
     <!-- 1. GİRİŞİMLER SEKMESİ -->
-    <div id="view-startups" class="space-y-6">
+    <div id="view-startups" class="tab-content space-y-6">
       <section class="relative overflow-hidden bg-slate-900 text-white p-8 rounded-3xl shadow-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border border-slate-800">
         <div class="relative z-10 max-w-xl">
           <div class="inline-flex items-center gap-2 bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 text-xs font-bold px-3 py-1 rounded-full mb-3">
@@ -115,7 +115,7 @@
     </div>
 
     <!-- 2. CANLI SENDİKA TURLARI -->
-    <div id="view-syndicates" class="hidden space-y-6">
+    <div id="view-syndicates" class="tab-content hidden space-y-6">
       <div class="bg-gradient-to-r from-rose-900 via-indigo-900 to-slate-900 text-white p-8 rounded-3xl shadow-lg border border-rose-800/50 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
         <div>
           <span class="bg-rose-400 text-slate-900 text-xs font-black px-3 py-1 rounded-full uppercase tracking-wider mb-2 inline-block">Süre Sınırlı Yatırım Turları</span>
@@ -130,7 +130,7 @@
     </div>
 
     <!-- 3. PROJE SATIŞ PAZARI -->
-    <div id="view-acquisitions" class="hidden space-y-6">
+    <div id="view-acquisitions" class="tab-content hidden space-y-6">
       <div class="bg-gradient-to-r from-emerald-900 via-teal-900 to-slate-900 text-white p-8 rounded-3xl shadow-lg border border-emerald-800/50 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
         <div>
           <span class="bg-emerald-400 text-slate-900 text-xs font-black px-3 py-1 rounded-full uppercase tracking-wider mb-2 inline-block">Micro-Acquisition Pazarı</span>
@@ -148,7 +148,7 @@
     </div>
 
     <!-- 4. YATIRIMCILAR -->
-    <div id="view-investors" class="hidden space-y-6">
+    <div id="view-investors" class="tab-content hidden space-y-6">
       <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
           <h2 class="text-2xl font-black text-slate-900 mb-1">Yatırımcı Portföyleri</h2>
@@ -162,7 +162,7 @@
     </div>
 
     <!-- 5. AI PITCH ANALİZ -->
-    <div id="view-aiTools" class="hidden space-y-6">
+    <div id="view-aiTools" class="tab-content hidden space-y-6">
       <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm space-y-4">
         <div>
           <span class="bg-purple-100 text-purple-700 text-xs font-black px-3 py-1 rounded-full uppercase">Otomatik Kontrolör</span>
@@ -344,25 +344,27 @@
       document.getElementById('addModal').classList.toggle('hidden', !show); 
     }
 
-    function switchTab(tab) {
-      const tabs = ['startups', 'syndicates', 'acquisitions', 'investors', 'aiTools'];
-      
-      tabs.forEach(t => {
-        const view = document.getElementById(`view-${t}`);
-        if(view) view.classList.add('hidden');
-        
-        const btn = document.getElementById(`tabBtn-${t}`);
-        if(btn) {
-          btn.className = "px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition flex items-center gap-1.5";
-        }
+    function switchTab(tabName) {
+      // Bütün sekme içeriklerini gizle
+      const contents = document.querySelectorAll('.tab-content');
+      contents.forEach(el => el.classList.add('hidden'));
+
+      // Bütün butonların aktif stillerini kaldırıp pasif stile çevir
+      const buttons = document.querySelectorAll('.tab-btn');
+      buttons.forEach(btn => {
+        btn.className = "tab-btn px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition flex items-center gap-1.5";
       });
 
-      const selectedView = document.getElementById(`view-${tab}`);
-      if(selectedView) selectedView.classList.remove('hidden');
+      // Seçilen sekmeyi göster
+      const activeContent = document.getElementById(`view-${tabName}`);
+      if (activeContent) {
+        activeContent.classList.remove('hidden');
+      }
 
-      const activeBtn = document.getElementById(`tabBtn-${tab}`);
-      if(activeBtn) {
-        activeBtn.className = "px-4 py-2 rounded-xl text-sm font-bold text-indigo-600 bg-indigo-50/80 transition flex items-center gap-1.5";
+      // Seçilen butonu aktif stil yap
+      const activeBtn = document.getElementById(`tabBtn-${tabName}`);
+      if (activeBtn) {
+        activeBtn.className = "tab-btn px-4 py-2 rounded-xl text-sm font-bold text-indigo-600 bg-indigo-50/80 transition flex items-center gap-1.5";
       }
     }
 
