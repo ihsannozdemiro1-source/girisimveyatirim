@@ -232,7 +232,19 @@
     </div>
   </div>
 
+  <!-- Supabase SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <script>
+    // Supabase URL ve Verilen Anon Key
+    const SUPABASE_URL = 'https://kaovkjsttcyyrwbmtpb.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_NrZ4UXAzYjs7VZ52t7XJww_gMTDBJJl'; 
+
+    let supabase = null;
+    if (window.supabase && typeof window.supabase.createClient === 'function') {
+      supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    }
+
     // SEKME GEÇİŞLERİ
     function openTab(tabName) {
       var tabs = document.getElementsByClassName('page-tab');
@@ -269,7 +281,24 @@
 
     let startups = [];
 
-    function fetchStartups() {
+    async function fetchStartups() {
+      if (supabase) {
+        try {
+          const { data, error } = await supabase
+            .from('startups')
+            .select('*')
+            .order('created_at', { ascending: false });
+
+          if (!error && data) {
+            startups = data;
+            renderStartups(startups);
+            return;
+          }
+        } catch (err) {
+          console.error("Supabase veri hatası:", err);
+        }
+      }
+      
       var localData = localStorage.getItem('my_startups_list');
       startups = localData ? JSON.parse(localData) : [];
       renderStartups(startups);
@@ -318,7 +347,7 @@
       });
     }
 
-    function handleAddStartup(e) {
+    async function handleAddStartup(e) {
       e.preventDefault();
       var newStartup = {
         name: document.getElementById('addTitle').value,
@@ -329,10 +358,23 @@
         description: document.getElementById('addDesc').value
       };
 
-      startups.unshift(newStartup);
-      localStorage.setItem('my_startups_list', JSON.stringify(startups));
+      if (supabase) {
+        try {
+          const { error } = await supabase.from('startups').insert([newStartup]);
+          if (error) {
+            console.error("Yazma hatası:", error.message);
+            alert("Veritabanı hatası: " + error.message);
+            return;
+          }
+        } catch (err) {
+          console.error("Yazma hatası:", err);
+        }
+      } else {
+        startups.unshift(newStartup);
+        localStorage.setItem('my_startups_list', JSON.stringify(startups));
+      }
 
-      fetchStartups();
+      await fetchStartups();
       closeFormModal();
       
       document.getElementById('addTitle').value = '';
