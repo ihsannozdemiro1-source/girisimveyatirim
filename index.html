@@ -186,7 +186,7 @@
   <!-- İLAN EKLEME MODALI -->
   <div id="addModal" class="fixed inset-0 bg-slate-900/60 hidden z-50 flex items-center justify-center p-4 backdrop-blur-sm">
     <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
-      <button onclick="closeFormModal()" class="absolute top-4 right-4 text-slate-400 text-2xl font-bold">&times;</button>
+      <button type="button" onclick="closeFormModal()" class="absolute top-4 right-4 text-slate-400 text-2xl font-bold">&times;</button>
       <h2 class="text-xl font-extrabold mb-4 text-slate-900">Girişim ve Yatırım'a Yeni İlan Ekle</h2>
       
       <form onsubmit="handleAddStartup(event)" class="space-y-4">
@@ -232,20 +232,8 @@
     </div>
   </div>
 
-  <!-- Supabase SDK -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
   <script>
-    // Supabase URL ve Key
-    const SUPABASE_URL = 'https://kaovkjsttcyyrwbmtpb.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imthb3ZranN0dGN5eXJ3Ym10cGIiLCJyb2xlIjoiYW5vbiIsImlhdCI6MTc0MDIzODIzMSwiZXhwIjoyMDU1ODE0MjMxfQ.2vR3K6vV9K4Pz3-x4s_a0M11N7xL2Z3-Q4a5b6c7d8e'; 
-
-    let supabase = null;
-    if (window.supabase && typeof window.supabase.createClient === 'function') {
-      supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    }
-
-    // SEKME GEÇİŞİ
+    // SEKME GEÇİŞLERİ
     function openTab(tabName) {
       var tabs = document.getElementsByClassName('page-tab');
       for (var i = 0; i < tabs.length; i++) {
@@ -268,7 +256,7 @@
       }
     }
 
-    // MODAL AÇ/KAPAT
+    // FORM MODALI KONTROLÜ
     function openFormModal() {
       var modal = document.getElementById('addModal');
       if (modal) modal.classList.remove('hidden');
@@ -281,76 +269,58 @@
 
     let startups = [];
 
-    async function fetchStartups() {
-      if (supabase) {
-        try {
-          const { data, error } = await supabase
-            .from('startups')
-            .select('*')
-            .order('created_at', { ascending: false });
-
-          if (!error && data) {
-            startups = data;
-            renderStartups(startups);
-            return;
-          }
-        } catch (err) {
-          console.error("Supabase veri okuma hatası:", err);
-        }
-      }
-      
-      const localData = localStorage.getItem('my_startups');
+    function fetchStartups() {
+      var localData = localStorage.getItem('my_startups_list');
       startups = localData ? JSON.parse(localData) : [];
       renderStartups(startups);
     }
 
     function renderStartups(data) {
-      const grid = document.getElementById('startupGrid');
-      const countElem = document.getElementById('statStartupCount');
-      if(countElem) countElem.innerText = data.length;
-      if(!grid) return;
+      var grid = document.getElementById('startupGrid');
+      var countElem = document.getElementById('statStartupCount');
+      if (countElem) countElem.innerText = data.length;
+      if (!grid) return;
 
       grid.innerHTML = '';
 
       if (data.length === 0) {
-        grid.innerHTML = `<div class="col-span-full text-center py-12 text-slate-400 text-base font-semibold bg-white rounded-3xl border border-slate-200">Henüz eklenmiş canlı girişim bulunmuyor. İlk ilanı sen yayınla!</div>`;
+        grid.innerHTML = '<div class="col-span-full text-center py-12 text-slate-400 text-base font-semibold bg-white rounded-3xl border border-slate-200">Henüz eklenmiş canlı girişim bulunmuyor. İlk ilanı sen yayınla!</div>';
         return;
       }
 
-      data.forEach(item => {
-        const goal = item.fundingGoal || item.goal || 10000;
-        const raised = item.raised || 0;
-        const percent = Math.min(100, Math.round((raised / goal) * 100));
+      data.forEach(function(item) {
+        var goal = item.fundingGoal || item.goal || 10000;
+        var raised = item.raised || 0;
+        var percent = Math.min(100, Math.round((raised / goal) * 100));
         
-        const card = document.createElement('div');
+        var card = document.createElement('div');
         card.className = "bg-white border border-slate-200 rounded-3xl p-5 shadow-sm hover:shadow-md transition flex flex-col justify-between";
-        card.innerHTML = `
-          <div>
-            <div class="flex items-center justify-between mb-2">
-              <span class="bg-indigo-50 text-indigo-700 text-xs font-bold px-3 py-1 rounded-full">${item.sector || 'Teknoloji'}</span>
-              <span class="bg-slate-100 text-slate-700 text-[11px] font-bold px-2 py-0.5 rounded-md">${item.stage || 'Erken Aşama'}</span>
-            </div>
-            <h3 class="text-xl font-extrabold text-slate-900 mb-1">${item.name || item.title || 'İsimsiz Girişim'}</h3>
-            <p class="text-xs text-indigo-600 font-bold mb-3">👤 Kurucu: ${item.founder || 'Belirtilmedi'}</p>
-            <p class="text-slate-600 text-sm mb-4 line-clamp-2">${item.description || item.desc || ''}</p>
-          </div>
-          <div>
-            <div class="mb-4">
-              <div class="flex justify-between text-xs font-bold mb-1">
-                <span class="text-emerald-600">$${raised.toLocaleString()} toplandı</span>
-                <span class="text-slate-400">Hedef: $${goal.toLocaleString()}</span>
-              </div>
-              <div class="w-full bg-slate-100 rounded-full h-2"><div class="bg-indigo-600 h-2 rounded-full" style="width: ${percent}%"></div></div>
-            </div>
-          </div>
-        `;
+        card.innerHTML = 
+          '<div>' +
+            '<div class="flex items-center justify-between mb-2">' +
+              '<span class="bg-indigo-50 text-indigo-700 text-xs font-bold px-3 py-1 rounded-full">' + (item.sector || 'Teknoloji') + '</span>' +
+              '<span class="bg-slate-100 text-slate-700 text-[11px] font-bold px-2 py-0.5 rounded-md">' + (item.stage || 'Erken Aşama') + '</span>' +
+            '</div>' +
+            '<h3 class="text-xl font-extrabold text-slate-900 mb-1">' + (item.name || item.title || 'İsimsiz Girişim') + '</h3>' +
+            '<p class="text-xs text-indigo-600 font-bold mb-3">👤 Kurucu: ' + (item.founder || 'Belirtilmedi') + '</p>' +
+            '<p class="text-slate-600 text-sm mb-4 line-clamp-2">' + (item.description || item.desc || '') + '</p>' +
+          '</div>' +
+          '<div>' +
+            '<div class="mb-4">' +
+              '<div class="flex justify-between text-xs font-bold mb-1">' +
+                '<span class="text-emerald-600">$' + raised.toLocaleString() + ' toplandı</span>' +
+                '<span class="text-slate-400">Hedef: $' + goal.toLocaleString() + '</span>' +
+              '</div>' +
+              '<div class="w-full bg-slate-100 rounded-full h-2"><div class="bg-indigo-600 h-2 rounded-full" style="width: ' + percent + '%"></div></div>' +
+            '</div>' +
+          '</div>';
         grid.appendChild(card);
       });
     }
 
-    async function handleAddStartup(e) {
+    function handleAddStartup(e) {
       e.preventDefault();
-      const newStartup = {
+      var newStartup = {
         name: document.getElementById('addTitle').value,
         sector: document.getElementById('addSector').value,
         stage: document.getElementById('addStage').value,
@@ -359,24 +329,10 @@
         description: document.getElementById('addDesc').value
       };
 
-      if (supabase) {
-        try {
-          const { error } = await supabase.from('startups').insert([newStartup]);
-          if (error) {
-            console.error("Supabase yazma hatası:", error.message);
-            startups.unshift(newStartup);
-            localStorage.setItem('my_startups', JSON.stringify(startups));
-          }
-        } catch (err) {
-          startups.unshift(newStartup);
-          localStorage.setItem('my_startups', JSON.stringify(startups));
-        }
-      } else {
-        startups.unshift(newStartup);
-        localStorage.setItem('my_startups', JSON.stringify(startups));
-      }
+      startups.unshift(newStartup);
+      localStorage.setItem('my_startups_list', JSON.stringify(startups));
 
-      await fetchStartups();
+      fetchStartups();
       closeFormModal();
       
       document.getElementById('addTitle').value = '';
@@ -388,16 +344,16 @@
     }
 
     function filterStartups() {
-      const search = document.getElementById('searchInput').value.toLowerCase();
-      const sector = document.getElementById('sectorFilter').value;
-      const stage = document.getElementById('stageFilter').value;
+      var search = document.getElementById('searchInput').value.toLowerCase();
+      var sector = document.getElementById('sectorFilter').value;
+      var stage = document.getElementById('stageFilter').value;
 
-      const filtered = startups.filter(s => {
-        const matchesSearch = (s.name || '').toLowerCase().includes(search) || 
-                              (s.founder || '').toLowerCase().includes(search) ||
-                              (s.description || '').toLowerCase().includes(search);
-        const matchesSector = sector === "" || s.sector === sector;
-        const matchesStage = stage === "" || s.stage === stage;
+      var filtered = startups.filter(function(s) {
+        var matchesSearch = (s.name || '').toLowerCase().indexOf(search) !== -1 || 
+                            (s.founder || '').toLowerCase().indexOf(search) !== -1 ||
+                            (s.description || '').toLowerCase().indexOf(search) !== -1;
+        var matchesSector = sector === "" || s.sector === sector;
+        var matchesStage = stage === "" || s.stage === stage;
         return matchesSearch && matchesSector && matchesStage;
       });
 
@@ -412,8 +368,8 @@
     }
 
     function analyzeDeck() {
-      const text = document.getElementById('aiDeckText').value;
-      if(!text) { alert('Lütfen sunum özetinizi yazın.'); return; }
+      var text = document.getElementById('aiDeckText').value;
+      if (!text) { alert('Lütfen sunum özetinizi yazın.'); return; }
       document.getElementById('aiResultBox').style.display = 'block';
     }
 
