@@ -112,7 +112,10 @@
       <div class="bg-gradient-to-r from-rose-900 via-indigo-900 to-slate-900 text-white p-8 rounded-3xl shadow-lg border border-rose-800/50">
         <span class="bg-rose-400 text-slate-900 text-xs font-black px-3 py-1 rounded-full uppercase tracking-wider mb-2 inline-block">Süre Sınırlı Yatırım Turları</span>
         <h2 class="text-3xl font-black mb-2">Lider Yatırımcı Sendikaları & Mikro Katılım</h2>
-        <p class="text-rose-200 text-sm max-w-xl">Tecrübeli melek yatırımcıların liderlik ettiği aktif turlar.</p>
+        <p class="text-rose-200 text-sm max-w-xl mb-4">Tecrübeli melek yatırımcıların liderlik ettiği aktif turlar.</p>
+        <button onclick="toggleModal(true)" class="bg-rose-500 hover:bg-rose-600 text-white font-extrabold text-sm px-5 py-2.5 rounded-xl shadow-md transition">
+          🔥 Yatırım Turu Başlat
+        </button>
       </div>
       <div class="text-center py-12 text-slate-400 text-base font-semibold bg-white rounded-3xl border border-slate-200">
         Henüz aktif bir yatırım turu bulunmuyor.
@@ -138,9 +141,14 @@
 
     <!-- 4. YATIRIMCILAR -->
     <div id="tab-investors" class="page-tab space-y-6" style="display: none;">
-      <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
-        <h2 class="text-2xl font-black text-slate-900 mb-1">Yatırımcı Portföyleri</h2>
-        <p class="text-slate-500 text-xs">Aktif yatırımcılar ve fon performansları.</p>
+      <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex justify-between items-center">
+        <div>
+          <h2 class="text-2xl font-black text-slate-900 mb-1">Yatırımcı Portföyleri</h2>
+          <p class="text-slate-500 text-xs">Aktif yatırımcılar ve fon performansları.</p>
+        </div>
+        <button onclick="toggleModal(true)" class="bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs px-4 py-2.5 rounded-xl transition">
+          💼 Yatırımcı Profili Oluştur
+        </button>
       </div>
       <div class="text-center py-12 text-slate-400 text-base font-semibold bg-white rounded-3xl border border-slate-200">
         Kayıtlı yatırımcı profili bulunmuyor.
@@ -224,27 +232,15 @@
     </div>
   </div>
 
-  <!-- Supabase SDK -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
   <script>
-    // Supabase Bağlantısı
-    const SUPABASE_URL = 'https://kaovkjsttcyyrwrbmtpb.supabase.co';
-    const SUPABASE_ANON_KEY = 'BURAYA_ANON_KEY_GELECEK'; // Supabase API sekmesindeki 'anon' 'public' key'inizi yapıştırın.
-
-    let supabase = null;
-    if (window.supabase && typeof window.supabase.createClient === 'function' && SUPABASE_ANON_KEY !== 'BURAYA_ANON_KEY_GELECEK') {
-      supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    }
-
     // SEKME GEÇİŞİ
     function openTab(tabName) {
-      var tabs = document.querySelectorAll('.page-tab');
+      var tabs = document.getElementsByClassName('page-tab');
       for (var i = 0; i < tabs.length; i++) {
         tabs[i].style.display = 'none';
       }
 
-      var buttons = document.querySelectorAll('.nav-btn');
+      var buttons = document.getElementsByClassName('nav-btn');
       for (var j = 0; j < buttons.length; j++) {
         buttons[j].className = "nav-btn px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition flex items-center gap-1.5";
       }
@@ -262,21 +258,7 @@
 
     let startups = [];
 
-    async function fetchStartups() {
-      if (supabase) {
-        const { data, error } = await supabase
-          .from('startups')
-          .select('*')
-          .order('created_at', { ascending: false });
-
-        if (!error && data) {
-          startups = data;
-          renderStartups(startups);
-          return;
-        }
-      }
-      
-      // Supabase bağlı değilse yerel depolamadan oku
+    function fetchStartups() {
       const localData = localStorage.getItem('my_startups');
       startups = localData ? JSON.parse(localData) : [];
       renderStartups(startups);
@@ -327,10 +309,17 @@
     }
 
     function toggleModal(show) { 
-      document.getElementById('addModal').classList.toggle('hidden', !show); 
+      var modal = document.getElementById('addModal');
+      if (modal) {
+        if (show) {
+          modal.classList.remove('hidden');
+        } else {
+          modal.classList.add('hidden');
+        }
+      }
     }
 
-    async function handleAddStartup(e) {
+    function handleAddStartup(e) {
       e.preventDefault();
       const newStartup = {
         name: document.getElementById('addTitle').value,
@@ -341,19 +330,18 @@
         description: document.getElementById('addDesc').value
       };
 
-      if (supabase) {
-        const { error } = await supabase.from('startups').insert([newStartup]);
-        if (error) {
-          alert("Ekleme hatası: " + error.message);
-          return;
-        }
-      } else {
-        startups.unshift(newStartup);
-        localStorage.setItem('my_startups', JSON.stringify(startups));
-      }
+      startups.unshift(newStartup);
+      localStorage.setItem('my_startups', JSON.stringify(startups));
 
       fetchStartups();
       toggleModal(false);
+      
+      // Formu temizle
+      document.getElementById('addTitle').value = '';
+      document.getElementById('addGoal').value = '';
+      document.getElementById('addFounder').value = '';
+      document.getElementById('addDesc').value = '';
+
       alert('İlan başarıyla yayınlandı!');
     }
 
