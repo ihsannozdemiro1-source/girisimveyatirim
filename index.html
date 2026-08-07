@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Girişim ve Yatırım - Ekosistem Portalı</title>
+  <title>Girişim ve Yatırım</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     .gradient-text {
@@ -21,7 +21,7 @@
       
       <!-- Logo -->
       <div class="flex items-center space-x-6">
-        <a href="javascript:void(0)" onclick="switchTab('startups')" class="flex items-center space-x-2.5 group">
+        <a href="javascript:void(0)" onclick="openTab('startups')" class="flex items-center space-x-2.5 group">
           <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-purple-600 to-emerald-400 p-0.5 shadow-md group-hover:scale-105 transition transform">
             <div class="w-full h-full bg-slate-900 rounded-[10px] flex items-center justify-center">
               <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -34,22 +34,22 @@
 
         <!-- Menü Sekmeleri -->
         <nav class="hidden xl:flex space-x-2">
-          <button id="tabBtn-startups" onclick="switchTab('startups')" class="tab-btn px-4 py-2 rounded-xl text-sm font-bold text-indigo-600 bg-indigo-50/80 transition">Girişimler</button>
-          <button id="tabBtn-syndicates" onclick="switchTab('syndicates')" class="tab-btn px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition flex items-center gap-1.5">
+          <button id="btn-startups" onclick="openTab('startups')" class="nav-btn px-4 py-2 rounded-xl text-sm font-bold text-indigo-600 bg-indigo-50 transition">Girişimler</button>
+          <button id="btn-syndicates" onclick="openTab('syndicates')" class="nav-btn px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition flex items-center gap-1.5">
             <span>🔥 Canlı Turlar</span>
             <span class="bg-rose-100 text-rose-700 text-xs font-black px-2 py-0.5 rounded-full">Süre Sınırlı</span>
           </button>
-          <button id="tabBtn-acquisitions" onclick="switchTab('acquisitions')" class="tab-btn px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition flex items-center gap-1.5">
+          <button id="btn-acquisitions" onclick="openTab('acquisitions')" class="nav-btn px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition flex items-center gap-1.5">
             <span>🛒 Proje Pazarı</span>
             <span class="bg-emerald-100 text-emerald-700 text-xs font-black px-2 py-0.5 rounded-full">Acquire</span>
           </button>
-          <button id="tabBtn-investors" onclick="switchTab('investors')" class="tab-btn px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">💼 Yatırımcılar & Portföyler</button>
-          <button id="tabBtn-aiTools" onclick="switchTab('aiTools')" class="tab-btn px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">🤖 AI Pitch Analiz</button>
+          <button id="btn-investors" onclick="openTab('investors')" class="nav-btn px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">💼 Yatırımcılar & Portföyler</button>
+          <button id="btn-aiTools" onclick="openTab('aiTools')" class="nav-btn px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">🤖 AI Pitch Analiz</button>
         </nav>
       </div>
 
       <div class="flex items-center space-x-3">
-        <button onclick="toggleAddModal(true)" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm px-5 py-2.5 rounded-xl shadow-md transition">
+        <button onclick="toggleModal(true)" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm px-5 py-2.5 rounded-xl shadow-md transition">
           + İlan / Proje Yayınla
         </button>
       </div>
@@ -58,8 +58,8 @@
 
   <main class="max-w-7xl mx-auto px-4 py-8">
 
-    <!-- 1. GİRİŞİMLER SEKMESİ -->
-    <div id="view-startups" class="tab-content space-y-6">
+    <!-- 1. GİRİŞİMLER -->
+    <div id="tab-startups" class="page-tab space-y-6">
       <section class="relative overflow-hidden bg-slate-900 text-white p-8 rounded-3xl shadow-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border border-slate-800">
         <div class="relative z-10 max-w-xl">
           <div class="inline-flex items-center gap-2 bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 text-xs font-bold px-3 py-1 rounded-full mb-3">
@@ -75,7 +75,7 @@
             <div class="text-xs text-slate-400 font-medium">Girişim</div>
           </div>
           <div class="px-3 border-l border-slate-700">
-            <div class="text-2xl sm:text-3xl font-black text-indigo-400" id="statInvestorCount">0</div>
+            <div class="text-2xl sm:text-3xl font-black text-indigo-400">0</div>
             <div class="text-xs text-slate-400 font-medium">Yatırımcı</div>
           </div>
           <div class="px-3 border-l border-slate-700">
@@ -94,19 +94,12 @@
           <option value="Fintek">Fintek</option>
           <option value="SaaS">SaaS</option>
           <option value="Lojistik">Lojistik</option>
-          <option value="Eğitim">Eğitim</option>
-          <option value="Sağlık">Sağlık</option>
-          <option value="Oyun">Oyun</option>
-          <option value="Siber Güvenlik">Siber Güvenlik</option>
-          <option value="Tarım Teknolojileri">Tarım</option>
-          <option value="Derin Teknoloji / AR-GE">Derin Teknoloji</option>
         </select>
         <select id="stageFilter" onchange="filterStartups()" class="p-2.5 border border-slate-200 rounded-xl text-sm bg-white outline-none">
           <option value="">Tüm Aşamalar</option>
           <option value="Fikir">Fikir</option>
           <option value="MVP">MVP</option>
           <option value="Erken Aşama">Erken Aşama</option>
-          <option value="Akademik Spin-off">Akademik Spin-off</option>
         </select>
         <button onclick="resetFilters()" class="text-sm font-semibold text-slate-600 hover:text-indigo-600 border border-slate-200 rounded-xl p-2.5 bg-slate-50 transition">Sıfırla</button>
       </section>
@@ -114,84 +107,78 @@
       <section id="startupGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></section>
     </div>
 
-    <!-- 2. CANLI SENDİKA TURLARI -->
-    <div id="view-syndicates" class="tab-content hidden space-y-6">
-      <div class="bg-gradient-to-r from-rose-900 via-indigo-900 to-slate-900 text-white p-8 rounded-3xl shadow-lg border border-rose-800/50 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-        <div>
-          <span class="bg-rose-400 text-slate-900 text-xs font-black px-3 py-1 rounded-full uppercase tracking-wider mb-2 inline-block">Süre Sınırlı Yatırım Turları</span>
-          <h2 class="text-3xl font-black mb-2">Lider Yatırımcı Sendikaları & Mikro Katılım</h2>
-          <p class="text-rose-200 text-sm max-w-xl">Tecrübeli melek yatırımcıların liderlik ettiği aktif turlar.</p>
-        </div>
+    <!-- 2. CANLI TURLAR -->
+    <div id="tab-syndicates" class="page-tab hidden space-y-6">
+      <div class="bg-gradient-to-r from-rose-900 via-indigo-900 to-slate-900 text-white p-8 rounded-3xl shadow-lg border border-rose-800/50">
+        <span class="bg-rose-400 text-slate-900 text-xs font-black px-3 py-1 rounded-full uppercase tracking-wider mb-2 inline-block">Süre Sınırlı Yatırım Turları</span>
+        <h2 class="text-3xl font-black mb-2">Lider Yatırımcı Sendikaları & Mikro Katılım</h2>
+        <p class="text-rose-200 text-sm max-w-xl">Tecrübeli melek yatırımcıların liderlik ettiği aktif turlar.</p>
       </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="syndicatesGrid">
-        <div class="col-span-full text-center py-12 text-slate-400 text-base font-semibold">Henüz aktif bir yatırım turu bulunmuyor.</div>
+      <div class="text-center py-12 text-slate-400 text-base font-semibold bg-white rounded-3xl border border-slate-200">
+        Henüz aktif bir yatırım turu bulunmuyor.
       </div>
     </div>
 
-    <!-- 3. PROJE SATIŞ PAZARI -->
-    <div id="view-acquisitions" class="tab-content hidden space-y-6">
+    <!-- 3. PROJE PAZARI -->
+    <div id="tab-acquisitions" class="page-tab hidden space-y-6">
       <div class="bg-gradient-to-r from-emerald-900 via-teal-900 to-slate-900 text-white p-8 rounded-3xl shadow-lg border border-emerald-800/50 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
         <div>
           <span class="bg-emerald-400 text-slate-900 text-xs font-black px-3 py-1 rounded-full uppercase tracking-wider mb-2 inline-block">Micro-Acquisition Pazarı</span>
           <h2 class="text-3xl font-black mb-2">Devredilebilir Projeler & Mikro SaaS Satışı</h2>
           <p class="text-emerald-200 text-sm max-w-xl">Gelir getiren yan projeleri ve devredilebilir SaaS ürünlerini satın alın veya projenizi devredin.</p>
         </div>
-        <button onclick="toggleAddModal(true)" class="bg-emerald-400 hover:bg-emerald-300 text-slate-900 font-extrabold text-sm px-5 py-3 rounded-2xl shadow-md transition">
+        <button onclick="toggleModal(true)" class="bg-emerald-400 hover:bg-emerald-300 text-slate-900 font-extrabold text-sm px-5 py-3 rounded-2xl shadow-md transition">
           🛒 Satılık Proje İlanı Ver
         </button>
       </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="acquisitionsGrid">
-        <div class="col-span-full text-center py-12 text-slate-400 text-base font-semibold">Henüz devredilecek satılık proje eklenmedi.</div>
+      <div class="text-center py-12 text-slate-400 text-base font-semibold bg-white rounded-3xl border border-slate-200">
+        Henüz devredilecek satılık proje eklenmedi.
       </div>
     </div>
 
     <!-- 4. YATIRIMCILAR -->
-    <div id="view-investors" class="tab-content hidden space-y-6">
-      <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-        <div>
-          <h2 class="text-2xl font-black text-slate-900 mb-1">Yatırımcı Portföyleri</h2>
-          <p class="text-slate-500 text-xs">Aktif yatırımcılar ve fon performansları.</p>
-        </div>
+    <div id="tab-investors" class="page-tab hidden space-y-6">
+      <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
+        <h2 class="text-2xl font-black text-slate-900 mb-1">Yatırımcı Portföyleri</h2>
+        <p class="text-slate-500 text-xs">Aktif yatırımcılar ve fon performansları.</p>
       </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="investorsGrid">
-        <div class="col-span-full text-center py-12 text-slate-400 text-base font-semibold">Kayıtlı yatırımcı profili bulunmuyor.</div>
+      <div class="text-center py-12 text-slate-400 text-base font-semibold bg-white rounded-3xl border border-slate-200">
+        Kayıtlı yatırımcı profili bulunmuyor.
       </div>
     </div>
 
     <!-- 5. AI PITCH ANALİZ -->
-    <div id="view-aiTools" class="tab-content hidden space-y-6">
+    <div id="tab-aiTools" class="page-tab hidden space-y-6">
       <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm space-y-4">
         <div>
           <span class="bg-purple-100 text-purple-700 text-xs font-black px-3 py-1 rounded-full uppercase">Otomatik Kontrolör</span>
           <h2 class="text-2xl font-black text-slate-900 mt-2">AI Pitch Deck & Sunum Skorlayıcı</h2>
           <p class="text-slate-500 text-xs">Sunum metninizi veya özetinizi yapıştırın; AI pazar büyüklüğü ve finansallar açısından puanlasın.</p>
         </div>
-
         <div class="space-y-3">
           <textarea id="aiDeckText" rows="5" placeholder="Girişiminizin problemini, pazar büyüklüğünü, gelir modelinizi özetleyin..." class="w-full p-3 border rounded-2xl text-sm outline-none focus:ring-2 focus:ring-purple-500"></textarea>
-          <button onclick="analyzeDeckWithAi()" class="bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs px-6 py-3 rounded-xl shadow-md transition">
+          <button onclick="analyzeDeck()" class="bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs px-6 py-3 rounded-xl shadow-md transition">
             🤖 Sunumu AI İle Skorla
           </button>
         </div>
-
         <div id="aiResultBox" class="hidden bg-slate-900 text-white p-6 rounded-2xl space-y-3">
           <div class="flex justify-between items-center">
-            <span class="font-extrabold text-sm text-emerald-400">AI Analiz Skoru: <span id="aiScore">-- / 100</span></span>
+            <span class="font-extrabold text-sm text-emerald-400">AI Analiz Skoru: <span>85 / 100</span></span>
           </div>
-          <ul id="aiFeedbackList" class="text-xs space-y-1 text-slate-300"></ul>
+          <ul class="text-xs space-y-1 text-slate-300">
+            <li>✅ Pazar büyüklüğü tanımı girildi.</li>
+            <li>✅ İş modeli belirtildi.</li>
+          </ul>
         </div>
       </div>
     </div>
 
   </main>
 
-  <!-- GİRİŞİM EKLEME MODALI -->
+  <!-- İLAN EKLEME MODALI -->
   <div id="addModal" class="fixed inset-0 bg-slate-900/60 hidden z-50 flex items-center justify-center p-4 backdrop-blur-sm">
     <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
-      <button onclick="toggleAddModal(false)" class="absolute top-4 right-4 text-slate-400 text-2xl font-bold">&times;</button>
+      <button onclick="toggleModal(false)" class="absolute top-4 right-4 text-slate-400 text-2xl font-bold">&times;</button>
       <h2 class="text-xl font-extrabold mb-4 text-slate-900">Girişim ve Yatırım'a Yeni İlan Ekle</h2>
       
       <form onsubmit="handleAddStartup(event)" class="space-y-4">
@@ -251,6 +238,31 @@
 
     let startups = [];
 
+    // SEKME DEĞİŞTİRME FONKSİYONU
+    function openTab(tabName) {
+      // 1. Tüm sayfaları gizle
+      const tabs = document.querySelectorAll('.page-tab');
+      tabs.forEach(t => t.classList.add('hidden'));
+
+      // 2. Tüm butonların aktifliğini kaldır
+      const buttons = document.querySelectorAll('.nav-btn');
+      buttons.forEach(b => {
+        b.className = "nav-btn px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition flex items-center gap-1.5";
+      });
+
+      // 3. Tıklanan sayfayı aç
+      const targetTab = document.getElementById('tab-' + tabName);
+      if (targetTab) {
+        targetTab.classList.remove('hidden');
+      }
+
+      // 4. Tıklanan butonu renklendir
+      const targetBtn = document.getElementById('btn-' + tabName);
+      if (targetBtn) {
+        targetBtn.className = "nav-btn px-4 py-2 rounded-xl text-sm font-bold text-indigo-600 bg-indigo-50 transition flex items-center gap-1.5";
+      }
+    }
+
     async function fetchStartups() {
       if (!supabase) {
         renderStartups([]);
@@ -262,7 +274,7 @@
         .order('created_at', { ascending: false });
 
       if (error) {
-        console.error('Veri çekme hatası:', error.message);
+        console.error('Hata:', error.message);
         renderStartups([]);
         return;
       }
@@ -280,7 +292,7 @@
       grid.innerHTML = '';
 
       if (data.length === 0) {
-        grid.innerHTML = `<div class="col-span-full text-center py-12 text-slate-400 text-base font-semibold">Henüz eklenmiş canlı girişim bulunmuyor. İlk ilanı sen yayınla!</div>`;
+        grid.innerHTML = `<div class="col-span-full text-center py-12 text-slate-400 text-base font-semibold bg-white rounded-3xl border border-slate-200">Henüz eklenmiş canlı girişim bulunmuyor. İlk ilanı sen yayınla!</div>`;
         return;
       }
 
@@ -333,39 +345,15 @@
         } else {
           alert("Girişim başarıyla eklendi!");
           fetchStartups();
-          toggleAddModal(false);
+          toggleModal(false);
         }
       } else {
         alert("Veritabanı bağlantısı henüz aktif değil.");
       }
     }
 
-    function toggleAddModal(show) { 
+    function toggleModal(show) { 
       document.getElementById('addModal').classList.toggle('hidden', !show); 
-    }
-
-    function switchTab(tabName) {
-      // Bütün sekme içeriklerini gizle
-      const contents = document.querySelectorAll('.tab-content');
-      contents.forEach(el => el.classList.add('hidden'));
-
-      // Bütün butonların aktif stillerini kaldırıp pasif stile çevir
-      const buttons = document.querySelectorAll('.tab-btn');
-      buttons.forEach(btn => {
-        btn.className = "tab-btn px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition flex items-center gap-1.5";
-      });
-
-      // Seçilen sekmeyi göster
-      const activeContent = document.getElementById(`view-${tabName}`);
-      if (activeContent) {
-        activeContent.classList.remove('hidden');
-      }
-
-      // Seçilen butonu aktif stil yap
-      const activeBtn = document.getElementById(`tabBtn-${tabName}`);
-      if (activeBtn) {
-        activeBtn.className = "tab-btn px-4 py-2 rounded-xl text-sm font-bold text-indigo-600 bg-indigo-50/80 transition flex items-center gap-1.5";
-      }
     }
 
     function filterStartups() {
@@ -392,15 +380,10 @@
       renderStartups(startups);
     }
 
-    function analyzeDeckWithAi() {
+    function analyzeDeck() {
       const text = document.getElementById('aiDeckText').value;
       if(!text) { alert('Lütfen sunum özetinizi yazın.'); return; }
       document.getElementById('aiResultBox').classList.remove('hidden');
-      document.getElementById('aiScore').innerText = "85 / 100";
-      document.getElementById('aiFeedbackList').innerHTML = `
-        <li>✅ Pazar büyüklüğü tanımı girildi.</li>
-        <li>✅ İş modeli belirtildi.</li>
-      `;
     }
 
     document.addEventListener('DOMContentLoaded', fetchStartups);
