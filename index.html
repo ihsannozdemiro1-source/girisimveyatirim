@@ -10,33 +10,52 @@
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
     body {
       font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #0e0f12;
+      color: #f4f1ea;
     }
-    .angellist-bg {
-      background-color: #0b0c0e;
+    .al-gold-bg {
+      background-color: #b68d40;
+      color: #0e0f12;
     }
-    .angellist-card-bg {
+    .al-card-dark {
       background-color: #16181d;
+      border: 1px solid #23262d;
     }
-    .stat-banner-bg {
-      background-color: #ba8e4a;
+    .al-card-light {
+      background-color: #f4f1ea;
+      color: #0e0f12;
+    }
+    .al-button-dark {
+      background-color: #1d2026;
+      color: #ffffff;
+    }
+    .al-button-dark:hover {
+      background-color: #2a2e37;
+    }
+    .al-button-light {
+      background-color: #e2ded5;
+      color: #0e0f12;
+    }
+    .al-button-light:hover {
+      background-color: #d3cebf;
     }
   </style>
 </head>
-<body class="bg-black text-white antialiased selection:bg-amber-500 selection:text-black">
+<body class="antialiased selection:bg-[#b68d40] selection:text-black">
 
-  <!-- AngelList Stili Minimal Header -->
-  <header class="border-b border-slate-800 bg-black/90 backdrop-blur-md sticky top-0 z-40">
+  <!-- AngelList Birebir Header -->
+  <header class="border-b border-[#23262d] bg-[#0e0f12]/90 backdrop-blur-md sticky top-0 z-40">
     <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
       
       <!-- Logo -->
-      <button type="button" onclick="handleLogoClick()" class="text-2xl font-black tracking-tighter text-white flex items-center gap-2">
-        <span class="w-8 h-8 rounded-lg bg-white text-black flex items-center justify-center font-extrabold text-lg">✌️</span>
+      <button type="button" onclick="handleLogoClick()" class="text-2xl font-black tracking-tight text-white flex items-center gap-2">
+        <span class="w-8 h-8 rounded-md bg-white text-black flex items-center justify-center font-black text-lg">✌️</span>
         <span>Girişim ve Yatırım</span>
       </button>
 
-      <!-- Uygulama Menüsü (Giriş Yapınca Görünür) -->
-      <nav id="appNav" class="hidden md:flex items-center space-x-1 bg-slate-900/80 p-1.5 rounded-full border border-slate-800">
-        <button type="button" id="btn-startups" onclick="showTab('startups')" class="tab-btn px-5 py-2 rounded-full text-xs font-bold text-white bg-slate-800 shadow-sm transition">Girişimler</button>
+      <!-- Uygulama Menüsü (Giriş Yapılınca Görünür) -->
+      <nav id="appNav" class="hidden md:flex items-center space-x-1 bg-[#16181d] p-1.5 rounded-full border border-[#23262d]">
+        <button type="button" id="btn-startups" onclick="showTab('startups')" class="tab-btn px-5 py-2 rounded-full text-xs font-bold text-white bg-[#23262d] shadow-sm transition">Girişimler</button>
         <button type="button" id="btn-syndicates" onclick="showTab('syndicates')" class="tab-btn px-5 py-2 rounded-full text-xs font-medium text-slate-400 hover:text-white transition">Canlı Turlar</button>
         <button type="button" id="btn-acquisitions" onclick="showTab('acquisitions')" class="tab-btn px-5 py-2 rounded-full text-xs font-medium text-slate-400 hover:text-white transition">Proje Pazarı</button>
         <button type="button" id="btn-investors" onclick="showTab('investors')" class="tab-btn px-5 py-2 rounded-full text-xs font-medium text-slate-400 hover:text-white transition">Yatırımcılar</button>
@@ -44,14 +63,14 @@
       </nav>
 
       <!-- Sağ Taraf Auth & İlan Butonları -->
-      <div class="flex items-center space-x-4">
+      <div class="flex items-center space-x-3">
         <div id="userProfileBox" class="hidden flex items-center space-x-3">
-          <span id="userEmailLabel" class="text-xs font-bold text-amber-400 bg-amber-500/10 px-3 py-1.5 rounded-full border border-amber-500/30"></span>
+          <span id="userEmailLabel" class="text-xs font-bold text-[#b68d40] bg-[#b68d40]/10 px-3 py-1.5 rounded-full border border-[#b68d40]/30"></span>
           <button type="button" onclick="handleLogout()" class="text-xs font-semibold text-slate-400 hover:text-rose-400 transition">Çıkış Yap</button>
         </div>
         <button type="button" id="loginHeaderBtn" onclick="openAuthModal()" class="text-xs font-bold text-slate-300 hover:text-white px-3 py-2 transition">Sign in</button>
-        <button type="button" onclick="handleNewAddClick()" class="bg-white hover:bg-slate-200 text-black font-extrabold text-xs px-5 py-2.5 rounded-full shadow-md transition">
-          + İlan Ekle
+        <button type="button" onclick="handleNewAddClick()" class="al-button-light font-extrabold text-xs px-5 py-2.5 rounded-full shadow-md transition">
+          Contact sales / İlan Ekle
         </button>
       </div>
     </div>
@@ -62,110 +81,125 @@
   <!-- ========================================== -->
   <div id="landingView" style="display: block;">
     
-    <!-- Hero Bölümü -->
-    <section class="max-w-7xl mx-auto px-6 pt-20 pb-16 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-      <div class="space-y-6">
-        <span class="text-xs font-bold uppercase tracking-widest text-amber-400">INTRODUCING TURKISH VENTURE PORTAL</span>
-        <h1 class="text-5xl sm:text-7xl font-black tracking-tight leading-[1.08] text-white">
-          Turn your startup into capital.
-        </h1>
-        <p class="text-slate-400 text-lg max-w-lg font-medium leading-relaxed">
-          Türkiye'nin melek yatırımcı ekosisteminde yerinizi alın. Erken aşama girişimleri keşfedin, sendikalara katılın veya SaaS projelerinizi devredin.
-        </p>
-        <div class="pt-4 flex items-center gap-4">
-          <button type="button" onclick="openAuthModal()" class="bg-white hover:bg-slate-200 text-black font-black text-sm px-8 py-4 rounded-full transition shadow-lg">
-            Hemen Başlayın &rarr;
+    <!-- Hero Bölümü (Resimdeki 1. Ekran) -->
+    <section class="max-w-7xl mx-auto px-6 pt-16 pb-12 grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
+      <div class="al-card-light rounded-3xl p-10 flex flex-col justify-between">
+        <div class="space-y-6">
+          <span class="text-xs font-bold uppercase tracking-widest text-slate-600">INTRODUCING AGENTIC FUND MANAGEMENT</span>
+          <h1 class="text-5xl sm:text-6xl font-black tracking-tight leading-[1.08] text-[#0e0f12]">
+            Turn your fund into something you can talk to.
+          </h1>
+          <p class="text-slate-700 text-base max-w-md font-medium leading-relaxed">
+            Girişimleriniz ve fon yönetiminiz için yapay zeka destekli Türkiye melek yatırım portalı.
+          </p>
+        </div>
+        <div class="pt-8">
+          <button type="button" onclick="openAuthModal()" class="text-xs font-bold underline decoration-2 underline-offset-4 text-[#0e0f12] hover:opacity-80">
+            Explore Girişim ve Yatırım Link &rarr;
           </button>
         </div>
       </div>
 
-      <!-- AngelList Tarzı Dark Hero Kartı -->
-      <div class="angellist-card-bg border border-slate-800 rounded-3xl p-10 flex flex-col justify-between h-[380px] relative overflow-hidden">
-        <div class="space-y-3">
-          <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Girişim ve Yatırım Link</span>
-          <h2 class="text-4xl font-extrabold tracking-tight">AngelList Stili Alt Yapı</h2>
-          <p class="text-slate-400 text-sm max-w-sm">Girişimciler için şeffaf doğrulama, yatırımcılar için anlık portföy takibi.</p>
+      <!-- Siyah Kart Alanı (AngelList Link) -->
+      <div class="al-card-dark rounded-3xl p-10 flex flex-col justify-between relative overflow-hidden">
+        <div class="flex justify-center items-center h-full my-12">
+          <h2 class="text-4xl sm:text-5xl font-black tracking-tight text-white">AngelList Link</h2>
         </div>
-        <div class="flex justify-between items-center pt-6 border-t border-slate-800/80">
-          <span class="text-xs text-slate-500 font-semibold">Desteklenenler: Supabase • Vercel • Google Auth</span>
-          <button type="button" onclick="openAuthModal()" class="bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs px-4 py-2 rounded-full border border-slate-700">İncele &gt;</button>
+        <div class="flex justify-between items-center border-t border-[#23262d] pt-6">
+          <span class="text-xs text-slate-500 font-bold uppercase tracking-wider">Use from Claude • ChatGPT • and more</span>
+          <button type="button" onclick="openAuthModal()" class="al-button-dark font-bold text-xs px-4 py-2 rounded-full border border-slate-700">Play video ▷</button>
         </div>
       </div>
     </section>
 
-    <!-- Partnerler Banner -->
-    <section class="border-y border-slate-800/80 bg-slate-950/50 py-10 text-center">
+    <!-- Marka Partnerliği Alanı (Resimdeki Better Together Ekranı) -->
+    <section class="border-y border-[#23262d] bg-[#0b0c0e] py-12 text-center">
       <div class="max-w-7xl mx-auto px-6 space-y-6">
-        <h3 class="text-2xl font-extrabold text-slate-200">Better together. Ekosistemin öncüleriyle birlikte büyüyoruz.</h3>
-        <div class="flex flex-wrap justify-center items-center gap-10 opacity-60 text-slate-400 font-bold text-sm tracking-wider uppercase">
+        <h3 class="text-2xl font-extrabold text-white">Better together. AngelList partners with industry leaders.</h3>
+        <div class="flex flex-wrap justify-center items-center gap-12 opacity-70 text-slate-300 font-bold text-xs tracking-wider uppercase">
           <span>4PINES FUND SERVICES</span>
           <span>STOVER</span>
-          <span>STANDISH</span>
-          <span>CORNERSTONE</span>
-          <span>BELLTOWER</span>
+          <span>Standish MANAGEMENT</span>
+          <span>Cornerstone FUND SERVICES</span>
+          <span>BELLTOWER FUND GROUP</span>
+        </div>
+        <div class="pt-2">
+          <a href="#" onclick="openAuthModal()" class="text-xs font-bold text-slate-400 hover:text-white underline decoration-1 underline-offset-4">
+            Our premier partnership program assembles top professionals to deliver comprehensive expertise & support &rarr;
+          </a>
         </div>
       </div>
     </section>
 
-    <!-- AngelList Gold Stat Banner ($200B Tarzı Bölüm) -->
-    <section class="stat-banner-bg text-black py-20">
+    <!-- AngelList Birebir Altın/Kahve Stat Banner ($200B Alanı) -->
+    <section class="al-gold-bg py-20">
       <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
         <div class="space-y-6">
-          <span class="text-xs font-bold uppercase tracking-widest text-slate-900/70">BY THE NUMBERS</span>
-          <h2 class="text-5xl font-black tracking-tight leading-none">Fueling innovation</h2>
-          <p class="text-slate-900/80 text-base max-w-md font-medium leading-relaxed">
-            Türkiye'deki melek yatırım ağlarını ve bağımsız girişimcileri tek bir çatı altında toplayarak büyümeyi hızlandırıyoruz.
+          <span class="text-xs font-extrabold uppercase tracking-widest text-[#0e0f12]/70">BY THE NUMBERS</span>
+          <h2 class="text-6xl font-black tracking-tight leading-none text-[#0e0f12]">Fueling innovation</h2>
+          <p class="text-[#0e0f12]/90 text-base max-w-md font-semibold leading-relaxed">
+            With more than half of all top-tier VC deals run through the platform, Girişim ve Yatırım is at the heart of venture investing.
           </p>
         </div>
 
-        <div class="grid grid-cols-2 gap-8 border-l border-slate-900/20 pl-0 lg:pl-12">
-          <div>
-            <div class="text-6xl font-black tracking-tight">$10.7M+</div>
-            <div class="text-xs font-bold uppercase tracking-wider text-slate-900/70 mt-1">Hedeflenen Fon</div>
+        <div class="grid grid-cols-2 gap-10 border-l border-[#0e0f12]/20 pl-0 lg:pl-12">
+          <div class="col-span-2">
+            <div class="text-7xl sm:text-8xl font-black tracking-tight text-[#0e0f12] leading-none">$200B</div>
+            <div class="text-xs font-bold uppercase tracking-wider text-[#0e0f12]/80 mt-2">Assets on platform</div>
           </div>
           <div>
-            <div class="text-6xl font-black tracking-tight">13k+</div>
-            <div class="text-xs font-bold uppercase tracking-wider text-slate-900/70 mt-1">Aktif Girişim</div>
+            <div class="text-5xl font-black tracking-tight text-[#0e0f12]">25k+</div>
+            <div class="text-xs font-bold uppercase tracking-wider text-[#0e0f12]/80 mt-1">Funds and syndicates</div>
           </div>
           <div>
-            <div class="text-6xl font-black tracking-tight">25k+</div>
-            <div class="text-xs font-bold uppercase tracking-wider text-slate-900/70 mt-1">Fon & Sendika</div>
-          </div>
-          <div>
-            <div class="text-6xl font-black tracking-tight">72k+</div>
-            <div class="text-xs font-bold uppercase tracking-wider text-slate-900/70 mt-1">Aktif Yatırımcı</div>
+            <div class="text-5xl font-black tracking-tight text-[#0e0f12]">13k+</div>
+            <div class="text-xs font-bold uppercase tracking-wider text-[#0e0f12]/80 mt-1">Active startups</div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Kart Blokları / Makaleler -->
-    <section class="max-w-7xl mx-auto px-6 py-20 space-y-10">
-      <div>
-        <span class="text-xs font-bold uppercase tracking-widest text-amber-400">RESOURCES</span>
-        <h2 class="text-4xl font-black tracking-tight mt-1">Son Haberler ve Rehberler</h2>
-      </div>
+    <!-- Soft Bej Arka Planlı Makale Alanı (Resimdeki 3. Ekran) -->
+    <section class="al-card-light py-20 text-[#0e0f12]">
+      <div class="max-w-7xl mx-auto px-6 space-y-10">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-widest text-slate-600">RESOURCES</span>
+          <h2 class="text-5xl font-black tracking-tight mt-1">Latest articles</h2>
+        </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div class="angellist-card-bg border border-slate-800 rounded-3xl p-6 space-y-4 hover:border-slate-700 transition">
-          <div class="h-32 bg-slate-800 rounded-2xl flex items-center justify-center font-bold text-slate-500 text-xs">Girişim ve Yatırım Link</div>
-          <span class="text-[10px] font-bold uppercase bg-slate-800 text-slate-300 px-2.5 py-1 rounded-full">Product News</span>
-          <h4 class="font-bold text-sm text-white">Girişiminizi yatırımcılara tek tıkla açın.</h4>
-        </div>
-        <div class="angellist-card-bg border border-slate-800 rounded-3xl p-6 space-y-4 hover:border-slate-700 transition">
-          <div class="h-32 bg-slate-800 rounded-2xl flex items-center justify-center font-bold text-slate-500 text-xs">The K-1 Factory</div>
-          <span class="text-[10px] font-bold uppercase bg-slate-800 text-slate-300 px-2.5 py-1 rounded-full">Engineering</span>
-          <h4 class="font-bold text-sm text-white">Mikro SaaS devir süreçlerinde veritabanı entegrasyonu.</h4>
-        </div>
-        <div class="angellist-card-bg border border-slate-800 rounded-3xl p-6 space-y-4 hover:border-slate-700 transition">
-          <div class="h-32 bg-slate-800 rounded-2xl flex items-center justify-center font-bold text-slate-500 text-xs">Melek Yatırım Mevzuatı</div>
-          <span class="text-[10px] font-bold uppercase bg-slate-800 text-slate-300 px-2.5 py-1 rounded-full">Best Practices</span>
-          <h4 class="font-bold text-sm text-white">Erken aşama turlarda dikkat edilecek hukuki detaylar.</h4>
-        </div>
-        <div class="angellist-card-bg border border-slate-800 rounded-3xl p-6 space-y-4 hover:border-slate-700 transition">
-          <div class="h-32 bg-slate-800 rounded-2xl flex items-center justify-center font-bold text-slate-500 text-xs">Pitch Deck AI</div>
-          <span class="text-[10px] font-bold uppercase bg-slate-800 text-slate-300 px-2.5 py-1 rounded-full">Announcements</span>
-          <h4 class="font-bold text-sm text-white">Yapay zeka ile sunum skorlama aracımız yayında.</h4>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div class="space-y-3">
+            <div class="h-44 bg-[#0e0f12] rounded-2xl p-6 flex flex-col justify-between text-white">
+              <span class="text-xs font-bold text-slate-400">AngelList Link</span>
+              <span class="text-[10px] font-bold bg-[#1d2026] text-slate-300 w-max px-2.5 py-1 rounded-md">Connect</span>
+            </div>
+            <span class="text-[10px] font-bold uppercase text-slate-500 bg-[#e2ded5] px-2 py-0.5 rounded">Product News</span>
+            <h4 class="font-bold text-sm leading-snug">Transform your fund into something you can talk to</h4>
+          </div>
+
+          <div class="space-y-3">
+            <div class="h-44 bg-[#16181d] rounded-2xl p-6 flex flex-col justify-end text-white">
+              <span class="text-3xl font-black text-[#b68d40]">353,859</span>
+            </div>
+            <span class="text-[10px] font-bold uppercase text-slate-500 bg-[#e2ded5] px-2 py-0.5 rounded">Engineering</span>
+            <h4 class="font-bold text-sm leading-snug">The K-1 Factory</h4>
+          </div>
+
+          <div class="space-y-3">
+            <div class="h-44 bg-[#16181d] rounded-2xl p-6 flex items-center justify-center text-white font-black text-xs text-center border border-[#23262d]">
+              ACTIVE VC FUNDS MAP
+            </div>
+            <span class="text-[10px] font-bold uppercase text-slate-500 bg-[#e2ded5] px-2 py-0.5 rounded">Best Practices</span>
+            <h4 class="font-bold text-sm leading-snug">California's New Law Impacts Most VCs: What You Need to Know</h4>
+          </div>
+
+          <div class="space-y-3">
+            <div class="h-44 bg-[#0e0f12] rounded-2xl p-6 flex items-center justify-center text-white font-bold text-lg">
+              AngelList <span class="text-slate-500 ml-2">ark</span>
+            </div>
+            <span class="text-[10px] font-bold uppercase text-slate-500 bg-[#e2ded5] px-2 py-0.5 rounded">Announcements</span>
+            <h4 class="font-bold text-sm leading-snug">AngelList Acquires Ark, Combining Fund Administration Software</h4>
+          </div>
         </div>
       </div>
     </section>
@@ -173,45 +207,45 @@
   </div>
 
   <!-- ========================================== -->
-  <!-- UYGULAMA ALANI (Sadece Giriş Yapınca Görünür) -->
+  <!-- UYGULAMA ALANI (Giriş Yapılınca) -->
   <!-- ========================================== -->
   <main id="appView" class="max-w-7xl mx-auto px-6 py-10" style="display: none;">
 
     <!-- 1. GİRİŞİMLER -->
     <div id="tab-startups" class="content-tab space-y-8" style="display: block;">
-      <section class="angellist-card-bg border border-slate-800 p-8 rounded-3xl flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+      <section class="al-card-dark p-8 rounded-3xl flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
         <div>
-          <span class="text-xs font-bold uppercase tracking-wider text-amber-400 mb-2 block">🚀 AKTİF GİRİŞİMLER</span>
+          <span class="text-xs font-bold uppercase tracking-wider text-[#b68d40] mb-2 block">🚀 AKTİF GİRİŞİMLER</span>
           <h1 class="text-3xl font-black text-white">Geleceğin Şirketlerini Keşfet</h1>
-          <p class="text-slate-400 text-sm mt-1">Ekosistemde şu an aktif olarak yatırım arayan projeler.</p>
+          <p class="text-slate-400 text-sm mt-1">Ekosistemde aktif olarak yatırım arayan girişimler.</p>
         </div>
-        <div class="flex items-center gap-6 bg-slate-900 p-4 rounded-2xl border border-slate-800">
+        <div class="flex items-center gap-6 bg-[#0e0f12] p-4 rounded-2xl border border-[#23262d]">
           <div class="text-center px-2">
             <div class="text-2xl font-black text-emerald-400" id="statStartupCount">0</div>
             <div class="text-[11px] text-slate-400 uppercase font-bold">Girişim</div>
           </div>
-          <div class="text-center px-2 border-l border-slate-800">
-            <div class="text-2xl font-black text-amber-400">$0</div>
+          <div class="text-center px-2 border-l border-[#23262d]">
+            <div class="text-2xl font-black text-[#b68d40]">$0</div>
             <div class="text-[11px] text-slate-400 uppercase font-bold">Fonlama</div>
           </div>
         </div>
       </section>
 
       <!-- Filtreler -->
-      <section class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3 angellist-card-bg p-4 rounded-2xl border border-slate-800">
-        <input type="text" id="searchInput" onkeyup="filterStartups()" placeholder="Girişim adı veya arayın..." class="sm:col-span-2 p-3 bg-slate-900 border border-slate-800 rounded-xl text-xs text-white outline-none focus:border-amber-400">
-        <select id="sectorFilter" onchange="filterStartups()" class="p-3 bg-slate-900 border border-slate-800 rounded-xl text-xs text-white outline-none">
+      <section class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3 al-card-dark p-4 rounded-2xl">
+        <input type="text" id="searchInput" onkeyup="filterStartups()" placeholder="Girişim adı veya arayın..." class="sm:col-span-2 p-3 bg-[#0e0f12] border border-[#23262d] rounded-xl text-xs text-white outline-none focus:border-[#b68d40]">
+        <select id="sectorFilter" onchange="filterStartups()" class="p-3 bg-[#0e0f12] border border-[#23262d] rounded-xl text-xs text-white outline-none">
           <option value="">Tüm Sektörler</option>
           <option value="Yapay Zekâ">Yapay Zekâ</option>
           <option value="Fintek">Fintek</option>
           <option value="SaaS">SaaS</option>
         </select>
-        <select id="stageFilter" onchange="filterStartups()" class="p-3 bg-slate-900 border border-slate-800 rounded-xl text-xs text-white outline-none">
+        <select id="stageFilter" onchange="filterStartups()" class="p-3 bg-[#0e0f12] border border-[#23262d] rounded-xl text-xs text-white outline-none">
           <option value="">Tüm Aşamalar</option>
           <option value="Fikir">Fikir</option>
           <option value="MVP">MVP</option>
         </select>
-        <button type="button" onclick="resetFilters()" class="text-xs font-bold text-slate-400 hover:text-white border border-slate-800 rounded-xl p-3 bg-slate-900 transition">Sıfırla</button>
+        <button type="button" onclick="resetFilters()" class="text-xs font-bold text-slate-400 hover:text-white border border-[#23262d] rounded-xl p-3 bg-[#0e0f12] transition">Sıfırla</button>
       </section>
 
       <section id="startupGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></section>
@@ -219,47 +253,45 @@
 
     <!-- 2. CANLI TURLAR -->
     <div id="tab-syndicates" class="content-tab space-y-6" style="display: none;">
-      <div class="angellist-card-bg border border-slate-800 p-8 rounded-3xl space-y-2">
+      <div class="al-card-dark p-8 rounded-3xl space-y-2">
         <span class="text-xs font-bold uppercase text-rose-400">🔥 SÜRE SINIRLI YATIRIM TURLARI</span>
         <h2 class="text-2xl font-black">Lider Yatırımcı Sendikaları</h2>
-        <p class="text-slate-400 text-xs">Aktif melek turları burada listelenir.</p>
       </div>
-      <div class="text-center py-16 text-slate-500 text-sm font-semibold angellist-card-bg rounded-3xl border border-slate-800">
+      <div class="text-center py-16 text-slate-500 text-sm font-semibold al-card-dark rounded-3xl">
         Henüz aktif bir yatırım turu bulunmuyor.
       </div>
     </div>
 
     <!-- 3. PROJE PAZARI -->
     <div id="tab-acquisitions" class="content-tab space-y-6" style="display: none;">
-      <div class="angellist-card-bg border border-slate-800 p-8 rounded-3xl space-y-2">
+      <div class="al-card-dark p-8 rounded-3xl space-y-2">
         <span class="text-xs font-bold uppercase text-emerald-400">🛒 MICRO-ACQUISITION PAZARI</span>
         <h2 class="text-2xl font-black">Satılık Proje & SaaS Pazar Yeri</h2>
-        <p class="text-slate-400 text-xs">Devredilebilir projeler burada listelenir.</p>
       </div>
-      <div class="text-center py-16 text-slate-500 text-sm font-semibold angellist-card-bg rounded-3xl border border-slate-800">
+      <div class="text-center py-16 text-slate-500 text-sm font-semibold al-card-dark rounded-3xl">
         Henüz satılık proje ilanı verilmedi.
       </div>
     </div>
 
     <!-- 4. YATIRIMCILAR -->
     <div id="tab-investors" class="content-tab space-y-6" style="display: none;">
-      <div class="angellist-card-bg border border-slate-800 p-8 rounded-3xl space-y-2">
+      <div class="al-card-dark p-8 rounded-3xl space-y-2">
         <h2 class="text-2xl font-black">Yatırımcı Portföyleri</h2>
       </div>
-      <div class="text-center py-16 text-slate-500 text-sm font-semibold angellist-card-bg rounded-3xl border border-slate-800">
+      <div class="text-center py-16 text-slate-500 text-sm font-semibold al-card-dark rounded-3xl">
         Kayıtlı yatırımcı profili bulunmuyor.
       </div>
     </div>
 
     <!-- 5. AI PITCH ANALİZ -->
     <div id="tab-aiTools" class="content-tab space-y-6" style="display: none;">
-      <div class="angellist-card-bg border border-slate-800 p-8 rounded-3xl space-y-4">
+      <div class="al-card-dark p-8 rounded-3xl space-y-4">
         <h2 class="text-2xl font-black">AI Pitch Deck Skorlayıcı</h2>
-        <textarea id="aiDeckText" rows="5" placeholder="Girişiminizin özetini yazın..." class="w-full p-4 bg-slate-900 border border-slate-800 rounded-2xl text-xs text-white outline-none focus:border-amber-400"></textarea>
-        <button type="button" onclick="analyzeDeck()" class="bg-amber-400 hover:bg-amber-300 text-black font-extrabold text-xs px-6 py-3 rounded-xl transition">
+        <textarea id="aiDeckText" rows="5" placeholder="Girişiminizin özetini yazın..." class="w-full p-4 bg-[#0e0f12] border border-[#23262d] rounded-2xl text-xs text-white outline-none focus:border-[#b68d40]"></textarea>
+        <button type="button" onclick="analyzeDeck()" class="al-gold-bg text-[#0e0f12] font-extrabold text-xs px-6 py-3 rounded-xl transition">
           🤖 AI İle Skorla
         </button>
-        <div id="aiResultBox" style="display: none;" class="bg-slate-900 p-6 rounded-2xl space-y-2 text-xs border border-slate-800">
+        <div id="aiResultBox" style="display: none;" class="bg-[#0e0f12] p-6 rounded-2xl space-y-2 text-xs border border-[#23262d]">
           <span class="font-extrabold text-emerald-400">AI Analiz Skoru: 85 / 100</span>
           <p class="text-slate-400">Pazar büyüklüğü ve iş modeli tanımlandı.</p>
         </div>
@@ -268,8 +300,8 @@
 
   </main>
 
-  <!-- AngelList Stili Minimal Footer -->
-  <footer class="border-t border-slate-800 bg-slate-950 py-16 mt-20 text-xs text-slate-500">
+  <!-- AngelList Birebir Footer (Resimdeki Ekran) -->
+  <footer class="border-t border-[#23262d] bg-[#0e0f12] py-16 text-xs text-slate-500">
     <div class="max-w-7xl mx-auto px-6 grid grid-cols-2 sm:grid-cols-4 gap-8">
       <div class="space-y-3">
         <h5 class="font-bold text-white text-sm">Products</h5>
@@ -281,10 +313,10 @@
         </ul>
       </div>
       <div class="space-y-3">
-        <h5 class="font-bold text-white text-sm">Pricing</h5>
+        <h5 class="font-bold text-white text-sm">Pricing + Returns</h5>
         <ul class="space-y-2">
-          <li>Pricing Overview</li>
-          <li>VC Fund Performance</li>
+          <li>Pricing</li>
+          <li>VC Fund Performance Calculator</li>
           <li>RUV Calculator</li>
         </ul>
       </div>
@@ -297,11 +329,11 @@
         </ul>
       </div>
       <div class="space-y-3">
-        <h5 class="font-bold text-white text-sm">Company</h5>
+        <h5 class="font-bold text-white text-sm">By AngelList</h5>
         <ul class="space-y-2">
+          <li>Rollups</li>
+          <li>Meridian</li>
           <li>About Us</li>
-          <li>Careers</li>
-          <li>Terms & Privacy</li>
         </ul>
       </div>
     </div>
@@ -309,7 +341,7 @@
 
   <!-- AUTH MODAL -->
   <div id="authModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
-    <div class="angellist-card-bg border border-slate-800 rounded-3xl max-w-md w-full p-8 relative text-white">
+    <div class="al-card-dark rounded-3xl max-w-md w-full p-8 relative text-white">
       <button type="button" onclick="closeAuthModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold hover:text-white">&times;</button>
       
       <div class="text-center mb-6">
@@ -317,7 +349,6 @@
         <p class="text-slate-400 text-xs mt-1">Girişim ve Yatırım ekosistemine bağlanın.</p>
       </div>
 
-      <!-- Google İle Giriş -->
       <div class="mb-4">
         <button type="button" id="googleBtn" class="w-full bg-white hover:bg-slate-200 text-black font-bold py-3 rounded-full text-xs flex items-center justify-center gap-3 transition">
           <svg class="w-4 h-4" viewBox="0 0 24 24">
@@ -331,28 +362,28 @@
       </div>
 
       <div class="flex items-center my-4">
-        <div class="flex-grow border-t border-slate-800"></div>
+        <div class="flex-grow border-t border-[#23262d]"></div>
         <span class="px-3 text-slate-500 text-[11px] font-semibold">veya E-Posta</span>
-        <div class="flex-grow border-t border-slate-800"></div>
+        <div class="flex-grow border-t border-[#23262d]"></div>
       </div>
 
       <form onsubmit="handleEmailAuth(event)" class="space-y-3">
         <div id="fullNameBox" style="display: none;">
           <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Ad Soyad</label>
-          <input type="text" id="authFullName" placeholder="İhsan Özdemir" class="w-full p-3 bg-slate-900 border border-slate-800 rounded-xl text-xs outline-none focus:border-amber-400">
+          <input type="text" id="authFullName" placeholder="İhsan Özdemir" class="w-full p-3 bg-[#0e0f12] border border-[#23262d] rounded-xl text-xs outline-none focus:border-[#b68d40]">
         </div>
         <div>
           <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">E-Posta</label>
-          <input type="email" id="authEmail" required placeholder="ornek@domain.com" class="w-full p-3 bg-slate-900 border border-slate-800 rounded-xl text-xs outline-none focus:border-amber-400">
+          <input type="email" id="authEmail" required placeholder="ornek@domain.com" class="w-full p-3 bg-[#0e0f12] border border-[#23262d] rounded-xl text-xs outline-none focus:border-[#b68d40]">
         </div>
         <div>
           <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Şifre</label>
-          <input type="password" id="authPassword" required minlength="6" placeholder="******" class="w-full p-3 bg-slate-900 border border-slate-800 rounded-xl text-xs outline-none focus:border-amber-400">
+          <input type="password" id="authPassword" required minlength="6" placeholder="******" class="w-full p-3 bg-[#0e0f12] border border-[#23262d] rounded-xl text-xs outline-none focus:border-[#b68d40]">
         </div>
 
         <div class="flex gap-2 pt-2">
-          <button type="submit" onclick="setAuthMode('login')" class="w-1/2 bg-amber-400 hover:bg-amber-300 text-black font-extrabold py-3 rounded-xl text-xs transition">Giriş Yap</button>
-          <button type="submit" onclick="setAuthMode('signup')" class="w-1/2 bg-slate-800 hover:bg-slate-700 text-white font-bold py-3 rounded-xl text-xs transition">Kayıt Ol</button>
+          <button type="submit" onclick="setAuthMode('login')" class="w-1/2 al-gold-bg text-[#0e0f12] font-extrabold py-3 rounded-xl text-xs transition">Giriş Yap</button>
+          <button type="submit" onclick="setAuthMode('signup')" class="w-1/2 bg-[#23262d] hover:bg-[#2e323b] text-white font-bold py-3 rounded-xl text-xs transition">Kayıt Ol</button>
         </div>
       </form>
     </div>
@@ -360,19 +391,19 @@
 
   <!-- İLAN EKLEME MODALI -->
   <div id="addModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
-    <div class="angellist-card-bg border border-slate-800 rounded-3xl max-w-lg w-full p-8 relative text-white max-h-[90vh] overflow-y-auto">
+    <div class="al-card-dark rounded-3xl max-w-lg w-full p-8 relative text-white max-h-[90vh] overflow-y-auto">
       <button type="button" onclick="closeCreateModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold hover:text-white">&times;</button>
       <h2 class="text-2xl font-black mb-4">Yeni İlan Ekle</h2>
       
       <form onsubmit="handleAddStartup(event)" class="space-y-4">
         <div>
           <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Girişim Adı</label>
-          <input type="text" id="addTitle" required class="w-full p-3 bg-slate-900 border border-slate-800 rounded-xl text-xs text-white outline-none focus:border-amber-400">
+          <input type="text" id="addTitle" required class="w-full p-3 bg-[#0e0f12] border border-[#23262d] rounded-xl text-xs text-white outline-none focus:border-[#b68d40]">
         </div>
         <div class="grid grid-cols-2 gap-4">
           <div>
             <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Sektör</label>
-            <select id="addSector" class="w-full p-3 bg-slate-900 border border-slate-800 rounded-xl text-xs text-white outline-none">
+            <select id="addSector" class="w-full p-3 bg-[#0e0f12] border border-[#23262d] rounded-xl text-xs text-white outline-none">
               <option value="Yapay Zekâ">Yapay Zekâ</option>
               <option value="Fintek">Fintek</option>
               <option value="SaaS">SaaS</option>
@@ -380,7 +411,7 @@
           </div>
           <div>
             <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Aşama</label>
-            <select id="addStage" class="w-full p-3 bg-slate-900 border border-slate-800 rounded-xl text-xs text-white outline-none">
+            <select id="addStage" class="w-full p-3 bg-[#0e0f12] border border-[#23262d] rounded-xl text-xs text-white outline-none">
               <option value="Fikir">Fikir</option>
               <option value="MVP">MVP</option>
             </select>
@@ -389,18 +420,18 @@
         <div class="grid grid-cols-2 gap-4">
           <div>
             <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Hedef Yatırım ($)</label>
-            <input type="number" id="addGoal" required placeholder="50000" class="w-full p-3 bg-slate-900 border border-slate-800 rounded-xl text-xs text-white outline-none focus:border-amber-400">
+            <input type="number" id="addGoal" required placeholder="50000" class="w-full p-3 bg-[#0e0f12] border border-[#23262d] rounded-xl text-xs text-white outline-none focus:border-[#b68d40]">
           </div>
           <div>
             <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Kurucu İsim</label>
-            <input type="text" id="addFounder" required placeholder="İsim Soyisim" class="w-full p-3 bg-slate-900 border border-slate-800 rounded-xl text-xs text-white outline-none focus:border-amber-400">
+            <input type="text" id="addFounder" required placeholder="İsim Soyisim" class="w-full p-3 bg-[#0e0f12] border border-[#23262d] rounded-xl text-xs text-white outline-none focus:border-[#b68d40]">
           </div>
         </div>
         <div>
           <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Açıklama</label>
-          <textarea id="addDesc" rows="3" required placeholder="Girişimin çözdüğü problem..." class="w-full p-3 bg-slate-900 border border-slate-800 rounded-xl text-xs text-white outline-none focus:border-amber-400"></textarea>
+          <textarea id="addDesc" rows="3" required placeholder="Girişimin çözdüğü problem..." class="w-full p-3 bg-[#0e0f12] border border-[#23262d] rounded-xl text-xs text-white outline-none focus:border-[#b68d40]"></textarea>
         </div>
-        <button type="submit" class="w-full bg-white hover:bg-slate-200 text-black font-extrabold py-3 rounded-xl text-xs transition">Yayınla</button>
+        <button type="submit" class="w-full al-button-light font-extrabold py-3 rounded-xl text-xs transition">Yayınla</button>
       </form>
     </div>
   </div>
@@ -420,7 +451,7 @@
 
       var targetBtn = document.getElementById('btn-' + name);
       if (targetBtn) {
-        targetBtn.className = "tab-btn px-5 py-2 rounded-full text-xs font-bold text-white bg-slate-800 shadow-sm transition";
+        targetBtn.className = "tab-btn px-5 py-2 rounded-full text-xs font-bold text-white bg-[#23262d] shadow-sm transition";
       }
     }
 
@@ -582,7 +613,7 @@
       grid.innerHTML = '';
 
       if (data.length === 0) {
-        grid.innerHTML = '<div class="col-span-full text-center py-12 text-slate-500 text-sm font-semibold angellist-card-bg rounded-3xl border border-slate-800">Henüz ilan bulunmuyor. İlk ilanı sen yayınla!</div>';
+        grid.innerHTML = '<div class="col-span-full text-center py-12 text-slate-500 text-sm font-semibold al-card-dark rounded-3xl">Henüz ilan bulunmuyor. İlk ilanı sen yayınla!</div>';
         return;
       }
 
@@ -592,23 +623,23 @@
         var percent = Math.min(100, Math.round((raised / goal) * 100));
         
         var card = document.createElement('div');
-        card.className = "angellist-card-bg border border-slate-800 rounded-3xl p-6 flex flex-col justify-between space-y-4 hover:border-slate-700 transition";
+        card.className = "al-card-dark rounded-3xl p-6 flex flex-col justify-between space-y-4 hover:border-slate-700 transition";
         card.innerHTML = 
           '<div>' +
             '<div class="flex items-center justify-between mb-3">' +
-              '<span class="bg-slate-800 text-amber-400 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">' + (item.sector || 'Teknoloji') + '</span>' +
+              '<span class="bg-[#0e0f12] text-[#b68d40] text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider border border-[#23262d]">' + (item.sector || 'Teknoloji') + '</span>' +
               '<span class="text-slate-500 text-[10px] font-bold uppercase">' + (item.stage || 'Erken Aşama') + '</span>' +
             '</div>' +
             '<h3 class="text-xl font-bold text-white mb-1">' + (item.name || item.title || 'İsimsiz Girişim') + '</h3>' +
             '<p class="text-xs text-slate-400 font-semibold mb-3">👤 Kurucu: ' + (item.founder || 'Belirtilmedi') + '</p>' +
             '<p class="text-slate-400 text-xs leading-relaxed line-clamp-3">' + (item.description || item.desc || '') + '</p>' +
           '</div>' +
-          '<div class="pt-4 border-t border-slate-800/80">' +
+          '<div class="pt-4 border-t border-[#23262d]">' +
             '<div class="flex justify-between text-xs font-bold mb-1.5">' +
               '<span class="text-emerald-400">$' + Number(raised).toLocaleString() + ' toplandı</span>' +
-              '<span class="text-slate-500">Hedef: $' + Number(goal).toLocaleString() + '</span>' +
+              '<span class="text-slate-500">Hedef: $' + Number(goal.toLocaleString()) + '</span>' +
             '</div>' +
-            '<div class="w-full bg-slate-900 rounded-full h-1.5"><div class="bg-amber-400 h-1.5 rounded-full" style="width: ' + percent + '%"></div></div>' +
+            '<div class="w-full bg-[#0e0f12] rounded-full h-1.5"><div class="bg-[#b68d40] h-1.5 rounded-full" style="width: ' + percent + '%"></div></div>' +
           '</div>';
         grid.appendChild(card);
       });
