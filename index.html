@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Girişim ve Yatırım</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Supabase CDN (Hataları önleyen kararlı sürüm) -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     .gradient-text {
@@ -50,8 +49,14 @@
         </nav>
       </div>
 
+      <!-- Kullanıcı / Giriş Alanı -->
       <div class="flex items-center space-x-3">
-        <button type="button" onclick="openModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm px-5 py-2.5 rounded-xl shadow-md transition">
+        <div id="userProfileBox" class="hidden flex items-center space-x-3">
+          <span id="userEmailLabel" class="text-xs font-bold text-slate-600 bg-slate-100 px-3 py-1.5 rounded-xl border border-slate-200"></span>
+          <button type="button" onclick="handleLogout()" class="text-xs font-bold text-rose-600 hover:text-rose-700 bg-rose-50 px-3 py-1.5 rounded-xl border border-rose-200 transition">Çıkış Yap</button>
+        </div>
+        <button type="button" id="loginHeaderBtn" onclick="openAuthModal()" class="text-sm font-bold text-slate-700 hover:text-indigo-600 px-3 py-2 transition">Giriş Yap / Kayıt Ol</button>
+        <button type="button" onclick="handleNewAddClick()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm px-5 py-2.5 rounded-xl shadow-md transition">
           + İlan / Proje Yayınla
         </button>
       </div>
@@ -115,7 +120,7 @@
         <span class="bg-rose-400 text-slate-900 text-xs font-black px-3 py-1 rounded-full uppercase tracking-wider mb-2 inline-block">Süre Sınırlı Yatırım Turları</span>
         <h2 class="text-3xl font-black mb-2">Lider Yatırımcı Sendikaları & Mikro Katılım</h2>
         <p class="text-rose-200 text-sm max-w-xl mb-4">Tecrübeli melek yatırımcıların liderlik ettiği aktif turlar.</p>
-        <button type="button" onclick="openModal()" class="bg-rose-500 hover:bg-rose-600 text-white font-extrabold text-sm px-5 py-2.5 rounded-xl shadow-md transition">
+        <button type="button" onclick="handleNewAddClick()" class="bg-rose-500 hover:bg-rose-600 text-white font-extrabold text-sm px-5 py-2.5 rounded-xl shadow-md transition">
           🔥 Yatırım Turu Başlat
         </button>
       </div>
@@ -132,7 +137,7 @@
           <h2 class="text-3xl font-black mb-2">Devredilebilir Projeler & Mikro SaaS Satışı</h2>
           <p class="text-emerald-200 text-sm max-w-xl">Gelir getiren yan projeleri ve devredilebilir SaaS ürünlerini satın alın veya projenizi devredin.</p>
         </div>
-        <button type="button" onclick="openModal()" class="bg-emerald-400 hover:bg-emerald-300 text-slate-900 font-extrabold text-sm px-5 py-3 rounded-2xl shadow-md transition">
+        <button type="button" onclick="handleNewAddClick()" class="bg-emerald-400 hover:bg-emerald-300 text-slate-900 font-extrabold text-sm px-5 py-3 rounded-2xl shadow-md transition">
           🛒 Satılık Proje İlanı Ver
         </button>
       </div>
@@ -148,7 +153,7 @@
           <h2 class="text-2xl font-black text-slate-900 mb-1">Yatırımcı Portföyleri</h2>
           <p class="text-slate-500 text-xs">Aktif yatırımcılar ve fon performansları.</p>
         </div>
-        <button type="button" onclick="openModal()" class="bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs px-4 py-2.5 rounded-xl transition">
+        <button type="button" onclick="handleNewAddClick()" class="bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs px-4 py-2.5 rounded-xl transition">
           💼 Yatırımcı Profili Oluştur
         </button>
       </div>
@@ -185,10 +190,56 @@
 
   </main>
 
+  <!-- GİRİŞ / KAYIT OL MODALI (AUTH) -->
+  <div id="authModal" class="fixed inset-0 bg-slate-900/60 hidden z-50 flex items-center justify-center p-4 backdrop-blur-sm">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl relative">
+      <button type="button" onclick="closeAuthModal()" class="absolute top-4 right-4 text-slate-400 text-2xl font-bold hover:text-slate-600">&times;</button>
+      
+      <div class="text-center mb-6">
+        <h2 class="text-2xl font-black text-slate-900">Hesabınıza Giriş Yapın</h2>
+        <p class="text-slate-500 text-xs mt-1">İlan yayınlamak ve yönetmek için oturum açın.</p>
+      </div>
+
+      <!-- Google İle Giriş -->
+      <button type="button" onclick="handleGoogleLogin()" class="w-full border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 font-bold py-3 rounded-2xl text-sm flex items-center justify-center gap-3 transition shadow-sm mb-4">
+        <svg class="w-5 h-5" viewBox="0 0 24 24">
+          <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+          <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+          <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+          <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+        </svg>
+        <span>Google ile Devam Et</span>
+      </button>
+
+      <div class="flex items-center my-4">
+        <div class="flex-grow border-t border-slate-200"></div>
+        <span class="px-3 text-slate-400 text-xs font-semibold">veya E-Posta ile</span>
+        <div class="flex-grow border-t border-slate-200"></div>
+      </div>
+
+      <!-- E-Posta & Şifre Formu -->
+      <form onsubmit="handleEmailAuth(event)" class="space-y-3">
+        <div>
+          <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Geçerli E-Posta</label>
+          <input type="email" id="authEmail" required placeholder="ornek@domain.com" class="w-full p-2.5 border rounded-xl text-sm outline-none focus:ring-2 focus:ring-indigo-500">
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Şifre</label>
+          <input type="password" id="authPassword" required minlength="6" placeholder="******" class="w-full p-2.5 border rounded-xl text-sm outline-none focus:ring-2 focus:ring-indigo-500">
+        </div>
+
+        <div class="flex gap-2 pt-2">
+          <button type="submit" id="authLoginBtn" onclick="authMode='login'" class="w-1/2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 rounded-xl text-xs shadow-md transition">Giriş Yap</button>
+          <button type="submit" id="authRegisterBtn" onclick="authMode='signup'" class="w-1/2 bg-slate-800 hover:bg-slate-900 text-white font-bold py-2.5 rounded-xl text-xs shadow-md transition">Kayıt Ol</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <!-- İLAN EKLEME MODALI -->
   <div id="addModal" class="fixed inset-0 bg-slate-900/60 hidden z-50 flex items-center justify-center p-4 backdrop-blur-sm">
     <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
-      <button type="button" onclick="closeModal()" class="absolute top-4 right-4 text-slate-400 text-2xl font-bold hover:text-slate-600">&times;</button>
+      <button type="button" onclick="closeCreateModal()" class="absolute top-4 right-4 text-slate-400 text-2xl font-bold hover:text-slate-600">&times;</button>
       <h2 class="text-xl font-extrabold mb-4 text-slate-900">Girişim ve Yatırım'a Yeni İlan Ekle</h2>
       
       <form onsubmit="handleAddStartup(event)" class="space-y-4">
@@ -235,7 +286,7 @@
   </div>
 
   <script>
-    // 1. SEKME İŞLEMLERİ (Arayüz kilitlenmelerini önleyen bağımsız yapı)
+    // 1. SEKME İŞLEMLERİ
     function showTab(name) {
       var tabs = document.querySelectorAll('.content-tab');
       for (var i = 0; i < tabs.length; i++) {
@@ -256,28 +307,120 @@
       }
     }
 
-    function openModal() {
-      var m = document.getElementById('addModal');
-      if (m) m.classList.remove('hidden');
+    function openAuthModal() {
+      document.getElementById('authModal').classList.remove('hidden');
     }
 
-    function closeModal() {
-      var m = document.getElementById('addModal');
-      if (m) m.classList.add('hidden');
+    function closeAuthModal() {
+      document.getElementById('authModal').classList.add('hidden');
     }
 
-    // 2. SUPABASE BAĞLANTISI (Doğrudan SDK İle Yetkilendirilmiş Bağlantı)
+    function openCreateModal() {
+      document.getElementById('addModal').classList.remove('hidden');
+    }
+
+    function closeCreateModal() {
+      document.getElementById('addModal').classList.add('hidden');
+    }
+
+    // 2. SUPABASE BAĞLANTISI VE AUTH
     const SUPABASE_URL = 'https://kaovkjsttcyyrwrbmtpb.supabase.co';
     const SUPABASE_KEY = 'sb_publishable_NrZ4UXAzYjs7VZ52t7XJww_gMTDBJJl';
     
     var sbClient = null;
+    var currentUser = null;
+    var authMode = 'login';
+
     if (window.supabase && window.supabase.createClient) {
       sbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
     }
 
+    // Kullanıcı Durumunu Kontrol Et
+    async function checkUserSession() {
+      if (!sbClient) return;
+
+      const { data: { session } } = await sbClient.auth.getSession();
+      updateUserUI(session ? session.user : null);
+
+      sbClient.auth.onAuthStateChange((_event, session) => {
+        updateUserUI(session ? session.user : null);
+      });
+    }
+
+    function updateUserUI(user) {
+      currentUser = user;
+      const userBox = document.getElementById('userProfileBox');
+      const loginBtn = document.getElementById('loginHeaderBtn');
+      const userLabel = document.getElementById('userEmailLabel');
+
+      if (user) {
+        userBox.classList.remove('hidden');
+        loginBtn.classList.add('hidden');
+        userLabel.innerText = user.email;
+      } else {
+        userBox.classList.add('hidden');
+        loginBtn.classList.remove('hidden');
+        userLabel.innerText = '';
+      }
+    }
+
+    function handleNewAddClick() {
+      if (!currentUser) {
+        alert("İlan ekleyebilmek için lütfen önce giriş yapın veya kayıt olun.");
+        openAuthModal();
+      } else {
+        openCreateModal();
+      }
+    }
+
+    // E-Posta / Şifre Giriş & Kayıt
+    async function handleEmailAuth(e) {
+      e.preventDefault();
+      const email = document.getElementById('authEmail').value;
+      const password = document.getElementById('authPassword').value;
+
+      if (!sbClient) return;
+
+      if (authMode === 'signup') {
+        const { data, error } = await sbClient.auth.signUp({ email, password });
+        if (error) {
+          alert("Kayıt Hatası: " + error.message);
+        } else {
+          alert("Kayıt başarılı! Lütfen e-postanıza gelen doğrulama bağlantısına tıklayın.");
+          closeAuthModal();
+        }
+      } else {
+        const { data, error } = await sbClient.auth.signInWithPassword({ email, password });
+        if (error) {
+          alert("Giriş Hatası: " + error.message);
+        } else {
+          alert("Giriş başarılı!");
+          closeAuthModal();
+        }
+      }
+    }
+
+    // Google İle Giriş
+    async function handleGoogleLogin() {
+      if (!sbClient) return;
+      const { error } = await sbClient.auth.signInWithOAuth({
+        provider: 'google',
+        options: { redirectTo: window.location.href }
+      });
+      if (error) alert("Google Giriş Hatası: " + error.message);
+    }
+
+    // Çıkış Yap
+    async function handleLogout() {
+      if (sbClient) {
+        await sbClient.auth.signOut();
+        alert("Çıkış yapıldı.");
+      }
+    }
+
     var startups = [];
 
-    // Verileri Veritabanından Çek
+    // Verileri Çek
     async function loadStartups() {
       if (sbClient) {
         try {
@@ -290,21 +433,17 @@
             startups = data;
             renderStartups(startups);
             return;
-          } else if (error) {
-            console.error("Veritabanı Okuma Hatası:", error.message);
           }
         } catch (err) {
-          console.error("Bağlantı Hatası:", err);
+          console.error("Veritabanı okuma hatası:", err);
         }
       }
 
-      // Bağlantı olmazsa yedek yerel bellek
       var localData = localStorage.getItem('my_startups_list');
       startups = localData ? JSON.parse(localData) : [];
       renderStartups(startups);
     }
 
-    // Kartları Ekrana Bas
     function renderStartups(data) {
       var grid = document.getElementById('startupGrid');
       var countElem = document.getElementById('statStartupCount');
@@ -348,11 +487,19 @@
       });
     }
 
-    // Yeni İlan Ekleme
+    // İlan Ekleme
     async function handleAddStartup(e) {
       e.preventDefault();
       
+      if (!currentUser) {
+        alert("İlan eklemek için oturum açmalısınız!");
+        closeCreateModal();
+        openAuthModal();
+        return;
+      }
+
       var newStartup = {
+        user_id: currentUser.id,
         name: document.getElementById('addTitle').value,
         sector: document.getElementById('addSector').value,
         stage: document.getElementById('addStage').value,
@@ -368,20 +515,17 @@
             .insert([newStartup]);
 
           if (error) {
-            alert("Veritabanına Kayıt Sağlanamadı: " + error.message);
+            alert("İlan Eklenemedi: " + error.message);
             return;
           }
         } catch (err) {
-          alert("Bağlantı Hatası: " + err.message);
+          alert("Hata: " + err.message);
           return;
         }
-      } else {
-        startups.unshift(newStartup);
-        localStorage.setItem('my_startups_list', JSON.stringify(startups));
       }
 
       await loadStartups();
-      closeModal();
+      closeCreateModal();
       
       document.getElementById('addTitle').value = '';
       document.getElementById('addGoal').value = '';
@@ -421,7 +565,10 @@
       document.getElementById('aiResultBox').style.display = 'block';
     }
 
-    document.addEventListener('DOMContentLoaded', loadStartups);
+    document.addEventListener('DOMContentLoaded', function() {
+      checkUserSession();
+      loadStartups();
+    });
   </script>
 </body>
 </html>
