@@ -59,7 +59,7 @@
         <span>Girişim ve Yatırım</span>
       </button>
 
-      <!-- ZİYARETÇİ MENÜSÜ (Giriş Yapmayanlar İçin Tanıtım Başlıkları) -->
+      <!-- ZİYARETÇİ MENÜSÜ (Giriş Yapmayanlara Görünür) -->
       <nav id="visitorNav" class="hidden md:flex items-center space-x-1 bg-[#16181d] p-1.5 rounded-full border border-[#23262d]">
         <a href="#ecosystem-solutions" class="px-5 py-2 rounded-full text-xs font-medium text-slate-300 hover:text-emerald-400 transition">Çözümler</a>
         <a href="#platform-features" class="px-5 py-2 rounded-full text-xs font-medium text-slate-300 hover:text-emerald-400 transition">Avantajlar</a>
@@ -67,8 +67,8 @@
         <a href="#faq-section" class="px-5 py-2 rounded-full text-xs font-medium text-slate-300 hover:text-emerald-400 transition">SSS</a>
       </nav>
 
-      <!-- UYGULAMA MENÜSÜ (Sadece Giriş Yapan Kullanıcılara Görünür) -->
-      <nav id="appNav" class="hidden md:flex items-center space-x-1 bg-[#16181d] p-1.5 rounded-full border border-[#23262d]">
+      <!-- UYGULAMA MENÜSÜ (SADECE GİRİŞ YAPANLARA GÖRÜNÜR) -->
+      <nav id="appNav" class="hidden items-center space-x-1 bg-[#16181d] p-1.5 rounded-full border border-[#23262d]">
         <button type="button" id="btn-startups" onclick="showTab('startups')" class="tab-btn px-5 py-2 rounded-full text-xs font-bold text-white bg-[#23262d] shadow-sm transition">Girişimler</button>
         <button type="button" id="btn-syndicates" onclick="showTab('syndicates')" class="tab-btn px-5 py-2 rounded-full text-xs font-medium text-slate-400 hover:text-white transition">Canlı Turlar</button>
         <button type="button" id="btn-acquisitions" onclick="showTab('acquisitions')" class="tab-btn px-5 py-2 rounded-full text-xs font-medium text-slate-400 hover:text-white transition">Proje Pazarı</button>
@@ -570,7 +570,10 @@
     }
 
     async function checkUserSession() {
-      if (!sbClient) return;
+      if (!sbClient) {
+        updateUserUI(null);
+        return;
+      }
       const { data: { session } } = await sbClient.auth.getSession();
       updateUserUI(session ? session.user : null);
 
@@ -592,8 +595,13 @@
       if (user) {
         userBox.classList.remove('hidden');
         loginBtn.classList.add('hidden');
-        if (visitorNav) visitorNav.classList.add('hidden');
-        if (appNav) appNav.classList.remove('hidden');
+        
+        // Ziyaretçi menüsünü gizle, uygulama menüsünü aç
+        if (visitorNav) visitorNav.style.display = 'none';
+        if (appNav) {
+          appNav.style.display = 'flex';
+          appNav.classList.remove('hidden');
+        }
         
         landingView.style.display = 'none';
         appView.style.display = 'block';
@@ -609,8 +617,17 @@
       } else {
         userBox.classList.add('hidden');
         loginBtn.classList.remove('hidden');
-        if (visitorNav) visitorNav.classList.remove('hidden');
-        if (appNav) appNav.classList.add('hidden');
+        
+        // Uygulama menüsünü gizle, ziyaretçi menüsünü aç
+        if (appNav) {
+          appNav.style.display = 'none';
+          appNav.classList.add('hidden');
+        }
+        if (visitorNav) {
+          visitorNav.style.display = 'flex';
+          visitorNav.classList.remove('hidden');
+        }
+        
         userLabel.innerText = '';
 
         landingView.style.display = 'block';
