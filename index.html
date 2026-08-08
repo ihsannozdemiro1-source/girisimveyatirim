@@ -43,11 +43,11 @@
 </head>
 <body class="antialiased selection:bg-[#b68d40] selection:text-black">
 
-  <!-- AngelList Birebir Header -->
+  <!-- AngelList Header -->
   <header class="border-b border-[#23262d] bg-[#0e0f12]/90 backdrop-blur-md sticky top-0 z-40">
     <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
       
-      <!-- Logo & Yeni Amblem -->
+      <!-- Logo & Amblem -->
       <button type="button" onclick="handleLogoClick()" class="text-2xl font-black tracking-tight text-white flex items-center gap-3">
         <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-[#b68d40] via-amber-600 to-amber-300 p-0.5 flex items-center justify-center shadow-lg">
           <div class="w-full h-full bg-[#0e0f12] rounded-[10px] flex items-center justify-center">
@@ -124,7 +124,7 @@
       </div>
     </section>
 
-    <!-- Platform Özellikleri -->
+    <!-- Temel Modüller -->
     <section class="border-y border-[#23262d] bg-[#0b0c0e] py-16">
       <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8">
         <div class="space-y-3">
@@ -141,6 +141,76 @@
           <div class="w-10 h-10 rounded-xl bg-[#16181d] border border-[#23262d] flex items-center justify-center text-[#b68d40] font-bold">03</div>
           <h3 class="text-lg font-bold text-white">Proje Pazarı</h3>
           <p class="text-slate-400 text-xs leading-relaxed">Hazır yazılımlarınızı, SaaS ürünlerinizi ve gelir getiren yan projelerinizi devredin.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Ekstra Tanıtım Bölümü 1: Platform Avantajları -->
+    <section class="max-w-7xl mx-auto px-6 py-20 space-y-12">
+      <div class="text-center max-w-2xl mx-auto space-y-3">
+        <span class="text-xs font-bold uppercase tracking-widest text-[#b68d40]">NEDEN GİRİŞİM VE YATIRIM?</span>
+        <h2 class="text-4xl font-black tracking-tight text-white">Ekosistemi Hızlandıran Güçlü Araçlar</h2>
+        <p class="text-slate-400 text-xs leading-relaxed">Girişimcilerin finansmana erişimini kolaylaştırırken, yatırımcıların en doğru projeleri keşfetmesini sağlıyoruz.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="al-card-dark p-8 rounded-3xl space-y-3 hover:border-slate-700 transition">
+          <div class="w-12 h-12 rounded-2xl bg-[#0e0f12] border border-[#23262d] flex items-center justify-center text-xl">🤖</div>
+          <h4 class="font-bold text-sm text-white">AI Pitch Deck Skorlama</h4>
+          <p class="text-slate-400 text-xs leading-relaxed">Sunum metninizi yapıştırın; yapay zeka pazar büyüklüğü ve gelir modelinizi anında puanlasın.</p>
+        </div>
+
+        <div class="al-card-dark p-8 rounded-3xl space-y-3 hover:border-slate-700 transition">
+          <div class="w-12 h-12 rounded-2xl bg-[#0e0f12] border border-[#23262d] flex items-center justify-center text-xl">⚡</div>
+          <h4 class="font-bold text-sm text-white">Hızlı Doğrulama</h4>
+          <p class="text-slate-400 text-xs leading-relaxed">Google ve Supabase entegrasyonu ile ilanlar saniyeler içinde güvenle yayınlanır.</p>
+        </div>
+
+        <div class="al-card-dark p-8 rounded-3xl space-y-3 hover:border-slate-700 transition">
+          <div class="w-12 h-12 rounded-2xl bg-[#0e0f12] border border-[#23262d] flex items-center justify-center text-xl">🎯</div>
+          <h4 class="font-bold text-sm text-white">Mikro SaaS Devri</h4>
+          <p class="text-slate-400 text-xs leading-relaxed">Atıl duran veya gelir getiren dijital varlıklarınızı hızlıca satışa çıkarın.</p>
+        </div>
+
+        <div class="al-card-dark p-8 rounded-3xl space-y-3 hover:border-slate-700 transition">
+          <div class="w-12 h-12 rounded-2xl bg-[#0e0f12] border border-[#23262d] flex items-center justify-center text-xl">💼</div>
+          <h4 class="font-bold text-sm text-white">Şeffaf Portföy Takibi</h4>
+          <p class="text-slate-400 text-xs leading-relaxed">Yatırım hedeflerinizi ve toplanan fon miktarını anlık grafiklerle izleyin.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Ekstra Tanıtım Bölümü 2: Adım Adım Süreç -->
+    <section class="border-t border-[#23262d] bg-[#0b0c0e] py-20">
+      <div class="max-w-7xl mx-auto px-6 space-y-12">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+          <div class="space-y-3 max-w-lg">
+            <span class="text-xs font-bold uppercase tracking-widest text-[#b68d40]">NASIL ÇALIŞIR?</span>
+            <h2 class="text-4xl font-black tracking-tight text-white">3 Adımda Yayına Alın</h2>
+          </div>
+          <button type="button" onclick="openAuthModal()" class="al-gold-bg text-[#0e0f12] font-black text-xs px-6 py-3 rounded-full transition">
+            Ücretsiz Hesap Oluştur
+          </button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div class="al-card-dark p-8 rounded-3xl space-y-4 relative">
+            <span class="text-5xl font-black text-[#23262d]">01</span>
+            <h4 class="text-lg font-bold text-white">Giriş Yapın</h4>
+            <p class="text-slate-400 text-xs leading-relaxed">Google hesabınızla veya e-posta adresinizle saniyeler içinde oturum açın.</p>
+          </div>
+
+          <div class="al-card-dark p-8 rounded-3xl space-y-4 relative">
+            <span class="text-5xl font-black text-[#23262d]">02</span>
+            <h4 class="text-lg font-bold text-white">İlanınızı Detaylandırın</h4>
+            <p class="text-slate-400 text-xs leading-relaxed">Girişiminizin sektörünü, aşamasını, fonlama hedefini ve özetini forma girin.</p>
+          </div>
+
+          <div class="al-card-dark p-8 rounded-3xl space-y-4 relative">
+            <span class="text-5xl font-black text-[#23262d]">03</span>
+            <h4 class="text-lg font-bold text-white">Yatırımcıları Çekin</h4>
+            <p class="text-slate-400 text-xs leading-relaxed">İlanınız anında tüm ekosistemin erişimine açılsın ve geri dönüşleri toplayın.</p>
+          </div>
         </div>
       </div>
     </section>
@@ -239,11 +309,38 @@
 
   </main>
 
-  <!-- Minimal Footer -->
-  <footer class="border-t border-[#23262d] bg-[#0e0f12] py-12 text-xs text-slate-500 text-center">
-    <div class="max-w-7xl mx-auto px-6 space-y-3">
-      <p class="font-bold text-slate-400">Girişim ve Yatırım Portal © 2026</p>
-      <p class="text-[11px] text-slate-600">Girişimciler ve Yatırımcılar için Dijital Ekosistem Platformu</p>
+  <!-- ÖZEL KURUCU VE İLETİŞİM FOOTER -->
+  <footer class="border-t border-[#23262d] bg-[#0e0f12] py-16 text-xs">
+    <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
+      
+      <!-- Sol Taraf Platform Tanımı -->
+      <div class="space-y-2 text-center md:text-left">
+        <div class="flex items-center justify-center md:justify-start gap-2 font-black text-white text-base">
+          <div class="w-6 h-6 rounded-lg bg-gradient-to-br from-[#b68d40] to-amber-600 flex items-center justify-center text-[#0e0f12] text-xs">✌️</div>
+          <span>Girişim ve Yatırım</span>
+        </div>
+        <p class="text-slate-500 text-xs">Girişimciler ve Melek Yatırımcılar için Dijital Ekosistem Portalı © 2026</p>
+      </div>
+
+      <!-- Sağ Taraf Founder & İletişim Kartı -->
+      <div class="al-card-dark p-6 rounded-2xl flex items-center gap-6 border border-[#23262d]">
+        <div class="w-12 h-12 rounded-full bg-[#b68d40]/10 border border-[#b68d40]/30 flex items-center justify-center text-[#b68d40] font-black text-lg">
+          İÖ
+        </div>
+        <div class="space-y-1 text-left">
+          <div class="flex items-center gap-2">
+            <span class="font-extrabold text-white text-sm">İhsan Özdemir</span>
+            <span class="bg-[#b68d40] text-[#0e0f12] text-[10px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider">Founder</span>
+          </div>
+          <div class="flex items-center gap-2 text-slate-400 text-xs">
+            <svg class="w-3.5 h-3.5 text-[#b68d40]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+            </svg>
+            <a href="mailto:ihsannozdemiro1@gmail.com" class="hover:text-white transition font-medium">ihsannozdemiro1@gmail.com</a>
+          </div>
+        </div>
+      </div>
+
     </div>
   </footer>
 
