@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Girişim ve Yatırım</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Supabase CDN (Hataları önleyen kararlı sürüm) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     .gradient-text {
       background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 50%, #10B981 100%);
@@ -233,7 +235,7 @@
   </div>
 
   <script>
-    // SIFIR KİLİTLENME - YALIN JAVASCRIPT
+    // 1. SEKME İŞLEMLERİ (Arayüz kilitlenmelerini önleyen bağımsız yapı)
     function showTab(name) {
       var tabs = document.querySelectorAll('.content-tab');
       for (var i = 0; i < tabs.length; i++) {
@@ -264,35 +266,45 @@
       if (m) m.classList.add('hidden');
     }
 
-    const SUPABASE_URL = 'https://kaovkjsttcyyrwrbmtpb.supabase.co/rest/v1/startups';
+    // 2. SUPABASE BAĞLANTISI (Doğrudan SDK İle Yetkilendirilmiş Bağlantı)
+    const SUPABASE_URL = 'https://kaovkjsttcyyrwrbmtpb.supabase.co';
     const SUPABASE_KEY = 'sb_publishable_NrZ4UXAzYjs7VZ52t7XJww_gMTDBJJl';
+    
+    var sbClient = null;
+    if (window.supabase && window.supabase.createClient) {
+      sbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    }
 
-    let startups = [];
+    var startups = [];
 
-    function loadStartups() {
-      // 1. Önce ekrana anında yerel veriyi yaz (sayfa bekletilmez)
+    // Verileri Veritabanından Çek
+    async function loadStartups() {
+      if (sbClient) {
+        try {
+          const { data, error } = await sbClient
+            .from('startups')
+            .select('*')
+            .order('id', { ascending: false });
+
+          if (!error && data) {
+            startups = data;
+            renderStartups(startups);
+            return;
+          } else if (error) {
+            console.error("Veritabanı Okuma Hatası:", error.message);
+          }
+        } catch (err) {
+          console.error("Bağlantı Hatası:", err);
+        }
+      }
+
+      // Bağlantı olmazsa yedek yerel bellek
       var localData = localStorage.getItem('my_startups_list');
       startups = localData ? JSON.parse(localData) : [];
       renderStartups(startups);
-
-      // 2. Arka planda veritabanından çek (çökse bile sekmeleri etkilemez)
-      fetch(SUPABASE_URL + '?select=*&order=id.desc', {
-        headers: {
-          'apikey': SUPABASE_KEY,
-          'Authorization': 'Bearer ' + SUPABASE_KEY
-        }
-      })
-      .then(res => res.json())
-      .then(data => {
-        if (Array.isArray(data)) {
-          startups = data;
-          localStorage.setItem('my_startups_list', JSON.stringify(startups));
-          renderStartups(startups);
-        }
-      })
-      .catch(err => console.log("DB Baglanti pasif, yerel veri kullaniliyor."));
     }
 
+    // Kartları Ekrana Bas
     function renderStartups(data) {
       var grid = document.getElementById('startupGrid');
       var countElem = document.getElementById('statStartupCount');
@@ -327,7 +339,7 @@
             '<div class="mb-4">' +
               '<div class="flex justify-between text-xs font-bold mb-1">' +
                 '<span class="text-emerald-600">$' + Number(raised).toLocaleString() + ' toplandı</span>' +
-                '<span class="text-slate-400">Hedef: $' + Number(goal).toLocaleString() + '</span>' +
+                '<span class="text-slate-400">Hedef: $' + Number(goal.toLocaleString()) + '</span>' +
               '</div>' +
               '<div class="w-full bg-slate-100 rounded-full h-2"><div class="bg-indigo-600 h-2 rounded-full" style="width: ' + percent + '%"></div></div>' +
             '</div>' +
@@ -336,8 +348,10 @@
       });
     }
 
-    function handleAddStartup(e) {
+    // Yeni İlan Ekleme
+    async function handleAddStartup(e) {
       e.preventDefault();
+      
       var newStartup = {
         name: document.getElementById('addTitle').value,
         sector: document.getElementById('addSector').value,
@@ -347,23 +361,26 @@
         description: document.getElementById('addDesc').value
       };
 
-      // Anında ekrana ver
-      startups.unshift(newStartup);
-      localStorage.setItem('my_startups_list', JSON.stringify(startups));
-      renderStartups(startups);
+      if (sbClient) {
+        try {
+          const { data, error } = await sbClient
+            .from('startups')
+            .insert([newStartup]);
 
-      // Veritabanına gönder
-      fetch(SUPABASE_URL, {
-        method: 'POST',
-        headers: {
-          'apikey': SUPABASE_KEY,
-          'Authorization': 'Bearer ' + SUPABASE_KEY,
-          'Content-Type': 'application/json',
-          'Prefer': 'return=minimal'
-        },
-        body: JSON.stringify(newStartup)
-      }).catch(err => console.log("DB kayıt hatası"));
+          if (error) {
+            alert("Veritabanına Kayıt Sağlanamadı: " + error.message);
+            return;
+          }
+        } catch (err) {
+          alert("Bağlantı Hatası: " + err.message);
+          return;
+        }
+      } else {
+        startups.unshift(newStartup);
+        localStorage.setItem('my_startups_list', JSON.stringify(startups));
+      }
 
+      await loadStartups();
       closeModal();
       
       document.getElementById('addTitle').value = '';
@@ -371,7 +388,7 @@
       document.getElementById('addFounder').value = '';
       document.getElementById('addDesc').value = '';
 
-      alert('İlan başarıyla eklendi!');
+      alert('İlan başarıyla veritabanına eklendi!');
     }
 
     function filterStartups() {
