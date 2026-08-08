@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Girişim ve Yatırım - AngelList Stili Ekosistem Portalı</title>
+  <title>Girişim ve Yatırım - Ekosistem Portalı</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
@@ -47,9 +47,15 @@
   <header class="border-b border-[#23262d] bg-[#0e0f12]/90 backdrop-blur-md sticky top-0 z-40">
     <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
       
-      <!-- Logo -->
-      <button type="button" onclick="handleLogoClick()" class="text-2xl font-black tracking-tight text-white flex items-center gap-2">
-        <span class="w-8 h-8 rounded-md bg-white text-black flex items-center justify-center font-black text-lg">✌️</span>
+      <!-- Logo & Yeni Amblem -->
+      <button type="button" onclick="handleLogoClick()" class="text-2xl font-black tracking-tight text-white flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-[#b68d40] via-amber-600 to-amber-300 p-0.5 flex items-center justify-center shadow-lg">
+          <div class="w-full h-full bg-[#0e0f12] rounded-[10px] flex items-center justify-center">
+            <svg class="w-5 h-5 text-[#b68d40]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+            </svg>
+          </div>
+        </div>
         <span>Girişim ve Yatırım</span>
       </button>
 
@@ -68,138 +74,73 @@
           <span id="userEmailLabel" class="text-xs font-bold text-[#b68d40] bg-[#b68d40]/10 px-3 py-1.5 rounded-full border border-[#b68d40]/30"></span>
           <button type="button" onclick="handleLogout()" class="text-xs font-semibold text-slate-400 hover:text-rose-400 transition">Çıkış Yap</button>
         </div>
-        <button type="button" id="loginHeaderBtn" onclick="openAuthModal()" class="text-xs font-bold text-slate-300 hover:text-white px-3 py-2 transition">Sign in</button>
+        <button type="button" id="loginHeaderBtn" onclick="openAuthModal()" class="text-xs font-bold text-slate-300 hover:text-white px-3 py-2 transition">Giriş Yap</button>
         <button type="button" onclick="handleNewAddClick()" class="al-button-light font-extrabold text-xs px-5 py-2.5 rounded-full shadow-md transition">
-          Contact sales / İlan Ekle
+          + İlan Ekle
         </button>
       </div>
     </div>
   </header>
 
   <!-- ========================================== -->
-  <!-- 0. ANGELLIST TANITIM ARAYÜZÜ (Giriş Yapılmadığında) -->
+  <!-- 0. ZİYARETÇİ TANITIM ARAYÜZÜ (Giriş Yapılmadığında) -->
   <!-- ========================================== -->
   <div id="landingView" style="display: block;">
     
-    <!-- Hero Bölümü (Resimdeki 1. Ekran) -->
+    <!-- Hero Bölümü -->
     <section class="max-w-7xl mx-auto px-6 pt-16 pb-12 grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
       <div class="al-card-light rounded-3xl p-10 flex flex-col justify-between">
         <div class="space-y-6">
-          <span class="text-xs font-bold uppercase tracking-widest text-slate-600">INTRODUCING AGENTIC FUND MANAGEMENT</span>
+          <span class="text-xs font-bold uppercase tracking-widest text-slate-600">TÜRKİYE GİRİŞİM EKOSİSTEMİ</span>
           <h1 class="text-5xl sm:text-6xl font-black tracking-tight leading-[1.08] text-[#0e0f12]">
-            Turn your fund into something you can talk to.
+            Girişiminizi Büyütün, Yatırımcılarla Buluşun.
           </h1>
           <p class="text-slate-700 text-base max-w-md font-medium leading-relaxed">
-            Girişimleriniz ve fon yönetiminiz için yapay zeka destekli Türkiye melek yatırım portalı.
+            Erken aşama girişimler, melek yatırımcı turları ve devredilebilir projeler için modern buluşma platformu.
           </p>
         </div>
         <div class="pt-8">
-          <button type="button" onclick="openAuthModal()" class="text-xs font-bold underline decoration-2 underline-offset-4 text-[#0e0f12] hover:opacity-80">
-            Explore Girişim ve Yatırım Link &rarr;
+          <button type="button" onclick="openAuthModal()" class="al-button-dark font-extrabold text-xs px-6 py-3.5 rounded-full transition shadow-md">
+            Hemen Başlayın &rarr;
           </button>
         </div>
       </div>
 
-      <!-- Siyah Kart Alanı (AngelList Link) -->
+      <!-- Siyah Kart Alanı -->
       <div class="al-card-dark rounded-3xl p-10 flex flex-col justify-between relative overflow-hidden">
-        <div class="flex justify-center items-center h-full my-12">
-          <h2 class="text-4xl sm:text-5xl font-black tracking-tight text-white">AngelList Link</h2>
-        </div>
-        <div class="flex justify-between items-center border-t border-[#23262d] pt-6">
-          <span class="text-xs text-slate-500 font-bold uppercase tracking-wider">Use from Claude • ChatGPT • and more</span>
-          <button type="button" onclick="openAuthModal()" class="al-button-dark font-bold text-xs px-4 py-2 rounded-full border border-slate-700">Play video ▷</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- Marka Partnerliği Alanı (Resimdeki Better Together Ekranı) -->
-    <section class="border-y border-[#23262d] bg-[#0b0c0e] py-12 text-center">
-      <div class="max-w-7xl mx-auto px-6 space-y-6">
-        <h3 class="text-2xl font-extrabold text-white">Better together. AngelList partners with industry leaders.</h3>
-        <div class="flex flex-wrap justify-center items-center gap-12 opacity-70 text-slate-300 font-bold text-xs tracking-wider uppercase">
-          <span>4PINES FUND SERVICES</span>
-          <span>STOVER</span>
-          <span>Standish MANAGEMENT</span>
-          <span>Cornerstone FUND SERVICES</span>
-          <span>BELLTOWER FUND GROUP</span>
-        </div>
-        <div class="pt-2">
-          <a href="#" onclick="openAuthModal()" class="text-xs font-bold text-slate-400 hover:text-white underline decoration-1 underline-offset-4">
-            Our premier partnership program assembles top professionals to deliver comprehensive expertise & support &rarr;
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <!-- AngelList Birebir Altın/Kahve Stat Banner ($200B Alanı) -->
-    <section class="al-gold-bg py-20">
-      <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-        <div class="space-y-6">
-          <span class="text-xs font-extrabold uppercase tracking-widest text-[#0e0f12]/70">BY THE NUMBERS</span>
-          <h2 class="text-6xl font-black tracking-tight leading-none text-[#0e0f12]">Fueling innovation</h2>
-          <p class="text-[#0e0f12]/90 text-base max-w-md font-semibold leading-relaxed">
-            With more than half of all top-tier VC deals run through the platform, Girişim ve Yatırım is at the heart of venture investing.
+        <div class="flex flex-col justify-center items-start h-full my-8 space-y-4">
+          <span class="text-xs font-bold uppercase tracking-wider text-[#b68d40]">GİRİŞİMCİLER & YATIRIMCILAR</span>
+          <h2 class="text-3xl sm:text-4xl font-black tracking-tight text-white leading-snug">
+            Geleceğin Teknolojilerini Şimdiden Destekleyin
+          </h2>
+          <p class="text-slate-400 text-xs max-w-sm">
+            Projenizi yayınlayarak yatırımcılara ulaşın veya aktif melek turlarına doğrudan katılım sağlayın.
           </p>
         </div>
-
-        <div class="grid grid-cols-2 gap-10 border-l border-[#0e0f12]/20 pl-0 lg:pl-12">
-          <div class="col-span-2">
-            <div class="text-7xl sm:text-8xl font-black tracking-tight text-[#0e0f12] leading-none">$200B</div>
-            <div class="text-xs font-bold uppercase tracking-wider text-[#0e0f12]/80 mt-2">Assets on platform</div>
-          </div>
-          <div>
-            <div class="text-5xl font-black tracking-tight text-[#0e0f12]">25k+</div>
-            <div class="text-xs font-bold uppercase tracking-wider text-[#0e0f12]/80 mt-1">Funds and syndicates</div>
-          </div>
-          <div>
-            <div class="text-5xl font-black tracking-tight text-[#0e0f12]">13k+</div>
-            <div class="text-xs font-bold uppercase tracking-wider text-[#0e0f12]/80 mt-1">Active startups</div>
-          </div>
+        <div class="flex justify-between items-center border-t border-[#23262d] pt-6">
+          <span class="text-xs text-slate-500 font-bold uppercase tracking-wider">Girişim ve Yatırım Portalı</span>
+          <button type="button" onclick="openAuthModal()" class="al-gold-bg text-[#0e0f12] font-bold text-xs px-4 py-2 rounded-full">Ücretsiz Katıl</button>
         </div>
       </div>
     </section>
 
-    <!-- Soft Bej Arka Planlı Makale Alanı (Resimdeki 3. Ekran) -->
-    <section class="al-card-light py-20 text-[#0e0f12]">
-      <div class="max-w-7xl mx-auto px-6 space-y-10">
-        <div>
-          <span class="text-xs font-bold uppercase tracking-widest text-slate-600">RESOURCES</span>
-          <h2 class="text-5xl font-black tracking-tight mt-1">Latest articles</h2>
+    <!-- Platform Özellikleri -->
+    <section class="border-y border-[#23262d] bg-[#0b0c0e] py-16">
+      <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="space-y-3">
+          <div class="w-10 h-10 rounded-xl bg-[#16181d] border border-[#23262d] flex items-center justify-center text-[#b68d40] font-bold">01</div>
+          <h3 class="text-lg font-bold text-white">Girişim İlanları</h3>
+          <p class="text-slate-400 text-xs leading-relaxed">Fikir ve MVP aşamasındaki projelerinizi listeleyin, doğrudan yatırımcılara ulaşın.</p>
         </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div class="space-y-3">
-            <div class="h-44 bg-[#0e0f12] rounded-2xl p-6 flex flex-col justify-between text-white">
-              <span class="text-xs font-bold text-slate-400">AngelList Link</span>
-              <span class="text-[10px] font-bold bg-[#1d2026] text-slate-300 w-max px-2.5 py-1 rounded-md">Connect</span>
-            </div>
-            <span class="text-[10px] font-bold uppercase text-slate-500 bg-[#e2ded5] px-2 py-0.5 rounded">Product News</span>
-            <h4 class="font-bold text-sm leading-snug">Transform your fund into something you can talk to</h4>
-          </div>
-
-          <div class="space-y-3">
-            <div class="h-44 bg-[#16181d] rounded-2xl p-6 flex flex-col justify-end text-white">
-              <span class="text-3xl font-black text-[#b68d40]">353,859</span>
-            </div>
-            <span class="text-[10px] font-bold uppercase text-slate-500 bg-[#e2ded5] px-2 py-0.5 rounded">Engineering</span>
-            <h4 class="font-bold text-sm leading-snug">The K-1 Factory</h4>
-          </div>
-
-          <div class="space-y-3">
-            <div class="h-44 bg-[#16181d] rounded-2xl p-6 flex items-center justify-center text-white font-black text-xs text-center border border-[#23262d]">
-              ACTIVE VC FUNDS MAP
-            </div>
-            <span class="text-[10px] font-bold uppercase text-slate-500 bg-[#e2ded5] px-2 py-0.5 rounded">Best Practices</span>
-            <h4 class="font-bold text-sm leading-snug">California's New Law Impacts Most VCs: What You Need to Know</h4>
-          </div>
-
-          <div class="space-y-3">
-            <div class="h-44 bg-[#0e0f12] rounded-2xl p-6 flex items-center justify-center text-white font-bold text-lg">
-              AngelList <span class="text-slate-500 ml-2">ark</span>
-            </div>
-            <span class="text-[10px] font-bold uppercase text-slate-500 bg-[#e2ded5] px-2 py-0.5 rounded">Announcements</span>
-            <h4 class="font-bold text-sm leading-snug">AngelList Acquires Ark, Combining Fund Administration Software</h4>
-          </div>
+        <div class="space-y-3">
+          <div class="w-10 h-10 rounded-xl bg-[#16181d] border border-[#23262d] flex items-center justify-center text-[#b68d40] font-bold">02</div>
+          <h3 class="text-lg font-bold text-white">Canlı Turlar</h3>
+          <p class="text-slate-400 text-xs leading-relaxed">Melek yatırımcıların liderlik ettiği turları takip edin ve ortaklıklara katılın.</p>
+        </div>
+        <div class="space-y-3">
+          <div class="w-10 h-10 rounded-xl bg-[#16181d] border border-[#23262d] flex items-center justify-center text-[#b68d40] font-bold">03</div>
+          <h3 class="text-lg font-bold text-white">Proje Pazarı</h3>
+          <p class="text-slate-400 text-xs leading-relaxed">Hazır yazılımlarınızı, SaaS ürünlerinizi ve gelir getiren yan projelerinizi devredin.</p>
         </div>
       </div>
     </section>
@@ -217,16 +158,12 @@
         <div>
           <span class="text-xs font-bold uppercase tracking-wider text-[#b68d40] mb-2 block">🚀 AKTİF GİRİŞİMLER</span>
           <h1 class="text-3xl font-black text-white">Geleceğin Şirketlerini Keşfet</h1>
-          <p class="text-slate-400 text-sm mt-1">Ekosistemde aktif olarak yatırım arayan girişimler.</p>
+          <p class="text-slate-400 text-sm mt-1">Veritabanında aktif olarak yer alan güncel girişimler.</p>
         </div>
         <div class="flex items-center gap-6 bg-[#0e0f12] p-4 rounded-2xl border border-[#23262d]">
           <div class="text-center px-2">
             <div class="text-2xl font-black text-emerald-400" id="statStartupCount">0</div>
-            <div class="text-[11px] text-slate-400 uppercase font-bold">Girişim</div>
-          </div>
-          <div class="text-center px-2 border-l border-[#23262d]">
-            <div class="text-2xl font-black text-[#b68d40]">$0</div>
-            <div class="text-[11px] text-slate-400 uppercase font-bold">Fonlama</div>
+            <div class="text-[11px] text-slate-400 uppercase font-bold">Eklenen İlan</div>
           </div>
         </div>
       </section>
@@ -239,11 +176,13 @@
           <option value="Yapay Zekâ">Yapay Zekâ</option>
           <option value="Fintek">Fintek</option>
           <option value="SaaS">SaaS</option>
+          <option value="Lojistik">Lojistik</option>
         </select>
         <select id="stageFilter" onchange="filterStartups()" class="p-3 bg-[#0e0f12] border border-[#23262d] rounded-xl text-xs text-white outline-none">
           <option value="">Tüm Aşamalar</option>
           <option value="Fikir">Fikir</option>
           <option value="MVP">MVP</option>
+          <option value="Erken Aşama">Erken Aşama</option>
         </select>
         <button type="button" onclick="resetFilters()" class="text-xs font-bold text-slate-400 hover:text-white border border-[#23262d] rounded-xl p-3 bg-[#0e0f12] transition">Sıfırla</button>
       </section>
@@ -300,42 +239,11 @@
 
   </main>
 
-  <!-- AngelList Birebir Footer (Resimdeki Ekran) -->
-  <footer class="border-t border-[#23262d] bg-[#0e0f12] py-16 text-xs text-slate-500">
-    <div class="max-w-7xl mx-auto px-6 grid grid-cols-2 sm:grid-cols-4 gap-8">
-      <div class="space-y-3">
-        <h5 class="font-bold text-white text-sm">Products</h5>
-        <ul class="space-y-2">
-          <li>Fund Administration</li>
-          <li>Venture Funds</li>
-          <li>Rolling Funds</li>
-          <li>SPVs</li>
-        </ul>
-      </div>
-      <div class="space-y-3">
-        <h5 class="font-bold text-white text-sm">Pricing + Returns</h5>
-        <ul class="space-y-2">
-          <li>Pricing</li>
-          <li>VC Fund Performance Calculator</li>
-          <li>RUV Calculator</li>
-        </ul>
-      </div>
-      <div class="space-y-3">
-        <h5 class="font-bold text-white text-sm">Resources</h5>
-        <ul class="space-y-2">
-          <li>Learn</li>
-          <li>Blog</li>
-          <li>Help Center</li>
-        </ul>
-      </div>
-      <div class="space-y-3">
-        <h5 class="font-bold text-white text-sm">By AngelList</h5>
-        <ul class="space-y-2">
-          <li>Rollups</li>
-          <li>Meridian</li>
-          <li>About Us</li>
-        </ul>
-      </div>
+  <!-- Minimal Footer -->
+  <footer class="border-t border-[#23262d] bg-[#0e0f12] py-12 text-xs text-slate-500 text-center">
+    <div class="max-w-7xl mx-auto px-6 space-y-3">
+      <p class="font-bold text-slate-400">Girişim ve Yatırım Portal © 2026</p>
+      <p class="text-[11px] text-slate-600">Girişimciler ve Yatırımcılar için Dijital Ekosistem Platformu</p>
     </div>
   </footer>
 
@@ -407,6 +315,7 @@
               <option value="Yapay Zekâ">Yapay Zekâ</option>
               <option value="Fintek">Fintek</option>
               <option value="SaaS">SaaS</option>
+              <option value="Lojistik">Lojistik</option>
             </select>
           </div>
           <div>
@@ -414,6 +323,7 @@
             <select id="addStage" class="w-full p-3 bg-[#0e0f12] border border-[#23262d] rounded-xl text-xs text-white outline-none">
               <option value="Fikir">Fikir</option>
               <option value="MVP">MVP</option>
+              <option value="Erken Aşama">Erken Aşama</option>
             </select>
           </div>
         </div>
@@ -613,7 +523,7 @@
       grid.innerHTML = '';
 
       if (data.length === 0) {
-        grid.innerHTML = '<div class="col-span-full text-center py-12 text-slate-500 text-sm font-semibold al-card-dark rounded-3xl">Henüz ilan bulunmuyor. İlk ilanı sen yayınla!</div>';
+        grid.innerHTML = '<div class="col-span-full text-center py-12 text-slate-500 text-sm font-semibold al-card-dark rounded-3xl">Henüz eklenmiş ilan bulunmuyor. İlk ilanı sen yayınla!</div>';
         return;
       }
 
