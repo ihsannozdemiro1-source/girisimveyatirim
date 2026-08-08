@@ -59,7 +59,7 @@
         <span>Girişim ve Yatırım</span>
       </button>
 
-      <!-- Uygulama Menüsü -->
+      <!-- Uygulama Menüsü (SADECE GİRİŞ YAPANLARA GÖRÜNÜR) -->
       <nav id="appNav" class="hidden md:flex items-center space-x-1 bg-[#16181d] p-1.5 rounded-full border border-[#23262d]">
         <button type="button" id="btn-startups" onclick="showTab('startups')" class="tab-btn px-5 py-2 rounded-full text-xs font-bold text-white bg-[#23262d] shadow-sm transition">Girişimler</button>
         <button type="button" id="btn-syndicates" onclick="showTab('syndicates')" class="tab-btn px-5 py-2 rounded-full text-xs font-medium text-slate-400 hover:text-white transition">Canlı Turlar</button>
@@ -83,7 +83,7 @@
   </header>
 
   <!-- ========================================== -->
-  <!-- 0. ZİYARETÇİ TANITIM ARAYÜZÜ (Giriş Yapılmadığında) -->
+  <!-- 0. ZİYARETÇİ TANITIM ARAYÜZÜ (Giriş Yapılmadığında Görünür) -->
   <!-- ========================================== -->
   <div id="landingView" style="display: block;">
     
@@ -124,28 +124,29 @@
       </div>
     </section>
 
-    <!-- Modüller -->
+    <!-- Ziyaretçilere Özel Bölüm 1: Ekosistem İstatistikleri -->
     <section class="border-y border-[#23262d] bg-[#0b0c0e] py-16">
-      <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div class="space-y-3">
-          <div class="w-10 h-10 rounded-xl bg-[#16181d] border border-[#23262d] flex items-center justify-center text-emerald-400 font-bold">01</div>
-          <h3 class="text-lg font-bold text-white">Girişim İlanları</h3>
-          <p class="text-slate-400 text-xs leading-relaxed">Fikir ve MVP aşamasındaki projelerinizi listeleyin, doğrudan yatırımcılara ulaşın.</p>
+      <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
+        <div class="space-y-1">
+          <div class="text-4xl font-black text-emerald-400">100%</div>
+          <div class="text-xs text-slate-400 font-medium uppercase tracking-wider">Doğrulanmış İlanlar</div>
         </div>
-        <div class="space-y-3">
-          <div class="w-10 h-10 rounded-xl bg-[#16181d] border border-[#23262d] flex items-center justify-center text-emerald-400 font-bold">02</div>
-          <h3 class="text-lg font-bold text-white">Canlı Turlar</h3>
-          <p class="text-slate-400 text-xs leading-relaxed">Melek yatırımcıların liderlik ettiği turları takip edin ve ortaklıklara katılın.</p>
+        <div class="space-y-1 border-t md:border-t-0 md:border-l border-[#23262d] pt-4 md:pt-0">
+          <div class="text-4xl font-black text-white">24/7</div>
+          <div class="text-xs text-slate-400 font-medium uppercase tracking-wider">AI Pitch Analizi</div>
         </div>
-        <div class="space-y-3">
-          <div class="w-10 h-10 rounded-xl bg-[#16181d] border border-[#23262d] flex items-center justify-center text-emerald-400 font-bold">03</div>
-          <h3 class="text-lg font-bold text-white">Proje Pazarı</h3>
-          <p class="text-slate-400 text-xs leading-relaxed">Hazır yazılımlarınızı, SaaS ürünlerinizi ve gelir getiren yan projelerinizi devredin.</p>
+        <div class="space-y-1 border-t md:border-t-0 md:border-l border-[#23262d] pt-4 md:pt-0">
+          <div class="text-4xl font-black text-emerald-400">Sıfır</div>
+          <div class="text-xs text-slate-400 font-medium uppercase tracking-wider">Komisyon Oranı</div>
+        </div>
+        <div class="space-y-1 border-t md:border-t-0 md:border-l border-[#23262d] pt-4 md:pt-0">
+          <div class="text-4xl font-black text-white">Anlık</div>
+          <div class="text-xs text-slate-400 font-medium uppercase tracking-wider">Veritabanı Eşleşmesi</div>
         </div>
       </div>
     </section>
 
-    <!-- Platform Avantajları -->
+    <!-- Ziyaretçilere Özel Bölüm 2: Platform Avantajları -->
     <section class="max-w-7xl mx-auto px-6 py-20 space-y-12">
       <div class="text-center max-w-2xl mx-auto space-y-3">
         <span class="text-xs font-bold uppercase tracking-widest text-emerald-400">NEDEN GİRİŞİM VE YATIRIM?</span>
@@ -180,36 +181,28 @@
       </div>
     </section>
 
-    <!-- Adım Adım Süreç -->
+    <!-- Ziyaretçilere Özel Bölüm 3: Sıkça Sorulan Sorular (SSS) -->
     <section class="border-t border-[#23262d] bg-[#0b0c0e] py-20">
-      <div class="max-w-7xl mx-auto px-6 space-y-12">
-        <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
-          <div class="space-y-3 max-w-lg">
-            <span class="text-xs font-bold uppercase tracking-widest text-emerald-400">NASIL ÇALIŞIR?</span>
-            <h2 class="text-4xl font-black tracking-tight text-white">3 Adımda Yayına Alın</h2>
-          </div>
-          <button type="button" onclick="openAuthModal()" class="al-accent-bg text-[#0e0f12] font-black text-xs px-6 py-3 rounded-full transition">
-            Ücretsiz Hesap Oluştur
-          </button>
+      <div class="max-w-4xl mx-auto px-6 space-y-10">
+        <div class="text-center space-y-3">
+          <span class="text-xs font-bold uppercase tracking-widest text-emerald-400">SINKÇA SORULAN SORULAR</span>
+          <h2 class="text-3xl font-black text-white">Aklınıza Takılanlar</h2>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div class="al-card-dark p-8 rounded-3xl space-y-4 relative">
-            <span class="text-5xl font-black text-[#23262d]">01</span>
-            <h4 class="text-lg font-bold text-white">Giriş Yapın</h4>
-            <p class="text-slate-400 text-xs leading-relaxed">Google hesabınızla veya e-posta adresinizle saniyeler içinde oturum açın.</p>
+        <div class="space-y-4">
+          <div class="al-card-dark p-6 rounded-2xl space-y-2">
+            <h4 class="font-bold text-sm text-white">Girişimimi yayınlamak ücretli mi?</h4>
+            <p class="text-slate-400 text-xs leading-relaxed">Hayır, platformumuzda hesap açmak ve ilk projenizi ilana çıkarmak tamamen ücretsizdir.</p>
           </div>
 
-          <div class="al-card-dark p-8 rounded-3xl space-y-4 relative">
-            <span class="text-5xl font-black text-[#23262d]">02</span>
-            <h4 class="text-lg font-bold text-white">İlanınızı Detaylandırın</h4>
-            <p class="text-slate-400 text-xs leading-relaxed">Girişiminizin sektörünü, aşamasını, fonlama hedefini ve özetini forma girin.</p>
+          <div class="al-card-dark p-6 rounded-2xl space-y-2">
+            <h4 class="font-bold text-sm text-white">Yatırımcılarla nasıl iletişime geçebilirim?</h4>
+            <p class="text-slate-400 text-xs leading-relaxed">Giriş yaptıktan sonra onaylı profilinizle doğrudan yatırımcı portföylerini inceleyebilir ve mesajlaşabilirsiniz.</p>
           </div>
 
-          <div class="al-card-dark p-8 rounded-3xl space-y-4 relative">
-            <span class="text-5xl font-black text-[#23262d]">03</span>
-            <h4 class="text-lg font-bold text-white">Yatırımcıları Çekin</h4>
-            <p class="text-slate-400 text-xs leading-relaxed">İlanınız anında tüm ekosistemin erişimine açılsın ve geri dönüşleri toplayın.</p>
+          <div class="al-card-dark p-6 rounded-2xl space-y-2">
+            <h4 class="font-bold text-sm text-white">AI Pitch Deck analizi nasıl çalışır?</h4>
+            <p class="text-slate-400 text-xs leading-relaxed">Oturum açtıktan sonra AI Skorla sekmesine projenizin özetini yapıştırarak puanlama ve tavsiye raporu alabilirsiniz.</p>
           </div>
         </div>
       </div>
@@ -218,7 +211,7 @@
   </div>
 
   <!-- ========================================== -->
-  <!-- UYGULAMA ALANI (Giriş Yapılınca) -->
+  <!-- UYGULAMA ALANI (GİRİŞ YAPILINCA AÇILAN SEKMELER) -->
   <!-- ========================================== -->
   <main id="appView" class="max-w-7xl mx-auto px-6 py-10" style="display: none;">
 
@@ -309,7 +302,7 @@
 
   </main>
 
-  <!-- YENİLENMİŞ ANGELLIST STİLİ MINIMAL FOUNDER FOOTER -->
+  <!-- FOUNDER FOOTER -->
   <footer class="border-t border-[#23262d] bg-[#0b0c0e] py-16 text-xs">
     <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-10">
       
@@ -326,7 +319,7 @@
         <p class="text-slate-500 text-xs">Girişimciler ve Melek Yatırımcılar için Dijital Ekosistem Portalı © 2026</p>
       </div>
 
-      <!-- Sağ Taraf Tasarlanmış Kurucu İletişim Kartı (İÖ KALDIRILDI) -->
+      <!-- Sağ Taraf Founder İletişim Kartı -->
       <div class="relative group">
         <div class="absolute -inset-0.5 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-3xl blur opacity-20 group-hover:opacity-60 transition duration-500"></div>
         <div class="relative bg-[#16181d] border border-[#23262d] px-8 py-5 rounded-3xl flex items-center gap-6">
