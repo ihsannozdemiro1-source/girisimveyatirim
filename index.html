@@ -124,23 +124,63 @@
       </div>
     </section>
 
-    <!-- Modüller -->
-    <section class="border-y border-[#23262d] bg-[#0b0c0e] py-16">
-      <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div class="space-y-3">
-          <div class="w-10 h-10 rounded-xl bg-[#16181d] border border-[#23262d] flex items-center justify-center text-emerald-400 font-bold">01</div>
-          <h3 class="text-lg font-bold text-white">Girişim İlanları</h3>
-          <p class="text-slate-400 text-xs leading-relaxed">Fikir ve MVP aşamasındaki projelerinizi listeleyin, doğrudan yatırımcılara ulaşın.</p>
+    <!-- YENİLENEN BÖLÜM: YOL HARİTASI VE ODAK ALANLARI -->
+    <section class="border-y border-[#23262d] bg-[#0b0c0e] py-20">
+      <div class="max-w-7xl mx-auto px-6 space-y-12">
+        <div class="text-center max-w-2xl mx-auto space-y-3">
+          <span class="text-xs font-bold uppercase tracking-widest text-emerald-400">EKOSİSTEM ÇÖZÜMLERİ</span>
+          <h2 class="text-3xl sm:text-4xl font-black tracking-tight text-white">Kimler İçin Tasarlandı?</h2>
+          <p class="text-slate-400 text-xs leading-relaxed">İster fikrini hayata geçiren bir kurucu, ister portföyünü büyüten bir melek yatırımcı olun.</p>
         </div>
-        <div class="space-y-3">
-          <div class="w-10 h-10 rounded-xl bg-[#16181d] border border-[#23262d] flex items-center justify-center text-emerald-400 font-bold">02</div>
-          <h3 class="text-lg font-bold text-white">Canlı Turlar</h3>
-          <p class="text-slate-400 text-xs leading-relaxed">Melek yatırımcıların liderlik ettiği turları takip edin ve ortaklıklara katılın.</p>
-        </div>
-        <div class="space-y-3">
-          <div class="w-10 h-10 rounded-xl bg-[#16181d] border border-[#23262d] flex items-center justify-center text-emerald-400 font-bold">03</div>
-          <h3 class="text-lg font-bold text-white">Proje Pazarı</h3>
-          <p class="text-slate-400 text-xs leading-relaxed">Hazır yazılımlarınızı, SaaS ürünlerinizi ve gelir getiren yan projelerinizi devredin.</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <!-- Kart 1 -->
+          <div class="al-card-dark p-8 rounded-3xl space-y-6 flex flex-col justify-between hover:border-emerald-500/40 transition">
+            <div class="space-y-4">
+              <div class="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">
+                Girişimciler İçin
+              </div>
+              <h3 class="text-2xl font-black text-white leading-snug">Erken Aşama Sermaye Bulun</h3>
+              <p class="text-slate-400 text-xs leading-relaxed">Fikir veya MVP aşamasındaki projenizin detaylarını ekleyin. Doğrulanmış melek yatırımcı ağımıza doğrudan sunum yapın.</p>
+            </div>
+            <div class="pt-4 border-t border-[#23262d]">
+              <button type="button" onclick="openAuthModal()" class="text-xs font-bold text-emerald-400 hover:text-emerald-300 flex items-center gap-1">
+                İlan Yayınla &rarr;
+              </button>
+            </div>
+          </div>
+
+          <!-- Kart 2 -->
+          <div class="al-card-dark p-8 rounded-3xl space-y-6 flex flex-col justify-between hover:border-teal-500/40 transition">
+            <div class="space-y-4">
+              <div class="inline-flex items-center gap-2 bg-teal-500/10 border border-teal-500/30 text-teal-400 text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">
+                Yatırımcılar İçin
+              </div>
+              <h3 class="text-2xl font-black text-white leading-snug">Sendikalara ve Turlara Katılın</h3>
+              <p class="text-slate-400 text-xs leading-relaxed">Lider melek yatırımcıların oluşturduğu canlı turları takip edin. Mikro bütçelerle yüksek potansiyelli girişimlere ortak olun.</p>
+            </div>
+            <div class="pt-4 border-t border-[#23262d]">
+              <button type="button" onclick="openAuthModal()" class="text-xs font-bold text-teal-400 hover:text-teal-300 flex items-center gap-1">
+                Portföy Oluştur &rarr;
+              </button>
+            </div>
+          </div>
+
+          <!-- Kart 3 -->
+          <div class="al-card-dark p-8 rounded-3xl space-y-6 flex flex-col justify-between hover:border-indigo-500/40 transition">
+            <div class="space-y-4">
+              <div class="inline-flex items-center gap-2 bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">
+                Geliştiriciler İçin
+              </div>
+              <h3 class="text-2xl font-black text-white leading-snug">Mikro SaaS & Proje Devri</h3>
+              <p class="text-slate-400 text-xs leading-relaxed">Gelir getiren kodlarınızı, yan projelerinizi veya SaaS yazılımlarınızı pazarda satışa çıkarın; hazır projelere anında ulaşın.</p>
+            </div>
+            <div class="pt-4 border-t border-[#23262d]">
+              <button type="button" onclick="openAuthModal()" class="text-xs font-bold text-indigo-400 hover:text-indigo-300 flex items-center gap-1">
+                Pazarı İncele &rarr;
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -309,7 +349,7 @@
 
   </main>
 
-  <!-- YENİLENMİŞ ANGELLIST STİLİ MINIMAL FOUNDER FOOTER -->
+  <!-- FOUNDER FOOTER -->
   <footer class="border-t border-[#23262d] bg-[#0b0c0e] py-16 text-xs">
     <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-10">
       
@@ -326,7 +366,7 @@
         <p class="text-slate-500 text-xs">Girişimciler ve Melek Yatırımcılar için Dijital Ekosistem Portalı © 2026</p>
       </div>
 
-      <!-- Sağ Taraf Tasarlanmış Kurucu İletişim Kartı (İÖ KALDIRILDI) -->
+      <!-- Sağ Taraf Founder İletişim Kartı -->
       <div class="relative group">
         <div class="absolute -inset-0.5 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-3xl blur opacity-20 group-hover:opacity-60 transition duration-500"></div>
         <div class="relative bg-[#16181d] border border-[#23262d] px-8 py-5 rounded-3xl flex items-center gap-6">
