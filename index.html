@@ -59,7 +59,15 @@
         <span>Girişim ve Yatırım</span>
       </button>
 
-      <!-- Uygulama Menüsü -->
+      <!-- ZİYARETÇİ MENÜSÜ (Giriş Yapmayanlar İçin Tanıtım Başlıkları) -->
+      <nav id="visitorNav" class="hidden md:flex items-center space-x-1 bg-[#16181d] p-1.5 rounded-full border border-[#23262d]">
+        <a href="#ecosystem-solutions" class="px-5 py-2 rounded-full text-xs font-medium text-slate-300 hover:text-emerald-400 transition">Çözümler</a>
+        <a href="#platform-features" class="px-5 py-2 rounded-full text-xs font-medium text-slate-300 hover:text-emerald-400 transition">Avantajlar</a>
+        <a href="#how-it-works" class="px-5 py-2 rounded-full text-xs font-medium text-slate-300 hover:text-emerald-400 transition">Nasıl Çalışır?</a>
+        <a href="#faq-section" class="px-5 py-2 rounded-full text-xs font-medium text-slate-300 hover:text-emerald-400 transition">SSS</a>
+      </nav>
+
+      <!-- UYGULAMA MENÜSÜ (Sadece Giriş Yapan Kullanıcılara Görünür) -->
       <nav id="appNav" class="hidden md:flex items-center space-x-1 bg-[#16181d] p-1.5 rounded-full border border-[#23262d]">
         <button type="button" id="btn-startups" onclick="showTab('startups')" class="tab-btn px-5 py-2 rounded-full text-xs font-bold text-white bg-[#23262d] shadow-sm transition">Girişimler</button>
         <button type="button" id="btn-syndicates" onclick="showTab('syndicates')" class="tab-btn px-5 py-2 rounded-full text-xs font-medium text-slate-400 hover:text-white transition">Canlı Turlar</button>
@@ -124,8 +132,8 @@
       </div>
     </section>
 
-    <!-- YENİLENEN BÖLÜM: YOL HARİTASI VE ODAK ALANLARI -->
-    <section class="border-y border-[#23262d] bg-[#0b0c0e] py-20">
+    <!-- Ziyaretçi Çözümleri -->
+    <section id="ecosystem-solutions" class="border-y border-[#23262d] bg-[#0b0c0e] py-20 scroll-mt-24">
       <div class="max-w-7xl mx-auto px-6 space-y-12">
         <div class="text-center max-w-2xl mx-auto space-y-3">
           <span class="text-xs font-bold uppercase tracking-widest text-emerald-400">EKOSİSTEM ÇÖZÜMLERİ</span>
@@ -134,7 +142,6 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <!-- Kart 1 -->
           <div class="al-card-dark p-8 rounded-3xl space-y-6 flex flex-col justify-between hover:border-emerald-500/40 transition">
             <div class="space-y-4">
               <div class="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">
@@ -150,7 +157,6 @@
             </div>
           </div>
 
-          <!-- Kart 2 -->
           <div class="al-card-dark p-8 rounded-3xl space-y-6 flex flex-col justify-between hover:border-teal-500/40 transition">
             <div class="space-y-4">
               <div class="inline-flex items-center gap-2 bg-teal-500/10 border border-teal-500/30 text-teal-400 text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">
@@ -166,7 +172,6 @@
             </div>
           </div>
 
-          <!-- Kart 3 -->
           <div class="al-card-dark p-8 rounded-3xl space-y-6 flex flex-col justify-between hover:border-indigo-500/40 transition">
             <div class="space-y-4">
               <div class="inline-flex items-center gap-2 bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">
@@ -186,7 +191,7 @@
     </section>
 
     <!-- Platform Avantajları -->
-    <section class="max-w-7xl mx-auto px-6 py-20 space-y-12">
+    <section id="platform-features" class="max-w-7xl mx-auto px-6 py-20 space-y-12 scroll-mt-24">
       <div class="text-center max-w-2xl mx-auto space-y-3">
         <span class="text-xs font-bold uppercase tracking-widest text-emerald-400">NEDEN GİRİŞİM VE YATIRIM?</span>
         <h2 class="text-4xl font-black tracking-tight text-white">Ekosistemi Hızlandıran Güçlü Araçlar</h2>
@@ -221,7 +226,7 @@
     </section>
 
     <!-- Adım Adım Süreç -->
-    <section class="border-t border-[#23262d] bg-[#0b0c0e] py-20">
+    <section id="how-it-works" class="border-t border-[#23262d] bg-[#0b0c0e] py-20 scroll-mt-24">
       <div class="max-w-7xl mx-auto px-6 space-y-12">
         <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
           <div class="space-y-3 max-w-lg">
@@ -250,6 +255,33 @@
             <span class="text-5xl font-black text-[#23262d]">03</span>
             <h4 class="text-lg font-bold text-white">Yatırımcıları Çekin</h4>
             <p class="text-slate-400 text-xs leading-relaxed">İlanınız anında tüm ekosistemin erişimine açılsın ve geri dönüşleri toplayın.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sıkça Sorulan Sorular -->
+    <section id="faq-section" class="border-t border-[#23262d] bg-[#0b0c0e] py-20 scroll-mt-24">
+      <div class="max-w-4xl mx-auto px-6 space-y-10">
+        <div class="text-center space-y-3">
+          <span class="text-xs font-bold uppercase tracking-widest text-emerald-400">SINKÇA SORULAN SORULAR</span>
+          <h2 class="text-3xl font-black text-white">Aklınıza Takılanlar</h2>
+        </div>
+
+        <div class="space-y-4">
+          <div class="al-card-dark p-6 rounded-2xl space-y-2">
+            <h4 class="font-bold text-sm text-white">Girişimimi yayınlamak ücretli mi?</h4>
+            <p class="text-slate-400 text-xs leading-relaxed">Hayır, platformumuzda hesap açmak ve ilk projenizi ilana çıkarmak tamamen ücretsizdir.</p>
+          </div>
+
+          <div class="al-card-dark p-6 rounded-2xl space-y-2">
+            <h4 class="font-bold text-sm text-white">Yatırımcılarla nasıl iletişime geçebilirim?</h4>
+            <p class="text-slate-400 text-xs leading-relaxed">Giriş yaptıktan sonra onaylı profilinizle doğrudan yatırımcı portföylerini inceleyebilir ve mesajlaşabilirsiniz.</p>
+          </div>
+
+          <div class="al-card-dark p-6 rounded-2xl space-y-2">
+            <h4 class="font-bold text-sm text-white">AI Pitch Deck analizi nasıl çalışır?</h4>
+            <p class="text-slate-400 text-xs leading-relaxed">Oturum açtıktan sonra AI Skorla sekmesine projenizin özetini yapıştırarak puanlama ve tavsiye raporu alabilirsiniz.</p>
           </div>
         </div>
       </div>
@@ -552,6 +584,7 @@
       const userBox = document.getElementById('userProfileBox');
       const loginBtn = document.getElementById('loginHeaderBtn');
       const userLabel = document.getElementById('userEmailLabel');
+      const visitorNav = document.getElementById('visitorNav');
       const appNav = document.getElementById('appNav');
       const landingView = document.getElementById('landingView');
       const appView = document.getElementById('appView');
@@ -559,6 +592,7 @@
       if (user) {
         userBox.classList.remove('hidden');
         loginBtn.classList.add('hidden');
+        if (visitorNav) visitorNav.classList.add('hidden');
         if (appNav) appNav.classList.remove('hidden');
         
         landingView.style.display = 'none';
@@ -575,6 +609,7 @@
       } else {
         userBox.classList.add('hidden');
         loginBtn.classList.remove('hidden');
+        if (visitorNav) visitorNav.classList.remove('hidden');
         if (appNav) appNav.classList.add('hidden');
         userLabel.innerText = '';
 
