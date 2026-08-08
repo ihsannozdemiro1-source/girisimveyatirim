@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Girişim ve Yatırım</title>
+  <title>Girişim ve Yatırım - Ekosistem Portalı</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
@@ -22,7 +22,7 @@
       
       <!-- Logo -->
       <div class="flex items-center space-x-6">
-        <button type="button" onclick="showTab('startups')" class="flex items-center space-x-2.5 group outline-none text-left">
+        <button type="button" onclick="handleLogoClick()" class="flex items-center space-x-2.5 group outline-none text-left">
           <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-purple-600 to-emerald-400 p-0.5 shadow-md group-hover:scale-105 transition transform">
             <div class="w-full h-full bg-slate-900 rounded-[10px] flex items-center justify-center">
               <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -33,9 +33,9 @@
           <span class="text-2xl font-black tracking-tight gradient-text">Girişim ve Yatırım</span>
         </button>
 
-        <!-- Menü Sekmeleri -->
-        <nav class="hidden xl:flex space-x-2">
-          <button type="button" id="btn-startups" onclick="showTab('startups')" class="tab-btn px-4 py-2 rounded-xl text-sm font-bold text-indigo-600 bg-indigo-50 transition">Girişimler</button>
+        <!-- Sadece Giriş Yapanlar İçin Menü Sekmeleri -->
+        <nav id="appNav" class="hidden xl:flex space-x-2">
+          <button type="button" id="btn-startups" onclick="showTab('startups')" class="tab-btn px-4 py-2 rounded-xl text-sm font-bold text-indigo-600 bg-indigo-50 transition">🚀 Girişimler</button>
           <button type="button" id="btn-syndicates" onclick="showTab('syndicates')" class="tab-btn px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition flex items-center gap-1.5">
             <span>🔥 Canlı Turlar</span>
             <span class="bg-rose-100 text-rose-700 text-xs font-black px-2 py-0.5 rounded-full">Süre Sınırlı</span>
@@ -65,148 +65,192 @@
 
   <main class="max-w-7xl mx-auto px-4 py-8">
 
-    <!-- 1. GİRİŞİMLER (ANA EKRAN) -->
-    <div id="tab-startups" class="content-tab space-y-8" style="display: block;">
+    <!-- ========================================== -->
+    <!-- 0. ZİYARETÇİ TANITIM SAYFASI (Giriş Yapmayanlar İçin) -->
+    <!-- ========================================== -->
+    <div id="landingView" class="space-y-16" style="display: block;">
       
-      <!-- Hero / Tanıtım Banner'ı -->
-      <section class="relative overflow-hidden bg-slate-900 text-white p-8 sm:p-12 rounded-3xl shadow-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border border-slate-800">
-        <div class="relative z-10 max-w-xl space-y-3">
-          <div class="inline-flex items-center gap-2 bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 text-xs font-bold px-3 py-1 rounded-full">
-            <span>🚀 Türkiye'nin Girişim Portalı</span>
-          </div>
-          <h1 class="text-3xl sm:text-5xl font-black tracking-tight leading-tight">Geleceğin Şirketlerini Keşfet & Destekle</h1>
-          <p class="text-slate-400 text-sm leading-relaxed">Girişimciler ve melek yatırımcılar için buluşma noktası. Aktif projeleri inceleyin veya kendi girişiminiz için yatırım turu başlatın.</p>
-        </div>
-        
-        <div class="relative z-10 grid grid-cols-3 gap-3 bg-slate-800/80 p-4 rounded-2xl border border-slate-700/50 text-center w-full md:w-auto">
-          <div class="px-3">
-            <div class="text-2xl sm:text-3xl font-black text-emerald-400" id="statStartupCount">0</div>
-            <div class="text-xs text-slate-400 font-medium">Girişim</div>
-          </div>
-          <div class="px-3 border-l border-slate-700">
-            <div class="text-2xl sm:text-3xl font-black text-indigo-400">0</div>
-            <div class="text-xs text-slate-400 font-medium">Yatırımcı</div>
-          </div>
-          <div class="px-3 border-l border-slate-700">
-            <div class="text-2xl sm:text-3xl font-black text-purple-400">$0</div>
-            <div class="text-xs text-slate-400 font-medium">Toplanan Fon</div>
+      <!-- HERO BÖLÜMÜ -->
+      <section class="relative overflow-hidden bg-slate-900 text-white rounded-3xl p-8 sm:p-16 shadow-2xl border border-slate-800">
+        <div class="max-w-3xl mx-auto text-center space-y-6">
+          <span class="inline-block bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider">
+            Türkiye'nin Melek Yatırım ve Girişim Platformu
+          </span>
+          <h1 class="text-4xl sm:text-6xl font-black tracking-tight leading-tight">
+            Girişiminize Yatırım Bulun veya Geleceğin Şirketlerine Ortak Olun
+          </h1>
+          <p class="text-slate-300 text-base sm:text-lg leading-relaxed">
+            Melek yatırımcı sendikalarından Mikro SaaS proje pazarına kadar ekosistemin tüm ihtiyaçları tek bir çatı altında.
+          </p>
+          <div class="pt-4 flex flex-col sm:flex-row justify-center gap-4">
+            <button type="button" onclick="openAuthModal()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-black px-8 py-4 rounded-2xl shadow-lg transition transform hover:-translate-y-0.5">
+              Ücretsiz Kayıt Ol & Keşfet
+            </button>
           </div>
         </div>
       </section>
 
-      <!-- Özellik Kartları (Siteyi Tanıtan Kutular) -->
-      <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-2">
-          <div class="w-10 h-10 bg-indigo-50 rounded-2xl flex items-center justify-center text-xl">🚀</div>
-          <h3 class="text-lg font-bold text-slate-900">Aktif Girişimler</h3>
-          <p class="text-slate-500 text-xs leading-relaxed">Erken aşama projeleri keşfedin, kurucularla doğrudan iletişime geçin.</p>
+      <!-- AVANTAJ KARTLARI -->
+      <section class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm space-y-4 hover:shadow-md transition">
+          <div class="w-14 h-14 bg-indigo-50 rounded-2xl flex items-center justify-center text-3xl">🚀</div>
+          <h3 class="text-xl font-bold text-slate-900">Girişimini Sergile</h3>
+          <p class="text-slate-500 text-sm leading-relaxed">Fikir veya MVP aşamasındaki projeni ekosisteme duyur, melek yatırımcıların doğrudan sana ulaşmasını sağla.</p>
         </div>
-        <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-2">
-          <div class="w-10 h-10 bg-rose-50 rounded-2xl flex items-center justify-center text-xl">🔥</div>
-          <h3 class="text-lg font-bold text-slate-900">Canlı Yatırım Turları</h3>
-          <p class="text-slate-500 text-xs leading-relaxed">Melek yatırımcıların liderlik ettiği turlara mikro bütçelerle katılın.</p>
+        <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm space-y-4 hover:shadow-md transition">
+          <div class="w-14 h-14 bg-rose-50 rounded-2xl flex items-center justify-center text-3xl">🔥</div>
+          <h3 class="text-xl font-bold text-slate-900">Canlı Yatırım Turları</h3>
+          <p class="text-slate-500 text-sm leading-relaxed">Lider melek yatırımcıların başlatmış olduğu sendika turlarına mikro bütçelerle katılarak portföyünü büyüt.</p>
         </div>
-        <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-2">
-          <div class="w-10 h-10 bg-emerald-50 rounded-2xl flex items-center justify-center text-xl">🛒</div>
-          <h3 class="text-lg font-bold text-slate-900">Proje Pazarı</h3>
-          <p class="text-slate-500 text-xs leading-relaxed">Gelir getiren yan projeleri veya hazır SaaS yazılımlarını devredin.</p>
+        <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm space-y-4 hover:shadow-md transition">
+          <div class="w-14 h-14 bg-emerald-50 rounded-2xl flex items-center justify-center text-3xl">🛒</div>
+          <h3 class="text-xl font-bold text-slate-900">Proje Pazarı (Acquire)</h3>
+          <p class="text-slate-500 text-sm leading-relaxed">Aylık düzenli gelir getiren yan projelerini devret veya hazır SaaS kodlarını satın alarak hemen işe başla.</p>
         </div>
       </section>
 
-      <!-- Filtreler -->
-      <section class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3 bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
-        <input type="text" id="searchInput" onkeyup="filterStartups()" placeholder="Girişim adı, kurucu veya sektör..." class="sm:col-span-2 p-2.5 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
-        <select id="sectorFilter" onchange="filterStartups()" class="p-2.5 border border-slate-200 rounded-xl text-sm bg-white outline-none">
-          <option value="">Tüm Sektörler</option>
-          <option value="Yapay Zekâ">Yapay Zekâ</option>
-          <option value="Fintek">Fintek</option>
-          <option value="SaaS">SaaS</option>
-          <option value="Lojistik">Lojistik</option>
-        </select>
-        <select id="stageFilter" onchange="filterStartups()" class="p-2.5 border border-slate-200 rounded-xl text-sm bg-white outline-none">
-          <option value="">Tüm Aşamalar</option>
-          <option value="Fikir">Fikir</option>
-          <option value="MVP">MVP</option>
-          <option value="Erken Aşama">Erken Aşama</option>
-        </select>
-        <button type="button" onclick="resetFilters()" class="text-sm font-semibold text-slate-600 hover:text-indigo-600 border border-slate-200 rounded-xl p-2.5 bg-slate-50 transition">Sıfırla</button>
+      <!-- İSTATİSTİK & NEDEN BİZ -->
+      <section class="bg-gradient-to-r from-indigo-900 to-slate-900 text-white rounded-3xl p-8 sm:p-12 shadow-xl border border-indigo-800/50 flex flex-col md:flex-row justify-between items-center gap-8">
+        <div class="space-y-2 text-center md:text-left">
+          <h2 class="text-3xl font-black">Ekosisteme Sen de Katıl</h2>
+          <p class="text-indigo-200 text-sm max-w-lg">Girişimini büyütmek, yatırım almak ya da projeni devretmek için hemen hesabını oluştur.</p>
+        </div>
+        <button type="button" onclick="openAuthModal()" class="bg-emerald-400 hover:bg-emerald-300 text-slate-900 font-black text-sm px-8 py-4 rounded-2xl shadow-md transition whitespace-nowrap">
+          Giriş Yap / Üye Ol
+        </button>
       </section>
 
-      <section id="startupGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></section>
     </div>
 
-    <!-- 2. CANLI TURLAR -->
-    <div id="tab-syndicates" class="content-tab space-y-6" style="display: none;">
-      <div class="bg-gradient-to-r from-rose-900 via-indigo-900 to-slate-900 text-white p-8 rounded-3xl shadow-lg border border-rose-800/50">
-        <span class="bg-rose-400 text-slate-900 text-xs font-black px-3 py-1 rounded-full uppercase tracking-wider mb-2 inline-block">Süre Sınırlı Yatırım Turları</span>
-        <h2 class="text-3xl font-black mb-2">Lider Yatırımcı Sendikaları & Mikro Katılım</h2>
-        <p class="text-rose-200 text-sm max-w-xl mb-4">Tecrübeli melek yatırımcıların liderlik ettiği aktif turlar.</p>
-        <button type="button" onclick="handleNewAddClick()" class="bg-rose-500 hover:bg-rose-600 text-white font-extrabold text-sm px-5 py-2.5 rounded-xl shadow-md transition">
-          🔥 Yatırım Turu Başlat
-        </button>
-      </div>
-      <div class="text-center py-12 text-slate-400 text-base font-semibold bg-white rounded-3xl border border-slate-200">
-        Henüz aktif bir yatırım turu bulunmuyor.
-      </div>
-    </div>
 
-    <!-- 3. PROJE PAZARI -->
-    <div id="tab-acquisitions" class="content-tab space-y-6" style="display: none;">
-      <div class="bg-gradient-to-r from-emerald-900 via-teal-900 to-slate-900 text-white p-8 rounded-3xl shadow-lg border border-emerald-800/50 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-        <div>
-          <span class="bg-emerald-400 text-slate-900 text-xs font-black px-3 py-1 rounded-full uppercase tracking-wider mb-2 inline-block">Micro-Acquisition Pazarı</span>
-          <h2 class="text-3xl font-black mb-2">Devredilebilir Projeler & Mikro SaaS Satışı</h2>
-          <p class="text-emerald-200 text-sm max-w-xl">Gelir getiren yan projeleri ve devredilebilir SaaS ürünlerini satın alın veya projenizi devredin.</p>
-        </div>
-        <button type="button" onclick="handleNewAddClick()" class="bg-emerald-400 hover:bg-emerald-300 text-slate-900 font-extrabold text-sm px-5 py-3 rounded-2xl shadow-md transition">
-          🛒 Satılık Proje İlanı Ver
-        </button>
-      </div>
-      <div class="text-center py-12 text-slate-400 text-base font-semibold bg-white rounded-3xl border border-slate-200">
-        Henüz devredilecek satılık proje eklenmedi.
-      </div>
-    </div>
+    <!-- ========================================== -->
+    <!-- UYGULAMA ALANI (Sadece Giriş Yapanlar Görür) -->
+    <!-- ========================================== -->
+    <div id="appView" style="display: none;">
 
-    <!-- 4. YATIRIMCILAR -->
-    <div id="tab-investors" class="content-tab space-y-6" style="display: none;">
-      <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex justify-between items-center">
-        <div>
-          <h2 class="text-2xl font-black text-slate-900 mb-1">Yatırımcı Portföyleri</h2>
-          <p class="text-slate-500 text-xs">Aktif yatırımcılar ve fon performansları.</p>
-        </div>
-        <button type="button" onclick="handleNewAddClick()" class="bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs px-4 py-2.5 rounded-xl transition">
-          💼 Yatırımcı Profili Oluştur
-        </button>
-      </div>
-      <div class="text-center py-12 text-slate-400 text-base font-semibold bg-white rounded-3xl border border-slate-200">
-        Kayıtlı yatırımcı profili bulunmuyor.
-      </div>
-    </div>
+      <!-- 1. GİRİŞİMLER -->
+      <div id="tab-startups" class="content-tab space-y-6" style="display: block;">
+        <section class="relative overflow-hidden bg-slate-900 text-white p-8 rounded-3xl shadow-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border border-slate-800">
+          <div class="relative z-10 max-w-xl">
+            <div class="inline-flex items-center gap-2 bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 text-xs font-bold px-3 py-1 rounded-full mb-3">
+              <span>🚀 Ekosistem Portalı</span>
+            </div>
+            <h1 class="text-3xl sm:text-4xl font-black tracking-tight mb-2">Geleceğin Şirketlerini Keşfet & Destekle</h1>
+            <p class="text-slate-400 text-sm leading-relaxed">Aktif girişimler, mikro-proje pazarı ve canlı yatırım turları.</p>
+          </div>
+          
+          <div class="relative z-10 grid grid-cols-3 gap-3 bg-slate-800/80 p-4 rounded-2xl border border-slate-700/50 text-center w-full md:w-auto">
+            <div class="px-3">
+              <div class="text-2xl sm:text-3xl font-black text-emerald-400" id="statStartupCount">0</div>
+              <div class="text-xs text-slate-400 font-medium">Girişim</div>
+            </div>
+            <div class="px-3 border-l border-slate-700">
+              <div class="text-2xl sm:text-3xl font-black text-indigo-400">0</div>
+              <div class="text-xs text-slate-400 font-medium">Yatırımcı</div>
+            </div>
+            <div class="px-3 border-l border-slate-700">
+              <div class="text-2xl sm:text-3xl font-black text-purple-400">$0</div>
+              <div class="text-xs text-slate-400 font-medium">Toplanan Fon</div>
+            </div>
+          </div>
+        </section>
 
-    <!-- 5. AI PITCH ANALİZ -->
-    <div id="tab-aiTools" class="content-tab space-y-6" style="display: none;">
-      <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm space-y-4">
-        <div>
-          <span class="bg-purple-100 text-purple-700 text-xs font-black px-3 py-1 rounded-full uppercase">Otomatik Kontrolör</span>
-          <h2 class="text-2xl font-black text-slate-900 mt-2">AI Pitch Deck & Sunum Skorlayıcı</h2>
-          <p class="text-slate-500 text-xs">Sunum metninizi veya özetinizi yapıştırın; AI pazar büyüklüğü ve finansallar açısından puanlasın.</p>
-        </div>
-        <div class="space-y-3">
-          <textarea id="aiDeckText" rows="5" placeholder="Girişiminizin problemini, pazar büyüklüğünü, gelir modelinizi özetleyin..." class="w-full p-3 border rounded-2xl text-sm outline-none focus:ring-2 focus:ring-purple-500"></textarea>
-          <button type="button" onclick="analyzeDeck()" class="bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs px-6 py-3 rounded-xl shadow-md transition">
-            🤖 Sunumu AI İle Skorla
+        <!-- Filtreler -->
+        <section class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3 bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+          <input type="text" id="searchInput" onkeyup="filterStartups()" placeholder="Girişim adı, kurucu veya sektör..." class="sm:col-span-2 p-2.5 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
+          <select id="sectorFilter" onchange="filterStartups()" class="p-2.5 border border-slate-200 rounded-xl text-sm bg-white outline-none">
+            <option value="">Tüm Sektörler</option>
+            <option value="Yapay Zekâ">Yapay Zekâ</option>
+            <option value="Fintek">Fintek</option>
+            <option value="SaaS">SaaS</option>
+            <option value="Lojistik">Lojistik</option>
+          </select>
+          <select id="stageFilter" onchange="filterStartups()" class="p-2.5 border border-slate-200 rounded-xl text-sm bg-white outline-none">
+            <option value="">Tüm Aşamalar</option>
+            <option value="Fikir">Fikir</option>
+            <option value="MVP">MVP</option>
+            <option value="Erken Aşama">Erken Aşama</option>
+          </select>
+          <button type="button" onclick="resetFilters()" class="text-sm font-semibold text-slate-600 hover:text-indigo-600 border border-slate-200 rounded-xl p-2.5 bg-slate-50 transition">Sıfırla</button>
+        </section>
+
+        <section id="startupGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></section>
+      </div>
+
+      <!-- 2. CANLI TURLAR -->
+      <div id="tab-syndicates" class="content-tab space-y-6" style="display: none;">
+        <div class="bg-gradient-to-r from-rose-900 via-indigo-900 to-slate-900 text-white p-8 rounded-3xl shadow-lg border border-rose-800/50">
+          <span class="bg-rose-400 text-slate-900 text-xs font-black px-3 py-1 rounded-full uppercase tracking-wider mb-2 inline-block">Süre Sınırlı Yatırım Turları</span>
+          <h2 class="text-3xl font-black mb-2">Lider Yatırımcı Sendikaları & Mikro Katılım</h2>
+          <p class="text-rose-200 text-sm max-w-xl mb-4">Tecrübeli melek yatırımcıların liderlik ettiği aktif turlar.</p>
+          <button type="button" onclick="handleNewAddClick()" class="bg-rose-500 hover:bg-rose-600 text-white font-extrabold text-sm px-5 py-2.5 rounded-xl shadow-md transition">
+            🔥 Yatırım Turu Başlat
           </button>
         </div>
-        <div id="aiResultBox" style="display: none;" class="bg-slate-900 text-white p-6 rounded-2xl space-y-3">
-          <div class="flex justify-between items-center">
-            <span class="font-extrabold text-sm text-emerald-400">AI Analiz Skoru: <span>85 / 100</span></span>
-          </div>
-          <ul class="text-xs space-y-1 text-slate-300">
-            <li>✅ Pazar büyüklüğü tanımı girildi.</li>
-            <li>✅ İş modeli belirtildi.</li>
-          </ul>
+        <div class="text-center py-12 text-slate-400 text-base font-semibold bg-white rounded-3xl border border-slate-200">
+          Henüz aktif bir yatırım turu bulunmuyor.
         </div>
       </div>
+
+      <!-- 3. PROJE PAZARI -->
+      <div id="tab-acquisitions" class="content-tab space-y-6" style="display: none;">
+        <div class="bg-gradient-to-r from-emerald-900 via-teal-900 to-slate-900 text-white p-8 rounded-3xl shadow-lg border border-emerald-800/50 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+          <div>
+            <span class="bg-emerald-400 text-slate-900 text-xs font-black px-3 py-1 rounded-full uppercase tracking-wider mb-2 inline-block">Micro-Acquisition Pazarı</span>
+            <h2 class="text-3xl font-black mb-2">Devredilebilir Projeler & Mikro SaaS Satışı</h2>
+            <p class="text-emerald-200 text-sm max-w-xl">Gelir getiren yan projeleri ve devredilebilir SaaS ürünlerini satın alın veya projenizi devredin.</p>
+          </div>
+          <button type="button" onclick="handleNewAddClick()" class="bg-emerald-400 hover:bg-emerald-300 text-slate-900 font-extrabold text-sm px-5 py-3 rounded-2xl shadow-md transition">
+            🛒 Satılık Proje İlanı Ver
+          </button>
+        </div>
+        <div class="text-center py-12 text-slate-400 text-base font-semibold bg-white rounded-3xl border border-slate-200">
+          Henüz devredilecek satılık proje eklenmedi.
+        </div>
+      </div>
+
+      <!-- 4. YATIRIMCILAR -->
+      <div id="tab-investors" class="content-tab space-y-6" style="display: none;">
+        <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex justify-between items-center">
+          <div>
+            <h2 class="text-2xl font-black text-slate-900 mb-1">Yatırımcı Portföyleri</h2>
+            <p class="text-slate-500 text-xs">Aktif yatırımcılar ve fon performansları.</p>
+          </div>
+          <button type="button" onclick="handleNewAddClick()" class="bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs px-4 py-2.5 rounded-xl transition">
+            💼 Yatırımcı Profili Oluştur
+          </button>
+        </div>
+        <div class="text-center py-12 text-slate-400 text-base font-semibold bg-white rounded-3xl border border-slate-200">
+          Kayıtlı yatırımcı profili bulunmuyor.
+        </div>
+      </div>
+
+      <!-- 5. AI PITCH ANALİZ -->
+      <div id="tab-aiTools" class="content-tab space-y-6" style="display: none;">
+        <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm space-y-4">
+          <div>
+            <span class="bg-purple-100 text-purple-700 text-xs font-black px-3 py-1 rounded-full uppercase">Otomatik Kontrolör</span>
+            <h2 class="text-2xl font-black text-slate-900 mt-2">AI Pitch Deck & Sunum Skorlayıcı</h2>
+            <p class="text-slate-500 text-xs">Sunum metninizi veya özetinizi yapıştırın; AI pazar büyüklüğü ve finansallar açısından puanlasın.</p>
+          </div>
+          <div class="space-y-3">
+            <textarea id="aiDeckText" rows="5" placeholder="Girişiminizin problemini, pazar büyüklüğünü, gelir modelinizi özetleyin..." class="w-full p-3 border rounded-2xl text-sm outline-none focus:ring-2 focus:ring-purple-500"></textarea>
+            <button type="button" onclick="analyzeDeck()" class="bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs px-6 py-3 rounded-xl shadow-md transition">
+              🤖 Sunumu AI İle Skorla
+            </button>
+          </div>
+          <div id="aiResultBox" style="display: none;" class="bg-slate-900 text-white p-6 rounded-2xl space-y-3">
+            <div class="flex justify-between items-center">
+              <span class="font-extrabold text-sm text-emerald-400">AI Analiz Skoru: <span>85 / 100</span></span>
+            </div>
+            <ul class="text-xs space-y-1 text-slate-300">
+              <li>✅ Pazar büyüklüğü tanımı girildi.</li>
+              <li>✅ İş modeli belirtildi.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
     </div>
 
   </main>
@@ -218,7 +262,7 @@
       
       <div class="text-center mb-6">
         <h2 class="text-2xl font-black text-slate-900">Hesabınıza Giriş Yapın</h2>
-        <p class="text-slate-500 text-xs mt-1">İlan yayınlamak ve yönetmek için oturum açın.</p>
+        <p class="text-slate-500 text-xs mt-1">İlan yayınlamak ve ekosisteme katılmak için oturum açın.</p>
       </div>
 
       <!-- Google İle Giriş -->
@@ -334,6 +378,15 @@
       }
     }
 
+    function handleLogoClick() {
+      if (currentUser) {
+        showTab('startups');
+      } else {
+        document.getElementById('landingView').style.display = 'block';
+        document.getElementById('appView').style.display = 'none';
+      }
+    }
+
     function openAuthModal() {
       document.getElementById('authModal').classList.remove('hidden');
     }
@@ -389,10 +442,18 @@
       const userBox = document.getElementById('userProfileBox');
       const loginBtn = document.getElementById('loginHeaderBtn');
       const userLabel = document.getElementById('userEmailLabel');
+      const appNav = document.getElementById('appNav');
+      const landingView = document.getElementById('landingView');
+      const appView = document.getElementById('appView');
 
       if (user) {
+        // Oturum Açılmışsa: Uygulama Arayüzünü Aç
         userBox.classList.remove('hidden');
         loginBtn.classList.add('hidden');
+        if (appNav) appNav.classList.remove('hidden');
+        
+        landingView.style.display = 'none';
+        appView.style.display = 'block';
 
         // İsim Tespiti
         var nameToShow = "Kullanıcı";
@@ -407,10 +468,16 @@
         }
 
         userLabel.innerText = "Hoş geldin, " + nameToShow;
+        showTab('startups');
       } else {
+        // Oturum Açılmamışsa: Ziyaretçi Tanıtım Ekranını Aç
         userBox.classList.add('hidden');
         loginBtn.classList.remove('hidden');
+        if (appNav) appNav.classList.add('hidden');
         userLabel.innerText = '';
+
+        landingView.style.display = 'block';
+        appView.style.display = 'none';
       }
     }
 
