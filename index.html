@@ -22,7 +22,7 @@
       
       <!-- Logo -->
       <div class="flex items-center space-x-6">
-        <button type="button" onclick="showTab('home')" class="flex items-center space-x-2.5 group outline-none text-left">
+        <button type="button" onclick="showTab('startups')" class="flex items-center space-x-2.5 group outline-none text-left">
           <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-purple-600 to-emerald-400 p-0.5 shadow-md group-hover:scale-105 transition transform">
             <div class="w-full h-full bg-slate-900 rounded-[10px] flex items-center justify-center">
               <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -33,9 +33,9 @@
           <span class="text-2xl font-black tracking-tight gradient-text">Girişim ve Yatırım</span>
         </button>
 
-        <!-- Menü Sekmeleri (Giriş yapınca açılır) -->
-        <nav id="appNav" class="hidden xl:flex space-x-2">
-          <button type="button" id="btn-startups" onclick="showTab('startups')" class="tab-btn px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">Girişimler</button>
+        <!-- Menü Sekmeleri -->
+        <nav class="hidden xl:flex space-x-2">
+          <button type="button" id="btn-startups" onclick="showTab('startups')" class="tab-btn px-4 py-2 rounded-xl text-sm font-bold text-indigo-600 bg-indigo-50 transition">Girişimler</button>
           <button type="button" id="btn-syndicates" onclick="showTab('syndicates')" class="tab-btn px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition flex items-center gap-1.5">
             <span>🔥 Canlı Turlar</span>
             <span class="bg-rose-100 text-rose-700 text-xs font-black px-2 py-0.5 rounded-full">Süre Sınırlı</span>
@@ -65,56 +65,17 @@
 
   <main class="max-w-7xl mx-auto px-4 py-8">
 
-    <!-- 0. KARŞILAMA / ANA SAYFA (Giriş Yapmayanlar İçin) -->
-    <div id="tab-home" class="content-tab space-y-12" style="display: block;">
-      <section class="relative overflow-hidden bg-slate-900 text-white rounded-3xl p-8 sm:p-16 shadow-2xl border border-slate-800 text-center">
-        <div class="max-w-3xl mx-auto space-y-6">
-          <span class="inline-block bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider">
-            Türkiye'nin Girişim Ekosistemi
-          </span>
-          <h1 class="text-4xl sm:text-6xl font-black tracking-tight leading-tight">
-            Girişimciler ve Yatırımcılar Burada Buluşuyor
-          </h1>
-          <p class="text-slate-300 text-base sm:text-lg leading-relaxed">
-            Erken aşama girişimleri keşfedin, melek yatırımcı sendikalarına katılın veya mikro SaaS projelerinizi hemen pazarda devredin.
-          </p>
-          <div class="pt-4 flex flex-col sm:flex-row justify-center gap-4">
-            <button type="button" onclick="openAuthModal()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-black px-8 py-4 rounded-2xl shadow-lg transition transform hover:-translate-y-0.5">
-              Hemen Katıl & Keşfet
-            </button>
+    <!-- 1. GİRİŞİMLER (ANA EKRAN) -->
+    <div id="tab-startups" class="content-tab space-y-8" style="display: block;">
+      
+      <!-- Hero / Tanıtım Banner'ı -->
+      <section class="relative overflow-hidden bg-slate-900 text-white p-8 sm:p-12 rounded-3xl shadow-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border border-slate-800">
+        <div class="relative z-10 max-w-xl space-y-3">
+          <div class="inline-flex items-center gap-2 bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 text-xs font-bold px-3 py-1 rounded-full">
+            <span>🚀 Türkiye'nin Girişim Portalı</span>
           </div>
-        </div>
-      </section>
-
-      <!-- Platform Özellikleri (Kartlar) -->
-      <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm space-y-3">
-          <div class="w-12 h-12 bg-indigo-50 rounded-2xl flex items-center justify-center text-2xl">🚀</div>
-          <h3 class="text-xl font-bold text-slate-900">Aktif Girişimler</h3>
-          <p class="text-slate-500 text-sm leading-relaxed">Fikir ve MVP aşamasındaki inovatif projeleri inceleyin, kurucularla doğrudan iletişime geçin.</p>
-        </div>
-        <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm space-y-3">
-          <div class="w-12 h-12 bg-rose-50 rounded-2xl flex items-center justify-center text-2xl">🔥</div>
-          <h3 class="text-xl font-bold text-slate-900">Canlı Yatırım Turları</h3>
-          <p class="text-slate-500 text-sm leading-relaxed">Lider melek yatırımcıların başlattığı sendika turlarına mikro bütçelerle katılım sağlayın.</p>
-        </div>
-        <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm space-y-3">
-          <div class="w-12 h-12 bg-emerald-50 rounded-2xl flex items-center justify-center text-2xl">🛒</div>
-          <h3 class="text-xl font-bold text-slate-900">Proje Pazarı</h3>
-          <p class="text-slate-500 text-sm leading-relaxed">Gelir getiren yan projeleri veya tamamlanmış yazılımları güvenle devredin ya da satın alın.</p>
-        </div>
-      </section>
-    </div>
-
-    <!-- 1. GİRİŞİMLER -->
-    <div id="tab-startups" class="content-tab space-y-6" style="display: none;">
-      <section class="relative overflow-hidden bg-slate-900 text-white p-8 rounded-3xl shadow-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border border-slate-800">
-        <div class="relative z-10 max-w-xl">
-          <div class="inline-flex items-center gap-2 bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 text-xs font-bold px-3 py-1 rounded-full mb-3">
-            <span>🚀 Ekosistem Portalı</span>
-          </div>
-          <h1 class="text-3xl sm:text-4xl font-black tracking-tight mb-2">Geleceğin Şirketlerini Keşfet & Destekle</h1>
-          <p class="text-slate-400 text-sm leading-relaxed">Aktif girişimler, mikro-proje pazarı ve canlı yatırım turları.</p>
+          <h1 class="text-3xl sm:text-5xl font-black tracking-tight leading-tight">Geleceğin Şirketlerini Keşfet & Destekle</h1>
+          <p class="text-slate-400 text-sm leading-relaxed">Girişimciler ve melek yatırımcılar için buluşma noktası. Aktif projeleri inceleyin veya kendi girişiminiz için yatırım turu başlatın.</p>
         </div>
         
         <div class="relative z-10 grid grid-cols-3 gap-3 bg-slate-800/80 p-4 rounded-2xl border border-slate-700/50 text-center w-full md:w-auto">
@@ -130,6 +91,25 @@
             <div class="text-2xl sm:text-3xl font-black text-purple-400">$0</div>
             <div class="text-xs text-slate-400 font-medium">Toplanan Fon</div>
           </div>
+        </div>
+      </section>
+
+      <!-- Özellik Kartları (Siteyi Tanıtan Kutular) -->
+      <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-2">
+          <div class="w-10 h-10 bg-indigo-50 rounded-2xl flex items-center justify-center text-xl">🚀</div>
+          <h3 class="text-lg font-bold text-slate-900">Aktif Girişimler</h3>
+          <p class="text-slate-500 text-xs leading-relaxed">Erken aşama projeleri keşfedin, kurucularla doğrudan iletişime geçin.</p>
+        </div>
+        <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-2">
+          <div class="w-10 h-10 bg-rose-50 rounded-2xl flex items-center justify-center text-xl">🔥</div>
+          <h3 class="text-lg font-bold text-slate-900">Canlı Yatırım Turları</h3>
+          <p class="text-slate-500 text-xs leading-relaxed">Melek yatırımcıların liderlik ettiği turlara mikro bütçelerle katılın.</p>
+        </div>
+        <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-2">
+          <div class="w-10 h-10 bg-emerald-50 rounded-2xl flex items-center justify-center text-xl">🛒</div>
+          <h3 class="text-lg font-bold text-slate-900">Proje Pazarı</h3>
+          <p class="text-slate-500 text-xs leading-relaxed">Gelir getiren yan projeleri veya hazır SaaS yazılımlarını devredin.</p>
         </div>
       </section>
 
@@ -238,7 +218,7 @@
       
       <div class="text-center mb-6">
         <h2 class="text-2xl font-black text-slate-900">Hesabınıza Giriş Yapın</h2>
-        <p class="text-slate-500 text-xs mt-1">İlan yayınlamak ve ekosisteme katılmak için oturum açın.</p>
+        <p class="text-slate-500 text-xs mt-1">İlan yayınlamak ve yönetmek için oturum açın.</p>
       </div>
 
       <!-- Google İle Giriş -->
@@ -409,14 +389,12 @@
       const userBox = document.getElementById('userProfileBox');
       const loginBtn = document.getElementById('loginHeaderBtn');
       const userLabel = document.getElementById('userEmailLabel');
-      const appNav = document.getElementById('appNav');
 
       if (user) {
         userBox.classList.remove('hidden');
         loginBtn.classList.add('hidden');
-        if (appNav) appNav.classList.remove('hidden');
 
-        // İsim ve Soyisim Tespiti
+        // İsim Tespiti
         var nameToShow = "Kullanıcı";
         if (user.user_metadata) {
           if (user.user_metadata.full_name) {
@@ -429,13 +407,10 @@
         }
 
         userLabel.innerText = "Hoş geldin, " + nameToShow;
-        showTab('startups'); // Giriş yapılınca doğrudan girişimler ekranına geç
       } else {
         userBox.classList.add('hidden');
         loginBtn.classList.remove('hidden');
-        if (appNav) appNav.classList.add('hidden');
         userLabel.innerText = '';
-        showTab('home'); // Çıkış yapılınca ana karşılama sayfasına geç
       }
     }
 
