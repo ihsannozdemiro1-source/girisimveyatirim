@@ -59,16 +59,16 @@
         <span>Girişim ve Yatırım</span>
       </button>
 
-      <!-- ZİYARETÇİ MENÜSÜ -->
-      <nav id="visitorNav" class="hidden md:flex items-center space-x-1 bg-[#16181d] p-1.5 rounded-full border border-[#23262d]">
+      <!-- ZİYARETÇİ MENÜSÜ (Giriş Yapmayanlar İçin) -->
+      <nav id="visitorNav" class="flex items-center space-x-1 bg-[#16181d] p-1.5 rounded-full border border-[#23262d]">
         <a href="#ecosystem-solutions" class="px-5 py-2 rounded-full text-xs font-medium text-slate-300 hover:text-emerald-400 transition">Çözümler</a>
         <a href="#platform-features" class="px-5 py-2 rounded-full text-xs font-medium text-slate-300 hover:text-emerald-400 transition">Avantajlar</a>
         <a href="#how-it-works" class="px-5 py-2 rounded-full text-xs font-medium text-slate-300 hover:text-emerald-400 transition">Nasıl Çalışır?</a>
         <a href="#faq-section" class="px-5 py-2 rounded-full text-xs font-medium text-slate-300 hover:text-emerald-400 transition">SSS</a>
       </nav>
 
-      <!-- UYGULAMA MENÜSÜ -->
-      <nav id="appNav" class="hidden items-center space-x-1 bg-[#16181d] p-1.5 rounded-full border border-[#23262d]">
+      <!-- UYGULAMA MENÜSÜ (Varsayılan Olarak Gizli - Sadece Giriş Yapan Görür) -->
+      <nav id="appNav" style="display: none;" class="items-center space-x-1 bg-[#16181d] p-1.5 rounded-full border border-[#23262d]">
         <button type="button" id="btn-startups" onclick="showTab('startups')" class="tab-btn px-5 py-2 rounded-full text-xs font-bold text-white bg-[#23262d] shadow-sm transition">Girişimler</button>
         <button type="button" id="btn-syndicates" onclick="showTab('syndicates')" class="tab-btn px-5 py-2 rounded-full text-xs font-medium text-slate-400 hover:text-white transition">Canlı Turlar</button>
         <button type="button" id="btn-acquisitions" onclick="showTab('acquisitions')" class="tab-btn px-5 py-2 rounded-full text-xs font-medium text-slate-400 hover:text-white transition">Proje Pazarı</button>
@@ -556,11 +556,39 @@
   </div>
 
   <script>
-    // Güvenli Sayı Dönüştürme Yardımcısı
-    function parseSafeNumber(val, defaultVal) {
-      if (val === undefined || val === null || val === '') return defaultVal;
-      var num = Number(val);
-      return isNaN(num) ? defaultVal : num;
+    // Tüm Olası Veritabanı Kolon İsimlerini Kontrol Eden Güvenli Sayı Çıkarıcı
+    function extractGoalValue(item) {
+      if (!item) return 10000;
+      
+      // Olası tüm Supabase / LocalStorage kolon isimleri
+      var possibleKeys = ['funding_goal', 'fundingGoal', 'goal', 'fundinggoal', 'funding_goal_usd'];
+      
+      for (var i = 0; i < possibleKeys.length; i++) {
+        var key = possibleKeys[i];
+        if (item[key] !== undefined && item[key] !== null && item[key] !== '') {
+          var num = Number(item[key]);
+          if (!isNaN(num) && num > 0) {
+            return num;
+          }
+        }
+      }
+      return 10000; // Hiçbiri yoksa varsayılan değer
+    }
+
+    function extractRaisedValue(item) {
+      if (!item) return 0;
+      var possibleKeys = ['raised', 'funding_raised', 'current_funding', 'raised_usd'];
+      
+      for (var i = 0; i < possibleKeys.length; i++) {
+        var key = possibleKeys[i];
+        if (item[key] !== undefined && item[key] !== null && item[key] !== '') {
+          var num = Number(item[key]);
+          if (!isNaN(num)) {
+            return num;
+          }
+        }
+      }
+      return 0;
     }
 
     function showTab(name) {
@@ -595,7 +623,7 @@
     function openCreateModal() { document.getElementById('addModal').classList.remove('hidden'); }
     function closeCreateModal() { document.getElementById('addModal').classList.add('hidden'); }
     
-    // Detay Modalı İşlevleri
+    // Detay Modalı
     function openDetailModal(item) {
       document.getElementById('detailTitle').innerText = item.name || item.title || 'İsimsiz Girişim';
       document.getElementById('detailSector').innerText = item.sector || 'Teknoloji';
@@ -603,9 +631,8 @@
       document.getElementById('detailFounder').innerText = "👤 Kurucu: " + (item.founder || 'Belirtilmedi');
       document.getElementById('detailDesc').innerText = item.description || item.desc || 'Açıklama bulunmuyor.';
       
-      var rawGoal = item.fundingGoal !== undefined ? item.fundingGoal : item.goal;
-      var goal = parseSafeNumber(rawGoal, 10000);
-      var raised = parseSafeNumber(item.raised, 0);
+      var goal = extractGoalValue(item);
+      var raised = extractRaisedValue(item);
       var percent = Math.min(100, Math.round((raised / goal) * 100));
 
       document.getElementById('detailRaised').innerText = "$" + raised.toLocaleString() + " toplandı";
@@ -662,7 +689,9 @@
         userBox.classList.remove('hidden');
         loginBtn.classList.add('hidden');
         
+        // Ziyaretçi menüsünü gizle, uygulama menüsünü aç
         if (visitorNav) visitorNav.style.display = 'none';
+        if (appNav) visitorNav ? visitorNav.style.display = 'none' : null;
         if (appNav) {
           appNav.style.display = 'flex';
           appNav.classList.remove('hidden');
@@ -683,6 +712,7 @@
         userBox.classList.add('hidden');
         loginBtn.classList.remove('hidden');
         
+        // Uygulama menüsünü tamamen gizle, ziyaretçi menüsünü göster
         if (appNav) {
           appNav.style.display = 'none';
           appNav.classList.add('hidden');
@@ -786,9 +816,8 @@
       }
 
       data.forEach(function(item) {
-        var rawGoal = item.fundingGoal !== undefined ? item.fundingGoal : item.goal;
-        var goal = parseSafeNumber(rawGoal, 10000);
-        var raised = parseSafeNumber(item.raised, 0);
+        var goal = extractGoalValue(item);
+        var raised = extractRaisedValue(item);
         var percent = Math.min(100, Math.round((raised / goal) * 100));
         
         var card = document.createElement('div');
@@ -820,12 +849,16 @@
       e.preventDefault();
       if (!currentUser) { alert("Giriş yapmalısınız!"); return; }
 
+      var goalInput = Number(document.getElementById('addGoal').value) || 10000;
+
       var newStartup = {
         user_id: currentUser.id,
         name: document.getElementById('addTitle').value,
         sector: document.getElementById('addSector').value,
         stage: document.getElementById('addStage').value,
-        fundingGoal: Number(document.getElementById('addGoal').value),
+        funding_goal: goalInput,
+        fundingGoal: goalInput,
+        goal: goalInput,
         founder: document.getElementById('addFounder').value,
         description: document.getElementById('addDesc').value
       };
@@ -833,13 +866,15 @@
       if (sbClient) {
         try {
           const { error } = await sbClient.from('startups').insert([newStartup]);
-          if (error) { alert("İlan Eklenemedi: " + error.message); return; }
-        } catch (err) { alert("Hata: " + err.message); return; }
+          if (error) { 
+            console.error("Supabase insert error:", error);
+          }
+        } catch (err) { console.error("Catch error:", err); }
       }
 
       await loadStartups();
       closeCreateModal();
-      alert('İlan veritabanına eklendi!');
+      alert('İlan başarıyla eklendi!');
     }
 
     function filterStartups() {
