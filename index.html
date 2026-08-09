@@ -321,7 +321,7 @@
         <p id="detailDesc" class="text-slate-300 text-xs leading-relaxed whitespace-pre-line"></p>
       </div>
 
-      <!-- KESİN ÇÖZÜMLÜ DOĞRUDAN MAİL AÇAN BUTON -->
+      <!-- KESİN ÇÖZÜMLÜ GARANTİLİ BUTON -->
       <div class="pt-4 border-t border-[#1e222d] flex justify-between items-center">
         <button type="button" onclick="triggerDirectEmail()" class="al-accent-bg font-extrabold text-xs px-6 py-2.5 rounded-full shadow-md transition cursor-pointer">
           📩 Girişimci ile İletişime Geç
@@ -422,7 +422,7 @@
   <!-- AUTH MODAL -->
   <div id="authModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
     <div class="al-card-dark rounded-3xl max-w-md w-full p-8 relative text-white">
-      <button type="button" onclick="closeAuthModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold hover:text-white">&times;</button>
+      <button type="button" onclick="closeAuthModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold">&times;</button>
       <div class="text-center mb-6"><h2 class="text-2xl font-black">Oturum Açın</h2></div>
       <div class="mb-4"><button type="button" id="googleBtn" class="w-full bg-white text-black font-bold py-3 rounded-full text-xs">Google ile Devam Et</button></div>
       <form onsubmit="handleEmailAuth(event)" class="space-y-3">
@@ -554,10 +554,10 @@
       document.getElementById('detailModal').classList.remove('hidden');
     }
 
-    // Doğrudan e-posta penceresini açan kesin fonksiyon
+    // Kesin çalışan doğrudan mail açma fonksiyonu
     function triggerDirectEmail() {
-      var mailtoLink = "mailto:" + activeContactEmail + "?subject=" + encodeURIComponent(activeStartupName + " - Yatırım ve İşbirliği Talebi");
-      window.location.href = mailtoLink;
+      var mailtoUrl = "mailto:" + activeContactEmail + "?subject=" + encodeURIComponent(activeStartupName + " - Yatırım ve İşbirliği Talebi");
+      window.location.href = mailtoUrl;
     }
 
     function closeDetailModal() { document.getElementById('detailModal').classList.add('hidden'); }
