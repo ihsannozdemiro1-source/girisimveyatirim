@@ -414,7 +414,7 @@
   <!-- SİTE İÇİ MESAJ MODALI -->
   <div id="inAppMessageModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
     <div class="al-card-dark rounded-3xl max-w-lg w-full p-8 relative text-white">
-      <button type="button" onclick="closeInAppMessageModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold hover:text-white">&times;</button>
+      <button type="button" onclick="closeInAppMessageModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold">&times;</button>
       <h2 class="text-2xl font-black mb-2">Kurucuya Mesaj Gönder</h2>
       <p id="targetFounderLabel" class="text-xs text-emerald-400 font-semibold mb-4"></p>
       <div class="space-y-4">
@@ -480,10 +480,10 @@
         <button type="button" id="authSubmitBtn" onclick="handleAuthSubmit()" class="w-full al-accent-bg font-extrabold py-3.5 rounded-xl text-xs transition mt-2 cursor-pointer">Giriş Yap</button>
       </div>
 
-      <!-- SUPABASE RESMİ ŞİFRE SIFIRLAMA İSTEK FORMU -->
+      <!-- ŞİFREMİ UNUTTUM FORMU -->
       <div id="forgotStep1" style="display: none;" class="space-y-3">
         <div class="bg-emerald-500/10 border border-emerald-500/20 p-3 rounded-xl text-emerald-400 text-xs font-semibold leading-relaxed text-center">
-          ✉️ E-posta adresinizi girin. Supabase sunucusu üzerinden e-posta kutunuza resmi şifre sıfırlama bağlantısı gönderilecektir.
+          ✉️ E-posta adresinizi girin. Supabase sunucusu üzerinden e-posta kutunuza resmi şifre sıfırlama yönergesi gönderilecektir.
         </div>
         <div>
           <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Kayıtlı E-Posta Adresiniz</label>
@@ -727,11 +727,13 @@
       }
     }
 
-    // Supabase üzerinden gerçek şifre sıfırlama talebi gönderme
     async function sendSupabaseResetEmail() {
       var emailVal = document.getElementById('forgotEmail').value.trim();
-      if (!emailVal) { showToast("Uyarı", "Lütfen e-posta adresinizi girin."); return; }
-
+      if (!emailVal || !emailVal.includes('@')) { 
+        showToast("Hata", "Lütfen geçerli bir e-posta adresi girin."); 
+        return; 
+      }
+      
       if (sbClient) {
         try {
           const { error } = await sbClient.auth.resetPasswordForEmail(emailVal, {
@@ -742,88 +744,13 @@
             return;
           }
         } catch (err) {
-          showToast("Hata", "E-posta gönderimi başarısız oldu.");
+          showToast("Hata", "E-posta gönderilemedi.");
           return;
         }
       }
 
-      showToast("E-posta Gönderildi", emailVal + " adresine şifre sıfırlama yönergesi iletildi.");
+      showToast("Başarılı", emailVal + " adresine şifre sıfırlama bağlantısı gönderildi.");
       switchAuthTab('login');
-    }
-
-    function openStartupFormModal() { document.getElementById('addModal').classList.remove('hidden'); }
-    function closeCreateModal() { document.getElementById('addModal').classList.add('hidden'); }
-    function openSelectAddModal() { document.getElementById('selectAddModal').classList.remove('hidden'); }
-    function closeSelectAddModal() { document.getElementById('selectAddModal').classList.add('hidden'); }
-    function openSyndicateModal() { document.getElementById('addSyndicateModal').classList.remove('hidden'); }
-    function closeSyndicateModal() { document.getElementById('addSyndicateModal').classList.add('hidden'); }
-    function openAcquisitionModal() { document.getElementById('addAcquisitionModal').classList.remove('hidden'); }
-    function closeAcquisitionModal() { document.getElementById('addAcquisitionModal').classList.add('hidden'); }
-
-    function handleNewAddClick() {
-      if (!currentUser) { showToast("Uyarı", "İlan eklemek için giriş yapın."); openAuthModal('login'); } 
-      else { openSelectAddModal(); }
-    }
-
-    function openDetailModal(item) {
-      document.getElementById('detailTitle').innerText = item.name || item.title || 'İsimsiz Girişim';
-      document.getElementById('detailSector').innerText = item.sector || 'Teknoloji';
-      document.getElementById('detailStage').innerText = item.stage || 'Erken Aşama';
-      document.getElementById('detailFounder').innerText = "👤 Kurucu: " + (item.founder || 'Belirtilmedi');
-      document.getElementById('detailDesc').innerText = item.description || item.desc || 'Açıklama bulunmuyor.';
-      
-      var goal = extractGoalValue(item);
-      var raised = extractRaisedValue(item);
-      var percent = Math.min(100, Math.round((raised / goal) * 100));
-
-      document.getElementById('detailRaised').innerText = "$" + raised.toLocaleString() + " toplandı";
-      document.getElementById('detailGoal').innerText = "Hedef: $" + goal.toLocaleString();
-      document.getElementById('detailProgress').style.width = percent + "%";
-
-      var linksBox = document.getElementById('detailLinksBox');
-      linksBox.innerHTML = '';
-
-      if (item.website) {
-        linksBox.innerHTML += '<a href="' + item.website + '" target="_blank" class="bg-[#08090b] hover:bg-[#12141a] text-emerald-400 border border-emerald-500/30 px-3.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5">🌐 Web Sitesi &rarr;</a>';
-      }
-
-      activeContactEmail = item.user_email || "ihsannozdemiro1@gmail.com";
-      activeStartupName = item.name || item.title || "Girişim";
-
-      document.getElementById('detailModal').classList.remove('hidden');
-    }
-
-    function closeDetailModal() { document.getElementById('detailModal').classList.add('hidden'); }
-
-    function openInAppMessageModal() {
-      closeDetailModal();
-      document.getElementById('targetFounderLabel').innerText = "Alıcı Proje: " + activeStartupName + " (" + activeContactEmail + ")";
-      document.getElementById('inAppMessageModal').classList.remove('hidden');
-    }
-    function closeInAppMessageModal() { document.getElementById('inAppMessageModal').classList.add('hidden'); }
-
-    async function sendInAppMessage() {
-      var sender = document.getElementById('msgSender').value;
-      var content = document.getElementById('msgContent').value;
-      if (!sender || !content) { showToast("Uyarı", "Lütfen tüm alanları doldurun."); return; }
-
-      var newMessage = {
-        id: Date.now(),
-        startup: activeStartupName,
-        recipient: activeContactEmail,
-        sender: sender,
-        message: content,
-        date: new Date().toLocaleString()
-      };
-
-      var existingMsgs = JSON.parse(localStorage.getItem('platform_messages') || '[]');
-      existingMsgs.unshift(newMessage);
-      localStorage.setItem('platform_messages', JSON.stringify(existingMsgs));
-
-      closeInAppMessageModal();
-      showToast("Mesaj Gönderildi", "Kurucuya başarıyla mesaj iletildi.");
-      document.getElementById('msgSender').value = '';
-      document.getElementById('msgContent').value = '';
     }
 
     const SUPABASE_URL = 'https://kaovkjsttcyyrwrbmtpb.supabase.co';
@@ -843,14 +770,7 @@
           return;
         }
       } catch (e) {}
-
-      if (localStorage.getItem('user_logged_in') === 'true') {
-        var savedEmail = localStorage.getItem('user_email') || 'kullanici@domain.com';
-        var savedName = localStorage.getItem('user_fullname') || savedEmail.split('@')[0];
-        updateUserUI({ email: savedEmail, user_metadata: { full_name: savedName } });
-      } else {
-        updateUserUI(null);
-      }
+      updateUserUI(null);
     }
 
     function updateUserUI(user) {
@@ -873,24 +793,22 @@
         landingView.style.display = 'none';
         appView.style.display = 'block';
 
-        var rawName = localStorage.getItem('user_fullname') || user.user_metadata?.full_name || user.user_metadata?.name;
+        var rawName = user.user_metadata?.full_name || user.user_metadata?.name;
         if (!rawName || rawName.trim() === '') {
-          var emailPart = (user.email || localStorage.getItem('user_email') || 'Kullanıcı').split('@')[0];
+          var emailPart = (user.email || 'Kullanıcı').split('@')[0];
           rawName = emailPart.charAt(0).toUpperCase() + emailPart.slice(1);
         }
         
         userLabel.innerText = "Hoş geldin, " + rawName;
 
         if (adminBtn) {
-          var currentEmail = user.email || localStorage.getItem('user_email');
+          var currentEmail = user.email;
           adminBtn.style.display = (currentEmail === ADMIN_EMAIL) ? 'inline-block' : 'none';
         }
 
         showTab(activeTabName || 'startups');
       } else {
         localStorage.removeItem('user_logged_in');
-        localStorage.removeItem('user_email');
-        localStorage.removeItem('user_fullname');
         userBox.classList.add('hidden');
         loginBtn.classList.remove('hidden');
         if (appNav) { appNav.style.display = 'none'; appNav.classList.add('hidden'); }
@@ -907,44 +825,59 @@
       const password = document.getElementById('authPassword').value;
       const fullName = document.getElementById('authFullName').value.trim();
 
-      if (!email || !password) { showToast("Uyarı", "Lütfen e-posta ve şifre girin."); return; }
-      if (currentAuthMode === 'signup' && !fullName) { showToast("Uyarı", "Lütfen ad soyad girin."); return; }
-
-      localStorage.setItem('user_email', email);
-      if (fullName) {
-        localStorage.setItem('user_fullname', fullName);
-      } else {
-        var fallbackName = email.split('@')[0];
-        localStorage.setItem('user_fullname', fallbackName.charAt(0).toUpperCase() + fallbackName.slice(1));
+      // Gerçek e-posta ve şifre validasyon kontrolü
+      if (!email || !email.includes('@') || !email.includes('.')) { 
+        showToast("Geçersiz E-Posta", "Lütfen geçerli bir e-posta adresi girin."); 
+        return; 
+      }
+      if (!password || password.length < 6) { 
+        showToast("Zayıf Şifre", "Şifre en az 6 karakter olmalıdır."); 
+        return; 
+      }
+      if (currentAuthMode === 'signup' && !fullName) { 
+        showToast("Eksik Bilgi", "Lütfen ad soyad girin."); 
+        return; 
       }
 
-      if (sbClient) {
-        if (currentAuthMode === 'signup') {
-          try {
-            await sbClient.auth.signUp({ 
-              email, 
-              password, 
-              options: { data: { full_name: fullName } } 
-            });
-          } catch (err) {}
-        }
+      if (!sbClient) {
+        showToast("Hata", "Veritabanı bağlantısı kurulamadı.");
+        return;
+      }
 
+      if (currentAuthMode === 'signup') {
+        try {
+          const { data, error } = await sbClient.auth.signUp({ 
+            email, 
+            password, 
+            options: { data: { full_name: fullName } } 
+          });
+          if (error) {
+            showToast("Kayıt Hatası", error.message);
+            return;
+          }
+          showToast("Kayıt Başarılı", "Hesabınız oluşturuldu, giriş yapabilirsiniz.");
+          switchAuthTab('login');
+          return;
+        } catch (err) {
+          showToast("Hata", "Kayıt işlemi başarısız.");
+          return;
+        }
+      } else {
         try {
           const { data, error } = await sbClient.auth.signInWithPassword({ email, password });
-          if (!error && data.session) {
-            localStorage.setItem('user_logged_in', 'true');
+          if (error) {
+            showToast("Giriş Başarısız", "E-posta veya şifre hatalı!");
+            return;
+          }
+          if (data.session) {
             showToast("Başarılı", "Giriş yapıldı!");
             closeAuthModal();
             updateUserUI(data.session.user);
-            return;
           }
-        } catch (e) {}
+        } catch (e) {
+          showToast("Hata", "Giriş yapılırken bir hata oluştu.");
+        }
       }
-
-      localStorage.setItem('user_logged_in', 'true');
-      showToast("Başarılı", "Oturum açıldı!");
-      closeAuthModal();
-      updateUserUI({ email: email, user_metadata: { full_name: localStorage.getItem('user_fullname') } });
     }
 
     document.addEventListener('DOMContentLoaded', function() {
@@ -953,7 +886,7 @@
         btn.addEventListener('click', async function(e) {
           e.preventDefault();
           if (!sbClient) return;
-          await sbClient.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: 'https://girisimveyatirim-ltp5.vercel.app' } });
+          await sbClient.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: window.location.origin } });
         });
       }
       checkUserSession();
@@ -963,9 +896,6 @@
     });
 
     async function handleLogout() {
-      localStorage.removeItem('user_logged_in');
-      localStorage.removeItem('user_email');
-      localStorage.removeItem('user_fullname');
       if (sbClient) { 
         try { await sbClient.auth.signOut(); } catch (e) {} 
       }
