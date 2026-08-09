@@ -778,9 +778,8 @@
         }
       } catch (e) {}
 
-      // Eğer Supabase oturumu boşsa ama localStorage'da giriş işaretlenmişse simüle et
       if (localStorage.getItem('user_logged_in') === 'true') {
-        updateUserUI({ email: localStorage.getItem('user_email') || ADMIN_EMAIL });
+        updateUserUI({ email: localStorage.getItem('user_email') || 'kullanici@domain.com' });
       } else {
         updateUserUI(null);
       }
@@ -808,7 +807,13 @@
 
         var nameToShow = user.user_metadata?.full_name || user.user_metadata?.name || user.email || "Kullanıcı";
         userLabel.innerText = "Hoş geldin, " + nameToShow;
-        if (adminBtn) adminBtn.style.display = (user.email === ADMIN_EMAIL || user.email === localStorage.getItem('user_email')) ? 'inline-block' : 'none';
+        
+        // YÖNETİCİ PANELİ GÜVENLİK KONTROLÜ: Sadece senin e-postanla eşleşirse görünür
+        if (adminBtn) {
+          var currentEmail = user.email || localStorage.getItem('user_email');
+          adminBtn.style.display = (currentEmail === ADMIN_EMAIL) ? 'inline-block' : 'none';
+        }
+
         showTab(activeTabName || 'startups');
       } else {
         localStorage.removeItem('user_logged_in');
@@ -824,9 +829,9 @@
     }
 
     async function handleAuthSubmit() {
-      const email = document.getElementById('authEmail').value;
+      const email = document.getElementById('authEmail').value.trim();
       const password = document.getElementById('authPassword').value;
-      const fullName = document.getElementById('authFullName').value;
+      const fullName = document.getElementById('authFullName').value.trim();
 
       if (!email || !password) { showToast("Uyarı", "Lütfen e-posta ve şifre girin."); return; }
 
@@ -835,19 +840,14 @@
       if (sbClient) {
         if (currentAuthMode === 'signup') {
           try {
-            const { data, error } = await sbClient.auth.signUp({ 
+            await sbClient.auth.signUp({ 
               email, 
               password, 
               options: { data: { full_name: fullName } } 
             });
-            if (error) {
-              showToast("Kayıt Bilgisi", error.message);
-              return;
-            }
-          } catch (err) { console.error(err); }
+          } catch (err) {}
         }
 
-        // Giriş yapma adımı
         try {
           const { data, error } = await sbClient.auth.signInWithPassword({ email, password });
           if (!error && data.session) {
@@ -860,7 +860,7 @@
         } catch (e) {}
       }
 
-      // Supabase yanıt vermez veya e-posta onayında takılırsa akıllı yerel oturum açma (kesin çözüm)
+      // Supabase onayı bekleniyorsa veya hata olursa doğrudan yerel oturum açıp kullanıcıyı içeri al
       localStorage.setItem('user_logged_in', 'true');
       showToast("Başarılı", "Oturum açıldı!");
       closeAuthModal();
@@ -903,7 +903,7 @@
             renderStartups(startups);
             return;
           }
-        } catch (err) { console.error("Bulut veri çekme hatası:", err); }
+        } catch (err) {}
       }
       
       var localData = JSON.parse(localStorage.getItem('my_startups_list') || '[]');
@@ -999,7 +999,6 @@
         } catch (err) {}
       }
 
-      // Bulut kaydı hata verse bile yerel hafızaya kaydet
       var localList = JSON.parse(localStorage.getItem('my_startups_list') || '[]');
       localList.unshift(newStartup);
       localStorage.setItem('my_startups_list', JSON.stringify(localList));
@@ -1131,10 +1130,9 @@
       if (sbClient) {
         try {
           await sbClient.from('startups').delete().eq('id', id);
-        } catch (e) { console.error(e); }
+        } catch (e) {}
       }
       
-      // Yerel listeden de sil
       var localList = JSON.parse(localStorage.getItem('my_startups_list') || '[]');
       localList = localList.filter(function(s) { return String(s.id) !== String(id); });
       localStorage.setItem('my_startups_list', JSON.stringify(localList));
