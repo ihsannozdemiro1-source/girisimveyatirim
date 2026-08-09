@@ -807,8 +807,8 @@
         landingView.style.display = 'none';
         appView.style.display = 'block';
 
-        // İsim Görüntüleme Düzeltmesi (Eğer tam ad yoksa e-postanın başını biçimlendir)
-        var rawName = user.user_metadata?.full_name || user.user_metadata?.name || localStorage.getItem('user_fullname');
+        // İsim Görüntüleme: localStorage'a kaydedilen Ad Soyad önceliklidir
+        var rawName = localStorage.getItem('user_fullname') || user.user_metadata?.full_name || user.user_metadata?.name;
         if (!rawName || rawName.trim() === '') {
           var emailPart = (user.email || localStorage.getItem('user_email') || 'Kullanıcı').split('@')[0];
           rawName = emailPart.charAt(0).toUpperCase() + emailPart.slice(1);
@@ -843,6 +843,7 @@
       const fullName = document.getElementById('authFullName').value.trim();
 
       if (!email || !password) { showToast("Uyarı", "Lütfen e-posta ve şifre girin."); return; }
+      if (currentAuthMode === 'signup' && !fullName) { showToast("Uyarı", "Lütfen ad soyad girin."); return; }
 
       localStorage.setItem('user_email', email);
       if (fullName) {
@@ -858,7 +859,7 @@
             await sbClient.auth.signUp({ 
               email, 
               password, 
-              options: { data: { full_name: fullName || email.split('@')[0] } } 
+              options: { data: { full_name: fullName } } 
             });
           } catch (err) {}
         }
@@ -875,11 +876,11 @@
         } catch (e) {}
       }
 
-      // Güvenli yerel oturum açma (kesin çözüm)
+      // Yerel güvenli oturum açma
       localStorage.setItem('user_logged_in', 'true');
       showToast("Başarılı", "Oturum açıldı!");
       closeAuthModal();
-      updateUserUI({ email: email, user_metadata: { full_name: fullName || localStorage.getItem('user_fullname') } });
+      updateUserUI({ email: email, user_metadata: { full_name: localStorage.getItem('user_fullname') } });
     }
 
     document.addEventListener('DOMContentLoaded', function() {
