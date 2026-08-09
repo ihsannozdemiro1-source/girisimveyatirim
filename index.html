@@ -733,23 +733,22 @@
 
     var startups = [], syndicates = [], acquisitions = [];
 
-    // BULUT VE YEREL VERİLERİ ORTAK HAVUZDA SENRONİZE EDEN YAPI
+    // SUPABASE BULUT VERİTABANINDAN CANLI ÇEKME
     async function loadStartups() {
-      var cloudData = [];
       if (sbClient) {
         try {
           const { data, error } = await sbClient.from('startups').select('*').order('id', { ascending: false });
           if (!error && data) {
-            cloudData = data;
+            startups = data;
+            renderStartups(startups);
+            return;
           }
-        } catch (err) { console.error("Bulut bağlantı hatası:", err); }
+        } catch (err) { console.error("Bulut veri çekme hatası:", err); }
       }
       
-      var localData = JSON.parse(localStorage.getItem('shared_startups_global') || localStorage.getItem('my_startups_list') || '[]');
-      
-      // Buluttaki verilerle yerel verileri harmanlayarak tüm cihazlarda ortak görünmesini sağlıyoruz
-      var combined = cloudData.concat(localData.filter(loc => !cloudData.some(cloud => (cloud.name || cloud.title) === (loc.name || loc.title))));
-      startups = combined;
+      // Buluta bağlanamazsa yerel hafızadan okur
+      var localData = JSON.parse(localStorage.getItem('my_startups_list') || '[]');
+      startups = localData;
       renderStartups(startups);
     }
 
@@ -795,7 +794,7 @@
       });
     }
 
-    // %100 HATASIZ ÇALIŞAN VE BULUTA KAYDEDEN YAYINLAMA FONKSİYONU
+    // %100 ÇALIŞAN VE SUPABASE BULUTA KAYDEDEN YAYINLAMA FONKSİYONU
     async function handleAddStartup() {
       if (!currentUser) { showToast("Uyarı", "Giriş yapmalısınız!"); openAuthModal('login'); return; }
 
@@ -815,7 +814,6 @@
       var websiteVal = document.getElementById('addWebsite').value;
 
       var newStartup = {
-        id: Date.now(),
         user_id: currentUser.id,
         user_email: currentUser.email,
         name: titleVal,
@@ -827,32 +825,22 @@
         founder: founderVal,
         website: websiteVal,
         description: descVal,
-        desc: descVal
+        description_text: descVal
       };
 
-      // 1. Yerel ortak havuza kaydediyoruz
-      var localList = JSON.parse(localStorage.getItem('shared_startups_global') || localStorage.getItem('my_startups_list') || '[]');
-      localList.unshift(newStartup);
-      localStorage.setItem('shared_startups_global', JSON.stringify(localList));
-
-      // 2. Supabase bulut veritabanına gönderiyoruz
       if (sbClient) {
         try { 
-          await sbClient.from('startups').insert([{
-            user_id: currentUser.id,
-            user_email: currentUser.email,
-            name: titleVal,
-            title: titleVal,
-            sector: sectorVal,
-            stage: stageVal,
-            funding_goal: goalInput,
-            goal: goalInput,
-            founder: founderVal,
-            website: websiteVal,
-            description: descVal,
-            desc: descVal
-          }]);
-        } catch (err) { console.error("Bulut kayıt hatası:", err); }
+          const { error } = await sbClient.from('startups').insert([newStartup]);
+          if (error) {
+            console.error("Bulut kayıt hatası:", error);
+            showToast("Hata", "Buluta kaydedilemedi!");
+            return;
+          }
+        } catch (err) { 
+          console.error("Bağlantı hatası:", err); 
+          showToast("Hata", "Bağlantı kurulamadı.");
+          return;
+        }
       }
 
       await loadStartups();
@@ -867,14 +855,14 @@
     }
 
     async function loadSyndicates() {
-      var localData = JSON.parse(localStorage.getItem('my_syndicates_list') || '[]');
-      renderSyndicates(localData);
       if (sbClient) {
         try {
           const { data } = await sbClient.from('syndicates').select('*').order('id', { ascending: false });
-          if (data && data.length > 0) { renderSyndicates(data); }
+          if (data && data.length > 0) { renderSyndicates(data); return; }
         } catch (e) {}
       }
+      var localData = JSON.parse(localStorage.getItem('my_syndicates_list') || '[]');
+      renderSyndicates(localData);
     }
 
     function renderSyndicates(data) {
@@ -899,25 +887,22 @@
       if (!title || !leader || !goal || !desc) { showToast("Eksik Alan", "Lütfen tüm alanları doldurun."); return; }
 
       var newSyn = { user_id: currentUser.id, title: title, leader: leader, goal: Number(String(goal).replace(/[^0-9]/g, '')), description: desc };
-      var localList = JSON.parse(localStorage.getItem('my_syndicates_list') || '[]');
-      localList.unshift(newSyn);
-      localStorage.setItem('my_syndicates_list', JSON.stringify(localList));
 
       if (sbClient) { try { await sbClient.from('syndicates').insert([newSyn]); } catch (e) {} }
-      renderSyndicates(localList);
+      await loadSyndicates();
       closeSyndicateModal();
       showToast("Başarılı", "Yatırım turu başlatıldı!");
     }
 
     async function loadAcquisitions() {
-      var localData = JSON.parse(localStorage.getItem('my_acquisitions_list') || '[]');
-      renderAcquisitions(localData);
       if (sbClient) {
         try {
           const { data } = await sbClient.from('acquisitions').select('*').order('id', { ascending: false });
-          if (data && data.length > 0) { renderAcquisitions(data); }
+          if (data && data.length > 0) { renderAcquisitions(data); return; }
         } catch (e) {}
       }
+      var localData = JSON.parse(localStorage.getItem('my_acquisitions_list') || '[]');
+      renderAcquisitions(localData);
     }
 
     function renderAcquisitions(data) {
@@ -943,12 +928,9 @@
       if (!title || !mrr || !price || !tech || !desc) { showToast("Eksik Alan", "Lütfen tüm alanları doldurun."); return; }
 
       var newAcq = { user_id: currentUser.id, title: title, mrr: Number(String(mrr).replace(/[^0-9]/g, '')), price: Number(String(price).replace(/[^0-9]/g, '')), tech: tech, description: desc };
-      var localList = JSON.parse(localStorage.getItem('my_acquisitions_list') || '[]');
-      localList.unshift(newAcq);
-      localStorage.setItem('my_acquisitions_list', JSON.stringify(localList));
 
       if (sbClient) { try { await sbClient.from('acquisitions').insert([newAcq]); } catch (e) {} }
-      renderAcquisitions(localList);
+      await loadAcquisitions();
       closeAcquisitionModal();
       showToast("Başarılı", "Satış ilanı yayınlandı!");
     }
@@ -980,15 +962,12 @@
 
     async function deleteStartup(id) {
       if (!confirm("Bu ilanı silmek istediğinize emin misiniz?")) return;
-      startups = startups.filter(s => s.id != id && String(s.id) !== String(id));
-      localStorage.setItem('shared_startups_global', JSON.stringify(startups));
-      localStorage.setItem('my_startups_list', JSON.stringify(startups));
       if (sbClient) {
         try {
           await sbClient.from('startups').delete().eq('id', id);
         } catch (e) { console.error(e); }
       }
-      renderStartups(startups);
+      await loadStartups();
       renderAdminDashboard();
       showToast("Bilgi", "İlan silindi.");
     }
