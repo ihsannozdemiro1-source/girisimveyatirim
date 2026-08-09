@@ -483,7 +483,7 @@
     </div>
   </footer>
 
-  <!-- ÖZEL ŞIK BİLDİRİM KUTUSU (TOAST) -->
+  <!-- ÖZEL ŞIK TOAST BİLDİRİM KUTUSU -->
   <div id="customToast" class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none">
     <div class="al-card-dark bg-[#161822] border border-emerald-500/40 px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-3">
       <div class="w-8 h-8 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-400 text-sm font-bold">✓</div>
@@ -526,8 +526,9 @@
         <p id="detailDesc" class="text-slate-300 text-xs leading-relaxed whitespace-pre-line"></p>
       </div>
 
+      <!-- KESİN ÇÖZÜMLü E-POSTA KOPYALAMA BUTONU -->
       <div class="pt-4 border-t border-[#1e222d] flex justify-between items-center">
-        <button type="button" id="detailContactBtn" class="al-accent-bg font-extrabold text-xs px-6 py-2.5 rounded-full shadow-md transition">
+        <button type="button" id="detailContactBtn" class="al-accent-bg font-extrabold text-xs px-6 py-2.5 rounded-full shadow-md transition cursor-pointer">
           📩 Girişimci ile İletişime Geç
         </button>
         <button type="button" onclick="closeDetailModal()" class="bg-[#1e222d] text-white font-bold text-xs px-5 py-2.5 rounded-full hover:bg-slate-700 transition">Kapat</button>
@@ -870,11 +871,14 @@
 
       var contactEmail = item.user_email || "ihsannozdemiro1@gmail.com";
       var contactBtn = document.getElementById('detailContactBtn');
-      contactBtn.onclick = function() {
+      
+      // Butonun tıklama olayını doğrudan garanti altına alıyoruz
+      contactBtn.onclick = function(e) {
+        e.preventDefault();
         navigator.clipboard.writeText(contactEmail).then(function() {
           showToast("E-Posta Kopyalandı", contactEmail);
         }).catch(function() {
-          showToast("İletişim", contactEmail);
+          showToast("İletişim Bilgisi", contactEmail);
         });
       };
 
@@ -1307,7 +1311,7 @@
       }, 800);
     }
 
-    // 5. ADMIN PANELİ & İLAN SİLME
+    // 5. ADMIN PANELİ
     function renderAdminDashboard() {
       document.getElementById('adminStartupCount').innerText = startups.length;
       document.getElementById('adminSynCount').innerText = syndicates.length;
