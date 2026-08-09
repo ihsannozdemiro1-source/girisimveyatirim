@@ -21,10 +21,6 @@
       background-color: #12141a;
       border: 1px solid #1e222d;
     }
-    .al-card-light {
-      background-color: #f4f1ea;
-      color: #0e0f12;
-    }
     .hero-glow {
       background: radial-gradient(circle at 50% 20%, rgba(16, 185, 129, 0.15) 0%, rgba(8, 9, 11, 0) 70%);
     }
@@ -77,7 +73,7 @@
           <span id="userEmailLabel" class="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-3 py-1.5 rounded-full border border-emerald-500/30"></span>
           <button type="button" onclick="handleLogout()" class="text-xs font-semibold text-slate-400 hover:text-rose-400 transition">Çıkış Yap</button>
         </div>
-        <button type="button" id="loginHeaderBtn" onclick="openAuthModal()" class="text-xs font-bold text-slate-300 hover:text-white px-3 py-2 transition">Giriş Yap</button>
+        <button type="button" id="loginHeaderBtn" onclick="openAuthModal('login')" class="text-xs font-bold text-slate-300 hover:text-white px-3 py-2 transition">Giriş Yap</button>
         <button type="button" onclick="handleNewAddClick()" class="bg-white hover:bg-slate-200 text-[#08090b] font-extrabold text-xs px-5 py-2.5 rounded-full shadow-md transition">
           + İlan Ekle
         </button>
@@ -104,16 +100,13 @@
           Erken aşama girişimler, melek yatırımcı sendikaları ve devredilebilir hazır Micro-SaaS projeleri için tasarlanmış bağımsız ekosistem portalı.
         </p>
 
-        <div class="max-w-2xl mx-auto pt-4">
-          <div class="glass-search p-2 rounded-2xl flex items-center gap-2 shadow-2xl transition-all">
-            <svg class="w-5 h-5 text-slate-400 ml-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-            </svg>
-            <input type="text" placeholder="Yapay Zeka, Fintek veya SaaS projelerini keşfedin..." class="w-full bg-transparent px-2 text-xs text-white placeholder-slate-500 font-medium outline-none">
-            <button type="button" onclick="openAuthModal()" class="al-accent-bg font-black text-xs px-6 py-3.5 rounded-xl transition shadow-lg whitespace-nowrap">
-              Keşfet &rarr;
-            </button>
-          </div>
+        <div class="max-w-2xl mx-auto pt-4 flex justify-center gap-4">
+          <button type="button" onclick="openAuthModal('signup')" class="al-accent-bg font-black text-xs px-8 py-4 rounded-xl transition shadow-lg">
+            Kayıt Ol &rarr;
+          </button>
+          <button type="button" onclick="openAuthModal('login')" class="bg-[#12141a] hover:bg-[#1e222d] text-white border border-[#1e222d] font-bold text-xs px-8 py-4 rounded-xl transition">
+            Giriş Yap
+          </button>
         </div>
 
       </div>
@@ -321,7 +314,6 @@
         <p id="detailDesc" class="text-slate-300 text-xs leading-relaxed whitespace-pre-line"></p>
       </div>
 
-      <!-- KESİN ÇALIŞAN SİTE İÇİ MESAJ MODALINI AÇAN BUTON -->
       <div class="pt-4 border-t border-[#1e222d] flex justify-between items-center">
         <button type="button" onclick="openInAppMessageModal()" class="al-accent-bg font-extrabold text-xs px-6 py-2.5 rounded-full shadow-md transition cursor-pointer">
           📩 Girişimci ile İletişime Geç
@@ -331,13 +323,12 @@
     </div>
   </div>
 
-  <!-- SİTE İÇİ MESAJ GÖNDERME FORMU MODALI -->
+  <!-- SİTE İÇİ MESAJ MODALI -->
   <div id="inAppMessageModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
     <div class="al-card-dark rounded-3xl max-w-lg w-full p-8 relative text-white">
       <button type="button" onclick="closeInAppMessageModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold hover:text-white">&times;</button>
       <h2 class="text-2xl font-black mb-2">Kurucuya Mesaj Gönder</h2>
       <p id="targetFounderLabel" class="text-xs text-emerald-400 font-semibold mb-4"></p>
-      
       <form onsubmit="sendInAppMessage(event)" class="space-y-4">
         <div>
           <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Adınız / E-Postanız</label>
@@ -352,20 +343,56 @@
     </div>
   </div>
 
-  <!-- AUTH MODAL -->
+  <!-- YENİLENEN KAYIT OL & GİRİŞ YAP MODALI -->
   <div id="authModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
-    <div class="al-card-dark rounded-3xl max-w-md w-full p-8 relative text-white">
+    <div class="al-card-dark rounded-3xl max-w-md w-full p-8 relative text-white space-y-6">
       <button type="button" onclick="closeAuthModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold hover:text-white">&times;</button>
-      <div class="text-center mb-6"><h2 class="text-2xl font-black">Oturum Açın</h2></div>
-      <div class="mb-4"><button type="button" id="googleBtn" class="w-full bg-white text-black font-bold py-3 rounded-full text-xs">Google ile Devam Et</button></div>
-      <form onsubmit="handleEmailAuth(event)" class="space-y-3">
-        <div id="fullNameBox" style="display: none;"><input type="text" id="authFullName" placeholder="Ad Soyad" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs"></div>
-        <input type="email" id="authEmail" required placeholder="E-Posta" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs">
-        <input type="password" id="authPassword" required minlength="6" placeholder="Şifre" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs">
-        <div class="flex gap-2 pt-2">
-          <button type="submit" onclick="setAuthMode('login')" class="w-1/2 al-accent-bg font-extrabold py-3 rounded-xl text-xs">Giriş Yap</button>
-          <button type="submit" onclick="setAuthMode('signup')" class="w-1/2 bg-[#1e222d] text-white font-bold py-3 rounded-xl text-xs">Kayıt Ol</button>
+      
+      <!-- Sekme Butonları -->
+      <div class="flex bg-[#08090b] p-1.5 rounded-2xl border border-[#1e222d]">
+        <button type="button" id="tabLoginBtn" onclick="switchAuthTab('login')" class="w-1/2 py-2.5 rounded-xl text-xs font-black transition bg-[#1e222d] text-white">Giriş Yap</button>
+        <button type="button" id="tabSignupBtn" onclick="switchAuthTab('signup')" class="w-1/2 py-2.5 rounded-xl text-xs font-medium text-slate-400 hover:text-white transition">Kayıt Ol</button>
+      </div>
+
+      <div id="authModalTitle" class="text-center">
+        <h2 class="text-2xl font-black">Tekrar Hoş Geldiniz</h2>
+        <p class="text-slate-400 text-xs mt-1">Ekosistem hesabınıza erişin.</p>
+      </div>
+
+      <div class="mb-2">
+        <button type="button" id="googleBtn" class="w-full bg-white hover:bg-slate-200 text-black font-bold py-3 rounded-full text-xs flex items-center justify-center gap-2 transition">
+          <span>Google ile Devam Et</span>
+        </button>
+      </div>
+
+      <div class="flex items-center my-2">
+        <div class="flex-grow border-t border-[#1e222d]"></div>
+        <span class="px-3 text-slate-500 text-[11px] font-semibold">veya E-Posta</span>
+        <div class="flex-grow border-t border-[#1e222d]"></div>
+      </div>
+
+      <form onsubmit="handleAuthSubmit(event)" class="space-y-3">
+        <div id="fullNameBox" style="display: none;">
+          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Ad Soyad</label>
+          <input type="text" id="authFullName" placeholder="İhsan Özdemir" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs outline-none focus:border-emerald-400">
         </div>
+        <div>
+          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">E-Posta Adresi</label>
+          <input type="email" id="authEmail" required placeholder="ornek@domain.com" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs outline-none focus:border-emerald-400">
+        </div>
+        <div>
+          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Şifre</label>
+          <input type="password" id="authPassword" required minlength="6" placeholder="******" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs outline-none focus:border-emerald-400">
+        </div>
+
+        <!-- YENİ: KAYIT OLUNCA İSTENEN DOĞRULAMA KODU ALANI -->
+        <div id="inviteCodeBox" style="display: none;" class="space-y-1">
+          <label class="block text-[10px] font-bold text-amber-400 uppercase mb-1">Sistem Doğrulama Kodu (Whitelist)</label>
+          <input type="text" id="authInviteCode" placeholder="Kurucu onay kodunu girin" class="w-full p-3 bg-[#08090b] border border-amber-500/30 rounded-xl text-xs text-amber-300 outline-none focus:border-amber-400">
+          <p class="text-[10px] text-slate-500">Bu alan güvenlik amacıyla zorunludur.</p>
+        </div>
+
+        <button type="submit" id="authSubmitBtn" class="w-full al-accent-bg font-extrabold py-3.5 rounded-xl text-xs transition mt-2">Giriş Yap</button>
       </form>
     </div>
   </div>
@@ -442,8 +469,10 @@
 
   <script>
     const ADMIN_EMAIL = 'ihsannozdemiro1@gmail.com';
+    const VALID_INVITE_CODE = 'GIRISIM2026'; // Herkesin kayıt olamaması için zorunlu doğrulama kodu
     var activeContactEmail = "ihsannozdemiro1@gmail.com";
     var activeStartupName = "";
+    var currentAuthMode = 'login';
 
     function showToast(title, desc) {
       var toast = document.getElementById('customToast');
@@ -510,8 +539,36 @@
       else { document.getElementById('landingView').style.display = 'block'; document.getElementById('appView').style.display = 'none'; }
     }
 
-    function openAuthModal() { document.getElementById('authModal').classList.remove('hidden'); }
+    // Modal Sekme Yönetimi (Giriş Yap / Kayıt Ol)
+    function openAuthModal(mode) {
+      switchAuthTab(mode || 'login');
+      document.getElementById('authModal').classList.remove('hidden');
+    }
     function closeAuthModal() { document.getElementById('authModal').classList.add('hidden'); }
+
+    function switchAuthTab(mode) {
+      currentAuthMode = mode;
+      var loginBtn = document.getElementById('tabLoginBtn');
+      var signupBtn = document.getElementById('tabSignupBtn');
+      var fullNameBox = document.getElementById('fullNameBox');
+      var inviteCodeBox = document.getElementById('inviteCodeBox');
+      var submitBtn = document.getElementById('authSubmitBtn');
+
+      if (mode === 'login') {
+        loginBtn.className = "w-1/2 py-2.5 rounded-xl text-xs font-black transition bg-[#1e222d] text-white";
+        signupBtn.className = "w-1/2 py-2.5 rounded-xl text-xs font-medium text-slate-400 hover:text-white transition";
+        fullNameBox.style.display = 'none';
+        inviteCodeBox.style.display = 'none';
+        submitBtn.innerText = "Giriş Yap";
+      } else {
+        signupBtn.className = "w-1/2 py-2.5 rounded-xl text-xs font-black transition bg-[#1e222d] text-white";
+        loginBtn.className = "w-1/2 py-2.5 rounded-xl text-xs font-medium text-slate-400 hover:text-white transition";
+        fullNameBox.style.display = 'block';
+        inviteCodeBox.style.display = 'block';
+        submitBtn.innerText = "Kayıt Ol";
+      }
+    }
+
     function openStartupFormModal() { document.getElementById('addModal').classList.remove('hidden'); }
     function closeCreateModal() { document.getElementById('addModal').classList.add('hidden'); }
     function openSelectAddModal() { document.getElementById('selectAddModal').classList.remove('hidden'); }
@@ -522,7 +579,7 @@
     function closeAcquisitionModal() { document.getElementById('addAcquisitionModal').classList.add('hidden'); }
 
     function handleNewAddClick() {
-      if (!currentUser) { showToast("Uyarı", "İlan eklemek için giriş yapın."); openAuthModal(); } 
+      if (!currentUser) { showToast("Uyarı", "İlan eklemek için giriş yapın."); openAuthModal('login'); } 
       else { openSelectAddModal(); }
     }
 
@@ -559,16 +616,12 @@
 
     function closeDetailModal() { document.getElementById('detailModal').classList.add('hidden'); }
 
-    // Kesin çalışan site içi mesaj modal açma fonksiyonu
     function openInAppMessageModal() {
       closeDetailModal();
       document.getElementById('targetFounderLabel').innerText = "Alıcı Proje: " + activeStartupName + " (" + activeContactEmail + ")";
       document.getElementById('inAppMessageModal').classList.remove('hidden');
     }
-
-    function closeInAppMessageModal() {
-      document.getElementById('inAppMessageModal').classList.add('hidden');
-    }
+    function closeInAppMessageModal() { document.getElementById('inAppMessageModal').classList.add('hidden'); }
 
     async function sendInAppMessage(e) {
       e.preventDefault();
@@ -594,14 +647,9 @@
       document.getElementById('msgContent').value = '';
     }
 
-    function setAuthMode(mode) {
-      authMode = mode;
-      document.getElementById('fullNameBox').style.display = (mode === 'signup') ? 'block' : 'none';
-    }
-
     const SUPABASE_URL = 'https://kaovkjsttcyyrwrbmtpb.supabase.co';
     const SUPABASE_KEY = 'sb_publishable_NrZ4UXAzYjs7VZ52t7XJww_gMTDBJJl';
-    var sbClient = null, currentUser = null, authMode = 'login';
+    var sbClient = null, currentUser = null;
 
     if (window.supabase && window.supabase.createClient) {
       sbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -649,17 +697,29 @@
       }
     }
 
-    async function handleEmailAuth(e) {
+    // E-posta / Şifre Doğrulama Kodlu Kayıt & Giriş İşlemi
+    async function handleAuthSubmit(e) {
       e.preventDefault();
       const email = document.getElementById('authEmail').value;
       const password = document.getElementById('authPassword').value;
       const fullName = document.getElementById('authFullName').value;
+      const inviteCode = document.getElementById('authInviteCode').value;
+
       if (!sbClient) return;
 
-      if (authMode === 'signup') {
-        const { error } = await sbClient.auth.signUp({ email, password, options: { data: { full_name: fullName } } });
+      if (currentAuthMode === 'signup') {
+        if (inviteCode !== VALID_INVITE_CODE) {
+          showToast("Yetki Hatası", "Geçersiz sistem doğrulama kodu! Herkes kayıt olamaz.");
+          return;
+        }
+
+        const { error } = await sbClient.auth.signUp({ 
+          email, 
+          password, 
+          options: { data: { full_name: fullName } } 
+        });
         if (error) showToast("Kayıt Hatası", error.message);
-        else { showToast("Başarılı", "Kayıt başarılı!"); closeAuthModal(); }
+        else { showToast("Başarılı", "Kayıt onaylandı! Giriş yapabilirsiniz."); switchAuthTab('login'); }
       } else {
         const { error } = await sbClient.auth.signInWithPassword({ email, password });
         if (error) showToast("Giriş Hatası", error.message);
