@@ -733,23 +733,24 @@
 
     var startups = [], syndicates = [], acquisitions = [];
 
-    // BULUT VE YEREL VERİLERİ BİRLEŞTİREN GÜVENLİ SENKRONİZASYON AKIŞI
+    // SUPABASE BULUT VERİTABANINDAN ÖNCELİKLİ VE KESİN VERİ ÇEKME MİMARİSİ
     async function loadStartups() {
-      var localData = JSON.parse(localStorage.getItem('my_startups_list') || '[]');
-      startups = localData;
-      renderStartups(startups);
-
+      var cloudData = [];
       if (sbClient) {
         try {
           const { data, error } = await sbClient.from('startups').select('*').order('id', { ascending: false });
           if (!error && data) {
-            // Buluttaki veriler ile yerel verileri birleştiriyoruz ki başka cihazlardan gelenler de anında görünsün
-            var combined = data.concat(localData.filter(loc => !data.some(cloud => (cloud.name || cloud.title) === (loc.name || loc.title))));
-            startups = combined;
-            renderStartups(startups);
+            cloudData = data;
           }
-        } catch (err) { console.error("Bulut yükleme hatası:", err); }
+        } catch (err) { console.error("Bulut bağlantı hatası:", err); }
       }
+      
+      var localData = JSON.parse(localStorage.getItem('my_startups_list') || '[]');
+      
+      // Buluttaki verileri ve yerel verileri harmanlayarak telefonda ve her cihazda gösteriyoruz
+      var combined = cloudData.concat(localData.filter(loc => !cloudData.some(cloud => (cloud.name || cloud.title) === (loc.name || loc.title))));
+      startups = combined;
+      renderStartups(startups);
     }
 
     function renderStartups(data) {
@@ -829,7 +830,7 @@
         desc: descVal
       };
 
-      // 1. Önce yerel hafızaya kaydedip anında ekrana yansıtıyoruz
+      // 1. Önce yerel listeye ekliyoruz ki hemen ekranda görünsün
       var localList = JSON.parse(localStorage.getItem('my_startups_list') || '[]');
       localList.unshift(newStartup);
       localStorage.setItem('my_startups_list', JSON.stringify(localList));
