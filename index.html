@@ -483,6 +483,17 @@
     </div>
   </footer>
 
+  <!-- ÖZEL ŞIK BİLDİRİM KUTUSU (TOAST) -->
+  <div id="customToast" class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none">
+    <div class="al-card-dark bg-[#161822] border border-emerald-500/40 px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-3">
+      <div class="w-8 h-8 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-400 text-sm font-bold">✓</div>
+      <div>
+        <div class="text-xs font-bold text-white" id="toastTitle">Başarılı</div>
+        <div class="text-[11px] text-slate-400" id="toastDesc">İşlem gerçekleştirildi.</div>
+      </div>
+    </div>
+  </div>
+
   <!-- MODALLAR -->
   
   <!-- DETAY MODALI -->
@@ -515,10 +526,9 @@
         <p id="detailDesc" class="text-slate-300 text-xs leading-relaxed whitespace-pre-line"></p>
       </div>
 
-      <!-- İSTEDİĞİN İLETİŞİME GEÇ METNİ İLE GÜNCELLENEN BUTON -->
       <div class="pt-4 border-t border-[#1e222d] flex justify-between items-center">
         <button type="button" id="detailContactBtn" class="al-accent-bg font-extrabold text-xs px-6 py-2.5 rounded-full shadow-md transition">
-          📩 Girişimci İle İletişime Geç
+          📩 Girişimci ile İletişime Geç
         </button>
         <button type="button" onclick="closeDetailModal()" class="bg-[#1e222d] text-white font-bold text-xs px-5 py-2.5 rounded-full hover:bg-slate-700 transition">Kapat</button>
       </div>
@@ -736,6 +746,19 @@
   <script>
     const ADMIN_EMAIL = 'ihsannozdemiro1@gmail.com';
 
+    function showToast(title, desc) {
+      var toast = document.getElementById('customToast');
+      document.getElementById('toastTitle').innerText = title;
+      document.getElementById('toastDesc').innerText = desc;
+      toast.classList.remove('translate-y-24', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+      
+      setTimeout(function() {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-24', 'opacity-0');
+      }, 3500);
+    }
+
     function extractGoalValue(item) {
       if (!item) return 10000;
       var possibleKeys = ['funding_goal', 'fundingGoal', 'goal', 'fundinggoal'];
@@ -813,7 +836,7 @@
 
     function handleNewAddClick() {
       if (!currentUser) {
-        alert("İlan eklemek için giriş yapın.");
+        showToast("Uyarı", "İlan eklemek için giriş yapın.");
         openAuthModal();
       } else {
         openSelectAddModal();
@@ -849,9 +872,9 @@
       var contactBtn = document.getElementById('detailContactBtn');
       contactBtn.onclick = function() {
         navigator.clipboard.writeText(contactEmail).then(function() {
-          alert("Kurucu e-posta adresi panoya kopyalandı!\nE-Posta: " + contactEmail);
+          showToast("E-Posta Kopyalandı", contactEmail);
         }).catch(function() {
-          alert("Kurucu E-Postası: " + contactEmail);
+          showToast("İletişim", contactEmail);
         });
       };
 
@@ -965,12 +988,12 @@
           password: password,
           options: { data: { full_name: fullName } }
         });
-        if (error) alert("Kayıt Hatası: " + error.message);
-        else { alert("Kayıt başarılı!"); closeAuthModal(); }
+        if (error) showToast("Kayıt Hatası", error.message);
+        else { showToast("Başarılı", "Kayıt başarılı!"); closeAuthModal(); }
       } else {
         const { data, error } = await sbClient.auth.signInWithPassword({ email: email, password: password });
-        if (error) alert("Giriş Hatası: " + error.message);
-        else { alert("Giriş başarılı!"); closeAuthModal(); }
+        if (error) showToast("Giriş Hatası", error.message);
+        else { showToast("Başarılı", "Giriş yapıldı!"); closeAuthModal(); }
       }
     }
 
@@ -995,7 +1018,7 @@
     async function handleLogout() {
       if (sbClient) {
         await sbClient.auth.signOut();
-        alert("Çıkış yapıldı.");
+        showToast("Çıkış", "Oturum kapatıldı.");
       }
     }
 
@@ -1063,10 +1086,9 @@
       });
     }
 
-    // YATIRIM İLANI YAYINLAMA (%100 GARANTİLİ YÜKLEME)
     async function handleAddStartup(e) {
       e.preventDefault();
-      if (!currentUser) { alert("Giriş yapmalısınız!"); return; }
+      if (!currentUser) { showToast("Uyarı", "Giriş yapmalısınız!"); return; }
 
       var goalInput = Number(document.getElementById('addGoal').value) || 10000;
 
@@ -1086,7 +1108,6 @@
         description: document.getElementById('addDesc').value
       };
 
-      // Anında dizide göster
       startups.unshift(newStartup);
       localStorage.setItem('my_startups_list', JSON.stringify(startups));
       renderStartups(startups);
@@ -1094,16 +1115,14 @@
       if (sbClient) {
         try { 
           await sbClient.from('startups').insert([newStartup]);
-        } catch (err) { 
-          console.error("Supabase insert uyarısı:", err);
-        }
+        } catch (err) { console.error(err); }
       }
 
       closeCreateModal();
-      alert('Girişim ilanı başarıyla eklendi ve yayına alındı!');
+      showToast("Başarılı", "Girişim ilanı yayına alındı!");
     }
 
-    // 2. CANLI TURLAR (SENDİKALAR)
+    // 2. CANLI TURLAR
     async function loadSyndicates() {
       if (sbClient) {
         try {
@@ -1140,7 +1159,7 @@
           '</div>' +
           '<div class="pt-4 border-t border-[#1e222d] flex justify-between items-center text-xs font-bold">' +
             '<span class="text-rose-400">Tur Büyüklüğü: $' + Number(item.goal || 50000).toLocaleString() + '</span>' +
-            '<button type="button" onclick="alert(\'Yatırım talebiniz lider yatırımcıya iletildi.\')" class="bg-rose-500 hover:bg-rose-600 text-white px-3 py-1.5 rounded-full transition">Tura Katıl</button>' +
+            '<button type="button" onclick="showToast(\'Bilgi\', \'Yatırım talebiniz iletildi.\')" class="bg-rose-500 hover:bg-rose-600 text-white px-3 py-1.5 rounded-full transition">Tura Katıl</button>' +
           '</div>';
         grid.appendChild(card);
       });
@@ -1168,10 +1187,10 @@
       }
 
       closeSyndicateModal();
-      alert('Yatırım turu başlatıldı!');
+      showToast("Başarılı", "Yatırım turu başlatıldı!");
     }
 
-    // 3. PROJE PAZARI (MICRO-ACQUISITION)
+    // 3. PROJE PAZARI
     async function loadAcquisitions() {
       if (sbClient) {
         try {
@@ -1209,7 +1228,7 @@
           '</div>' +
           '<div class="pt-4 border-t border-[#1e222d] flex justify-between items-center text-xs font-bold">' +
             '<span class="text-white text-sm">Fiyat: $' + Number(item.price || 1000).toLocaleString() + '</span>' +
-            '<button type="button" onclick="alert(\'Satıcı ile iletişim talebiniz gönderildi.\')" class="al-accent-bg text-[#08090b] px-3 py-1.5 rounded-full transition">Teklif Ver</button>' +
+            '<button type="button" onclick="showToast(\'Bilgi\', \'Teklif talebiniz gönderildi.\')" class="al-accent-bg text-[#08090b] px-3 py-1.5 rounded-full transition">Teklif Ver</button>' +
           '</div>';
         grid.appendChild(card);
       });
@@ -1238,14 +1257,14 @@
       }
 
       closeAcquisitionModal();
-      alert('Satış ilanı yayınlandı!');
+      showToast("Başarılı", "Satış ilanı yayınlandı!");
     }
 
-    // 4. AI SKORLAMA MİMARİSİ
+    // 4. AI SKORLAMA
     function analyzeDeck() {
       var text = document.getElementById('aiDeckText').value.trim();
       if (!text || text.length < 20) { 
-        alert('Lütfen sunumunuzla ilgili daha detaylı bir açıklama yazın (en az 20 karakter).'); 
+        showToast("Uyarı", "Lütfen en az 20 karakterlik açıklama yazın."); 
         return; 
       }
 
@@ -1288,7 +1307,7 @@
       }, 800);
     }
 
-    // 5. KURUCU ADMIN PANELİ
+    // 5. ADMIN PANELİ & İLAN SİLME
     function renderAdminDashboard() {
       document.getElementById('adminStartupCount').innerText = startups.length;
       document.getElementById('adminSynCount').innerText = syndicates.length;
@@ -1336,14 +1355,12 @@
           if (!isNaN(numId)) {
             await sbClient.from('startups').delete().eq('id', numId);
           }
-        } catch (e) { 
-          console.error("Supabase Silme Hatası:", e); 
-        }
+        } catch (e) { console.error(e); }
       }
 
       renderStartups(startups);
       renderAdminDashboard();
-      alert("İlan silindi.");
+      showToast("Bilgi", "İlan başarıyla silindi.");
     }
 
     function filterStartups() {
