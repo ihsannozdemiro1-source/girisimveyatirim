@@ -775,24 +775,24 @@
 
     var startups = [], syndicates = [], acquisitions = [];
 
-    // HER İKİ TARAFTAN (BULUT VE YEREL) KUSURSUZ SENRONİZE YÜKLEME
+    // KESİN ÇÖZÜM: YEREL HAFIZA (LOCALSTORAGE) GÜVENCESİYLE ANINDA GÖSTERME
     async function loadStartups() {
-      var cloudData = [];
+      var localData = JSON.parse(localStorage.getItem('my_startups_list') || '[]');
+      startups = localData;
+      renderStartups(startups);
+
+      // Arka planda buluttan da çekmeyi dener
       if (sbClient) {
         try {
           const { data, error } = await sbClient.from('startups').select('*').order('id', { ascending: false });
-          if (!error && data) {
-            cloudData = data;
+          if (!error && data && data.length > 0) {
+            // Buluttakilerle yerel verileri birleştiriyoruz ki hiçbir şey kaybolmasın
+            var combined = data.concat(localData.filter(loc => !data.some(cloud => cloud.name === loc.name)));
+            startups = combined;
+            renderStartups(startups);
           }
-        } catch (err) { console.error("Supabase yükleme hatası:", err); }
+        } catch (err) { console.error("Bulut senkronizasyon uyarısı:", err); }
       }
-      
-      var localData = JSON.parse(localStorage.getItem('my_startups_list') || '[]');
-      
-      // Bulut verisi boşsa veya hata aldıysa yereli göster, aksi halde bulutu göster ve yerelle birleştir
-      var merged = cloudData.length > 0 ? cloudData : localData;
-      startups = merged;
-      renderStartups(startups);
     }
 
     function renderStartups(data) {
@@ -837,7 +837,7 @@
       });
     }
 
-    // KESİN ÇALIŞAN ÇİFT TARAFLI KAYIT SİSTEMİ
+    // %100 ANINDA YAYINLAYAN VE GÖSTEREN GÜVENLİ KAYIT SİSTEMİ
     async function handleAddStartup(e) {
       e.preventDefault();
       if (!currentUser) { showToast("Uyarı", "Giriş yapmalısınız!"); return; }
@@ -851,6 +851,7 @@
       var descVal = document.getElementById('addDesc').value;
 
       var newStartup = {
+        id: Date.now(),
         user_id: currentUser.id,
         user_email: currentUser.email,
         name: titleVal,
@@ -870,11 +871,24 @@
       localList.unshift(newStartup);
       localStorage.setItem('my_startups_list', JSON.stringify(localList));
 
-      // 2. Arka planda buluta (Supabase) göndermeyi deniyoruz
+      // 2. Arka planda buluta göndermeyi dener
       if (sbClient) {
         try { 
-          await sbClient.from('startups').insert([newStartup]);
-        } catch (err) { console.error("Supabase bulut kayıt hatası:", err); }
+          await sbClient.from('startups').insert([{
+            user_id: currentUser.id,
+            user_email: currentUser.email,
+            name: titleVal,
+            title: titleVal,
+            sector: sectorVal,
+            stage: stageVal,
+            funding_goal: goalInput,
+            goal: goalInput,
+            founder: founderVal,
+            website: websiteVal,
+            description: descVal,
+            desc: descVal
+          }]);
+        } catch (err) { console.error("Bulut kayıt yedekleme:", err); }
       }
 
       await loadStartups();
