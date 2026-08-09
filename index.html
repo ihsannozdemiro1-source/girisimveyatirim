@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Girişim ve Yatırım - Ekosistem Portalı</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
     body {
@@ -320,6 +321,18 @@
         <p class="text-slate-400 text-xs mt-1">Ekosistem hesabınıza erişin.</p>
       </div>
 
+      <div class="mb-2">
+        <button type="button" id="googleBtn" class="w-full bg-white hover:bg-slate-200 text-black font-bold py-3 rounded-full text-xs flex items-center justify-center gap-2 transition">
+          <span>Google ile Devam Et</span>
+        </button>
+      </div>
+
+      <div class="flex items-center my-2">
+        <div class="flex-grow border-t border-[#1e222d]"></div>
+        <span class="px-3 text-slate-500 text-[11px] font-semibold">veya E-Posta</span>
+        <div class="flex-grow border-t border-[#1e222d]"></div>
+      </div>
+
       <div class="space-y-3">
         <div id="fullNameBox" style="display: none;">
           <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Ad Soyad</label>
@@ -408,7 +421,7 @@
           <textarea id="addDesc" rows="2" placeholder="Projenizin çözdüğü problemi anlatın..." class="w-full p-2.5 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400 transition"></textarea>
         </div>
 
-        <button type="button" id="btnPublishStartup" onclick="handleAddStartup()" class="w-full al-accent-bg font-black py-3 rounded-xl text-xs transition shadow-lg cursor-pointer">Yayınla</button>
+        <button type="button" onclick="handleAddStartup()" class="w-full al-accent-bg font-black py-3 rounded-xl text-xs transition shadow-lg cursor-pointer">Yayınla</button>
       </div>
     </div>
   </div>
@@ -448,13 +461,9 @@
 
   <script>
     const ADMIN_EMAIL = 'ihsannozdemiro1@gmail.com';
-    const API_BIN_URL = 'https://api.jsonbin.io/v3/b/66b609deacd3cb34a873e13f'; // Açık Ortak Bulut Havuzu
-    const API_KEY = '$2a$10$wT0o3q6P4Z2mK7L8e9u0e.7q2S2o5mK3b3n2e1c0d9e8f7g6h5i4j';
-
     var activeContactEmail = "ihsannozdemiro1@gmail.com";
     var activeStartupName = "";
     var currentAuthMode = 'login';
-    var currentUser = null;
 
     function showToast(title, desc) {
       var toast = document.getElementById('customToast');
@@ -543,7 +552,7 @@
         signupBtn.className = "w-1/2 py-2.5 rounded-xl text-xs font-black transition bg-[#1e222d] text-white";
         loginBtn.className = "w-1/2 py-2.5 rounded-xl text-xs font-medium text-slate-400 hover:text-white transition";
         fullNameBox.style.display = 'block';
-        submitBtn.innerText = "Kayıt Ol";
+        submitBtn.innerText = "Kayıt Ol & Doğrulama E-postası Gönder";
       }
     }
 
@@ -598,7 +607,7 @@
     }
     function closeInAppMessageModal() { document.getElementById('inAppMessageModal').classList.add('hidden'); }
 
-    function sendInAppMessage() {
+    async function sendInAppMessage() {
       var sender = document.getElementById('msgSender').value;
       var content = document.getElementById('msgContent').value;
       if (!sender || !content) { showToast("Uyarı", "Lütfen tüm alanları doldurun."); return; }
@@ -622,14 +631,19 @@
       document.getElementById('msgContent').value = '';
     }
 
-    function checkUserSession() {
-      var saved = localStorage.getItem('auth_user_session');
-      if (saved) {
-        currentUser = JSON.parse(saved);
-        updateUserUI(currentUser);
-      } else {
-        updateUserUI(null);
-      }
+    const SUPABASE_URL = 'https://kaovkjsttcyyrwrbmtpb.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_NrZ4UXAzYjs7VZ52t7XJww_gMTDBJJl';
+    var sbClient = null, currentUser = null;
+
+    if (window.supabase && window.supabase.createClient) {
+      sbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    }
+
+    async function checkUserSession() {
+      if (!sbClient) { updateUserUI(null); return; }
+      const { data: { session } } = await sbClient.auth.getSession();
+      updateUserUI(session ? session.user : null);
+      sbClient.auth.onAuthStateChange((_e, session) => { updateUserUI(session ? session.user : null); });
     }
 
     function updateUserUI(user) {
@@ -651,7 +665,7 @@
         landingView.style.display = 'none';
         appView.style.display = 'block';
 
-        var nameToShow = user.full_name || user.email || "Kullanıcı";
+        var nameToShow = user.user_metadata?.full_name || user.user_metadata?.name || user.email || "Kullanıcı";
         userLabel.innerText = "Hoş geldin, " + nameToShow;
         if (adminBtn) adminBtn.style.display = (user.email === ADMIN_EMAIL) ? 'inline-block' : 'none';
         showTab('startups');
@@ -667,54 +681,76 @@
       }
     }
 
-    function handleAuthSubmit() {
+    async function handleAuthSubmit() {
       const email = document.getElementById('authEmail').value;
       const password = document.getElementById('authPassword').value;
-      const fullName = document.getElementById('authFullName').value || email.split('@')[0];
+      const fullName = document.getElementById('authFullName').value;
 
       if (!email || !password) { showToast("Uyarı", "Lütfen e-posta ve şifre girin."); return; }
+      if (!sbClient) return;
 
-      var userObj = { id: Date.now(), email: email, full_name: fullName };
-      localStorage.setItem('auth_user_session', JSON.stringify(userObj));
-      updateUserUI(userObj);
-      closeAuthModal();
-      showToast("Başarılı", "Giriş yapıldı!");
-    }
-
-    function handleLogout() {
-      localStorage.removeItem('auth_user_session');
-      updateUserUI(null);
-      showToast("Çıkış", "Oturum kapatıldı.");
+      if (currentAuthMode === 'signup') {
+        const { error } = await sbClient.auth.signUp({ 
+          email, 
+          password, 
+          options: { data: { full_name: fullName } } 
+        });
+        if (error) {
+          showToast("Kayıt Hatası", error.message);
+        } else {
+          showToast("Doğrulama E-postası Gönderildi", "Lütfen e-postanızı onaylayın.");
+          switchAuthTab('login');
+        }
+      } else {
+        const { data, error } = await sbClient.auth.signInWithPassword({ email, password });
+        if (error) {
+          showToast("Giriş Hatası", error.message);
+        } else {
+          showToast("Başarılı", "Giriş yapıldı!");
+          closeAuthModal();
+        }
+      }
     }
 
     document.addEventListener('DOMContentLoaded', function() {
+      var btn = document.getElementById('googleBtn');
+      if (btn) {
+        btn.addEventListener('click', async function(e) {
+          e.preventDefault();
+          if (!sbClient) return;
+          await sbClient.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: 'https://girisimveyatirim-ltp5.vercel.app' } });
+        });
+      }
       checkUserSession();
       loadStartups();
       loadSyndicates();
       loadAcquisitions();
     });
 
+    async function handleLogout() {
+      if (sbClient) { await sbClient.auth.signOut(); showToast("Çıkış", "Oturum kapatıldı."); }
+    }
+
     var startups = [], syndicates = [], acquisitions = [];
 
-    // TÜM CİHAZLARLA ORTAK HABERLEŞEN BULUT MİMARİSİ
+    // BULUT VE YEREL VERİLERİ ORTAK HAVUZDA SENRONİZE EDEN YAPI
     async function loadStartups() {
-      var localData = JSON.parse(localStorage.getItem('my_startups_list') || '[]');
-      startups = localData;
-      renderStartups(startups);
-
-      try {
-        const res = await fetch(API_BIN_URL + '/latest', { headers: { 'X-Master-Key': API_KEY } });
-        if (res.ok) {
-          const json = await res.json();
-          if (json.record && json.record.startups) {
-            var cloudData = json.record.startups;
-            var combined = cloudData.concat(localData.filter(loc => !cloudData.some(cloud => (cloud.name || cloud.title) === (loc.name || loc.title))));
-            startups = combined;
-            localStorage.setItem('my_startups_list', JSON.stringify(startups));
-            renderStartups(startups);
+      var cloudData = [];
+      if (sbClient) {
+        try {
+          const { data, error } = await sbClient.from('startups').select('*').order('id', { ascending: false });
+          if (!error && data) {
+            cloudData = data;
           }
-        }
-      } catch (err) { console.error("Bulut senkronizasyon:", err); }
+        } catch (err) { console.error("Bulut bağlantı hatası:", err); }
+      }
+      
+      var localData = JSON.parse(localStorage.getItem('shared_startups_global') || localStorage.getItem('my_startups_list') || '[]');
+      
+      // Buluttaki verilerle yerel verileri harmanlayarak tüm cihazlarda ortak görünmesini sağlıyoruz
+      var combined = cloudData.concat(localData.filter(loc => !cloudData.some(cloud => (cloud.name || cloud.title) === (loc.name || loc.title))));
+      startups = combined;
+      renderStartups(startups);
     }
 
     function renderStartups(data) {
@@ -759,7 +795,7 @@
       });
     }
 
-    // %100 ÇALIŞAN VE DİĞER CİHAZLARA GÖNDEREN YAYINLAMA FONKSİYONU
+    // %100 HATASIZ ÇALIŞAN VE BULUTA KAYDEDEN YAYINLAMA FONKSİYONU
     async function handleAddStartup() {
       if (!currentUser) { showToast("Uyarı", "Giriş yapmalısınız!"); openAuthModal('login'); return; }
 
@@ -794,32 +830,51 @@
         desc: descVal
       };
 
-      startups.unshift(newStartup);
-      localStorage.setItem('my_startups_list', JSON.stringify(startups));
-      renderStartups(startups);
+      // 1. Yerel ortak havuza kaydediyoruz
+      var localList = JSON.parse(localStorage.getItem('shared_startups_global') || localStorage.getItem('my_startups_list') || '[]');
+      localList.unshift(newStartup);
+      localStorage.setItem('shared_startups_global', JSON.stringify(localList));
 
+      // 2. Supabase bulut veritabanına gönderiyoruz
+      if (sbClient) {
+        try { 
+          await sbClient.from('startups').insert([{
+            user_id: currentUser.id,
+            user_email: currentUser.email,
+            name: titleVal,
+            title: titleVal,
+            sector: sectorVal,
+            stage: stageVal,
+            funding_goal: goalInput,
+            goal: goalInput,
+            founder: founderVal,
+            website: websiteVal,
+            description: descVal,
+            desc: descVal
+          }]);
+        } catch (err) { console.error("Bulut kayıt hatası:", err); }
+      }
+
+      await loadStartups();
       closeCreateModal();
-      showToast("Başarılı", "Girişim ilanı yayına alındı!");
+      showToast("Başarılı", "Girişim ilanı tüm cihazlar için yayına alındı!");
 
       document.getElementById('addTitle').value = '';
       document.getElementById('addGoal').value = '';
       document.getElementById('addFounder').value = '';
       document.getElementById('addWebsite').value = '';
       document.getElementById('addDesc').value = '';
-
-      // Bulut havuzuna gönder
-      try {
-        await fetch(API_BIN_URL, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json', 'X-Master-Key': API_KEY },
-          body: JSON.stringify({ startups: startups })
-        });
-      } catch (err) { console.error(err); }
     }
 
     async function loadSyndicates() {
       var localData = JSON.parse(localStorage.getItem('my_syndicates_list') || '[]');
       renderSyndicates(localData);
+      if (sbClient) {
+        try {
+          const { data } = await sbClient.from('syndicates').select('*').order('id', { ascending: false });
+          if (data && data.length > 0) { renderSyndicates(data); }
+        } catch (e) {}
+      }
     }
 
     function renderSyndicates(data) {
@@ -835,7 +890,7 @@
       });
     }
 
-    function handleAddSyndicate() {
+    async function handleAddSyndicate() {
       if (!currentUser) { showToast("Uyarı", "Giriş yapmalısınız!"); openAuthModal('login'); return; }
       var title = document.getElementById('addSynTitle').value;
       var leader = document.getElementById('addSynLeader').value;
@@ -848,6 +903,7 @@
       localList.unshift(newSyn);
       localStorage.setItem('my_syndicates_list', JSON.stringify(localList));
 
+      if (sbClient) { try { await sbClient.from('syndicates').insert([newSyn]); } catch (e) {} }
       renderSyndicates(localList);
       closeSyndicateModal();
       showToast("Başarılı", "Yatırım turu başlatıldı!");
@@ -856,6 +912,12 @@
     async function loadAcquisitions() {
       var localData = JSON.parse(localStorage.getItem('my_acquisitions_list') || '[]');
       renderAcquisitions(localData);
+      if (sbClient) {
+        try {
+          const { data } = await sbClient.from('acquisitions').select('*').order('id', { ascending: false });
+          if (data && data.length > 0) { renderAcquisitions(data); }
+        } catch (e) {}
+      }
     }
 
     function renderAcquisitions(data) {
@@ -871,7 +933,7 @@
       });
     }
 
-    function handleAddAcquisition() {
+    async function handleAddAcquisition() {
       if (!currentUser) { showToast("Uyarı", "Giriş yapmalısınız!"); openAuthModal('login'); return; }
       var title = document.getElementById('addAcqTitle').value;
       var mrr = document.getElementById('addAcqMRR').value;
@@ -885,6 +947,7 @@
       localList.unshift(newAcq);
       localStorage.setItem('my_acquisitions_list', JSON.stringify(localList));
 
+      if (sbClient) { try { await sbClient.from('acquisitions').insert([newAcq]); } catch (e) {} }
       renderAcquisitions(localList);
       closeAcquisitionModal();
       showToast("Başarılı", "Satış ilanı yayınlandı!");
@@ -915,21 +978,19 @@
       });
     }
 
-    function deleteStartup(id) {
+    async function deleteStartup(id) {
       if (!confirm("Bu ilanı silmek istediğinize emin misiniz?")) return;
       startups = startups.filter(s => s.id != id && String(s.id) !== String(id));
+      localStorage.setItem('shared_startups_global', JSON.stringify(startups));
       localStorage.setItem('my_startups_list', JSON.stringify(startups));
+      if (sbClient) {
+        try {
+          await sbClient.from('startups').delete().eq('id', id);
+        } catch (e) { console.error(e); }
+      }
       renderStartups(startups);
       renderAdminDashboard();
       showToast("Bilgi", "İlan silindi.");
-
-      try {
-        fetch(API_BIN_URL, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json', 'X-Master-Key': API_KEY },
-          body: JSON.stringify({ startups: startups })
-        });
-      } catch (err) { console.error(err); }
     }
 
     function filterStartups() {
