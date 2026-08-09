@@ -33,6 +33,12 @@
       border-color: #10b981;
       box-shadow: 0 0 25px rgba(16, 185, 129, 0.2);
     }
+    /* Sayı oklarını ve kaydırma çubuğunu tamamen gizleyen özel stil */
+    input[type=number]::-webkit-inner-spin-button, 
+    input[type=number]::-webkit-outer-spin-button { 
+      -webkit-appearance: none; 
+      margin: 0; 
+    }
   </style>
 </head>
 <body class="antialiased selection:bg-[#10b981] selection:text-black">
@@ -389,7 +395,7 @@
     </div>
   </div>
 
-  <!-- YENİLENEN ŞIK GİRİŞİM EKLEME MODALI (Görsel Tasarıma Uygun) -->
+  <!-- YENİLENEN ŞIK GİRİŞİM EKLEME MODALI -->
   <div id="selectAddModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
     <div class="al-card-dark rounded-3xl max-w-md w-full p-8 relative text-white space-y-6">
       <button type="button" onclick="closeSelectAddModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold hover:text-white">&times;</button>
@@ -402,8 +408,9 @@
     </div>
   </div>
 
+  <!-- YENİLENEN İLAN EKLEME FORMU (Oklar ve Kaydırma Çubuğu Yok) -->
   <div id="addModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
-    <div class="al-card-dark rounded-3xl max-w-xl w-full p-8 relative text-white max-h-[90vh] overflow-y-auto border border-[#1e222d] space-y-6">
+    <div class="al-card-dark rounded-3xl max-w-xl w-full p-8 relative text-white border border-[#1e222d] space-y-6">
       <button type="button" onclick="closeCreateModal()" class="absolute top-5 right-5 text-slate-400 text-xl font-bold hover:text-white">&times;</button>
       <div class="space-y-1">
         <h2 class="text-2xl font-black text-white">Yeni Girişim İlanı Ekle</h2>
@@ -439,7 +446,8 @@
         <div class="grid grid-cols-2 gap-4">
           <div>
             <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Hedef Yatırım ($)</label>
-            <input type="number" id="addGoal" required placeholder="50000" class="w-full p-3.5 bg-[#08090b] border border-[#1e222d] rounded-2xl text-xs text-white outline-none focus:border-emerald-400 transition">
+            <!-- type="text" yapılarak sayı okları (spinner) tamamen kaldırıldı -->
+            <input type="text" id="addGoal" required placeholder="50000" class="w-full p-3.5 bg-[#08090b] border border-[#1e222d] rounded-2xl text-xs text-white outline-none focus:border-emerald-400 transition">
           </div>
           <div>
             <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Kurucu İsim</label>
@@ -454,23 +462,23 @@
 
         <div>
           <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Girişim Açıklaması</label>
-          <textarea id="addDesc" rows="4" required placeholder="Projenizin çözdüğü problemi ve detayları anlatın..." class="w-full p-3.5 bg-[#08090b] border border-[#1e222d] rounded-2xl text-xs text-white outline-none focus:border-emerald-400 transition"></textarea>
+          <textarea id="addDesc" rows="3" required placeholder="Projenizin çözdüğü problemi ve detayları anlatın..." class="w-full p-3.5 bg-[#08090b] border border-[#1e222d] rounded-2xl text-xs text-white outline-none focus:border-emerald-400 transition"></textarea>
         </div>
 
-        <button type="submit" class="w-full al-accent-bg font-black py-4 rounded-2xl text-xs transition shadow-lg cursor-pointer">Yayınla</button>
+        <button type="submit" class="w-full al-accent-bg font-black py-3.5 rounded-2xl text-xs transition shadow-lg cursor-pointer">Yayınla</button>
       </form>
     </div>
   </div>
 
   <div id="addSyndicateModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
-    <div class="al-card-dark rounded-3xl max-w-lg w-full p-8 relative text-white max-h-[90vh] overflow-y-auto">
+    <div class="al-card-dark rounded-3xl max-w-lg w-full p-8 relative text-white">
       <button type="button" onclick="closeSyndicateModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold">&times;</button>
       <h2 class="text-2xl font-black mb-4">🔥 Yeni Yatırım Turu Başlat</h2>
       <form onsubmit="handleAddSyndicate(event)" class="space-y-4">
         <input type="text" id="addSynTitle" required placeholder="Tur Başlığı" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white">
         <div class="grid grid-cols-2 gap-4">
           <input type="text" id="addSynLeader" required placeholder="Lider Yatırımcı" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white">
-          <input type="number" id="addSynGoal" required placeholder="Tur Büyüklüğü ($)" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white">
+          <input type="text" id="addSynGoal" required placeholder="Tur Büyüklüğü ($)" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white">
         </div>
         <textarea id="addSynDesc" rows="3" required placeholder="Tur Açıklaması..." class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white"></textarea>
         <button type="submit" class="w-full bg-rose-500 text-white font-extrabold py-3 rounded-xl text-xs">Turu Yayınla</button>
@@ -479,14 +487,14 @@
   </div>
 
   <div id="addAcquisitionModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
-    <div class="al-card-dark rounded-3xl max-w-lg w-full p-8 relative text-white max-h-[90vh] overflow-y-auto">
+    <div class="al-card-dark rounded-3xl max-w-lg w-full p-8 relative text-white">
       <button type="button" onclick="closeAcquisitionModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold">&times;</button>
       <h2 class="text-2xl font-black mb-4">🛒 Satılık Proje İlanı Ver</h2>
       <form onsubmit="handleAddAcquisition(event)" class="space-y-4">
         <input type="text" id="addAcqTitle" required placeholder="Proje Adı" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white">
         <div class="grid grid-cols-2 gap-4">
-          <input type="number" id="addAcqMRR" required placeholder="Aylık Gelir - MRR ($)" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white">
-          <input type="number" id="addAcqPrice" required placeholder="Satış Fiyatı ($)" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white">
+          <input type="text" id="addAcqMRR" required placeholder="Aylık Gelir - MRR ($)" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white">
+          <input type="text" id="addAcqPrice" required placeholder="Satış Fiyatı ($)" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white">
         </div>
         <input type="text" id="addAcqTech" required placeholder="Teknolojiler (Next.js, Supabase vb.)" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white">
         <textarea id="addAcqDesc" rows="3" required placeholder="Proje Detayları..." class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white"></textarea>
@@ -518,7 +526,7 @@
       var keys = ['funding_goal', 'fundingGoal', 'goal', 'fundinggoal'];
       for (var i = 0; i < keys.length; i++) {
         if (item[keys[i]] !== undefined && item[keys[i]] !== null && item[keys[i]] !== '') {
-          var num = Number(item[keys[i]]);
+          var num = Number(String(item[keys[i]]).replace(/[^0-9]/g, ''));
           if (!isNaN(num) && num > 0) return num;
         }
       }
@@ -530,7 +538,7 @@
       var keys = ['raised', 'funding_raised', 'current_funding'];
       for (var i = 0; i < keys.length; i++) {
         if (item[keys[i]] !== undefined && item[keys[i]] !== null && item[keys[i]] !== '') {
-          var num = Number(item[keys[i]]);
+          var num = Number(String(item[keys[i]]).replace(/[^0-9]/g, ''));
           if (!isNaN(num)) return num;
         }
       }
@@ -831,7 +839,7 @@
       e.preventDefault();
       if (!currentUser) { showToast("Uyarı", "Giriş yapmalısınız!"); return; }
 
-      var goalInput = Number(document.getElementById('addGoal').value) || 10000;
+      var goalInput = Number(String(document.getElementById('addGoal').value).replace(/[^0-9]/g, '')) || 10000;
       var newStartup = {
         user_id: currentUser.id,
         user_email: currentUser.email,
@@ -889,7 +897,7 @@
     async function handleAddSyndicate(e) {
       e.preventDefault();
       if (!currentUser) return;
-      var newSyn = { user_id: currentUser.id, title: document.getElementById('addSynTitle').value, leader: document.getElementById('addSynLeader').value, goal: Number(document.getElementById('addSynGoal').value), description: document.getElementById('addSynDesc').value };
+      var newSyn = { user_id: currentUser.id, title: document.getElementById('addSynTitle').value, leader: document.getElementById('addSynLeader').value, goal: Number(String(document.getElementById('addSynGoal').value).replace(/[^0-9]/g, '')), description: document.getElementById('addSynDesc').value };
       if (sbClient) { try { await sbClient.from('syndicates').insert([newSyn]); } catch (e) {} }
       await loadSyndicates();
       closeSyndicateModal();
@@ -924,7 +932,7 @@
     async function handleAddAcquisition(e) {
       e.preventDefault();
       if (!currentUser) return;
-      var newAcq = { user_id: currentUser.id, title: document.getElementById('addAcqTitle').value, mrr: Number(document.getElementById('addAcqMRR').value), price: Number(document.getElementById('addAcqPrice').value), tech: document.getElementById('addAcqTech').value, description: document.getElementById('addAcqDesc').value };
+      var newAcq = { user_id: currentUser.id, title: document.getElementById('addAcqTitle').value, mrr: Number(String(document.getElementById('addAcqMRR').value).replace(/[^0-9]/g, '')), price: Number(String(document.getElementById('addAcqPrice').value).replace(/[^0-9]/g, '')), tech: document.getElementById('addAcqTech').value, description: document.getElementById('addAcqDesc').value };
       if (sbClient) { try { await sbClient.from('acquisitions').insert([newAcq]); } catch (e) {} }
       await loadAcquisitions();
       closeAcquisitionModal();
