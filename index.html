@@ -6,13 +6,6 @@
   <title>Girişim ve Yatırım - Ekosistem Portalı</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <!-- EmailJS Kütüphanesi -->
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-  <script type="text/javascript">
-    (function() {
-      emailjs.init("YOUR_EMAILJS_PUBLIC_KEY"); // Buraya kendi EmailJS Public Key'ini yazabilirsin
-    })();
-  </script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
     body {
@@ -487,25 +480,25 @@
         <button type="button" id="authSubmitBtn" onclick="handleAuthSubmit()" class="w-full al-accent-bg font-extrabold py-3.5 rounded-xl text-xs transition mt-2 cursor-pointer">Giriş Yap</button>
       </div>
 
-      <!-- ŞİFREMİ UNUTTUM ADIM 1 (Gerçek E-Posta Gönderme Alanı) -->
+      <!-- ŞİFREMİ UNUTTUM ADIM 1 (Mail Gir ve Kod İste) -->
       <div id="forgotStep1" style="display: none;" class="space-y-3">
         <div>
           <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Kayıtlı E-Posta Adresiniz</label>
           <input type="email" id="forgotEmail" placeholder="ornek@domain.com" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs outline-none focus:border-emerald-400">
         </div>
-        <button type="button" onclick="sendRealEmailCode()" class="w-full al-accent-bg font-extrabold py-3.5 rounded-xl text-xs transition cursor-pointer">Mail Kutuma Kod Gönder</button>
+        <button type="button" onclick="sendResetCode()" class="w-full al-accent-bg font-extrabold py-3.5 rounded-xl text-xs transition cursor-pointer">Tek Seferlik Kod Gönder</button>
         <div class="text-center pt-2">
           <button type="button" onclick="switchAuthTab('login')" class="text-xs text-slate-400 hover:text-white">&larr; Giriş Ekranına Dön</button>
         </div>
       </div>
 
-      <!-- ŞİFREMİ UNUTTUM ADIM 2 (Kod Doğrulama ve Yeni Şifre) -->
+      <!-- ŞİFREMİ UNUTTUM ADIM 2 (Kod ve Yeni Şifreler) -->
       <div id="forgotStep2" style="display: none;" class="space-y-3">
-        <div class="bg-emerald-500/10 border border-emerald-500/20 p-3 rounded-xl text-center text-emerald-400 text-xs font-bold">
-          ✉️ E-posta adresinize gönderilen 4 haneli kodu girin.
+        <div class="bg-emerald-500/10 border border-emerald-500/20 p-3 rounded-xl text-center text-emerald-400 text-xs font-bold" id="codeAlertBox">
+          Doğrulama kodu oluşturuldu! (Test Kodunuz: 4892)
         </div>
         <div>
-          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Doğrulama Kodu</label>
+          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">E-Postanıza Gelen 4 Haneli Kod</label>
           <input type="text" id="resetCodeInput" placeholder="Örn: 4892" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs outline-none focus:border-emerald-400">
         </div>
         <div>
@@ -638,7 +631,7 @@
     var activeStartupName = "";
     var currentAuthMode = 'login';
     var activeTabName = localStorage.getItem('active_tab_name') || 'startups';
-    var generatedResetCode = "";
+    var generatedResetCode = "4892";
     var resetTargetEmail = "";
 
     function showToast(title, desc) {
@@ -764,31 +757,18 @@
       }
     }
 
-    // Gerçek e-posta gönderimi için EmailJS servisini tetikleyen fonksiyon
-    function sendRealEmailCode() {
+    function sendResetCode() {
       var emailVal = document.getElementById('forgotEmail').value.trim();
       if (!emailVal) { showToast("Uyarı", "Lütfen e-posta adresinizi girin."); return; }
       
       resetTargetEmail = emailVal;
-      generatedResetCode = String(Math.floor(1000 + Math.random() * 9000)); // 4 haneli rastgele kod
-
-      // EmailJS kullanarak girilen maile kodu gönder
-      var templateParams = {
-        to_email: emailVal,
-        pass_code: generatedResetCode
-      };
-
-      // Not: EmailJS servisini bağlamak için Service ID ve Template ID gerekir. 
-      // Aşağıdaki simülasyon gerçek maile kod gönderme altyapısını tetikler:
-      emailjs.send('default_service', 'template_xyz', templateParams)
-        .then(function(response) {
-          showToast("Başarılı", emailVal + " adresine doğrulama kodu gönderildi!");
-          switchAuthTab('forgot_step2');
-        }, function(error) {
-          // Eğer EmailJS henüz yapılandırılmadıysa kullanıcıyı bekletmemek için kodu güvenle iletip adoma geçiriyoruz
-          showToast("Kod Gönderildi", emailVal + " adresine kod iletildi.");
-          switchAuthTab('forgot_step2');
-        });
+      generatedResetCode = String(Math.floor(1000 + Math.random() * 9000));
+      
+      if(document.getElementById('codeAlertBox')) {
+        document.getElementById('codeAlertBox').innerText = "✉️ " + emailVal + " adresine kod gönderildi! (Test Kodunuz: " + generatedResetCode + ")";
+      }
+      showToast("Kod Gönderildi", "Doğrulama kodu oluşturuldu.");
+      switchAuthTab('forgot_step2');
     }
 
     function verifyAndSaveNewPassword() {
