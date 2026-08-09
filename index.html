@@ -292,17 +292,17 @@
       <button type="button" onclick="closeInAppMessageModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold hover:text-white">&times;</button>
       <h2 class="text-2xl font-black mb-2">Kurucuya Mesaj Gönder</h2>
       <p id="targetFounderLabel" class="text-xs text-emerald-400 font-semibold mb-4"></p>
-      <form onsubmit="sendInAppMessage(event)" class="space-y-4">
+      <div class="space-y-4">
         <div>
           <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Adınız / E-Postanız</label>
-          <input type="text" id="msgSender" required placeholder="Adınız veya e-posta adresiniz" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400">
+          <input type="text" id="msgSender" placeholder="Adınız veya e-posta adresiniz" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400">
         </div>
         <div>
           <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Mesajınız / Yatırım Teklifiniz</label>
-          <textarea id="msgContent" rows="4" required placeholder="Girişiminizle ilgileniyoruz..." class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400"></textarea>
+          <textarea id="msgContent" rows="4" placeholder="Girişiminizle ilgileniyoruz..." class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400"></textarea>
         </div>
-        <button type="submit" class="w-full al-accent-bg font-extrabold py-3 rounded-xl text-xs transition cursor-pointer">Mesajı Gönder</button>
-      </form>
+        <button type="button" onclick="sendInAppMessage()" class="w-full al-accent-bg font-extrabold py-3 rounded-xl text-xs transition cursor-pointer">Mesajı Gönder</button>
+      </div>
     </div>
   </div>
 
@@ -333,22 +333,22 @@
         <div class="flex-grow border-t border-[#1e222d]"></div>
       </div>
 
-      <form onsubmit="handleAuthSubmit(event)" class="space-y-3">
+      <div class="space-y-3">
         <div id="fullNameBox" style="display: none;">
           <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Ad Soyad</label>
           <input type="text" id="authFullName" placeholder="İhsan Özdemir" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs outline-none focus:border-emerald-400">
         </div>
         <div>
           <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">E-Posta Adresi</label>
-          <input type="email" id="authEmail" required placeholder="ornek@domain.com" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs outline-none focus:border-emerald-400">
+          <input type="email" id="authEmail" placeholder="ornek@domain.com" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs outline-none focus:border-emerald-400">
         </div>
         <div>
           <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Şifre</label>
-          <input type="password" id="authPassword" required minlength="6" placeholder="******" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs outline-none focus:border-emerald-400">
+          <input type="password" id="authPassword" placeholder="******" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs outline-none focus:border-emerald-400">
         </div>
 
-        <button type="submit" id="authSubmitBtn" class="w-full al-accent-bg font-extrabold py-3.5 rounded-xl text-xs transition mt-2">Giriş Yap</button>
-      </form>
+        <button type="button" id="authSubmitBtn" onclick="handleAuthSubmit()" class="w-full al-accent-bg font-extrabold py-3.5 rounded-xl text-xs transition mt-2 cursor-pointer">Giriş Yap</button>
+      </div>
     </div>
   </div>
 
@@ -358,9 +358,9 @@
       <button type="button" onclick="closeSelectAddModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold">&times;</button>
       <h3 class="text-2xl font-black text-center">Ne Yayınlamak İstersiniz?</h3>
       <div class="space-y-3">
-        <button type="button" onclick="closeSelectAddModal(); openStartupFormModal();" class="w-full al-card-dark p-4 rounded-2xl text-left flex justify-between items-center hover:border-emerald-400 transition"><span>🚀 Girişim İlanı</span>&rarr;</button>
-        <button type="button" onclick="closeSelectAddModal(); openSyndicateModal();" class="w-full al-card-dark p-4 rounded-2xl text-left flex justify-between items-center hover:border-rose-400 transition"><span>🔥 Yatırım Turu</span>&rarr;</button>
-        <button type="button" onclick="closeSelectAddModal(); openAcquisitionModal();" class="w-full al-card-dark p-4 rounded-2xl text-left flex justify-between items-center hover:border-indigo-400 transition"><span>🛒 Satılık Proje (SaaS)</span>&rarr;</button>
+        <button type="button" onclick="closeSelectAddModal(); openStartupFormModal();" class="w-full al-card-dark p-4 rounded-2xl text-left flex justify-between items-center hover:border-emerald-400 transition cursor-pointer"><span>🚀 Girişim İlanı</span>&rarr;</button>
+        <button type="button" onclick="closeSelectAddModal(); openSyndicateModal();" class="w-full al-card-dark p-4 rounded-2xl text-left flex justify-between items-center hover:border-rose-400 transition cursor-pointer"><span>🔥 Yatırım Turu</span>&rarr;</button>
+        <button type="button" onclick="closeSelectAddModal(); openAcquisitionModal();" class="w-full al-card-dark p-4 rounded-2xl text-left flex justify-between items-center hover:border-indigo-400 transition cursor-pointer"><span>🛒 Satılık Proje (SaaS)</span>&rarr;</button>
       </div>
     </div>
   </div>
@@ -374,10 +374,10 @@
         <p class="text-[11px] text-slate-400">Projenizi yatırımcı ağına hemen dahil edin.</p>
       </div>
       
-      <form onsubmit="handleAddStartup(event)" class="space-y-3">
+      <div class="space-y-3">
         <div>
           <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Girişim Adı</label>
-          <input type="text" id="addTitle" required placeholder="Projenizin Adı" class="w-full p-2.5 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400 transition">
+          <input type="text" id="addTitle" placeholder="Projenizin Adı" class="w-full p-2.5 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400 transition">
         </div>
         
         <div class="grid grid-cols-2 gap-3">
@@ -403,11 +403,11 @@
         <div class="grid grid-cols-2 gap-3">
           <div>
             <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Hedef Yatırım ($)</label>
-            <input type="text" id="addGoal" required placeholder="50000" class="w-full p-2.5 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400 transition">
+            <input type="text" id="addGoal" placeholder="50000" class="w-full p-2.5 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400 transition">
           </div>
           <div>
             <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Kurucu İsim</label>
-            <input type="text" id="addFounder" required placeholder="Adınız Soyadınız" class="w-full p-2.5 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400 transition">
+            <input type="text" id="addFounder" placeholder="Adınız Soyadınız" class="w-full p-2.5 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400 transition">
           </div>
         </div>
 
@@ -418,11 +418,11 @@
 
         <div>
           <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Girişim Açıklaması</label>
-          <textarea id="addDesc" rows="2" required placeholder="Projenizin çözdüğü problemi anlatın..." class="w-full p-2.5 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400 transition"></textarea>
+          <textarea id="addDesc" rows="2" placeholder="Projenizin çözdüğü problemi anlatın..." class="w-full p-2.5 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400 transition"></textarea>
         </div>
 
-        <button type="submit" class="w-full al-accent-bg font-black py-3 rounded-xl text-xs transition shadow-lg cursor-pointer">Yayınla</button>
-      </form>
+        <button type="button" onclick="handleAddStartup()" class="w-full al-accent-bg font-black py-3 rounded-xl text-xs transition shadow-lg cursor-pointer">Yayınla</button>
+      </div>
     </div>
   </div>
 
@@ -430,15 +430,15 @@
     <div class="al-card-dark rounded-3xl max-w-lg w-full p-8 relative text-white">
       <button type="button" onclick="closeSyndicateModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold">&times;</button>
       <h2 class="text-2xl font-black mb-4">🔥 Yeni Yatırım Turu Başlat</h2>
-      <form onsubmit="handleAddSyndicate(event)" class="space-y-4">
-        <input type="text" id="addSynTitle" required placeholder="Tur Başlığı" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white">
+      <div class="space-y-4">
+        <input type="text" id="addSynTitle" placeholder="Tur Başlığı" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white">
         <div class="grid grid-cols-2 gap-4">
-          <input type="text" id="addSynLeader" required placeholder="Lider Yatırımcı" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white">
-          <input type="text" id="addSynGoal" required placeholder="Tur Büyüklüğü ($)" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white">
+          <input type="text" id="addSynLeader" placeholder="Lider Yatırımcı" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white">
+          <input type="text" id="addSynGoal" placeholder="Tur Büyüklüğü ($)" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white">
         </div>
-        <textarea id="addSynDesc" rows="3" required placeholder="Tur Açıklaması..." class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white"></textarea>
-        <button type="submit" class="w-full bg-rose-500 text-white font-extrabold py-3 rounded-xl text-xs">Turu Yayınla</button>
-      </form>
+        <textarea id="addSynDesc" rows="3" placeholder="Tur Açıklaması..." class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white"></textarea>
+        <button type="button" onclick="handleAddSyndicate()" class="w-full bg-rose-500 text-white font-extrabold py-3 rounded-xl text-xs cursor-pointer">Turu Yayınla</button>
+      </div>
     </div>
   </div>
 
@@ -446,16 +446,16 @@
     <div class="al-card-dark rounded-3xl max-w-lg w-full p-8 relative text-white">
       <button type="button" onclick="closeAcquisitionModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold">&times;</button>
       <h2 class="text-2xl font-black mb-4">🛒 Satılık Proje İlanı Ver</h2>
-      <form onsubmit="handleAddAcquisition(event)" class="space-y-4">
-        <input type="text" id="addAcqTitle" required placeholder="Proje Adı" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white">
+      <div class="space-y-4">
+        <input type="text" id="addAcqTitle" placeholder="Proje Adı" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white">
         <div class="grid grid-cols-2 gap-4">
-          <input type="text" id="addAcqMRR" required placeholder="Aylık Gelir - MRR ($)" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white">
-          <input type="text" id="addAcqPrice" required placeholder="Satış Fiyatı ($)" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white">
+          <input type="text" id="addAcqMRR" placeholder="Aylık Gelir - MRR ($)" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white">
+          <input type="text" id="addAcqPrice" placeholder="Satış Fiyatı ($)" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white">
         </div>
-        <input type="text" id="addAcqTech" required placeholder="Teknolojiler (Next.js, Supabase vb.)" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white">
-        <textarea id="addAcqDesc" rows="3" required placeholder="Proje Detayları..." class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white"></textarea>
-        <button type="submit" class="w-full bg-indigo-600 text-white font-extrabold py-3 rounded-xl text-xs">Satış İlanını Yayınla</button>
-      </form>
+        <input type="text" id="addAcqTech" placeholder="Teknolojiler (Next.js, Supabase vb.)" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white">
+        <textarea id="addAcqDesc" rows="3" placeholder="Proje Detayları..." class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white"></textarea>
+        <button type="button" onclick="handleAddAcquisition()" class="w-full bg-indigo-600 text-white font-extrabold py-3 rounded-xl text-xs cursor-pointer">Satış İlanını Yayınla</button>
+      </div>
     </div>
   </div>
 
@@ -607,10 +607,10 @@
     }
     function closeInAppMessageModal() { document.getElementById('inAppMessageModal').classList.add('hidden'); }
 
-    async function sendInAppMessage(e) {
-      e.preventDefault();
+    async function sendInAppMessage() {
       var sender = document.getElementById('msgSender').value;
       var content = document.getElementById('msgContent').value;
+      if (!sender || !content) { showToast("Uyarı", "Lütfen tüm alanları doldurun."); return; }
 
       var newMessage = {
         id: Date.now(),
@@ -681,12 +681,12 @@
       }
     }
 
-    async function handleAuthSubmit(e) {
-      e.preventDefault();
+    async function handleAuthSubmit() {
       const email = document.getElementById('authEmail').value;
       const password = document.getElementById('authPassword').value;
       const fullName = document.getElementById('authFullName').value;
 
+      if (!email || !password) { showToast("Uyarı", "Lütfen e-posta ve şifre girin."); return; }
       if (!sbClient) return;
 
       if (currentAuthMode === 'signup') {
@@ -698,7 +698,7 @@
         if (error) {
           showToast("Kayıt Hatası", error.message);
         } else {
-          showToast("Doğrulama E-postası Gönderildi", "Lütfen gelen kutunuzu kontrol edip e-postanızı onaylayın.");
+          showToast("Doğrulama E-postası Gönderildi", "Lütfen e-postanızı onaylayın.");
           switchAuthTab('login');
         }
       } else {
@@ -725,15 +725,6 @@
       loadStartups();
       loadSyndicates();
       loadAcquisitions();
-
-      // CANLI DİNLEME (REALTIME): Başka cihazdan ilan eklendiğinde ekranı otomatik günceller
-      if (sbClient) {
-        sbClient.channel('public:startups')
-          .on('postgres_changes', { event: '*', schema: 'public', table: 'startups' }, payload => {
-            loadStartups();
-          })
-          .subscribe();
-      }
     });
 
     async function handleLogout() {
@@ -742,23 +733,21 @@
 
     var startups = [], syndicates = [], acquisitions = [];
 
-    // BULUT VERİTABANINDAN (SUPABASE) DOĞRUDAN ÇEKME MİMARİSİ
     async function loadStartups() {
-      if (sbClient) {
-        try {
-          const { data, error } = await sbClient.from('startups').select('*').order('id', { ascending: false });
-          if (!error && data) {
-            startups = data;
-            renderStartups(startups);
-            return;
-          }
-        } catch (err) { console.error("Supabase yükleme hatası:", err); }
-      }
-      
-      // Buluta ulaşılamazsa yerel yedekten okur
       var localData = JSON.parse(localStorage.getItem('my_startups_list') || '[]');
       startups = localData;
       renderStartups(startups);
+
+      if (sbClient) {
+        try {
+          const { data, error } = await sbClient.from('startups').select('*').order('id', { ascending: false });
+          if (!error && data && data.length > 0) {
+            var combined = data.concat(localData.filter(loc => !data.some(cloud => cloud.name === loc.name)));
+            startups = combined;
+            renderStartups(startups);
+          }
+        } catch (err) { console.error("Bulut yükleme hatası:", err); }
+      }
     }
 
     function renderStartups(data) {
@@ -803,20 +792,26 @@
       });
     }
 
-    // DOĞRUDAN SUPABASE BULUTA KAYIT VE SENKRONİZASYON
-    async function handleAddStartup(e) {
-      e.preventDefault();
-      if (!currentUser) { showToast("Uyarı", "Giriş yapmalısınız!"); return; }
+    async function handleAddStartup() {
+      if (!currentUser) { showToast("Uyarı", "Giriş yapmalısınız!"); openAuthModal('login'); return; }
 
-      var goalInput = Number(String(document.getElementById('addGoal').value).replace(/[^0-9]/g, '')) || 10000;
       var titleVal = document.getElementById('addTitle').value;
-      var sectorVal = document.getElementById('addSector').value;
-      var stageVal = document.getElementById('addStage').value;
+      var goalVal = document.getElementById('addGoal').value;
       var founderVal = document.getElementById('addFounder').value;
-      var websiteVal = document.getElementById('addWebsite').value;
       var descVal = document.getElementById('addDesc').value;
 
+      if (!titleVal || !goalVal || !founderVal || !descVal) {
+        showToast("Eksik Alan", "Lütfen zorunlu alanları doldurun.");
+        return;
+      }
+
+      var goalInput = Number(String(goalVal).replace(/[^0-9]/g, '')) || 10000;
+      var sectorVal = document.getElementById('addSector').value;
+      var stageVal = document.getElementById('addStage').value;
+      var websiteVal = document.getElementById('addWebsite').value;
+
       var newStartup = {
+        id: Date.now(),
         user_id: currentUser.id,
         user_email: currentUser.email,
         name: titleVal,
@@ -831,36 +826,43 @@
         desc: descVal
       };
 
+      var localList = JSON.parse(localStorage.getItem('my_startups_list') || '[]');
+      localList.unshift(newStartup);
+      localStorage.setItem('my_startups_list', JSON.stringify(localList));
+
       if (sbClient) {
         try { 
-          const { error } = await sbClient.from('startups').insert([newStartup]);
-          if (error) {
-            console.error("Supabase kayıt hatası:", error);
-            showToast("Hata", "Buluta kaydedilemedi!");
-            return;
-          }
-        } catch (err) { 
-          console.error("Bağlantı hatası:", err); 
-          showToast("Hata", "Bağlantı hatası oluştu.");
-          return;
-        }
+          await sbClient.from('startups').insert([{
+            user_id: currentUser.id,
+            user_email: currentUser.email,
+            name: titleVal,
+            title: titleVal,
+            sector: sectorVal,
+            stage: stageVal,
+            funding_goal: goalInput,
+            goal: goalInput,
+            founder: founderVal,
+            website: websiteVal,
+            description: descVal,
+            desc: descVal
+          }]);
+        } catch (err) { console.error("Bulut kayıt hatası:", err); }
       }
 
       await loadStartups();
       closeCreateModal();
-      showToast("Başarılı", "Girişim ilanı tüm cihazlar için yayına alındı!");
+      showToast("Başarılı", "Girişim ilanı yayına alındı!");
+
+      document.getElementById('addTitle').value = '';
+      document.getElementById('addGoal').value = '';
+      document.getElementById('addFounder').value = '';
+      document.getElementById('addWebsite').value = '';
+      document.getElementById('addDesc').value = '';
     }
 
     async function loadSyndicates() {
-      if (sbClient) {
-        try {
-          const { data } = await sbClient.from('syndicates').select('*').order('id', { ascending: false });
-          if (data && data.length > 0) { syndicates = data; renderSyndicates(syndicates); return; }
-        } catch (e) {}
-      }
       var localData = JSON.parse(localStorage.getItem('my_syndicates_list') || '[]');
-      syndicates = localData;
-      renderSyndicates(syndicates);
+      renderSyndicates(localData);
     }
 
     function renderSyndicates(data) {
@@ -871,31 +873,33 @@
       data.forEach(function(item) {
         var card = document.createElement('div');
         card.className = "al-card-dark rounded-3xl p-6 flex flex-col justify-between space-y-4 border border-[#1e222d]";
-        card.innerHTML = '<div><span class="bg-rose-500/10 text-rose-400 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase border border-rose-500/30">🔥 CANLI TUR</span><h3 class="text-xl font-bold text-white mt-3">' + item.title + '</h3><p class="text-xs text-slate-400 font-semibold">👑 ' + item.leader + '</p><p class="text-slate-400 text-xs mt-2">' + item.description + '</p></div><div class="pt-4 border-t border-[#1e222d] flex justify-between items-center text-xs font-bold"><span class="text-rose-400">Tur: $' + Number(item.goal).toLocaleString() + '</span><button onclick="showToast(\'Bilgi\', \'Talep iletildi.\')" class="bg-rose-500 text-white px-3 py-1.5 rounded-full">Tura Katıl</button></div>';
+        card.innerHTML = '<div><span class="bg-rose-500/10 text-rose-400 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase border border-rose-500/30">🔥 CANLI TUR</span><h3 class="text-xl font-bold text-white mt-3">' + item.title + '</h3><p class="text-xs text-slate-400 font-semibold">👑 ' + item.leader + '</p><p class="text-slate-400 text-xs mt-2">' + item.description + '</p></div><div class="pt-4 border-t border-[#1e222d] flex justify-between items-center text-xs font-bold"><span class="text-rose-400">Tur: $' + Number(item.goal).toLocaleString() + '</span><button onclick="showToast(\'Bilgi\', \'Talep iletildi.\')" class="bg-rose-500 text-white px-3 py-1.5 rounded-full cursor-pointer">Tura Katıl</button></div>';
         grid.appendChild(card);
       });
     }
 
-    async function handleAddSyndicate(e) {
-      e.preventDefault();
-      if (!currentUser) return;
-      var newSyn = { user_id: currentUser.id, title: document.getElementById('addSynTitle').value, leader: document.getElementById('addSynLeader').value, goal: Number(String(document.getElementById('addSynGoal').value).replace(/[^0-9]/g, '')), description: document.getElementById('addSynDesc').value };
+    async function handleAddSyndicate() {
+      if (!currentUser) { showToast("Uyarı", "Giriş yapmalısınız!"); openAuthModal('login'); return; }
+      var title = document.getElementById('addSynTitle').value;
+      var leader = document.getElementById('addSynLeader').value;
+      var goal = document.getElementById('addSynGoal').value;
+      var desc = document.getElementById('addSynDesc').value;
+      if (!title || !leader || !goal || !desc) { showToast("Eksik Alan", "Lütfen tüm alanları doldurun."); return; }
+
+      var newSyn = { user_id: currentUser.id, title: title, leader: leader, goal: Number(String(goal).replace(/[^0-9]/g, '')), description: desc };
+      var localList = JSON.parse(localStorage.getItem('my_syndicates_list') || '[]');
+      localList.unshift(newSyn);
+      localStorage.setItem('my_syndicates_list', JSON.stringify(localList));
+
       if (sbClient) { try { await sbClient.from('syndicates').insert([newSyn]); } catch (e) {} }
-      await loadSyndicates();
+      renderSyndicates(localList);
       closeSyndicateModal();
       showToast("Başarılı", "Yatırım turu başlatıldı!");
     }
 
     async function loadAcquisitions() {
-      if (sbClient) {
-        try {
-          const { data } = await sbClient.from('acquisitions').select('*').order('id', { ascending: false });
-          if (data && data.length > 0) { acquisitions = data; renderAcquisitions(acquisitions); return; }
-        } catch (e) {}
-      }
       var localData = JSON.parse(localStorage.getItem('my_acquisitions_list') || '[]');
-      acquisitions = localData;
-      renderAcquisitions(acquisitions);
+      renderAcquisitions(localData);
     }
 
     function renderAcquisitions(data) {
@@ -906,17 +910,27 @@
       data.forEach(function(item) {
         var card = document.createElement('div');
         card.className = "al-card-dark rounded-3xl p-6 flex flex-col justify-between space-y-4 border border-[#1e222d]";
-        card.innerHTML = '<div><div class="flex justify-between items-center mb-3"><span class="bg-indigo-500/10 text-indigo-400 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase border border-indigo-500/30">🛒 SATILIK</span><span class="text-emerald-400 text-xs font-black">$' + Number(item.mrr).toLocaleString() + '/ay MRR</span></div><h3 class="text-xl font-bold text-white">' + item.title + '</h3><p class="text-xs text-slate-400">Stack: ' + item.tech + '</p><p class="text-slate-400 text-xs mt-2">' + item.description + '</p></div><div class="pt-4 border-t border-[#1e222d] flex justify-between items-center text-xs font-bold"><span class="text-white">Fiyat: $' + Number(item.price).toLocaleString() + '</span><button onclick="showToast(\'Bilgi\', \'Teklif verildi.\')" class="al-accent-bg text-[#08090b] px-3 py-1.5 rounded-full">Teklif Ver</button></div>';
+        card.innerHTML = '<div><div class="flex justify-between items-center mb-3"><span class="bg-indigo-500/10 text-indigo-400 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase border border-indigo-500/30">🛒 SATILIK</span><span class="text-emerald-400 text-xs font-black">$' + Number(item.mrr).toLocaleString() + '/ay MRR</span></div><h3 class="text-xl font-bold text-white">' + item.title + '</h3><p class="text-xs text-slate-400">Stack: ' + item.tech + '</p><p class="text-slate-400 text-xs mt-2">' + item.description + '</p></div><div class="pt-4 border-t border-[#1e222d] flex justify-between items-center text-xs font-bold"><span class="text-white">Fiyat: $' + Number(item.price).toLocaleString() + '</span><button onclick="showToast(\'Bilgi\', \'Teklif verildi.\')" class="al-accent-bg text-[#08090b] px-3 py-1.5 rounded-full cursor-pointer">Teklif Ver</button></div>';
         grid.appendChild(card);
       });
     }
 
-    async function handleAddAcquisition(e) {
-      e.preventDefault();
-      if (!currentUser) return;
-      var newAcq = { user_id: currentUser.id, title: document.getElementById('addAcqTitle').value, mrr: Number(String(document.getElementById('addAcqMRR').value).replace(/[^0-9]/g, '')), price: Number(String(document.getElementById('addAcqPrice').value).replace(/[^0-9]/g, '')), tech: document.getElementById('addAcqTech').value, description: document.getElementById('addAcqDesc').value };
+    async function handleAddAcquisition() {
+      if (!currentUser) { showToast("Uyarı", "Giriş yapmalısınız!"); openAuthModal('login'); return; }
+      var title = document.getElementById('addAcqTitle').value;
+      var mrr = document.getElementById('addAcqMRR').value;
+      var price = document.getElementById('addAcqPrice').value;
+      var tech = document.getElementById('addAcqTech').value;
+      var desc = document.getElementById('addAcqDesc').value;
+      if (!title || !mrr || !price || !tech || !desc) { showToast("Eksik Alan", "Lütfen tüm alanları doldurun."); return; }
+
+      var newAcq = { user_id: currentUser.id, title: title, mrr: Number(String(mrr).replace(/[^0-9]/g, '')), price: Number(String(price).replace(/[^0-9]/g, '')), tech: tech, description: desc };
+      var localList = JSON.parse(localStorage.getItem('my_acquisitions_list') || '[]');
+      localList.unshift(newAcq);
+      localStorage.setItem('my_acquisitions_list', JSON.stringify(localList));
+
       if (sbClient) { try { await sbClient.from('acquisitions').insert([newAcq]); } catch (e) {} }
-      await loadAcquisitions();
+      renderAcquisitions(localList);
       closeAcquisitionModal();
       showToast("Başarılı", "Satış ilanı yayınlandı!");
     }
@@ -941,19 +955,21 @@
       startups.forEach(function(item) {
         var row = document.createElement('div');
         row.className = "al-card-dark p-4 rounded-2xl flex items-center justify-between border border-[#1e222d]";
-        row.innerHTML = '<div class="space-y-1"><span class="font-bold text-white text-sm">' + (item.name || item.title) + '</span><p class="text-xs text-slate-400">Kurucu: ' + item.founder + '</p></div><button type="button" onclick="deleteStartup(\'' + item.id + '\')" class="bg-rose-500/10 text-rose-400 border border-rose-500/30 px-4 py-2 rounded-xl text-xs font-bold">İlanı Sil</button>';
+        row.innerHTML = '<div class="space-y-1"><span class="font-bold text-white text-sm">' + (item.name || item.title) + '</span><p class="text-xs text-slate-400">Kurucu: ' + item.founder + '</p></div><button type="button" onclick="deleteStartup(\'' + item.id + '\')" class="bg-rose-500/10 text-rose-400 border border-rose-500/30 px-4 py-2 rounded-xl text-xs font-bold cursor-pointer">İlanı Sil</button>';
         grid.appendChild(row);
       });
     }
 
     async function deleteStartup(id) {
       if (!confirm("Bu ilanı silmek istediğinize emin misiniz?")) return;
+      startups = startups.filter(s => s.id != id && String(s.id) !== String(id));
+      localStorage.setItem('my_startups_list', JSON.stringify(startups));
       if (sbClient) {
         try {
           await sbClient.from('startups').delete().eq('id', id);
         } catch (e) { console.error(e); }
       }
-      await loadStartups();
+      renderStartups(startups);
       renderAdminDashboard();
       showToast("Bilgi", "İlan silindi.");
     }
