@@ -385,13 +385,6 @@
           <input type="password" id="authPassword" required minlength="6" placeholder="******" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs outline-none focus:border-emerald-400">
         </div>
 
-        <!-- YENİ: KAYIT OLUNCA İSTENEN DOĞRULAMA KODU ALANI -->
-        <div id="inviteCodeBox" style="display: none;" class="space-y-1">
-          <label class="block text-[10px] font-bold text-amber-400 uppercase mb-1">Sistem Doğrulama Kodu (Whitelist)</label>
-          <input type="text" id="authInviteCode" placeholder="Kurucu onay kodunu girin" class="w-full p-3 bg-[#08090b] border border-amber-500/30 rounded-xl text-xs text-amber-300 outline-none focus:border-amber-400">
-          <p class="text-[10px] text-slate-500">Bu alan güvenlik amacıyla zorunludur.</p>
-        </div>
-
         <button type="submit" id="authSubmitBtn" class="w-full al-accent-bg font-extrabold py-3.5 rounded-xl text-xs transition mt-2">Giriş Yap</button>
       </form>
     </div>
@@ -469,7 +462,6 @@
 
   <script>
     const ADMIN_EMAIL = 'ihsannozdemiro1@gmail.com';
-    const VALID_INVITE_CODE = 'GIRISIM2026'; // Herkesin kayıt olamaması için zorunlu doğrulama kodu
     var activeContactEmail = "ihsannozdemiro1@gmail.com";
     var activeStartupName = "";
     var currentAuthMode = 'login';
@@ -539,7 +531,6 @@
       else { document.getElementById('landingView').style.display = 'block'; document.getElementById('appView').style.display = 'none'; }
     }
 
-    // Modal Sekme Yönetimi (Giriş Yap / Kayıt Ol)
     function openAuthModal(mode) {
       switchAuthTab(mode || 'login');
       document.getElementById('authModal').classList.remove('hidden');
@@ -551,21 +542,18 @@
       var loginBtn = document.getElementById('tabLoginBtn');
       var signupBtn = document.getElementById('tabSignupBtn');
       var fullNameBox = document.getElementById('fullNameBox');
-      var inviteCodeBox = document.getElementById('inviteCodeBox');
       var submitBtn = document.getElementById('authSubmitBtn');
 
       if (mode === 'login') {
         loginBtn.className = "w-1/2 py-2.5 rounded-xl text-xs font-black transition bg-[#1e222d] text-white";
         signupBtn.className = "w-1/2 py-2.5 rounded-xl text-xs font-medium text-slate-400 hover:text-white transition";
         fullNameBox.style.display = 'none';
-        inviteCodeBox.style.display = 'none';
         submitBtn.innerText = "Giriş Yap";
       } else {
         signupBtn.className = "w-1/2 py-2.5 rounded-xl text-xs font-black transition bg-[#1e222d] text-white";
         loginBtn.className = "w-1/2 py-2.5 rounded-xl text-xs font-medium text-slate-400 hover:text-white transition";
         fullNameBox.style.display = 'block';
-        inviteCodeBox.style.display = 'block';
-        submitBtn.innerText = "Kayıt Ol";
+        submitBtn.innerText = "Kayıt Ol & Doğrulama E-postası Gönder";
       }
     }
 
@@ -697,33 +685,35 @@
       }
     }
 
-    // E-posta / Şifre Doğrulama Kodlu Kayıt & Giriş İşlemi
+    // Supabase Gerçek E-posta Doğrulama Entegrasyonu
     async function handleAuthSubmit(e) {
       e.preventDefault();
       const email = document.getElementById('authEmail').value;
       const password = document.getElementById('authPassword').value;
       const fullName = document.getElementById('authFullName').value;
-      const inviteCode = document.getElementById('authInviteCode').value;
 
       if (!sbClient) return;
 
       if (currentAuthMode === 'signup') {
-        if (inviteCode !== VALID_INVITE_CODE) {
-          showToast("Yetki Hatası", "Geçersiz sistem doğrulama kodu! Herkes kayıt olamaz.");
-          return;
-        }
-
         const { error } = await sbClient.auth.signUp({ 
           email, 
           password, 
           options: { data: { full_name: fullName } } 
         });
-        if (error) showToast("Kayıt Hatası", error.message);
-        else { showToast("Başarılı", "Kayıt onaylandı! Giriş yapabilirsiniz."); switchAuthTab('login'); }
+        if (error) {
+          showToast("Kayıt Hatası", error.message);
+        } else {
+          showToast("Doğrulama E-postası Gönderildi", "Lütfen gelen kutunuzu kontrol edip e-postanızı onaylayın.");
+          switchAuthTab('login');
+        }
       } else {
-        const { error } = await sbClient.auth.signInWithPassword({ email, password });
-        if (error) showToast("Giriş Hatası", error.message);
-        else { showToast("Başarılı", "Giriş yapıldı!"); closeAuthModal(); }
+        const { data, error } = await sbClient.auth.signInWithPassword({ email, password });
+        if (error) {
+          showToast("Giriş Hatası", error.message);
+        } else {
+          showToast("Başarılı", "Giriş yapıldı!");
+          closeAuthModal();
+        }
       }
     }
 
