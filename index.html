@@ -972,7 +972,23 @@
             return;
           }
 
-          // Kayıt başarılı: Supabase e-postaya 6 haneli tek kullanımlık kod gönderir.
+          // Durum 1: Supabase panelinde "Confirm email" KAPALIYSA, hiç mail gönderilmez
+          // ve oturum direkt açılır. Bu durumda kod ekranını atlayıp direkt içeri alırız.
+          if (data && data.session) {
+            showToast("Başarılı", "Kayıt tamamlandı, giriş yapıldı!");
+            closeAuthModal();
+            updateUserUI(data.session.user);
+            return;
+          }
+
+          // Durum 2: Bu e-posta zaten kayıtlı ama doğrulanmamış/doğrulanmış olabilir.
+          if (data && data.user && Array.isArray(data.user.identities) && data.user.identities.length === 0) {
+            showToast("Zaten Kayıtlı", "Bu e-posta adresiyle zaten bir hesap var. Giriş yapmayı deneyin.");
+            switchAuthTab('login');
+            return;
+          }
+
+          // Durum 3: Normal akış — Supabase e-postaya 6 haneli tek kullanımlık kod gönderir.
           // (Supabase panelinde "Confirm email" açık olmalı ve mail şablonunda {{ .Token }} kullanılmalı.)
           pendingSignupEmail = email;
           pendingSignupPassword = password;
