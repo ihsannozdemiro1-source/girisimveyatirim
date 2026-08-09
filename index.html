@@ -59,7 +59,7 @@
         <span>Girişim ve Yatırım</span>
       </button>
 
-      <!-- ZİYARETÇİ MENÜSÜ (Giriş Yapmayanlara Görünür) -->
+      <!-- ZİYARETÇİ MENÜSÜ -->
       <nav id="visitorNav" class="hidden md:flex items-center space-x-1 bg-[#16181d] p-1.5 rounded-full border border-[#23262d]">
         <a href="#ecosystem-solutions" class="px-5 py-2 rounded-full text-xs font-medium text-slate-300 hover:text-emerald-400 transition">Çözümler</a>
         <a href="#platform-features" class="px-5 py-2 rounded-full text-xs font-medium text-slate-300 hover:text-emerald-400 transition">Avantajlar</a>
@@ -67,7 +67,7 @@
         <a href="#faq-section" class="px-5 py-2 rounded-full text-xs font-medium text-slate-300 hover:text-emerald-400 transition">SSS</a>
       </nav>
 
-      <!-- UYGULAMA MENÜSÜ (SADECE GİRİŞ YAPANLARA GÖRÜNÜR) -->
+      <!-- UYGULAMA MENÜSÜ -->
       <nav id="appNav" class="hidden items-center space-x-1 bg-[#16181d] p-1.5 rounded-full border border-[#23262d]">
         <button type="button" id="btn-startups" onclick="showTab('startups')" class="tab-btn px-5 py-2 rounded-full text-xs font-bold text-white bg-[#23262d] shadow-sm transition">Girişimler</button>
         <button type="button" id="btn-syndicates" onclick="showTab('syndicates')" class="tab-btn px-5 py-2 rounded-full text-xs font-medium text-slate-400 hover:text-white transition">Canlı Turlar</button>
@@ -91,7 +91,7 @@
   </header>
 
   <!-- ========================================== -->
-  <!-- 0. ZİYARETÇİ TANITIM ARAYÜZÜ (Giriş Yapılmadığında) -->
+  <!-- 0. ZİYARETÇİ TANITIM ARAYÜZÜ -->
   <!-- ========================================== -->
   <div id="landingView" style="display: block;">
     
@@ -300,7 +300,7 @@
         <div>
           <span class="text-xs font-bold uppercase tracking-wider text-emerald-400 mb-2 block">🚀 AKTİF GİRİŞİMLER</span>
           <h1 class="text-3xl font-black text-white">Geleceğin Şirketlerini Keşfet</h1>
-          <p class="text-slate-400 text-sm mt-1">Veritabanında aktif olarak yer alan güncel girişimler.</p>
+          <p class="text-slate-400 text-sm mt-1">Veritabanında aktif olarak yer alan güncel girişimler. İlan detayları için kartlara tıklayın.</p>
         </div>
         <div class="flex items-center gap-6 bg-[#0e0f12] p-4 rounded-2xl border border-[#23262d]">
           <div class="text-center px-2">
@@ -420,6 +420,41 @@
 
     </div>
   </footer>
+
+  <!-- DETAY MODALI (ADIM 1: İLAN DETAY SAYFASI) -->
+  <div id="detailModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
+    <div class="al-card-dark rounded-3xl max-w-2xl w-full p-8 relative text-white max-h-[90vh] overflow-y-auto border border-[#23262d] space-y-6">
+      <button type="button" onclick="closeDetailModal()" class="absolute top-5 right-5 text-slate-500 text-xl font-bold hover:text-white">&times;</button>
+      
+      <div class="space-y-2">
+        <div class="flex items-center gap-3">
+          <span id="detailSector" class="bg-[#0e0f12] text-emerald-400 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider border border-[#23262d]"></span>
+          <span id="detailStage" class="text-slate-500 text-xs font-bold uppercase"></span>
+        </div>
+        <h2 id="detailTitle" class="text-3xl font-black text-white"></h2>
+        <p id="detailFounder" class="text-xs text-slate-400 font-semibold"></p>
+      </div>
+
+      <div class="bg-[#0e0f12] p-5 rounded-2xl border border-[#23262d] space-y-3">
+        <div class="flex justify-between items-center text-xs font-bold">
+          <span id="detailRaised" class="text-emerald-400 text-sm"></span>
+          <span id="detailGoal" class="text-slate-400"></span>
+        </div>
+        <div class="w-full bg-[#16181d] rounded-full h-2">
+          <div id="detailProgress" class="bg-emerald-400 h-2 rounded-full" style="width: 0%"></div>
+        </div>
+      </div>
+
+      <div class="space-y-2">
+        <h4 class="text-xs font-bold text-slate-400 uppercase tracking-widest">Girişim Açıklaması</h4>
+        <p id="detailDesc" class="text-slate-300 text-xs leading-relaxed whitespace-pre-line"></p>
+      </div>
+
+      <div class="pt-4 border-t border-[#23262d] flex justify-end gap-3">
+        <button type="button" onclick="closeDetailModal()" class="bg-[#23262d] text-white font-bold text-xs px-5 py-2.5 rounded-full hover:bg-slate-700 transition">Kapat</button>
+      </div>
+    </div>
+  </div>
 
   <!-- AUTH MODAL -->
   <div id="authModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
@@ -552,6 +587,29 @@
     function closeAuthModal() { document.getElementById('authModal').classList.add('hidden'); }
     function openCreateModal() { document.getElementById('addModal').classList.remove('hidden'); }
     function closeCreateModal() { document.getElementById('addModal').classList.add('hidden'); }
+    
+    // Detay Modalı İşlevleri
+    function openDetailModal(item) {
+      document.getElementById('detailTitle').innerText = item.name || item.title || 'İsimsiz Girişim';
+      document.getElementById('detailSector').innerText = item.sector || 'Teknoloji';
+      document.getElementById('detailStage').innerText = item.stage || 'Erken Aşama';
+      document.getElementById('detailFounder').innerText = "👤 Kurucu: " + (item.founder || 'Belirtilmedi');
+      document.getElementById('detailDesc').innerText = item.description || item.desc || 'Açıklama bulunmuyor.';
+      
+      var goal = item.fundingGoal || item.goal || 10000;
+      var raised = item.raised || 0;
+      var percent = Math.min(100, Math.round((raised / goal) * 100));
+
+      document.getElementById('detailRaised').innerText = "$" + Number(raised).toLocaleString() + " toplandı";
+      document.getElementById('detailGoal').innerText = "Hedef: $" + Number(goal).toLocaleString();
+      document.getElementById('detailProgress').style.width = percent + "%";
+
+      document.getElementById('detailModal').classList.remove('hidden');
+    }
+
+    function closeDetailModal() {
+      document.getElementById('detailModal').classList.add('hidden');
+    }
 
     function setAuthMode(mode) {
       authMode = mode;
@@ -596,7 +654,6 @@
         userBox.classList.remove('hidden');
         loginBtn.classList.add('hidden');
         
-        // Ziyaretçi menüsünü gizle, uygulama menüsünü aç
         if (visitorNav) visitorNav.style.display = 'none';
         if (appNav) {
           appNav.style.display = 'flex';
@@ -618,7 +675,6 @@
         userBox.classList.add('hidden');
         loginBtn.classList.remove('hidden');
         
-        // Uygulama menüsünü gizle, ziyaretçi menüsünü aç
         if (appNav) {
           appNav.style.display = 'none';
           appNav.classList.add('hidden');
@@ -727,7 +783,9 @@
         var percent = Math.min(100, Math.round((raised / goal) * 100));
         
         var card = document.createElement('div');
-        card.className = "al-card-dark rounded-3xl p-6 flex flex-col justify-between space-y-4 hover:border-slate-700 transition";
+        card.className = "al-card-dark rounded-3xl p-6 flex flex-col justify-between space-y-4 hover:border-slate-700 transition cursor-pointer";
+        card.onclick = function() { openDetailModal(item); };
+        
         card.innerHTML = 
           '<div>' +
             '<div class="flex items-center justify-between mb-3">' +
