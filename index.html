@@ -320,11 +320,11 @@
       </div>
     </div>
 
-    <!-- 6. KURUCU ADMIN PANELİ (KULLANICI VE İLAN İSTATİSTİKLERİ EKLENMİŞ HALİ) -->
+    <!-- 6. KURUCU ADMIN PANELİ -->
     <div id="tab-admin" class="content-tab space-y-8" style="display: none;">
       <div class="al-card-dark p-8 rounded-3xl border border-amber-500/30 space-y-2">
         <span class="bg-amber-500/10 text-amber-400 text-xs font-black px-3 py-1 rounded-full uppercase">Kurucu Yönetim Paneli</span>
-        <h2 class="text-3xl font-black text-white">Sistem, Kullanıcı & İlan İstatistikleri</h2>
+        <h2 class="text-3xl font-black text-white">Sistem & İlan Yönetimi</h2>
       </div>
 
       <!-- Kullanıcı ve Sistem İstatistik Kartları -->
@@ -334,8 +334,8 @@
           <div class="text-3xl font-black text-emerald-400" id="adminUserCount">1</div>
         </div>
         <div class="al-card-dark p-6 rounded-2xl text-center space-y-1">
-          <div class="text-xs font-bold text-slate-400 uppercase">Aktif Oturum (Oturum Açan)</div>
-          <div class="text-3xl font-black text-blue-400" id="adminActiveSession">Aktif</div>
+          <div class="text-xs font-bold text-slate-400 uppercase">Aktif Oturum (Aktif Kullanıcı)</div>
+          <div class="text-3xl font-black text-blue-400" id="adminActiveSession">0</div>
         </div>
         <div class="al-card-dark p-6 rounded-2xl text-center space-y-1">
           <div class="text-xs font-bold text-slate-400 uppercase">Toplam Aktif İlan</div>
@@ -1091,10 +1091,10 @@
       document.getElementById('adminSynCount').innerText = syndicates.length;
       document.getElementById('adminAcqCount').innerText = acquisitions.length;
       
-      // Dinamik Kullanıcı İstatistikleri
+      // Dinamik Kullanıcı ve Aktif Oturum Sayısı
       document.getElementById('adminTotalListings').innerText = startups.length + syndicates.length + acquisitions.length;
       document.getElementById('adminUserCount').innerText = currentUser ? "1" : "0";
-      document.getElementById('adminActiveSession').innerText = currentUser ? currentUser.email : "Misafir";
+      document.getElementById('adminActiveSession').innerText = currentUser ? "1" : "0";
 
       var grid = document.getElementById('adminListingsGrid');
       if (!grid) return;
