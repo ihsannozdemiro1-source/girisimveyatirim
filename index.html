@@ -483,7 +483,7 @@
     </div>
   </footer>
 
-  <!-- ÖZEL ŞIK TOAST BİLDİRİM KUTUSU -->
+  <!-- TOAST BİLDİRİM -->
   <div id="customToast" class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none">
     <div class="al-card-dark bg-[#161822] border border-emerald-500/40 px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-3">
       <div class="w-8 h-8 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-400 text-sm font-bold">✓</div>
@@ -526,61 +526,13 @@
         <p id="detailDesc" class="text-slate-300 text-xs leading-relaxed whitespace-pre-line"></p>
       </div>
 
-      <!-- İLETİŞİM SEÇENEKLERİ MODALINI AÇAN BUTON -->
+      <!-- DOĞRUDAN MAİL AÇAN KESİN ÇÖZÜMLÜ BUTON -->
       <div class="pt-4 border-t border-[#1e222d] flex justify-between items-center">
-        <button type="button" onclick="openContactOptions()" class="al-accent-bg font-extrabold text-xs px-6 py-2.5 rounded-full shadow-md transition cursor-pointer">
+        <a id="detailContactBtn" href="#" class="al-accent-bg font-extrabold text-xs px-6 py-2.5 rounded-full shadow-md transition inline-block text-center no-underline">
           📩 Girişimci ile İletişime Geç
-        </button>
+        </a>
         <button type="button" onclick="closeDetailModal()" class="bg-[#1e222d] text-white font-bold text-xs px-5 py-2.5 rounded-full hover:bg-slate-700 transition">Kapat</button>
       </div>
-    </div>
-  </div>
-
-  <!-- YENİ: İLETİŞİM SEÇENEKLERİ (MAİL VEYA PLATFORM İÇİ MESAJ) MODALI -->
-  <div id="contactOptionsModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
-    <div class="al-card-dark rounded-3xl max-w-md w-full p-8 relative text-white space-y-6">
-      <button type="button" onclick="closeContactOptions()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold hover:text-white">&times;</button>
-      <div class="text-center">
-        <h3 class="text-2xl font-black">İletişim Yöntemi Seçin</h3>
-        <p class="text-slate-400 text-xs mt-1">Kurucuya nasıl ulaşmak istersiniz?</p>
-      </div>
-      <div class="space-y-3">
-        <button type="button" onclick="openDirectEmail()" class="w-full al-card-dark hover:border-emerald-400 p-4 rounded-2xl text-left transition flex items-center justify-between">
-          <div>
-            <div class="font-extrabold text-sm text-white">📧 Doğrudan E-Posta Aç</div>
-            <div class="text-[11px] text-slate-400">Cihazınızdaki e-posta uygulaması açılır.</div>
-          </div>
-          <span class="text-emerald-400 font-bold">&rarr;</span>
-        </button>
-        <button type="button" onclick="openInAppMessage()" class="w-full al-card-dark hover:border-indigo-400 p-4 rounded-2xl text-left transition flex items-center justify-between">
-          <div>
-            <div class="font-extrabold text-sm text-white">💬 Site İçi Mesaj Gönder</div>
-            <div class="text-[11px] text-slate-400">Doğrudan platform üzerinden mesaj ilet.</div>
-          </div>
-          <span class="text-indigo-400 font-bold">&rarr;</span>
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- YENİ: SİTE İÇİ MESAJ GÖNDERME FORMU MODALI -->
-  <div id="inAppMessageModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
-    <div class="al-card-dark rounded-3xl max-w-lg w-full p-8 relative text-white">
-      <button type="button" onclick="closeInAppMessageModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold hover:text-white">&times;</button>
-      <h2 class="text-2xl font-black mb-2">Kurucuya Mesaj Gönder</h2>
-      <p id="targetFounderLabel" class="text-xs text-emerald-400 font-semibold mb-4"></p>
-      
-      <form onsubmit="sendInAppMessage(event)" class="space-y-4">
-        <div>
-          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Adınız / E-Postanız</label>
-          <input type="text" id="msgSender" required placeholder="Adınız veya e-posta adresiniz" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400">
-        </div>
-        <div>
-          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Mesajınız / Yatırım Teklifiniz</label>
-          <textarea id="msgContent" rows="4" required placeholder="Girişiminizle ilgileniyoruz..." class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400"></textarea>
-        </div>
-        <button type="submit" class="w-full al-accent-bg font-extrabold py-3 rounded-xl text-xs transition">Mesajı Gönder</button>
-      </form>
     </div>
   </div>
 
@@ -794,8 +746,6 @@
 
   <script>
     const ADMIN_EMAIL = 'ihsannozdemiro1@gmail.com';
-    var activeContactEmail = "ihsannozdemiro1@gmail.com";
-    var activeStartupName = "";
 
     function showToast(title, desc) {
       var toast = document.getElementById('customToast');
@@ -919,65 +869,18 @@
         linksBox.innerHTML += '<a href="' + item.deck + '" target="_blank" class="bg-[#08090b] hover:bg-[#12141a] text-indigo-400 border border-indigo-500/30 px-3.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5">📄 Pitch Deck (Sunum) &rarr;</a>';
       }
 
-      activeContactEmail = item.user_email || "ihsannozdemiro1@gmail.com";
-      activeStartupName = item.name || item.title || "Girişim";
+      var contactEmail = item.user_email || "ihsannozdemiro1@gmail.com";
+      var startupName = item.name || item.title || "Girişim";
+      
+      // Doğrudan mail uygulamasını açan mailto bağlantısı atandı
+      var contactBtn = document.getElementById('detailContactBtn');
+      contactBtn.href = "mailto:" + contactEmail + "?subject=" + encodeURIComponent(startupName + " - Yatırım ve İşbirliği Talebi");
 
       document.getElementById('detailModal').classList.remove('hidden');
     }
 
     function closeDetailModal() {
       document.getElementById('detailModal').classList.add('hidden');
-    }
-
-    // İletişim Yöntemleri Modalı Yönetimi
-    function openContactOptions() {
-      document.getElementById('contactOptionsModal').classList.remove('hidden');
-    }
-    function closeContactOptions() {
-      document.getElementById('contactOptionsModal').classList.add('hidden');
-    }
-
-    // 1. Seçenek: Doğrudan Mail Uygulaması
-    function openDirectEmail() {
-      closeContactOptions();
-      window.location.href = "mailto:" + activeContactEmail + "?subject=" + encodeURIComponent(activeStartupName + " Yatırım Talebi");
-    }
-
-    // 2. Seçenek: Site İçi Mesaj Formunu Aç
-    function openInAppMessage() {
-      closeContactOptions();
-      closeDetailModal();
-      document.getElementById('targetFounderLabel').innerText = "Alıcı: " + activeStartupName + " (" + activeContactEmail + ")";
-      document.getElementById('inAppMessageModal').classList.remove('hidden');
-    }
-    function closeInAppMessageModal() {
-      document.getElementById('inAppMessageModal').classList.add('hidden');
-    }
-
-    // Site İçi Mesajı Gönderme
-    async function sendInAppMessage(e) {
-      e.preventDefault();
-      var sender = document.getElementById('msgSender').value;
-      var content = document.getElementById('msgContent').value;
-
-      var newMessage = {
-        id: Date.now(),
-        startup: activeStartupName,
-        recipient: activeContactEmail,
-        sender: sender,
-        message: content,
-        date: new Date().toLocaleString()
-      };
-
-      // LocalStorage'a kaydet (istersen Supabase mesajlar tablosuna da bağlanabilir)
-      var existingMsgs = JSON.parse(localStorage.getItem('platform_messages') || '[]');
-      existingMsgs.unshift(newMessage);
-      localStorage.setItem('platform_messages', JSON.stringify(existingMsgs));
-
-      closeInAppMessageModal();
-      showToast("Mesaj Gönderildi", "Kurucuya başarıyla mesaj iletildi.");
-      document.getElementById('msgSender').value = '';
-      document.getElementById('msgContent').value = '';
     }
 
     function setAuthMode(mode) {
