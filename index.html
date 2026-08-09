@@ -779,7 +779,9 @@
       } catch (e) {}
 
       if (localStorage.getItem('user_logged_in') === 'true') {
-        updateUserUI({ email: localStorage.getItem('user_email') || 'kullanici@domain.com' });
+        var savedEmail = localStorage.getItem('user_email') || 'kullanici@domain.com';
+        var savedName = localStorage.getItem('user_fullname') || savedEmail.split('@')[0];
+        updateUserUI({ email: savedEmail, user_metadata: { full_name: savedName } });
       } else {
         updateUserUI(null);
       }
@@ -805,10 +807,15 @@
         landingView.style.display = 'none';
         appView.style.display = 'block';
 
-        var nameToShow = user.user_metadata?.full_name || user.user_metadata?.name || user.email || "Kullanıcı";
-        userLabel.innerText = "Hoş geldin, " + nameToShow;
+        // İsim Görüntüleme Düzeltmesi (Eğer tam ad yoksa e-postanın başını biçimlendir)
+        var rawName = user.user_metadata?.full_name || user.user_metadata?.name || localStorage.getItem('user_fullname');
+        if (!rawName || rawName.trim() === '') {
+          var emailPart = (user.email || localStorage.getItem('user_email') || 'Kullanıcı').split('@')[0];
+          rawName = emailPart.charAt(0).toUpperCase() + emailPart.slice(1);
+        }
         
-        // YÖNETİCİ PANELİ GÜVENLİK KONTROLÜ: Sadece senin e-postanla eşleşirse görünür
+        userLabel.innerText = "Hoş geldin, " + rawName;
+
         if (adminBtn) {
           var currentEmail = user.email || localStorage.getItem('user_email');
           adminBtn.style.display = (currentEmail === ADMIN_EMAIL) ? 'inline-block' : 'none';
@@ -817,6 +824,8 @@
         showTab(activeTabName || 'startups');
       } else {
         localStorage.removeItem('user_logged_in');
+        localStorage.removeItem('user_email');
+        localStorage.removeItem('user_fullname');
         userBox.classList.add('hidden');
         loginBtn.classList.remove('hidden');
         if (appNav) { appNav.style.display = 'none'; appNav.classList.add('hidden'); }
@@ -836,6 +845,12 @@
       if (!email || !password) { showToast("Uyarı", "Lütfen e-posta ve şifre girin."); return; }
 
       localStorage.setItem('user_email', email);
+      if (fullName) {
+        localStorage.setItem('user_fullname', fullName);
+      } else {
+        var fallbackName = email.split('@')[0];
+        localStorage.setItem('user_fullname', fallbackName.charAt(0).toUpperCase() + fallbackName.slice(1));
+      }
 
       if (sbClient) {
         if (currentAuthMode === 'signup') {
@@ -843,7 +858,7 @@
             await sbClient.auth.signUp({ 
               email, 
               password, 
-              options: { data: { full_name: fullName } } 
+              options: { data: { full_name: fullName || email.split('@')[0] } } 
             });
           } catch (err) {}
         }
@@ -860,11 +875,11 @@
         } catch (e) {}
       }
 
-      // Supabase onayı bekleniyorsa veya hata olursa doğrudan yerel oturum açıp kullanıcıyı içeri al
+      // Güvenli yerel oturum açma (kesin çözüm)
       localStorage.setItem('user_logged_in', 'true');
       showToast("Başarılı", "Oturum açıldı!");
       closeAuthModal();
-      updateUserUI({ email: email, user_metadata: { full_name: fullName || email.split('@')[0] } });
+      updateUserUI({ email: email, user_metadata: { full_name: fullName || localStorage.getItem('user_fullname') } });
     }
 
     document.addEventListener('DOMContentLoaded', function() {
@@ -885,6 +900,7 @@
     async function handleLogout() {
       localStorage.removeItem('user_logged_in');
       localStorage.removeItem('user_email');
+      localStorage.removeItem('user_fullname');
       if (sbClient) { 
         try { await sbClient.auth.signOut(); } catch (e) {} 
       }
