@@ -421,7 +421,7 @@
     </div>
   </footer>
 
-  <!-- DETAY MODALI (ADIM 1: İLAN DETAY SAYFASI) -->
+  <!-- DETAY MODALI -->
   <div id="detailModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
     <div class="al-card-dark rounded-3xl max-w-2xl w-full p-8 relative text-white max-h-[90vh] overflow-y-auto border border-[#23262d] space-y-6">
       <button type="button" onclick="closeDetailModal()" class="absolute top-5 right-5 text-slate-500 text-xl font-bold hover:text-white">&times;</button>
@@ -556,6 +556,13 @@
   </div>
 
   <script>
+    // Güvenli Sayı Dönüştürme Yardımcısı
+    function parseSafeNumber(val, defaultVal) {
+      if (val === undefined || val === null || val === '') return defaultVal;
+      var num = Number(val);
+      return isNaN(num) ? defaultVal : num;
+    }
+
     function showTab(name) {
       var tabs = document.querySelectorAll('.content-tab');
       for (var i = 0; i < tabs.length; i++) tabs[i].style.display = 'none';
@@ -596,12 +603,13 @@
       document.getElementById('detailFounder').innerText = "👤 Kurucu: " + (item.founder || 'Belirtilmedi');
       document.getElementById('detailDesc').innerText = item.description || item.desc || 'Açıklama bulunmuyor.';
       
-      var goal = item.fundingGoal || item.goal || 10000;
-      var raised = item.raised || 0;
+      var rawGoal = item.fundingGoal !== undefined ? item.fundingGoal : item.goal;
+      var goal = parseSafeNumber(rawGoal, 10000);
+      var raised = parseSafeNumber(item.raised, 0);
       var percent = Math.min(100, Math.round((raised / goal) * 100));
 
-      document.getElementById('detailRaised').innerText = "$" + Number(raised).toLocaleString() + " toplandı";
-      document.getElementById('detailGoal').innerText = "Hedef: $" + Number(goal).toLocaleString();
+      document.getElementById('detailRaised').innerText = "$" + raised.toLocaleString() + " toplandı";
+      document.getElementById('detailGoal').innerText = "Hedef: $" + goal.toLocaleString();
       document.getElementById('detailProgress').style.width = percent + "%";
 
       document.getElementById('detailModal').classList.remove('hidden');
@@ -778,8 +786,9 @@
       }
 
       data.forEach(function(item) {
-        var goal = item.fundingGoal || item.goal || 10000;
-        var raised = item.raised || 0;
+        var rawGoal = item.fundingGoal !== undefined ? item.fundingGoal : item.goal;
+        var goal = parseSafeNumber(rawGoal, 10000);
+        var raised = parseSafeNumber(item.raised, 0);
         var percent = Math.min(100, Math.round((raised / goal) * 100));
         
         var card = document.createElement('div');
@@ -798,8 +807,8 @@
           '</div>' +
           '<div class="pt-4 border-t border-[#23262d]">' +
             '<div class="flex justify-between text-xs font-bold mb-1.5">' +
-              '<span class="text-emerald-400">$' + Number(raised).toLocaleString() + ' toplandı</span>' +
-              '<span class="text-slate-500">Hedef: $' + Number(goal.toLocaleString()) + '</span>' +
+              '<span class="text-emerald-400">$' + raised.toLocaleString() + ' toplandı</span>' +
+              '<span class="text-slate-500">Hedef: $' + goal.toLocaleString() + '</span>' +
             '</div>' +
             '<div class="w-full bg-[#0e0f12] rounded-full h-1.5"><div class="bg-emerald-400 h-1.5 rounded-full" style="width: ' + percent + '%"></div></div>' +
           '</div>';
