@@ -830,7 +830,7 @@
           showToast("Kayıt Hatası", error.message);
         } else {
           localStorage.setItem('user_logged_in', 'true');
-          showToast("Başarılı", "Hesabınız oluşturuldu ve giriş yapıldı!");
+          showToast("Başarılı", "Kayıt olundu ve giriş yapıldı!");
           closeAuthModal();
           checkUserSession();
         }
@@ -842,6 +842,7 @@
           localStorage.setItem('user_logged_in', 'true');
           showToast("Başarılı", "Giriş yapıldı!");
           closeAuthModal();
+          checkUserSession();
         }
       }
     }
@@ -866,6 +867,7 @@
         localStorage.removeItem('user_logged_in');
         await sbClient.auth.signOut(); 
         showToast("Çıkış", "Oturum kapatıldı."); 
+        checkUserSession();
       }
     }
 
