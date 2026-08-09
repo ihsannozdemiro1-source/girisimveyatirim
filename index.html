@@ -480,24 +480,16 @@
         <button type="button" id="authSubmitBtn" onclick="handleAuthSubmit()" class="w-full al-accent-bg font-extrabold py-3.5 rounded-xl text-xs transition mt-2 cursor-pointer">Giriş Yap</button>
       </div>
 
-      <!-- DOĞRUDAN ŞİFRE GÜNCELLEME FORMU -->
+      <!-- SUPABASE RESMİ ŞİFRE SIFIRLAMA İSTEK FORMU -->
       <div id="forgotStep1" style="display: none;" class="space-y-3">
         <div class="bg-emerald-500/10 border border-emerald-500/20 p-3 rounded-xl text-emerald-400 text-xs font-semibold leading-relaxed text-center">
-          🔒 Parolanızı hemen sıfırlamak için e-postanızı ve yeni şifrenizi girin.
+          ✉️ E-posta adresinizi girin. Supabase sunucusu üzerinden e-posta kutunuza resmi şifre sıfırlama bağlantısı gönderilecektir.
         </div>
         <div>
-          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">E-Posta Adresiniz</label>
+          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Kayıtlı E-Posta Adresiniz</label>
           <input type="email" id="forgotEmail" placeholder="ornek@domain.com" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs outline-none focus:border-emerald-400">
         </div>
-        <div>
-          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Yeni Parola</label>
-          <input type="password" id="directNewPass1" placeholder="******" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs outline-none focus:border-emerald-400">
-        </div>
-        <div>
-          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Yeni Parola (Tekrar)</label>
-          <input type="password" id="directNewPass2" placeholder="******" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs outline-none focus:border-emerald-400">
-        </div>
-        <button type="button" onclick="directResetPassword()" class="w-full al-accent-bg font-extrabold py-3.5 rounded-xl text-xs transition cursor-pointer">Şifreyi Güncelle & Giriş Yap</button>
+        <button type="button" onclick="sendSupabaseResetEmail()" class="w-full al-accent-bg font-extrabold py-3.5 rounded-xl text-xs transition cursor-pointer">Sıfırlama Bağlantısı Gönder</button>
         <div class="text-center pt-2">
           <button type="button" onclick="switchAuthTab('login')" class="text-xs text-slate-400 hover:text-white">&larr; Giriş Ekranına Dön</button>
         </div>
@@ -735,23 +727,28 @@
       }
     }
 
-    function directResetPassword() {
+    // Supabase üzerinden gerçek şifre sıfırlama talebi gönderme
+    async function sendSupabaseResetEmail() {
       var emailVal = document.getElementById('forgotEmail').value.trim();
-      var p1 = document.getElementById('directNewPass1').value;
-      var p2 = document.getElementById('directNewPass2').value;
+      if (!emailVal) { showToast("Uyarı", "Lütfen e-posta adresinizi girin."); return; }
 
-      if (!emailVal || !p1 || !p2) { showToast("Uyarı", "Lütfen tüm alanları doldurun."); return; }
-      if (p1 !== p2) { showToast("Hata", "Yeni parolalar birbiriyle uyuşmuyor!"); return; }
-      if (p1.length < 6) { showToast("Uyarı", "Parola en az 6 karakter olmalıdır."); return; }
+      if (sbClient) {
+        try {
+          const { error } = await sbClient.auth.resetPasswordForEmail(emailVal, {
+            redirectTo: window.location.origin
+          });
+          if (error) {
+            showToast("Hata", error.message);
+            return;
+          }
+        } catch (err) {
+          showToast("Hata", "E-posta gönderimi başarısız oldu.");
+          return;
+        }
+      }
 
-      localStorage.setItem('user_logged_in', 'true');
-      localStorage.setItem('user_email', emailVal);
-      var fallbackName = emailVal.split('@')[0];
-      localStorage.setItem('user_fullname', fallbackName.charAt(0).toUpperCase() + fallbackName.slice(1));
-
-      showToast("Başarılı", "Şifreniz başarıyla güncellendi ve giriş yapıldı!");
-      closeAuthModal();
-      checkUserSession();
+      showToast("E-posta Gönderildi", emailVal + " adresine şifre sıfırlama yönergesi iletildi.");
+      switchAuthTab('login');
     }
 
     function openStartupFormModal() { document.getElementById('addModal').classList.remove('hidden'); }
