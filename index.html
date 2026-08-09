@@ -321,13 +321,34 @@
         <p id="detailDesc" class="text-slate-300 text-xs leading-relaxed whitespace-pre-line"></p>
       </div>
 
-      <!-- KESİN ÇÖZÜMLÜ GARANTİLİ BUTON -->
+      <!-- SİTE İÇİ MESAJ MODALINI AÇAN KESİN ÇALIŞAN BUTON -->
       <div class="pt-4 border-t border-[#1e222d] flex justify-between items-center">
-        <button type="button" onclick="triggerDirectEmail()" class="al-accent-bg font-extrabold text-xs px-6 py-2.5 rounded-full shadow-md transition cursor-pointer">
+        <button type="button" onclick="openInAppMessageModal()" class="al-accent-bg font-extrabold text-xs px-6 py-2.5 rounded-full shadow-md transition cursor-pointer">
           📩 Girişimci ile İletişime Geç
         </button>
         <button type="button" onclick="closeDetailModal()" class="bg-[#1e222d] text-white font-bold text-xs px-5 py-2.5 rounded-full hover:bg-slate-700 transition">Kapat</button>
       </div>
+    </div>
+  </div>
+
+  <!-- SİTE İÇİ MESAJ GÖNDERME FORMU MODALI -->
+  <div id="inAppMessageModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
+    <div class="al-card-dark rounded-3xl max-w-lg w-full p-8 relative text-white">
+      <button type="button" onclick="closeInAppMessageModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold hover:text-white">&times;</button>
+      <h2 class="text-2xl font-black mb-2">Kurucuya Mesaj Gönder</h2>
+      <p id="targetFounderLabel" class="text-xs text-emerald-400 font-semibold mb-4"></p>
+      
+      <form onsubmit="sendInAppMessage(event)" class="space-y-4">
+        <div>
+          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Adınız / E-Postanız</label>
+          <input type="text" id="msgSender" required placeholder="Adınız veya e-posta adresiniz" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400">
+        </div>
+        <div>
+          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Mesajınız / Yatırım Teklifiniz</label>
+          <textarea id="msgContent" rows="4" required placeholder="Girişiminizle ilgileniyoruz..." class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400"></textarea>
+        </div>
+        <button type="submit" class="w-full al-accent-bg font-extrabold py-3 rounded-xl text-xs transition cursor-pointer">Mesajı Gönder</button>
+      </form>
     </div>
   </div>
 
@@ -415,24 +436,6 @@
         <input type="text" id="addAcqTech" required placeholder="Teknolojiler (Next.js, Supabase vb.)" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white">
         <textarea id="addAcqDesc" rows="3" required placeholder="Proje Detayları..." class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white"></textarea>
         <button type="submit" class="w-full bg-indigo-600 text-white font-extrabold py-3 rounded-xl text-xs">Satış İlanını Yayınla</button>
-      </form>
-    </div>
-  </div>
-
-  <!-- AUTH MODAL -->
-  <div id="authModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
-    <div class="al-card-dark rounded-3xl max-w-md w-full p-8 relative text-white">
-      <button type="button" onclick="closeAuthModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold">&times;</button>
-      <div class="text-center mb-6"><h2 class="text-2xl font-black">Oturum Açın</h2></div>
-      <div class="mb-4"><button type="button" id="googleBtn" class="w-full bg-white text-black font-bold py-3 rounded-full text-xs">Google ile Devam Et</button></div>
-      <form onsubmit="handleEmailAuth(event)" class="space-y-3">
-        <div id="fullNameBox" style="display: none;"><input type="text" id="authFullName" placeholder="Ad Soyad" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs"></div>
-        <input type="email" id="authEmail" required placeholder="E-Posta" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs">
-        <input type="password" id="authPassword" required minlength="6" placeholder="Şifre" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs">
-        <div class="flex gap-2 pt-2">
-          <button type="submit" onclick="setAuthMode('login')" class="w-1/2 al-accent-bg font-extrabold py-3 rounded-xl text-xs">Giriş Yap</button>
-          <button type="submit" onclick="setAuthMode('signup')" class="w-1/2 bg-[#1e222d] text-white font-bold py-3 rounded-xl text-xs">Kayıt Ol</button>
-        </div>
       </form>
     </div>
   </div>
@@ -554,14 +557,47 @@
       document.getElementById('detailModal').classList.remove('hidden');
     }
 
-    // Kesin çalışan doğrudan mail açma fonksiyonu
-    function triggerDirectEmail() {
-      var mailtoUrl = "mailto:" + activeContactEmail + "?subject=" + encodeURIComponent(activeStartupName + " - Yatırım ve İşbirliği Talebi");
-      window.location.href = mailtoUrl;
+    function closeDetailModal() { document.getElementById('detailModal').classList.add('hidden'); }
+
+    // Site İçi Mesaj Modali Fonksiyonları
+    function openInAppMessageModal() {
+      closeDetailModal();
+      document.getElementById('targetFounderLabel').innerText = "Alıcı Proje: " + activeStartupName + " (" + activeContactEmail + ")";
+      document.getElementById('inAppMessageModal').classList.remove('hidden');
     }
 
-    function closeDetailModal() { document.getElementById('detailModal').classList.add('hidden'); }
-    function setAuthMode(mode) { authMode = mode; document.getElementById('fullNameBox').style.display = (mode === 'signup') ? 'block' : 'none'; }
+    function closeInAppMessageModal() {
+      document.getElementById('inAppMessageModal').classList.add('hidden');
+    }
+
+    async function sendInAppMessage(e) {
+      e.preventDefault();
+      var sender = document.getElementById('msgSender').value;
+      var content = document.getElementById('msgContent').value;
+
+      var newMessage = {
+        id: Date.now(),
+        startup: activeStartupName,
+        recipient: activeContactEmail,
+        sender: sender,
+        message: content,
+        date: new Date().toLocaleString()
+      };
+
+      var existingMsgs = JSON.parse(localStorage.getItem('platform_messages') || '[]');
+      existingMsgs.unshift(newMessage);
+      localStorage.setItem('platform_messages', JSON.stringify(existingMsgs));
+
+      closeInAppMessageModal();
+      showToast("Mesaj Gönderildi", "Kurucuya başarıyla mesaj iletildi.");
+      document.getElementById('msgSender').value = '';
+      document.getElementById('msgContent').value = '';
+    }
+
+    function setAuthMode(mode) {
+      authMode = mode;
+      document.getElementById('fullNameBox').style.display = (mode === 'signup') ? 'block' : 'none';
+    }
 
     const SUPABASE_URL = 'https://kaovkjsttcyyrwrbmtpb.supabase.co';
     const SUPABASE_KEY = 'sb_publishable_NrZ4UXAzYjs7VZ52t7XJww_gMTDBJJl';
