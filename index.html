@@ -10,47 +10,41 @@
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
     body {
       font-family: 'Plus Jakarta Sans', sans-serif;
-      background-color: #0e0f12;
+      background-color: #08090b;
       color: #f4f1ea;
     }
     .al-accent-bg {
       background-color: #10b981;
-      color: #0e0f12;
+      color: #08090b;
     }
     .al-card-dark {
-      background-color: #16181d;
-      border: 1px solid #23262d;
+      background-color: #12141a;
+      border: 1px solid #1e222d;
     }
-    .al-card-light {
-      background-color: #f4f1ea;
-      color: #0e0f12;
+    .hero-glow {
+      background: radial-gradient(circle at 50% 20%, rgba(16, 185, 129, 0.15) 0%, rgba(8, 9, 11, 0) 70%);
     }
-    .al-button-dark {
-      background-color: #1d2026;
-      color: #ffffff;
+    .glass-search {
+      background: rgba(18, 20, 26, 0.7);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
     }
-    .al-button-dark:hover {
-      background-color: #2a2e37;
-    }
-    .al-button-light {
-      background-color: #e2ded5;
-      color: #0e0f12;
-    }
-    .al-button-light:hover {
-      background-color: #d3cebf;
+    .glass-search:focus-within {
+      border-color: #10b981;
+      box-shadow: 0 0 25px rgba(16, 185, 129, 0.2);
     }
   </style>
 </head>
 <body class="antialiased selection:bg-[#10b981] selection:text-black">
 
   <!-- Header -->
-  <header class="border-b border-[#23262d] bg-[#0e0f12]/90 backdrop-blur-md sticky top-0 z-40">
+  <header class="border-b border-[#1e222d] bg-[#08090b]/90 backdrop-blur-md sticky top-0 z-40">
     <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
       
       <!-- Logo & Amblem -->
       <button type="button" onclick="handleLogoClick()" class="text-2xl font-black tracking-tight text-white flex items-center gap-3">
         <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 via-teal-500 to-indigo-500 p-0.5 flex items-center justify-center shadow-lg shadow-emerald-900/20">
-          <div class="w-full h-full bg-[#0e0f12] rounded-[10px] flex items-center justify-center">
+          <div class="w-full h-full bg-[#08090b] rounded-[10px] flex items-center justify-center">
             <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
             </svg>
@@ -60,7 +54,7 @@
       </button>
 
       <!-- ZİYARETÇİ MENÜSÜ -->
-      <nav id="visitorNav" class="flex items-center space-x-1 bg-[#16181d] p-1.5 rounded-full border border-[#23262d]">
+      <nav id="visitorNav" class="flex items-center space-x-1 bg-[#12141a] p-1.5 rounded-full border border-[#1e222d]">
         <a href="#ecosystem-solutions" class="px-5 py-2 rounded-full text-xs font-medium text-slate-300 hover:text-emerald-400 transition">Çözümler</a>
         <a href="#platform-features" class="px-5 py-2 rounded-full text-xs font-medium text-slate-300 hover:text-emerald-400 transition">Avantajlar</a>
         <a href="#how-it-works" class="px-5 py-2 rounded-full text-xs font-medium text-slate-300 hover:text-emerald-400 transition">Nasıl Çalışır?</a>
@@ -68,8 +62,8 @@
       </nav>
 
       <!-- UYGULAMA MENÜSÜ -->
-      <nav id="appNav" style="display: none;" class="items-center space-x-1 bg-[#16181d] p-1.5 rounded-full border border-[#23262d]">
-        <button type="button" id="btn-startups" onclick="showTab('startups')" class="tab-btn px-5 py-2 rounded-full text-xs font-bold text-white bg-[#23262d] shadow-sm transition">🚀 Girişimler</button>
+      <nav id="appNav" style="display: none;" class="items-center space-x-1 bg-[#12141a] p-1.5 rounded-full border border-[#1e222d]">
+        <button type="button" id="btn-startups" onclick="showTab('startups')" class="tab-btn px-5 py-2 rounded-full text-xs font-bold text-white bg-[#1e222d] shadow-sm transition">🚀 Girişimler</button>
         <button type="button" id="btn-syndicates" onclick="showTab('syndicates')" class="tab-btn px-5 py-2 rounded-full text-xs font-medium text-slate-400 hover:text-white transition">🔥 Canlı Turlar</button>
         <button type="button" id="btn-acquisitions" onclick="showTab('acquisitions')" class="tab-btn px-5 py-2 rounded-full text-xs font-medium text-slate-400 hover:text-white transition">🛒 Proje Pazarı</button>
         <button type="button" id="btn-investors" onclick="showTab('investors')" class="tab-btn px-5 py-2 rounded-full text-xs font-medium text-slate-400 hover:text-white transition">💼 Yatırımcılar</button>
@@ -83,7 +77,7 @@
           <button type="button" onclick="handleLogout()" class="text-xs font-semibold text-slate-400 hover:text-rose-400 transition">Çıkış Yap</button>
         </div>
         <button type="button" id="loginHeaderBtn" onclick="openAuthModal()" class="text-xs font-bold text-slate-300 hover:text-white px-3 py-2 transition">Giriş Yap</button>
-        <button type="button" onclick="handleNewAddClick()" class="al-button-light font-extrabold text-xs px-5 py-2.5 rounded-full shadow-md transition">
+        <button type="button" onclick="handleNewAddClick()" class="bg-white hover:bg-slate-200 text-[#08090b] font-extrabold text-xs px-5 py-2.5 rounded-full shadow-md transition">
           + İlan Ekle
         </button>
       </div>
@@ -91,118 +85,56 @@
   </header>
 
   <!-- ========================================== -->
-  <!-- 0. YENİLENMİŞ DEV DEĞİŞİKLİK: YÜKSEK TEKNOLOJİLİ HERO BÖLÜMÜ -->
+  <!-- 0. YENİ TEK PARÇA PRESTİJLİ HERO SAHNESİ -->
   <!-- ========================================== -->
   <div id="landingView" style="display: block;">
-    <section class="max-w-7xl mx-auto px-6 pt-16 pb-12 grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
-      
-      <!-- Sol Kart: Vizyon & Canlı Etkileşimli Arama Kapsülü -->
-      <div class="al-card-light rounded-3xl p-10 flex flex-col justify-between shadow-2xl relative overflow-hidden">
-        <div class="space-y-6">
-          <div class="inline-flex items-center gap-2 bg-[#0e0f12]/10 border border-[#0e0f12]/20 px-3 py-1 rounded-full text-[11px] font-extrabold text-[#0e0f12] uppercase tracking-wider">
-            <span>⚡ Erken Aşama & SaaS Ekosistemi</span>
-          </div>
-          <h1 class="text-5xl sm:text-6xl font-black tracking-tight leading-[1.05] text-[#0e0f12]">
-            Geleceğin Şirketlerini İnşa Edin & Fonlayın.
-          </h1>
-          <p class="text-slate-700 text-sm max-w-md font-medium leading-relaxed">
-            Melek yatırım turlarından hazır Micro-SaaS projelerine kadar girişim dünyasının tüm bileşenleri tek çatı altında.
-          </p>
+    <section class="relative hero-glow pt-24 pb-20 overflow-hidden border-b border-[#1e222d]">
+      <div class="max-w-5xl mx-auto px-6 text-center space-y-8 relative z-10">
+        
+        <!-- Rozet -->
+        <div class="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 px-4 py-1.5 rounded-full text-xs font-extrabold text-emerald-400 tracking-wide uppercase">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span>Türkiye Girişim & Yatırım Ekosistemi</span>
         </div>
 
-        <!-- Hızlı Ön Arama Barı -->
-        <div class="pt-8 space-y-3">
-          <div class="flex items-center bg-white rounded-2xl p-2 border border-slate-300 shadow-md">
+        <!-- Ana Başlık -->
+        <h1 class="text-6xl sm:text-7xl lg:text-8xl font-black tracking-tight leading-[1.02] text-white">
+          Geleceğin Şirketlerini <br/>
+          <span class="bg-gradient-to-r from-emerald-400 via-teal-300 to-indigo-400 bg-clip-text text-transparent">Sermayeyle Buluşturun.</span>
+        </h1>
+
+        <!-- Alt Açıklama -->
+        <p class="text-slate-400 text-base sm:text-lg max-w-2xl mx-auto font-medium leading-relaxed">
+          Erken aşama girişimler, melek yatırımcı sendikaları ve devredilebilir hazır Micro-SaaS projeleri için tasarlanmış bağımsız ekosistem portalı.
+        </p>
+
+        <!-- Canlı Cam Arama & CTA Paneli -->
+        <div class="max-w-2xl mx-auto pt-4">
+          <div class="glass-search p-2 rounded-2xl flex items-center gap-2 shadow-2xl transition-all">
             <svg class="w-5 h-5 text-slate-400 ml-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
             </svg>
-            <input type="text" placeholder="Yapay Zeka, Fintek veya SaaS projelerinde ara..." class="w-full bg-transparent px-3 text-xs text-slate-800 font-medium outline-none">
-            <button type="button" onclick="openAuthModal()" class="al-button-dark font-extrabold text-xs px-5 py-3 rounded-xl transition whitespace-nowrap">
+            <input type="text" placeholder="Yapay Zeka, Fintek veya SaaS projelerini keşfedin..." class="w-full bg-transparent px-2 text-xs text-white placeholder-slate-500 font-medium outline-none">
+            <button type="button" onclick="openAuthModal()" class="al-accent-bg font-black text-xs px-6 py-3.5 rounded-xl transition shadow-lg whitespace-nowrap">
               Keşfet &rarr;
             </button>
           </div>
-          <div class="flex items-center gap-3 text-[11px] font-bold text-slate-500 pl-2">
-            <span>Popüler:</span>
-            <span class="hover:text-black cursor-pointer" onclick="openAuthModal()">#YapayZekâ</span>
-            <span class="hover:text-black cursor-pointer" onclick="openAuthModal()">#Fintek</span>
-            <span class="hover:text-black cursor-pointer" onclick="openAuthModal()">#MicroSaaS</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Sağ Kart: Görsel Mimarili Canlı Akış Şeması (Sıfır Metin Tekrarı) -->
-      <div class="al-card-dark rounded-3xl p-8 flex flex-col justify-between relative overflow-hidden border border-[#23262d] bg-gradient-to-b from-[#16181d] to-[#0e0f12]">
-        
-        <!-- Header İndikatör -->
-        <div class="flex items-center justify-between pb-6 border-b border-[#23262d]">
-          <div class="flex items-center gap-2">
-            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
-            <span class="text-xs font-extrabold text-white uppercase tracking-wider">PLATFORM AKIŞ MİMARİSİ</span>
-          </div>
-          <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest bg-[#0e0f12] px-3 py-1 rounded-full border border-[#23262d]">Sistem Aktif</span>
-        </div>
-
-        <!-- İnteraktif Akış Görseli -->
-        <div class="py-6 space-y-3">
           
-          <!-- Adım 1 -->
-          <div class="bg-[#0e0f12] p-4 rounded-2xl border border-[#23262d] flex items-center justify-between group hover:border-emerald-500/50 transition">
-            <div class="flex items-center gap-3">
-              <div class="w-9 h-9 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-black text-xs">01</div>
-              <div>
-                <div class="text-xs font-bold text-white">İlan & Sunum Doğrulama</div>
-                <div class="text-[10px] text-slate-500">Supabase & AI Skorlayıcı Filtresi</div>
-              </div>
-            </div>
-            <span class="text-[10px] font-extrabold text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full">Otomatik</span>
+          <!-- Hızlı Etiketler -->
+          <div class="flex items-center justify-center gap-4 text-xs font-bold text-slate-500 pt-4">
+            <span class="text-slate-600">Sektörler:</span>
+            <button type="button" onclick="openAuthModal()" class="hover:text-emerald-400 transition">#YapayZekâ</button>
+            <button type="button" onclick="openAuthModal()" class="hover:text-emerald-400 transition">#Fintek</button>
+            <button type="button" onclick="openAuthModal()" class="hover:text-emerald-400 transition">#SaaS</button>
+            <button type="button" onclick="openAuthModal()" class="hover:text-emerald-400 transition">#Lojistik</button>
           </div>
-
-          <!-- Ok İkonu -->
-          <div class="flex justify-center text-slate-600 text-xs my-0.5">↓</div>
-
-          <!-- Adım 2 -->
-          <div class="bg-[#0e0f12] p-4 rounded-2xl border border-[#23262d] flex items-center justify-between group hover:border-rose-500/50 transition">
-            <div class="flex items-center gap-3">
-              <div class="w-9 h-9 rounded-xl bg-rose-500/10 border border-rose-500/30 flex items-center justify-center text-rose-400 font-black text-xs">02</div>
-              <div>
-                <div class="text-xs font-bold text-white">Lider Melek Turları</div>
-                <div class="text-[10px] text-slate-500">Sendikalar & Eş Zamanlı Fonlama</div>
-              </div>
-            </div>
-            <span class="text-[10px] font-extrabold text-rose-400 bg-rose-500/10 px-2.5 py-1 rounded-full">Canlı</span>
-          </div>
-
-          <!-- Ok İkonu -->
-          <div class="flex justify-center text-slate-600 text-xs my-0.5">↓</div>
-
-          <!-- Adım 3 -->
-          <div class="bg-[#0e0f12] p-4 rounded-2xl border border-[#23262d] flex items-center justify-between group hover:border-indigo-500/50 transition">
-            <div class="flex items-center gap-3">
-              <div class="w-9 h-9 rounded-xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400 font-black text-xs">03</div>
-              <div>
-                <div class="text-xs font-bold text-white">Mikro SaaS & Devir Pazarı</div>
-                <div class="text-[11px] text-slate-500">Anında Mülkiyet & Kod Devri</div>
-              </div>
-            </div>
-            <span class="text-[10px] font-extrabold text-indigo-400 bg-indigo-500/10 px-2.5 py-1 rounded-full">Tamamlandı</span>
-          </div>
-
-        </div>
-
-        <!-- Bottom CTA -->
-        <div class="pt-4 border-t border-[#23262d] flex items-center justify-between">
-          <span class="text-xs text-slate-400 font-bold">Ekosistemde yerinizi alın.</span>
-          <button type="button" onclick="openAuthModal()" class="al-accent-bg text-[#0e0f12] font-black text-xs px-5 py-2.5 rounded-full hover:opacity-90 transition">
-            Oturum Aç &rarr;
-          </button>
         </div>
 
       </div>
-
     </section>
 
     <!-- Ziyaretçi Çözümleri -->
-    <section id="ecosystem-solutions" class="border-y border-[#23262d] bg-[#0b0c0e] py-20 scroll-mt-24">
+    <section id="ecosystem-solutions" class="border-b border-[#1e222d] bg-[#0b0c0e] py-20 scroll-mt-24">
       <div class="max-w-7xl mx-auto px-6 space-y-12">
         <div class="text-center max-w-2xl mx-auto space-y-3">
           <span class="text-xs font-bold uppercase tracking-widest text-emerald-400">EKOSİSTEM ÇÖZÜMLERİ</span>
@@ -219,7 +151,7 @@
               <h3 class="text-2xl font-black text-white leading-snug">Erken Aşama Sermaye Bulun</h3>
               <p class="text-slate-400 text-xs leading-relaxed">Fikir veya MVP aşamasındaki projenizin detaylarını ekleyin. Doğrulanmış melek yatırımcı ağımıza doğrudan sunum yapın.</p>
             </div>
-            <div class="pt-4 border-t border-[#23262d]">
+            <div class="pt-4 border-t border-[#1e222d]">
               <button type="button" onclick="openAuthModal()" class="text-xs font-bold text-emerald-400 hover:text-emerald-300 flex items-center gap-1">
                 İlan Yayınla &rarr;
               </button>
@@ -234,7 +166,7 @@
               <h3 class="text-2xl font-black text-white leading-snug">Sendikalara ve Turlara Katılın</h3>
               <p class="text-slate-400 text-xs leading-relaxed">Lider melek yatırımcıların oluşturduğu canlı turları takip edin. Mikro bütçelerle yüksek potansiyelli girişimlere ortak olun.</p>
             </div>
-            <div class="pt-4 border-t border-[#23262d]">
+            <div class="pt-4 border-t border-[#1e222d]">
               <button type="button" onclick="openAuthModal()" class="text-xs font-bold text-teal-400 hover:text-teal-300 flex items-center gap-1">
                 Portföy Oluştur &rarr;
               </button>
@@ -249,7 +181,7 @@
               <h3 class="text-2xl font-black text-white leading-snug">Mikro SaaS & Proje Devri</h3>
               <p class="text-slate-400 text-xs leading-relaxed">Gelir getiren kodlarınızı, yan projelerinizi veya SaaS yazılımlarınızı pazarda satışa çıkarın; hazır projelere anında ulaşın.</p>
             </div>
-            <div class="pt-4 border-t border-[#23262d]">
+            <div class="pt-4 border-t border-[#1e222d]">
               <button type="button" onclick="openAuthModal()" class="text-xs font-bold text-indigo-400 hover:text-indigo-300 flex items-center gap-1">
                 Pazarı İncele &rarr;
               </button>
@@ -269,25 +201,25 @@
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <div class="al-card-dark p-8 rounded-3xl space-y-3 hover:border-slate-700 transition">
-          <div class="w-12 h-12 rounded-2xl bg-[#0e0f12] border border-[#23262d] flex items-center justify-center text-xl">🤖</div>
+          <div class="w-12 h-12 rounded-2xl bg-[#08090b] border border-[#1e222d] flex items-center justify-center text-xl">🤖</div>
           <h4 class="font-bold text-sm text-white">AI Pitch Deck Skorlama</h4>
           <p class="text-slate-400 text-xs leading-relaxed">Sunum metninizi yapıştırın; yapay zeka pazar büyüklüğü ve gelir modelinizi anında puanlasın.</p>
         </div>
 
         <div class="al-card-dark p-8 rounded-3xl space-y-3 hover:border-slate-700 transition">
-          <div class="w-12 h-12 rounded-2xl bg-[#0e0f12] border border-[#23262d] flex items-center justify-center text-xl">⚡</div>
+          <div class="w-12 h-12 rounded-2xl bg-[#08090b] border border-[#1e222d] flex items-center justify-center text-xl">⚡</div>
           <h4 class="font-bold text-sm text-white">Hızlı Doğrulama</h4>
           <p class="text-slate-400 text-xs leading-relaxed">Google ve Supabase entegrasyonu ile ilanlar saniyeler içinde güvenle yayınlanır.</p>
         </div>
 
         <div class="al-card-dark p-8 rounded-3xl space-y-3 hover:border-slate-700 transition">
-          <div class="w-12 h-12 rounded-2xl bg-[#0e0f12] border border-[#23262d] flex items-center justify-center text-xl">🎯</div>
+          <div class="w-12 h-12 rounded-2xl bg-[#08090b] border border-[#1e222d] flex items-center justify-center text-xl">🎯</div>
           <h4 class="font-bold text-sm text-white">Mikro SaaS Devri</h4>
           <p class="text-slate-400 text-xs leading-relaxed">Atıl duran veya gelir getiren dijital varlıklarınızı hızlıca satışa çıkarın.</p>
         </div>
 
         <div class="al-card-dark p-8 rounded-3xl space-y-3 hover:border-slate-700 transition">
-          <div class="w-12 h-12 rounded-2xl bg-[#0e0f12] border border-[#23262d] flex items-center justify-center text-xl">💼</div>
+          <div class="w-12 h-12 rounded-2xl bg-[#08090b] border border-[#1e222d] flex items-center justify-center text-xl">💼</div>
           <h4 class="font-bold text-sm text-white">Şeffaf Portföy Takibi</h4>
           <p class="text-slate-400 text-xs leading-relaxed">Yatırım hedeflerinizi ve toplanan fon miktarını anlık grafiklerle izleyin.</p>
         </div>
@@ -295,33 +227,33 @@
     </section>
 
     <!-- Adım Adım Süreç -->
-    <section id="how-it-works" class="border-t border-[#23262d] bg-[#0b0c0e] py-20 scroll-mt-24">
+    <section id="how-it-works" class="border-t border-[#1e222d] bg-[#0b0c0e] py-20 scroll-mt-24">
       <div class="max-w-7xl mx-auto px-6 space-y-12">
         <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
           <div class="space-y-3 max-w-lg">
             <span class="text-xs font-bold uppercase tracking-widest text-emerald-400">NASIL ÇALIŞIR?</span>
             <h2 class="text-4xl font-black tracking-tight text-white">3 Adımda Yayına Alın</h2>
           </div>
-          <button type="button" onclick="openAuthModal()" class="al-accent-bg text-[#0e0f12] font-black text-xs px-6 py-3 rounded-full transition">
+          <button type="button" onclick="openAuthModal()" class="al-accent-bg text-[#08090b] font-black text-xs px-6 py-3 rounded-full transition">
             Ücretsiz Hesap Oluştur
           </button>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div class="al-card-dark p-8 rounded-3xl space-y-4 relative">
-            <span class="text-5xl font-black text-[#23262d]">01</span>
+            <span class="text-5xl font-black text-[#1e222d]">01</span>
             <h4 class="text-lg font-bold text-white">Giriş Yapın</h4>
             <p class="text-slate-400 text-xs leading-relaxed">Google hesabınızla veya e-posta adresinizle saniyeler içinde oturum açın.</p>
           </div>
 
           <div class="al-card-dark p-8 rounded-3xl space-y-4 relative">
-            <span class="text-5xl font-black text-[#23262d]">02</span>
+            <span class="text-5xl font-black text-[#1e222d]">02</span>
             <h4 class="text-lg font-bold text-white">İlanınızı Detaylandırın</h4>
             <p class="text-slate-400 text-xs leading-relaxed">Girişiminizin sektörünü, aşamasını, fonlama hedefini ve özetini forma girin.</p>
           </div>
 
           <div class="al-card-dark p-8 rounded-3xl space-y-4 relative">
-            <span class="text-5xl font-black text-[#23262d]">03</span>
+            <span class="text-5xl font-black text-[#1e222d]">03</span>
             <h4 class="text-lg font-bold text-white">Yatırımcıları Çekin</h4>
             <p class="text-slate-400 text-xs leading-relaxed">İlanınız anında tüm ekosistemin erişimine açılsın ve geri dönüşleri toplayın.</p>
           </div>
@@ -330,7 +262,7 @@
     </section>
 
     <!-- Sıkça Sorulan Sorular -->
-    <section id="faq-section" class="border-t border-[#23262d] bg-[#0b0c0e] py-20 scroll-mt-24">
+    <section id="faq-section" class="border-t border-[#1e222d] bg-[#0b0c0e] py-20 scroll-mt-24">
       <div class="max-w-4xl mx-auto px-6 space-y-10">
         <div class="text-center space-y-3">
           <span class="text-xs font-bold uppercase tracking-widest text-emerald-400">SINKÇA SORULAN SORULAR</span>
@@ -371,7 +303,7 @@
           <h1 class="text-3xl font-black text-white">Geleceğin Şirketlerini Keşfet</h1>
           <p class="text-slate-400 text-sm mt-1">Veritabanında aktif olarak yer alan güncel girişimler. İlan detayları için kartlara tıklayın.</p>
         </div>
-        <div class="flex items-center gap-6 bg-[#0e0f12] p-4 rounded-2xl border border-[#23262d]">
+        <div class="flex items-center gap-6 bg-[#08090b] p-4 rounded-2xl border border-[#1e222d]">
           <div class="text-center px-2">
             <div class="text-2xl font-black text-emerald-400" id="statStartupCount">0</div>
             <div class="text-[11px] text-slate-400 uppercase font-bold">Eklenen İlan</div>
@@ -381,21 +313,21 @@
 
       <!-- Filtreler -->
       <section class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3 al-card-dark p-4 rounded-2xl">
-        <input type="text" id="searchInput" onkeyup="filterStartups()" placeholder="Girişim adı veya arayın..." class="sm:col-span-2 p-3 bg-[#0e0f12] border border-[#23262d] rounded-xl text-xs text-white outline-none focus:border-emerald-400">
-        <select id="sectorFilter" onchange="filterStartups()" class="p-3 bg-[#0e0f12] border border-[#23262d] rounded-xl text-xs text-white outline-none">
+        <input type="text" id="searchInput" onkeyup="filterStartups()" placeholder="Girişim adı veya arayın..." class="sm:col-span-2 p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400">
+        <select id="sectorFilter" onchange="filterStartups()" class="p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none">
           <option value="">Tüm Sektörler</option>
           <option value="Yapay Zekâ">Yapay Zekâ</option>
           <option value="Fintek">Fintek</option>
           <option value="SaaS">SaaS</option>
           <option value="Lojistik">Lojistik</option>
         </select>
-        <select id="stageFilter" onchange="filterStartups()" class="p-3 bg-[#0e0f12] border border-[#23262d] rounded-xl text-xs text-white outline-none">
+        <select id="stageFilter" onchange="filterStartups()" class="p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none">
           <option value="">Tüm Aşamalar</option>
           <option value="Fikir">Fikir</option>
           <option value="MVP">MVP</option>
           <option value="Erken Aşama">Erken Aşama</option>
         </select>
-        <button type="button" onclick="resetFilters()" class="text-xs font-bold text-slate-400 hover:text-white border border-[#23262d] rounded-xl p-3 bg-[#0e0f12] transition">Sıfırla</button>
+        <button type="button" onclick="resetFilters()" class="text-xs font-bold text-slate-400 hover:text-white border border-[#1e222d] rounded-xl p-3 bg-[#08090b] transition">Sıfırla</button>
       </section>
 
       <section id="startupGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></section>
@@ -403,7 +335,7 @@
 
     <!-- 2. CANLI TURLAR -->
     <div id="tab-syndicates" class="content-tab space-y-6" style="display: none;">
-      <div class="al-card-dark p-8 rounded-3xl flex justify-between items-center border border-[#23262d]">
+      <div class="al-card-dark p-8 rounded-3xl flex justify-between items-center border border-[#1e222d]">
         <div>
           <span class="text-xs font-bold uppercase text-rose-400">🔥 SÜRE SINIRLI YATIRIM TURLARI</span>
           <h2 class="text-2xl font-black text-white mt-1">Lider Yatırımcı Sendikaları</h2>
@@ -423,13 +355,13 @@
 
     <!-- 3. PROJE PAZARI -->
     <div id="tab-acquisitions" class="content-tab space-y-6" style="display: none;">
-      <div class="al-card-dark p-8 rounded-3xl flex justify-between items-center border border-[#23262d]">
+      <div class="al-card-dark p-8 rounded-3xl flex justify-between items-center border border-[#1e222d]">
         <div>
           <span class="text-xs font-bold uppercase text-emerald-400">🛒 MICRO-ACQUISITION PAZARI</span>
           <h2 class="text-2xl font-black text-white mt-1">Satılık Proje & SaaS Pazar Yeri</h2>
           <p class="text-slate-400 text-xs mt-1">Devredilebilir hazır yazılımlar ve gelir getiren mikro projeler.</p>
         </div>
-        <button type="button" onclick="openAcquisitionModal()" class="al-accent-bg text-[#0e0f12] font-extrabold text-xs px-5 py-3 rounded-full shadow-md transition">
+        <button type="button" onclick="openAcquisitionModal()" class="al-accent-bg text-[#08090b] font-extrabold text-xs px-5 py-3 rounded-full shadow-md transition">
           + Satılık Proje İlanı Ver
         </button>
       </div>
@@ -455,11 +387,11 @@
     <div id="tab-aiTools" class="content-tab space-y-6" style="display: none;">
       <div class="al-card-dark p-8 rounded-3xl space-y-4">
         <h2 class="text-2xl font-black">AI Pitch Deck Skorlayıcı</h2>
-        <textarea id="aiDeckText" rows="5" placeholder="Girişiminizin özetini yazın..." class="w-full p-4 bg-[#0e0f12] border border-[#23262d] rounded-2xl text-xs text-white outline-none focus:border-emerald-400"></textarea>
-        <button type="button" onclick="analyzeDeck()" class="al-accent-bg text-[#0e0f12] font-extrabold text-xs px-6 py-3 rounded-xl transition">
+        <textarea id="aiDeckText" rows="5" placeholder="Girişiminizin özetini yazın..." class="w-full p-4 bg-[#08090b] border border-[#1e222d] rounded-2xl text-xs text-white outline-none focus:border-emerald-400"></textarea>
+        <button type="button" onclick="analyzeDeck()" class="al-accent-bg text-[#08090b] font-extrabold text-xs px-6 py-3 rounded-xl transition">
           🤖 AI İle Skorla
         </button>
-        <div id="aiResultBox" style="display: none;" class="bg-[#0e0f12] p-6 rounded-2xl space-y-2 text-xs border border-[#23262d]">
+        <div id="aiResultBox" style="display: none;" class="bg-[#08090b] p-6 rounded-2xl space-y-2 text-xs border border-[#1e222d]">
           <span class="font-extrabold text-emerald-400">AI Analiz Skoru: 85 / 100</span>
           <p class="text-slate-400">Pazar büyüklüğü ve iş modeli tanımlandı.</p>
         </div>
@@ -469,7 +401,7 @@
   </main>
 
   <!-- FOUNDER FOOTER -->
-  <footer class="border-t border-[#23262d] bg-[#0b0c0e] py-16 text-xs">
+  <footer class="border-t border-[#1e222d] bg-[#0b0c0e] py-16 text-xs">
     <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-10">
       <div class="space-y-2 text-center md:text-left">
         <div class="flex items-center justify-center md:justify-start gap-3 font-black text-white text-base">
@@ -485,7 +417,7 @@
 
       <div class="relative group">
         <div class="absolute -inset-0.5 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-3xl blur opacity-20 group-hover:opacity-60 transition duration-500"></div>
-        <div class="relative bg-[#16181d] border border-[#23262d] px-8 py-5 rounded-3xl flex items-center gap-6">
+        <div class="relative bg-[#12141a] border border-[#1e222d] px-8 py-5 rounded-3xl flex items-center gap-6">
           <div class="space-y-1.5 text-left">
             <div class="flex items-center gap-3">
               <span class="text-xs font-semibold text-slate-400 uppercase tracking-widest">FOUNDER</span>
@@ -508,23 +440,23 @@
   
   <!-- DETAY MODALI -->
   <div id="detailModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
-    <div class="al-card-dark rounded-3xl max-w-2xl w-full p-8 relative text-white max-h-[90vh] overflow-y-auto border border-[#23262d] space-y-6">
+    <div class="al-card-dark rounded-3xl max-w-2xl w-full p-8 relative text-white max-h-[90vh] overflow-y-auto border border-[#1e222d] space-y-6">
       <button type="button" onclick="closeDetailModal()" class="absolute top-5 right-5 text-slate-500 text-xl font-bold hover:text-white">&times;</button>
       <div class="space-y-2">
         <div class="flex items-center gap-3">
-          <span id="detailSector" class="bg-[#0e0f12] text-emerald-400 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider border border-[#23262d]"></span>
+          <span id="detailSector" class="bg-[#08090b] text-emerald-400 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider border border-[#1e222d]"></span>
           <span id="detailStage" class="text-slate-500 text-xs font-bold uppercase"></span>
         </div>
         <h2 id="detailTitle" class="text-3xl font-black text-white"></h2>
         <p id="detailFounder" class="text-xs text-slate-400 font-semibold"></p>
       </div>
 
-      <div class="bg-[#0e0f12] p-5 rounded-2xl border border-[#23262d] space-y-3">
+      <div class="bg-[#08090b] p-5 rounded-2xl border border-[#1e222d] space-y-3">
         <div class="flex justify-between items-center text-xs font-bold">
           <span id="detailRaised" class="text-emerald-400 text-sm"></span>
           <span id="detailGoal" class="text-slate-400"></span>
         </div>
-        <div class="w-full bg-[#16181d] rounded-full h-2">
+        <div class="w-full bg-[#12141a] rounded-full h-2">
           <div id="detailProgress" class="bg-emerald-400 h-2 rounded-full" style="width: 0%"></div>
         </div>
       </div>
@@ -534,8 +466,8 @@
         <p id="detailDesc" class="text-slate-300 text-xs leading-relaxed whitespace-pre-line"></p>
       </div>
 
-      <div class="pt-4 border-t border-[#23262d] flex justify-end gap-3">
-        <button type="button" onclick="closeDetailModal()" class="bg-[#23262d] text-white font-bold text-xs px-5 py-2.5 rounded-full hover:bg-slate-700 transition">Kapat</button>
+      <div class="pt-4 border-t border-[#1e222d] flex justify-end gap-3">
+        <button type="button" onclick="closeDetailModal()" class="bg-[#1e222d] text-white font-bold text-xs px-5 py-2.5 rounded-full hover:bg-slate-700 transition">Kapat</button>
       </div>
     </div>
   </div>
@@ -583,21 +515,21 @@
       <form onsubmit="handleAddSyndicate(event)" class="space-y-4">
         <div>
           <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Tur / Girişim Başlığı</label>
-          <input type="text" id="addSynTitle" required placeholder="Örn: AI Agent Platform SPV" class="w-full p-3 bg-[#0e0f12] border border-[#23262d] rounded-xl text-xs text-white outline-none focus:border-rose-400">
+          <input type="text" id="addSynTitle" required placeholder="Örn: AI Agent Platform SPV" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-rose-400">
         </div>
         <div class="grid grid-cols-2 gap-4">
           <div>
             <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Lider Yatırımcı</label>
-            <input type="text" id="addSynLeader" required placeholder="İsim Soyisim" class="w-full p-3 bg-[#0e0f12] border border-[#23262d] rounded-xl text-xs text-white outline-none focus:border-rose-400">
+            <input type="text" id="addSynLeader" required placeholder="İsim Soyisim" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-rose-400">
           </div>
           <div>
             <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Toplam Tur Büyüklüğü ($)</label>
-            <input type="number" id="addSynGoal" required placeholder="100000" class="w-full p-3 bg-[#0e0f12] border border-[#23262d] rounded-xl text-xs text-white outline-none focus:border-rose-400">
+            <input type="number" id="addSynGoal" required placeholder="100000" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-rose-400">
           </div>
         </div>
         <div>
           <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Tur Açıklaması & Şartlar</label>
-          <textarea id="addSynDesc" rows="3" required placeholder="Yatırım turu detayları..." class="w-full p-3 bg-[#0e0f12] border border-[#23262d] rounded-xl text-xs text-white outline-none focus:border-rose-400"></textarea>
+          <textarea id="addSynDesc" rows="3" required placeholder="Yatırım turu detayları..." class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-rose-400"></textarea>
         </div>
         <button type="submit" class="w-full bg-rose-500 hover:bg-rose-600 text-white font-extrabold py-3 rounded-xl text-xs transition">Turu Yayınla</button>
       </form>
@@ -613,25 +545,25 @@
       <form onsubmit="handleAddAcquisition(event)" class="space-y-4">
         <div>
           <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Proje Adı</label>
-          <input type="text" id="addAcqTitle" required placeholder="Örn: SEO Analyzer SaaS" class="w-full p-3 bg-[#0e0f12] border border-[#23262d] rounded-xl text-xs text-white outline-none focus:border-indigo-400">
+          <input type="text" id="addAcqTitle" required placeholder="Örn: SEO Analyzer SaaS" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-indigo-400">
         </div>
         <div class="grid grid-cols-2 gap-4">
           <div>
             <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Aylık Gelir - MRR ($)</label>
-            <input type="number" id="addAcqMRR" required placeholder="500" class="w-full p-3 bg-[#0e0f12] border border-[#23262d] rounded-xl text-xs text-white outline-none focus:border-indigo-400">
+            <input type="number" id="addAcqMRR" required placeholder="500" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-indigo-400">
           </div>
           <div>
             <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Satış Fiyatı ($)</label>
-            <input type="number" id="addAcqPrice" required placeholder="5000" class="w-full p-3 bg-[#0e0f12] border border-[#23262d] rounded-xl text-xs text-white outline-none focus:border-indigo-400">
+            <input type="number" id="addAcqPrice" required placeholder="5000" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-indigo-400">
           </div>
         </div>
         <div>
           <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Kullanılan Teknolojiler (Stack)</label>
-          <input type="text" id="addAcqTech" required placeholder="Next.js, Supabase, Tailwind" class="w-full p-3 bg-[#0e0f12] border border-[#23262d] rounded-xl text-xs text-white outline-none focus:border-indigo-400">
+          <input type="text" id="addAcqTech" required placeholder="Next.js, Supabase, Tailwind" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-indigo-400">
         </div>
         <div>
           <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Proje Detayları</label>
-          <textarea id="addAcqDesc" rows="3" required placeholder="Müşteri sayısı, büyüme potansiyeli..." class="w-full p-3 bg-[#0e0f12] border border-[#23262d] rounded-xl text-xs text-white outline-none focus:border-indigo-400"></textarea>
+          <textarea id="addAcqDesc" rows="3" required placeholder="Müşteri sayısı, büyüme potansiyeli..." class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-indigo-400"></textarea>
         </div>
         <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold py-3 rounded-xl text-xs transition">Satış İlanını Yayınla</button>
       </form>
@@ -660,28 +592,28 @@
       </div>
 
       <div class="flex items-center my-4">
-        <div class="flex-grow border-t border-[#23262d]"></div>
+        <div class="flex-grow border-t border-[#1e222d]"></div>
         <span class="px-3 text-slate-500 text-[11px] font-semibold">veya E-Posta</span>
-        <div class="flex-grow border-t border-[#23262d]"></div>
+        <div class="flex-grow border-t border-[#1e222d]"></div>
       </div>
 
       <form onsubmit="handleEmailAuth(event)" class="space-y-3">
         <div id="fullNameBox" style="display: none;">
           <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Ad Soyad</label>
-          <input type="text" id="authFullName" placeholder="İhsan Özdemir" class="w-full p-3 bg-[#0e0f12] border border-[#23262d] rounded-xl text-xs outline-none focus:border-emerald-400">
+          <input type="text" id="authFullName" placeholder="İhsan Özdemir" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs outline-none focus:border-emerald-400">
         </div>
         <div>
           <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">E-Posta</label>
-          <input type="email" id="authEmail" required placeholder="ornek@domain.com" class="w-full p-3 bg-[#0e0f12] border border-[#23262d] rounded-xl text-xs outline-none focus:border-emerald-400">
+          <input type="email" id="authEmail" required placeholder="ornek@domain.com" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs outline-none focus:border-emerald-400">
         </div>
         <div>
           <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Şifre</label>
-          <input type="password" id="authPassword" required minlength="6" placeholder="******" class="w-full p-3 bg-[#0e0f12] border border-[#23262d] rounded-xl text-xs outline-none focus:border-emerald-400">
+          <input type="password" id="authPassword" required minlength="6" placeholder="******" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs outline-none focus:border-emerald-400">
         </div>
 
         <div class="flex gap-2 pt-2">
-          <button type="submit" onclick="setAuthMode('login')" class="w-1/2 al-accent-bg text-[#0e0f12] font-extrabold py-3 rounded-xl text-xs transition">Giriş Yap</button>
-          <button type="submit" onclick="setAuthMode('signup')" class="w-1/2 bg-[#23262d] hover:bg-[#2e323b] text-white font-bold py-3 rounded-xl text-xs transition">Kayıt Ol</button>
+          <button type="submit" onclick="setAuthMode('login')" class="w-1/2 al-accent-bg text-[#08090b] font-extrabold py-3 rounded-xl text-xs transition">Giriş Yap</button>
+          <button type="submit" onclick="setAuthMode('signup')" class="w-1/2 bg-[#1e222d] hover:bg-[#2e323b] text-white font-bold py-3 rounded-xl text-xs transition">Kayıt Ol</button>
         </div>
       </form>
     </div>
@@ -696,12 +628,12 @@
       <form onsubmit="handleAddStartup(event)" class="space-y-4">
         <div>
           <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Girişim Adı</label>
-          <input type="text" id="addTitle" required class="w-full p-3 bg-[#0e0f12] border border-[#23262d] rounded-xl text-xs text-white outline-none focus:border-emerald-400">
+          <input type="text" id="addTitle" required class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400">
         </div>
         <div class="grid grid-cols-2 gap-4">
           <div>
             <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Sektör</label>
-            <select id="addSector" class="w-full p-3 bg-[#0e0f12] border border-[#23262d] rounded-xl text-xs text-white outline-none">
+            <select id="addSector" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none">
               <option value="Yapay Zekâ">Yapay Zekâ</option>
               <option value="Fintek">Fintek</option>
               <option value="SaaS">SaaS</option>
@@ -710,7 +642,7 @@
           </div>
           <div>
             <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Aşama</label>
-            <select id="addStage" class="w-full p-3 bg-[#0e0f12] border border-[#23262d] rounded-xl text-xs text-white outline-none">
+            <select id="addStage" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none">
               <option value="Fikir">Fikir</option>
               <option value="MVP">MVP</option>
               <option value="Erken Aşama">Erken Aşama</option>
@@ -720,18 +652,18 @@
         <div class="grid grid-cols-2 gap-4">
           <div>
             <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Hedef Yatırım ($)</label>
-            <input type="number" id="addGoal" required placeholder="50000" class="w-full p-3 bg-[#0e0f12] border border-[#23262d] rounded-xl text-xs text-white outline-none focus:border-emerald-400">
+            <input type="number" id="addGoal" required placeholder="50000" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400">
           </div>
           <div>
             <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Kurucu İsim</label>
-            <input type="text" id="addFounder" required placeholder="İsim Soyisim" class="w-full p-3 bg-[#0e0f12] border border-[#23262d] rounded-xl text-xs text-white outline-none focus:border-emerald-400">
+            <input type="text" id="addFounder" required placeholder="İsim Soyisim" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400">
           </div>
         </div>
         <div>
           <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Açıklama</label>
-          <textarea id="addDesc" rows="3" required placeholder="Girişimin çözdüğü problem..." class="w-full p-3 bg-[#0e0f12] border border-[#23262d] rounded-xl text-xs text-white outline-none focus:border-emerald-400"></textarea>
+          <textarea id="addDesc" rows="3" required placeholder="Girişimin çözdüğü problem..." class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400"></textarea>
         </div>
-        <button type="submit" class="w-full al-button-light font-extrabold py-3 rounded-xl text-xs transition">Yayınla</button>
+        <button type="submit" class="w-full bg-white hover:bg-slate-200 text-[#08090b] font-extrabold py-3 rounded-xl text-xs transition">Yayınla</button>
       </form>
     </div>
   </div>
@@ -777,7 +709,7 @@
 
       var targetBtn = document.getElementById('btn-' + name);
       if (targetBtn) {
-        targetBtn.className = "tab-btn px-5 py-2 rounded-full text-xs font-bold text-white bg-[#23262d] shadow-sm transition";
+        targetBtn.className = "tab-btn px-5 py-2 rounded-full text-xs font-bold text-white bg-[#1e222d] shadow-sm transition";
       }
     }
 
@@ -1009,19 +941,19 @@
         card.innerHTML = 
           '<div>' +
             '<div class="flex items-center justify-between mb-3">' +
-              '<span class="bg-[#0e0f12] text-emerald-400 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider border border-[#23262d]">' + (item.sector || 'Teknoloji') + '</span>' +
+              '<span class="bg-[#08090b] text-emerald-400 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider border border-[#1e222d]">' + (item.sector || 'Teknoloji') + '</span>' +
               '<span class="text-slate-500 text-[10px] font-bold uppercase">' + (item.stage || 'Erken Aşama') + '</span>' +
             '</div>' +
             '<h3 class="text-xl font-bold text-white mb-1">' + (item.name || item.title || 'İsimsiz Girişim') + '</h3>' +
             '<p class="text-xs text-slate-400 font-semibold mb-3">👤 Kurucu: ' + (item.founder || 'Belirtilmedi') + '</p>' +
             '<p class="text-slate-400 text-xs leading-relaxed line-clamp-3">' + (item.description || item.desc || '') + '</p>' +
           '</div>' +
-          '<div class="pt-4 border-t border-[#23262d]">' +
+          '<div class="pt-4 border-t border-[#1e222d]">' +
             '<div class="flex justify-between text-xs font-bold mb-1.5">' +
               '<span class="text-emerald-400">$' + raised.toLocaleString() + ' toplandı</span>' +
               '<span class="text-slate-500">Hedef: $' + goal.toLocaleString() + '</span>' +
             '</div>' +
-            '<div class="w-full bg-[#0e0f12] rounded-full h-1.5"><div class="bg-emerald-400 h-1.5 rounded-full" style="width: ' + percent + '%"></div></div>' +
+            '<div class="w-full bg-[#08090b] rounded-full h-1.5"><div class="bg-emerald-400 h-1.5 rounded-full" style="width: ' + percent + '%"></div></div>' +
           '</div>';
         grid.appendChild(card);
       });
@@ -1079,7 +1011,7 @@
 
       data.forEach(function(item) {
         var card = document.createElement('div');
-        card.className = "al-card-dark rounded-3xl p-6 flex flex-col justify-between space-y-4 border border-[#23262d]";
+        card.className = "al-card-dark rounded-3xl p-6 flex flex-col justify-between space-y-4 border border-[#1e222d]";
         card.innerHTML = 
           '<div>' +
             '<div class="flex items-center justify-between mb-3">' +
@@ -1089,7 +1021,7 @@
             '<p class="text-xs text-slate-400 font-semibold mb-3">👑 Lider Yatırımcı: ' + (item.leader || 'Belirtilmedi') + '</p>' +
             '<p class="text-slate-400 text-xs leading-relaxed line-clamp-3">' + (item.description || '') + '</p>' +
           '</div>' +
-          '<div class="pt-4 border-t border-[#23262d] flex justify-between items-center text-xs font-bold">' +
+          '<div class="pt-4 border-t border-[#1e222d] flex justify-between items-center text-xs font-bold">' +
             '<span class="text-rose-400">Tur Büyüklüğü: $' + Number(item.goal || 50000).toLocaleString() + '</span>' +
             '<button type="button" onclick="alert(\'Yatırım talebiniz lider yatırımcıya iletildi.\')" class="bg-rose-500 hover:bg-rose-600 text-white px-3 py-1.5 rounded-full transition">Tura Katıl</button>' +
           '</div>';
@@ -1146,7 +1078,7 @@
 
       data.forEach(function(item) {
         var card = document.createElement('div');
-        card.className = "al-card-dark rounded-3xl p-6 flex flex-col justify-between space-y-4 border border-[#23262d]";
+        card.className = "al-card-dark rounded-3xl p-6 flex flex-col justify-between space-y-4 border border-[#1e222d]";
         card.innerHTML = 
           '<div>' +
             '<div class="flex items-center justify-between mb-3">' +
@@ -1157,9 +1089,9 @@
             '<p class="text-xs text-slate-400 font-semibold mb-2">💻 Stack: ' + (item.tech || 'Teknoloji') + '</p>' +
             '<p class="text-slate-400 text-xs leading-relaxed line-clamp-3">' + (item.description || '') + '</p>' +
           '</div>' +
-          '<div class="pt-4 border-t border-[#23262d] flex justify-between items-center text-xs font-bold">' +
+          '<div class="pt-4 border-t border-[#1e222d] flex justify-between items-center text-xs font-bold">' +
             '<span class="text-white text-sm">Fiyat: $' + Number(item.price || 1000).toLocaleString() + '</span>' +
-            '<button type="button" onclick="alert(\'Satıcı ile iletişim talebiniz gönderildi.\')" class="al-accent-bg text-[#0e0f12] px-3 py-1.5 rounded-full transition">Teklif Ver</button>' +
+            '<button type="button" onclick="alert(\'Satıcı ile iletişim talebiniz gönderildi.\')" class="al-accent-bg text-[#08090b] px-3 py-1.5 rounded-full transition">Teklif Ver</button>' +
           '</div>';
         grid.appendChild(card);
       });
