@@ -320,22 +320,18 @@
       </div>
     </div>
 
-    <!-- 6. KURUCU ADMIN PANELİ -->
+    <!-- 6. KURUCU ADMIN PANELİ (Aktif Oturum Kaldırıldı, 3'lü Şık Düzen) -->
     <div id="tab-admin" class="content-tab space-y-8" style="display: none;">
       <div class="al-card-dark p-8 rounded-3xl border border-amber-500/30 space-y-2">
         <span class="bg-amber-500/10 text-amber-400 text-xs font-black px-3 py-1 rounded-full uppercase">Kurucu Yönetim Paneli</span>
-        <h2 class="text-3xl font-black text-white">Sistem, Kullanıcı & İlan İstatistikleri</h2>
+        <h2 class="text-3xl font-black text-white">Sistem & İlan İstatistikleri</h2>
       </div>
 
-      <!-- Kullanıcı ve Sistem İstatistik Kartları (Dinamik Sayaçlar) -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <!-- 3'lü İstatistik Kartları -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
         <div class="al-card-dark p-6 rounded-2xl text-center space-y-1">
           <div class="text-xs font-bold text-slate-400 uppercase">Toplam Kayıtlı Kullanıcı</div>
           <div class="text-3xl font-black text-emerald-400" id="adminUserCount">1</div>
-        </div>
-        <div class="al-card-dark p-6 rounded-2xl text-center space-y-1">
-          <div class="text-xs font-bold text-slate-400 uppercase">Aktif Oturum (Aktif Kullanıcı)</div>
-          <div class="text-3xl font-black text-blue-400" id="adminActiveSession">0</div>
         </div>
         <div class="al-card-dark p-6 rounded-2xl text-center space-y-1">
           <div class="text-xs font-bold text-slate-400 uppercase">Toplam Aktif İlan</div>
@@ -1091,11 +1087,9 @@
       document.getElementById('adminSynCount').innerText = syndicates.length;
       document.getElementById('adminAcqCount').innerText = acquisitions.length;
       
-      // Dinamik Aktif Oturum ve Kullanıcı Sayısı Hesaplama
-      var activeCount = currentUser ? 1 : 0;
+      // Dinamik İstatistik Hesaplama
       document.getElementById('adminTotalListings').innerText = startups.length + syndicates.length + acquisitions.length;
-      document.getElementById('adminUserCount').innerText = activeCount > 0 ? "1" : "0";
-      document.getElementById('adminActiveSession').innerText = activeCount;
+      document.getElementById('adminUserCount').innerText = currentUser ? "1" : "0";
 
       var grid = document.getElementById('adminListingsGrid');
       if (!grid) return;
