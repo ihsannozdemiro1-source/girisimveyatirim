@@ -533,7 +533,6 @@
         <p class="text-slate-400 text-xs mt-1">İlan tipini seçerek devam edin.</p>
       </div>
       <div class="space-y-3">
-        <!-- DÜZELTİLEN BUTON FONKSİYONU: openStartupFormModal -->
         <button type="button" onclick="closeSelectAddModal(); openStartupFormModal();" class="w-full al-card-dark hover:border-emerald-400 p-4 rounded-2xl text-left transition flex items-center justify-between">
           <div>
             <div class="font-extrabold text-sm text-white">🚀 Girişim İlanı</div>
@@ -672,7 +671,7 @@
     </div>
   </div>
 
-  <!-- İLAN EKLEME MODALI (GİSİRİM FORMUDUR) -->
+  <!-- İLAN EKLEME MODALI (GİRİŞİM FORMUDUR) -->
   <div id="addModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
     <div class="al-card-dark rounded-3xl max-w-lg w-full p-8 relative text-white max-h-[90vh] overflow-y-auto">
       <button type="button" onclick="closeCreateModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold hover:text-white">&times;</button>
@@ -1063,6 +1062,7 @@
       });
     }
 
+    // YATIRIM İLANI YAYINLAMA
     async function handleAddStartup(e) {
       e.preventDefault();
       if (!currentUser) { alert("Giriş yapmalısınız!"); return; }
@@ -1085,7 +1085,22 @@
       };
 
       if (sbClient) {
-        try { await sbClient.from('startups').insert([newStartup]); } catch (e) {}
+        try { 
+          const { data, error } = await sbClient.from('startups').insert([newStartup]);
+          if (error) {
+            console.error("Supabase insert hatası:", error);
+            // Yedek olarak local storage kayıt düşer
+            startups.unshift(newStartup);
+            localStorage.setItem('my_startups_list', JSON.stringify(startups));
+          }
+        } catch (err) { 
+          console.error("Catch hatası:", err); 
+          startups.unshift(newStartup);
+          localStorage.setItem('my_startups_list', JSON.stringify(startups));
+        }
+      } else {
+        startups.unshift(newStartup);
+        localStorage.setItem('my_startups_list', JSON.stringify(startups));
       }
 
       await loadStartups();
@@ -1276,7 +1291,7 @@
       }, 800);
     }
 
-    // 5. GÜÇLENDİRİLMİŞ İLAN SİLME & ADMIN PANELİ
+    // 5. KURUCU ADMIN PANELİ VE SİLME FONKSİYONU
     function renderAdminDashboard() {
       document.getElementById('adminStartupCount').innerText = startups.length;
       document.getElementById('adminSynCount').innerText = syndicates.length;
@@ -1315,8 +1330,8 @@
       if (sbClient) {
         try {
           var numId = Number(id);
-          var { error } = await sbClient.from('startups').delete().eq('id', id);
-          if (error && !isNaN(numId)) {
+          await sbClient.from('startups').delete().eq('id', id);
+          if (!isNaN(numId)) {
             await sbClient.from('startups').delete().eq('id', numId);
           }
         } catch (e) { 
@@ -1324,7 +1339,12 @@
         }
       }
 
-      await loadStartups();
+      startups = startups.filter(function(s) { 
+        return s.id != id && String(s.id) !== String(id); 
+      });
+      localStorage.setItem('my_startups_list', JSON.stringify(startups));
+
+      renderStartups(startups);
       renderAdminDashboard();
       alert("İlan silindi.");
     }
