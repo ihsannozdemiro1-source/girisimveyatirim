@@ -321,11 +321,11 @@
         <p id="detailDesc" class="text-slate-300 text-xs leading-relaxed whitespace-pre-line"></p>
       </div>
 
-      <!-- KESİN ÇÖZÜMLÜ MAİL AÇAN BUTON -->
+      <!-- KESİN ÇÖZÜMLÜ DOĞRUDAN MAİL AÇAN BUTON -->
       <div class="pt-4 border-t border-[#1e222d] flex justify-between items-center">
-        <a id="detailContactBtn" href="#" class="al-accent-bg font-extrabold text-xs px-6 py-2.5 rounded-full shadow-md transition inline-block text-center no-underline">
+        <button type="button" onclick="triggerDirectEmail()" class="al-accent-bg font-extrabold text-xs px-6 py-2.5 rounded-full shadow-md transition cursor-pointer">
           📩 Girişimci ile İletişime Geç
-        </a>
+        </button>
         <button type="button" onclick="closeDetailModal()" class="bg-[#1e222d] text-white font-bold text-xs px-5 py-2.5 rounded-full hover:bg-slate-700 transition">Kapat</button>
       </div>
     </div>
@@ -336,9 +336,7 @@
     <div class="al-card-dark rounded-3xl max-w-md w-full p-8 relative text-white">
       <button type="button" onclick="closeAuthModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold hover:text-white">&times;</button>
       <div class="text-center mb-6"><h2 class="text-2xl font-black">Oturum Açın</h2></div>
-      <div class="mb-4">
-        <button type="button" id="googleBtn" class="w-full bg-white hover:bg-slate-200 text-black font-bold py-3 rounded-full text-xs flex items-center justify-center gap-3 transition">Google ile Devam Et</button>
-      </div>
+      <div class="mb-4"><button type="button" id="googleBtn" class="w-full bg-white text-black font-bold py-3 rounded-full text-xs">Google ile Devam Et</button></div>
       <form onsubmit="handleEmailAuth(event)" class="space-y-3">
         <div id="fullNameBox" style="display: none;"><input type="text" id="authFullName" placeholder="Ad Soyad" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs"></div>
         <input type="email" id="authEmail" required placeholder="E-Posta" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs">
@@ -424,7 +422,7 @@
   <!-- AUTH MODAL -->
   <div id="authModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
     <div class="al-card-dark rounded-3xl max-w-md w-full p-8 relative text-white">
-      <button type="button" onclick="closeAuthModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold">&times;</button>
+      <button type="button" onclick="closeAuthModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold hover:text-white">&times;</button>
       <div class="text-center mb-6"><h2 class="text-2xl font-black">Oturum Açın</h2></div>
       <div class="mb-4"><button type="button" id="googleBtn" class="w-full bg-white text-black font-bold py-3 rounded-full text-xs">Google ile Devam Et</button></div>
       <form onsubmit="handleEmailAuth(event)" class="space-y-3">
@@ -441,6 +439,8 @@
 
   <script>
     const ADMIN_EMAIL = 'ihsannozdemiro1@gmail.com';
+    var activeContactEmail = "ihsannozdemiro1@gmail.com";
+    var activeStartupName = "";
 
     function showToast(title, desc) {
       var toast = document.getElementById('customToast');
@@ -548,14 +548,16 @@
         linksBox.innerHTML += '<a href="' + item.deck + '" target="_blank" class="bg-[#08090b] hover:bg-[#12141a] text-indigo-400 border border-indigo-500/30 px-3.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5">📄 Pitch Deck (Sunum) &rarr;</a>';
       }
 
-      var contactEmail = item.user_email || "ihsannozdemiro1@gmail.com";
-      var startupName = item.name || item.title || "Girişim";
-      
-      // Doğrudan mailto bağlantısını atıyoruz
-      var contactBtn = document.getElementById('detailContactBtn');
-      contactBtn.href = "mailto:" + contactEmail + "?subject=" + encodeURIComponent(startupName + " - Yatırım ve İşbirliği Talebi");
+      activeContactEmail = item.user_email || "ihsannozdemiro1@gmail.com";
+      activeStartupName = item.name || item.title || "Girişim";
 
       document.getElementById('detailModal').classList.remove('hidden');
+    }
+
+    // Doğrudan e-posta penceresini açan kesin fonksiyon
+    function triggerDirectEmail() {
+      var mailtoLink = "mailto:" + activeContactEmail + "?subject=" + encodeURIComponent(activeStartupName + " - Yatırım ve İşbirliği Talebi");
+      window.location.href = mailtoLink;
     }
 
     function closeDetailModal() { document.getElementById('detailModal').classList.add('hidden'); }
