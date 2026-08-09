@@ -414,7 +414,7 @@
   <!-- SİTE İÇİ MESAJ MODALI -->
   <div id="inAppMessageModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
     <div class="al-card-dark rounded-3xl max-w-lg w-full p-8 relative text-white">
-      <button type="button" onclick="closeInAppMessageModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold hover:text-white">&times;</button>
+      <button type="button" onclick="closeInAppMessageModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold">&times;</button>
       <h2 class="text-2xl font-black mb-2">Kurucuya Mesaj Gönder</h2>
       <p id="targetFounderLabel" class="text-xs text-emerald-400 font-semibold mb-4"></p>
       <div class="space-y-4">
@@ -480,13 +480,13 @@
         <button type="button" id="authSubmitBtn" onclick="handleAuthSubmit()" class="w-full al-accent-bg font-extrabold py-3.5 rounded-xl text-xs transition mt-2 cursor-pointer">Giriş Yap</button>
       </div>
 
-      <!-- DOĞRUDAN ŞİFRE YENİLEME EKRANI (Mail Sorununu Kökten Çözen Pratik Yöntem) -->
+      <!-- DOĞRUDAN ŞİFRE GÜNCELLEME FORMU -->
       <div id="forgotStep1" style="display: none;" class="space-y-3">
         <div class="bg-emerald-500/10 border border-emerald-500/20 p-3 rounded-xl text-emerald-400 text-xs font-semibold leading-relaxed text-center">
-          🔒 Hesabınızın şifresini güvenle yenilemek için yeni parolanızı girin.
+          🔒 Parolanızı hemen sıfırlamak için e-postanızı ve yeni şifrenizi girin.
         </div>
         <div>
-          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Kayıtlı E-Posta Adresiniz</label>
+          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">E-Posta Adresiniz</label>
           <input type="email" id="forgotEmail" placeholder="ornek@domain.com" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs outline-none focus:border-emerald-400">
         </div>
         <div>
@@ -735,7 +735,6 @@
       }
     }
 
-    // Doğrudan Şifre Yenileme (Mail bekletmeden anında yeni şifre atama)
     function directResetPassword() {
       var emailVal = document.getElementById('forgotEmail').value.trim();
       var p1 = document.getElementById('directNewPass1').value;
@@ -750,7 +749,7 @@
       var fallbackName = emailVal.split('@')[0];
       localStorage.setItem('user_fullname', fallbackName.charAt(0).toUpperCase() + fallbackName.slice(1));
 
-      showToast("Başarılı", "Şifreniz güncellendi ve sisteme giriş yapıldı!");
+      showToast("Başarılı", "Şifreniz başarıyla güncellendi ve giriş yapıldı!");
       closeAuthModal();
       checkUserSession();
     }
