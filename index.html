@@ -48,19 +48,19 @@
         <span>Girişim ve Yatırım</span>
       </button>
 
-      <nav id="visitorNav" class="flex items-center space-x-1 bg-[#12141a] p-1.5 rounded-full border border-[#1e222d]">
-        <a href="#ecosystem-solutions" class="px-5 py-2 rounded-full text-xs font-medium text-slate-300 hover:text-emerald-400 transition">Çözümler</a>
-        <a href="#platform-features" class="px-5 py-2 rounded-full text-xs font-medium text-slate-300 hover:text-emerald-400 transition">Avantajlar</a>
-        <a href="#how-it-works" class="px-5 py-2 rounded-full text-xs font-medium text-slate-300 hover:text-emerald-400 transition">Nasıl Çalışır?</a>
-        <a href="#faq-section" class="px-5 py-2 rounded-full text-xs font-medium text-slate-300 hover:text-emerald-400 transition">SSS</a>
+      <nav id="visitorNav" class="flex items-center space-x-1.5 bg-[#12141a] p-1.5 rounded-full border border-[#1e222d]">
+        <a href="#ecosystem-solutions" class="px-5 py-2.5 rounded-full text-xs font-semibold text-slate-300 hover:text-emerald-400 transition">Çözümler</a>
+        <a href="#platform-features" class="px-5 py-2.5 rounded-full text-xs font-semibold text-slate-300 hover:text-emerald-400 transition">Avantajlar</a>
+        <a href="#how-it-works" class="px-5 py-2.5 rounded-full text-xs font-semibold text-slate-300 hover:text-emerald-400 transition">Nasıl Çalışır?</a>
+        <a href="#faq-section" class="px-5 py-2.5 rounded-full text-xs font-semibold text-slate-300 hover:text-emerald-400 transition">SSS</a>
       </nav>
 
-      <nav id="appNav" style="display: none;" class="items-center space-x-1 bg-[#12141a] p-1.5 rounded-full border border-[#1e222d]">
-        <button type="button" id="btn-startups" onclick="showTab('startups')" class="tab-btn px-5 py-2 rounded-full text-xs font-bold text-white bg-[#1e222d] shadow-sm transition">🚀 Girişimler</button>
-        <button type="button" id="btn-syndicates" onclick="showTab('syndicates')" class="tab-btn px-5 py-2 rounded-full text-xs font-medium text-slate-400 hover:text-white transition">🔥 Canlı Turlar</button>
-        <button type="button" id="btn-acquisitions" onclick="showTab('acquisitions')" class="tab-btn px-5 py-2 rounded-full text-xs font-medium text-slate-400 hover:text-white transition">🛒 Proje Pazarı</button>
-        <button type="button" id="btn-investors" onclick="showTab('investors')" class="tab-btn px-5 py-2 rounded-full text-xs font-medium text-slate-400 hover:text-white transition">💼 Yatırımcılar</button>
-        <button type="button" id="btn-admin" onclick="showTab('admin')" style="display: none;" class="tab-btn px-5 py-2 rounded-full text-xs font-black text-amber-400 bg-amber-500/10 border border-amber-500/30 transition">⚡ Yönetici Paneli</button>
+      <nav id="appNav" style="display: none;" class="items-center space-x-1.5 bg-[#12141a] p-1.5 rounded-full border border-[#1e222d]">
+        <button type="button" id="btn-startups" onclick="showTab('startups')" class="tab-btn px-5 py-2.5 rounded-full text-xs font-bold text-white bg-[#1e222d] shadow-sm transition">🚀 Girişimler</button>
+        <button type="button" id="btn-syndicates" onclick="showTab('syndicates')" class="tab-btn px-5 py-2.5 rounded-full text-xs font-semibold text-slate-400 hover:text-white transition">🔥 Canlı Turlar</button>
+        <button type="button" id="btn-acquisitions" onclick="showTab('acquisitions')" class="tab-btn px-5 py-2.5 rounded-full text-xs font-semibold text-slate-400 hover:text-white transition">🛒 Proje Pazarı</button>
+        <button type="button" id="btn-investors" onclick="showTab('investors')" class="tab-btn px-5 py-2.5 rounded-full text-xs font-semibold text-slate-400 hover:text-white transition">💼 Yatırımcılar</button>
+        <button type="button" id="btn-admin" onclick="showTab('admin')" style="display: none;" class="tab-btn px-5 py-2.5 rounded-full text-xs font-black text-amber-400 bg-amber-500/10 border border-amber-500/30 transition">⚡ Yönetici Paneli</button>
       </nav>
 
       <div class="flex items-center space-x-3">
@@ -627,7 +627,7 @@
 
       var btns = document.querySelectorAll('.tab-btn');
       for (var j = 0; j < btns.length; j++) {
-        btns[j].className = "tab-btn px-5 py-2 rounded-full text-xs font-medium text-slate-400 hover:text-white transition";
+        btns[j].className = "tab-btn px-5 py-2.5 rounded-full text-xs font-semibold text-slate-400 hover:text-white transition";
       }
 
       var targetTab = document.getElementById('tab-' + name);
@@ -636,9 +636,9 @@
       var targetBtn = document.getElementById('btn-' + name);
       if (targetBtn) {
         if (name === 'admin') {
-          targetBtn.className = "tab-btn px-5 py-2 rounded-full text-xs font-black text-amber-400 bg-amber-500/20 border border-amber-500/40 shadow-sm transition";
+          targetBtn.className = "tab-btn px-5 py-2.5 rounded-full text-xs font-black text-amber-400 bg-amber-500/20 border border-amber-500/40 shadow-sm transition";
         } else {
-          targetBtn.className = "tab-btn px-5 py-2 rounded-full text-xs font-bold text-white bg-[#1e222d] shadow-sm transition";
+          targetBtn.className = "tab-btn px-5 py-2.5 rounded-full text-xs font-bold text-white bg-[#1e222d] shadow-sm transition";
         }
       }
 
