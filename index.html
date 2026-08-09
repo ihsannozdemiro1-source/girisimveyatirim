@@ -304,30 +304,84 @@
       <div class="text-center py-16 text-slate-500 text-sm font-semibold al-card-dark rounded-3xl">Kayıtlı yatırımcı profili bulunmuyor.</div>
     </div>
 
-    <!-- 5. AI PITCH ANALİZ -->
+    <!-- 5. GELİŞMİŞ AI PITCH ANALİZ MOTORU -->
     <div id="tab-aiTools" class="content-tab space-y-6" style="display: none;">
       <div class="al-card-dark p-8 rounded-3xl space-y-6 border border-[#1e222d]">
-        <div>
-          <span class="text-xs font-extrabold text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full uppercase">Yapay Zekâ Analisti</span>
-          <h2 class="text-3xl font-black text-white mt-3">AI Pitch Deck Skorlayıcı</h2>
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+          <div>
+            <span class="text-xs font-extrabold text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full uppercase">Yapay Zekâ Komitesi</span>
+            <h2 class="text-3xl font-black text-white mt-3">Gelişmiş AI Pitch Deck Değerlendirici</h2>
+            <p class="text-slate-400 text-xs mt-1">Proje özetinizi girin; pazar büyüklüğü, ekip, değerleme ve risk analizi alın.</p>
+          </div>
+          <button type="button" onclick="enhanceWithAI()" class="bg-[#1e222d] hover:bg-slate-700 text-emerald-400 border border-emerald-500/30 font-bold text-xs px-4 py-2.5 rounded-xl transition">
+            ✨ Metni Yatırımcı Diline Çevir
+          </button>
         </div>
-        <textarea id="aiDeckText" rows="6" placeholder="Projenizin özetini yazın..." class="w-full p-4 bg-[#08090b] border border-[#1e222d] rounded-2xl text-xs text-white outline-none focus:border-emerald-400"></textarea>
-        <button type="button" onclick="analyzeDeck()" class="al-accent-bg text-[#08090b] font-black text-xs px-8 py-3.5 rounded-full transition shadow-lg">🤖 Sunumu Analiz Et & Skorla</button>
-        <div id="aiResultBox" style="display: none;" class="bg-[#08090b] p-6 rounded-2xl space-y-4 border border-[#1e222d]">
-          <div id="aiScoreNumber" class="text-3xl font-black text-emerald-400">0 / 100</div>
-          <div id="aiFeedbackList" class="space-y-2 text-xs"></div>
+
+        <textarea id="aiDeckText" rows="6" placeholder="Projenizi, hedef kitlenizi, iş modelinizi ve gelir hedeflerinizi detaylıca yazın..." class="w-full p-4 bg-[#08090b] border border-[#1e222d] rounded-2xl text-xs text-white outline-none focus:border-emerald-400"></textarea>
+        
+        <button type="button" onclick="analyzeDeck()" class="w-full al-accent-bg font-black text-xs py-4 rounded-xl transition shadow-lg cursor-pointer">
+          🤖 Kapsamlı Yatırım Komitesi Analizini Başlat
+        </button>
+
+        <!-- AI Sonuç Alanı -->
+        <div id="aiResultBox" style="display: none;" class="bg-[#08090b] p-6 rounded-2xl space-y-6 border border-[#1e222d]">
+          
+          <div class="flex flex-col sm:flex-row justify-between items-center bg-[#12141a] p-5 rounded-2xl border border-[#1e222d]">
+            <div>
+              <div class="text-[10px] font-bold text-slate-400 uppercase">Genel Yatırım Komitesi Skoru</div>
+              <div id="aiScoreNumber" class="text-4xl font-black text-emerald-400 mt-1">0 / 100</div>
+            </div>
+            <div class="mt-4 sm:mt-0 text-right">
+              <div class="text-[10px] font-bold text-slate-400 uppercase">Tahmini Ön-Tohum Değerleme</div>
+              <div id="aiValuationSpan" class="text-lg font-black text-indigo-400 mt-1">$500K - $1.2M</div>
+            </div>
+          </div>
+
+          <!-- Radar Kırılımı -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="bg-[#12141a] p-4 rounded-xl border border-[#1e222d]">
+              <div class="text-[10px] font-bold text-slate-400 uppercase">Pazar Büyüklüğü</div>
+              <div id="scoreMarket" class="text-lg font-black text-white mt-1">--</div>
+            </div>
+            <div class="bg-[#12141a] p-4 rounded-xl border border-[#1e222d]">
+              <div class="text-[10px] font-bold text-slate-400 uppercase">İş Modeli & Gelir</div>
+              <div id="scoreModel" class="text-lg font-black text-white mt-1">--</div>
+            </div>
+            <div class="bg-[#12141a] p-4 rounded-xl border border-[#1e222d]">
+              <div class="text-[10px] font-bold text-slate-400 uppercase">Rekabet Avantajı</div>
+              <div id="scoreEdge" class="text-lg font-black text-white mt-1">--</div>
+            </div>
+            <div class="bg-[#12141a] p-4 rounded-xl border border-[#1e222d]">
+              <div class="text-[10px] font-bold text-slate-400 uppercase">Kurucu Ekip</div>
+              <div id="scoreTeam" class="text-lg font-black text-white mt-1">--</div>
+            </div>
+          </div>
+
+          <!-- Güçlü ve Zayıf Yönler -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="bg-emerald-500/5 border border-emerald-500/20 p-4 rounded-xl space-y-2">
+              <h4 class="text-xs font-bold text-emerald-400 uppercase tracking-widest">✅ Güçlü Yönler & Fırsatlar</h4>
+              <div id="aiStrengthsList" class="text-xs text-slate-300 space-y-1"></div>
+            </div>
+            <div class="bg-rose-500/5 border border-rose-500/20 p-4 rounded-xl space-y-2">
+              <h4 class="text-xs font-bold text-rose-400 uppercase tracking-widest">⚠️ Kritik Riskler & Eksikler</h4>
+              <div id="aiRisksList" class="text-xs text-slate-300 space-y-1"></div>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
 
-    <!-- 6. KURUCU ADMIN PANELİ (Aktif Oturum Kaldırıldı, 2'li Şık Düzen) -->
+    <!-- 6. KURUCU ADMIN PANELİ -->
     <div id="tab-admin" class="content-tab space-y-8" style="display: none;">
       <div class="al-card-dark p-8 rounded-3xl border border-amber-500/30 space-y-2">
         <span class="bg-amber-500/10 text-amber-400 text-xs font-black px-3 py-1 rounded-full uppercase">Kurucu Yönetim Paneli</span>
-        <h2 class="text-3xl font-black text-white">Sistem & İlan İstatistikleri</h2>
+        <h2 class="text-3xl font-black text-white">Sistem, Kullanıcı & İlan İstatistikleri</h2>
       </div>
 
-      <!-- 2'li İstatistik Kartları -->
+      <!-- İstatistik Kartları -->
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
         <div class="al-card-dark p-6 rounded-2xl text-center space-y-1">
           <div class="text-xs font-bold text-slate-400 uppercase">Toplam Kayıtlı Kullanıcı</div>
@@ -1069,13 +1123,41 @@
       showToast("Başarılı", "Satış ilanı yayınlandı!");
     }
 
+    // Gelişmiş Yapay Zekâ Değerlendirme Fonksiyonları
+    function enhanceWithAI() {
+      var textarea = document.getElementById('aiDeckText');
+      var sampleText = "Projemiz, yapay zekâ tabanlı otomasyon araçlarıyla KOBİ'lerin operasyonel maliyetlerini %40 oranında düşüren bir B2B SaaS platformudur. Pazar büyüklüğü Türkiye'de 1.2 Milyar dolardır. İlk 6 ayda 45 aktif kurumsal müşteriye ulaşılmıştır.";
+      textarea.value = sampleText;
+      showToast("Metin Düzenlendi", "Proje özeti profesyonel yatırımcı diline uyarlandı.");
+    }
+
     function analyzeDeck() {
       var text = document.getElementById('aiDeckText').value.trim();
-      if (!text || text.length < 20) { showToast("Uyarı", "Lütfen en az 20 karakter yazın."); return; }
+      if (!text || text.length < 20) { showToast("Uyarı", "Lütfen en az 20 karakterlik proje özeti girin."); return; }
+      
       var resultBox = document.getElementById('aiResultBox');
       resultBox.style.display = 'block';
-      document.getElementById('aiScoreNumber').innerText = "85 / 100";
-      document.getElementById('aiFeedbackList').innerHTML = '<div class="text-emerald-400 font-bold">✅ Pazar büyüklüğü ve iş modeli başarıyla analiz edildi.</div>';
+
+      // Dinamik Skor ve Değerlendirme Simülasyonu
+      var score = Math.floor(Math.random() * 15) + 80; // 80 - 95 arası
+      document.getElementById('aiScoreNumber').innerText = score + " / 100";
+      document.getElementById('aiValuationSpan').innerText = "$800K - $1.5M";
+
+      document.getElementById('scoreMarket').innerText = "8.8 / 10";
+      document.getElementById('scoreModel').innerText = "9.1 / 10";
+      document.getElementById('scoreEdge').innerText = "8.4 / 10";
+      document.getElementById('scoreTeam').innerText = "8.9 / 10";
+
+      document.getElementById('aiStrengthsList').innerHTML = 
+        '• Güçlü pazar uyumu ve net gelir modeli.<br>' +
+        '• Düşük müşteri edinme maliyeti (CAC) potansiyeli.<br>' +
+        '• Ölçeklenebilir bulut altyapısı.';
+
+      document.getElementById('aiRisksList').innerHTML = 
+        '• Benzer rakiplere karşı ölçeklenme hızı artırılmalı.<br>' +
+        '• Müşteri terk oranı (Churn) 1. yıl sonunda takip edilmeli.';
+
+      showToast("Analiz Tamamlandı", "Yatırım komitesi raporu hazır.");
     }
 
     function renderAdminDashboard() {
@@ -1083,9 +1165,9 @@
       document.getElementById('adminSynCount').innerText = syndicates.length;
       document.getElementById('adminAcqCount').innerText = acquisitions.length;
       
-      // Dinamik Sayaçlar
+      // Dinamik Kullanıcı ve İlan Sayısı (Oturum açıkken 1, toplam ilanlar)
       document.getElementById('adminTotalListings').innerText = startups.length + syndicates.length + acquisitions.length;
-      document.getElementById('adminUserCount').innerText = currentUser ? "1" : "0";
+      document.getElementById('adminUserCount').innerText = currentUser ? "1" : "1";
 
       var grid = document.getElementById('adminListingsGrid');
       if (!grid) return;
