@@ -31,7 +31,6 @@
     }
   </style>
   <script>
-    // Sayfa yüklenirken anlık zıplamayı önleyen hızlı ön-kontrol
     if (localStorage.getItem('user_logged_in') === 'true') {
       document.write('<style>#landingView { display: none !important; } #appView { display: block !important; }</style>');
     }
@@ -682,7 +681,7 @@
         signupBtn.className = "w-1/2 py-2.5 rounded-xl text-xs font-black transition bg-[#1e222d] text-white";
         loginBtn.className = "w-1/2 py-2.5 rounded-xl text-xs font-medium text-slate-400 hover:text-white transition";
         fullNameBox.style.display = 'block';
-        submitBtn.innerText = "Kayıt Ol & Doğrulama E-postası Gönder";
+        submitBtn.innerText = "Kayıt Ol";
       }
     }
 
@@ -822,7 +821,7 @@
       if (!sbClient) return;
 
       if (currentAuthMode === 'signup') {
-        const { error } = await sbClient.auth.signUp({ 
+        const { data, error } = await sbClient.auth.signUp({ 
           email, 
           password, 
           options: { data: { full_name: fullName } } 
@@ -830,8 +829,10 @@
         if (error) {
           showToast("Kayıt Hatası", error.message);
         } else {
-          showToast("Doğrulama E-postası Gönderildi", "Lütfen e-postanızı onaylayın.");
-          switchAuthTab('login');
+          localStorage.setItem('user_logged_in', 'true');
+          showToast("Başarılı", "Hesabınız oluşturuldu ve giriş yapıldı!");
+          closeAuthModal();
+          checkUserSession();
         }
       } else {
         const { data, error } = await sbClient.auth.signInWithPassword({ email, password });
