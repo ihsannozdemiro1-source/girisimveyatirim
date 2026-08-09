@@ -480,38 +480,16 @@
         <button type="button" id="authSubmitBtn" onclick="handleAuthSubmit()" class="w-full al-accent-bg font-extrabold py-3.5 rounded-xl text-xs transition mt-2 cursor-pointer">Giriş Yap</button>
       </div>
 
-      <!-- ŞİFREMİ UNUTTUM ADIM 1 (Mail Gir ve Kod İste) -->
+      <!-- ŞİFREMİ UNUTTUM ADIM 1 (Supabase Resmi Sıfırlama Maili) -->
       <div id="forgotStep1" style="display: none;" class="space-y-3">
+        <p class="text-xs text-slate-400 leading-relaxed">Kayıt olduğunuz e-posta adresini girin. Supabase üzerinden e-posta adresinize resmi şifre sıfırlama yönergesi gönderilecektir.</p>
         <div>
-          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Kayıtlı E-Posta Adresiniz</label>
+          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">E-Posta Adresiniz</label>
           <input type="email" id="forgotEmail" placeholder="ornek@domain.com" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs outline-none focus:border-emerald-400">
         </div>
-        <button type="button" onclick="sendResetCode()" class="w-full al-accent-bg font-extrabold py-3.5 rounded-xl text-xs transition cursor-pointer">Tek Seferlik Kod Gönder</button>
+        <button type="button" onclick="sendSupabaseResetEmail()" class="w-full al-accent-bg font-extrabold py-3.5 rounded-xl text-xs transition cursor-pointer">Sıfırlama Bağlantısı Gönder</button>
         <div class="text-center pt-2">
           <button type="button" onclick="switchAuthTab('login')" class="text-xs text-slate-400 hover:text-white">&larr; Giriş Ekranına Dön</button>
-        </div>
-      </div>
-
-      <!-- ŞİFREMİ UNUTTUM ADIM 2 (Kod ve Yeni Şifreler) -->
-      <div id="forgotStep2" style="display: none;" class="space-y-3">
-        <div class="bg-emerald-500/10 border border-emerald-500/20 p-3 rounded-xl text-center text-emerald-400 text-xs font-bold" id="codeAlertBox">
-          Doğrulama kodu oluşturuldu! (Test Kodunuz: 4892)
-        </div>
-        <div>
-          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">E-Postanıza Gelen 4 Haneli Kod</label>
-          <input type="text" id="resetCodeInput" placeholder="Örn: 4892" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs outline-none focus:border-emerald-400">
-        </div>
-        <div>
-          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Yeni Parola</label>
-          <input type="password" id="newPassword1" placeholder="******" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs outline-none focus:border-emerald-400">
-        </div>
-        <div>
-          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Yeni Parola (Tekrar)</label>
-          <input type="password" id="newPassword2" placeholder="******" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs outline-none focus:border-emerald-400">
-        </div>
-        <button type="button" onclick="verifyAndSaveNewPassword()" class="w-full al-accent-bg font-extrabold py-3.5 rounded-xl text-xs transition cursor-pointer">Şifreyi Güncelle & Giriş Yap</button>
-        <div class="text-center pt-2">
-          <button type="button" onclick="switchAuthTab('login')" class="text-xs text-slate-400 hover:text-white">&larr; İptal Et</button>
         </div>
       </div>
 
@@ -631,8 +609,6 @@
     var activeStartupName = "";
     var currentAuthMode = 'login';
     var activeTabName = localStorage.getItem('active_tab_name') || 'startups';
-    var generatedResetCode = "4892";
-    var resetTargetEmail = "";
 
     function showToast(title, desc) {
       var toast = document.getElementById('customToast');
@@ -716,7 +692,6 @@
       var submitBtn = document.getElementById('authSubmitBtn');
       var mainForm = document.getElementById('mainAuthForm');
       var forgotStep1 = document.getElementById('forgotStep1');
-      var forgotStep2 = document.getElementById('forgotStep2');
       var tabHeader = document.getElementById('authTabHeader');
       var googleBox = document.getElementById('googleAuthBox');
       var divider = document.getElementById('orDivider');
@@ -724,7 +699,6 @@
 
       mainForm.style.display = 'none';
       forgotStep1.style.display = 'none';
-      if (forgotStep2) forgotStep2.style.display = 'none';
       tabHeader.style.display = 'flex';
       googleBox.style.display = 'block';
       divider.style.display = 'flex';
@@ -748,45 +722,30 @@
         divider.style.display = 'none';
         modalTitle.style.display = 'none';
         forgotStep1.style.display = 'block';
-      } else if (mode === 'forgot_step2') {
-        tabHeader.style.display = 'none';
-        googleBox.style.display = 'none';
-        divider.style.display = 'none';
-        modalTitle.style.display = 'none';
-        if (forgotStep2) forgotStep2.style.display = 'block';
       }
     }
 
-    function sendResetCode() {
+    async function sendSupabaseResetEmail() {
       var emailVal = document.getElementById('forgotEmail').value.trim();
       if (!emailVal) { showToast("Uyarı", "Lütfen e-posta adresinizi girin."); return; }
       
-      resetTargetEmail = emailVal;
-      generatedResetCode = String(Math.floor(1000 + Math.random() * 9000));
-      
-      if(document.getElementById('codeAlertBox')) {
-        document.getElementById('codeAlertBox').innerText = "✉️ " + emailVal + " adresine kod gönderildi! (Test Kodunuz: " + generatedResetCode + ")";
+      if (sbClient) {
+        try {
+          const { error } = await sbClient.auth.resetPasswordForEmail(emailVal, {
+            redirectTo: window.location.origin
+          });
+          if (error) {
+            showToast("Hata", error.message);
+            return;
+          }
+        } catch (err) {
+          showToast("Hata", "E-posta gönderilemedi.");
+          return;
+        }
       }
-      showToast("Kod Gönderildi", "Doğrulama kodu oluşturuldu.");
-      switchAuthTab('forgot_step2');
-    }
 
-    function verifyAndSaveNewPassword() {
-      var enteredCode = document.getElementById('resetCodeInput').value.trim();
-      var p1 = document.getElementById('newPassword1').value;
-      var p2 = document.getElementById('newPassword2').value;
-
-      if (!enteredCode || !p1 || !p2) { showToast("Uyarı", "Lütfen tüm alanları doldurun."); return; }
-      if (enteredCode !== generatedResetCode) { showToast("Hata", "Girdiğiniz tek seferlik kod hatalı!"); return; }
-      if (p1 !== p2) { showToast("Hata", "Yeni parolalar birbiriyle uyuşmuyor!"); return; }
-      if (p1.length < 6) { showToast("Uyarı", "Parola en az 6 karakter olmalıdır."); return; }
-
-      localStorage.setItem('user_logged_in', 'true');
-      localStorage.setItem('user_email', resetTargetEmail);
-      
-      showToast("Başarılı", "Şifreniz güncellendi ve giriş yapıldı!");
-      closeAuthModal();
-      checkUserSession();
+      showToast("Başarılı", emailVal + " adresine şifre sıfırlama yönergesi gönderildi.");
+      switchAuthTab('login');
     }
 
     function openStartupFormModal() { document.getElementById('addModal').classList.remove('hidden'); }
