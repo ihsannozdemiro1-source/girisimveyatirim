@@ -829,6 +829,8 @@
         if (error) {
           showToast("Kayıt Hatası", error.message);
         } else {
+          // Kayıt sonrası otomatik giriş denemesi (Eğer e-posta onayı kapalıysa direkt oturum açar)
+          const loginAttempt = await sbClient.auth.signInWithPassword({ email, password });
           localStorage.setItem('user_logged_in', 'true');
           showToast("Başarılı", "Kayıt olundu ve giriş yapıldı!");
           closeAuthModal();
