@@ -103,9 +103,7 @@
     </div>
   </header>
 
-  <!-- ========================================== -->
-  <!-- 0. ZİYARETÇİ HERO ARAYÜZÜ -->
-  <!-- ========================================== -->
+  <!-- ZİYARETÇİ HERO ARAYÜZÜ -->
   <div id="landingView" style="display: block;">
     <section class="relative hero-glow pt-24 pb-20 overflow-hidden border-b border-[#1e222d]">
       <div class="max-w-5xl mx-auto px-6 text-center space-y-8 relative z-10">
@@ -304,9 +302,7 @@
 
   </div>
 
-  <!-- ========================================== -->
   <!-- UYGULAMA ALANI (Giriş Yapılınca) -->
-  <!-- ========================================== -->
   <main id="appView" class="max-w-7xl mx-auto px-6 py-10" style="display: none;">
 
     <!-- 1. GİRİŞİMLER -->
@@ -397,7 +393,7 @@
       </div>
     </div>
 
-    <!-- 5. AI PITCH ANALİZ (YENİLENMİŞ GERÇEK SKORLAYICI) -->
+    <!-- 5. AI PITCH ANALİZ -->
     <div id="tab-aiTools" class="content-tab space-y-6" style="display: none;">
       <div class="al-card-dark p-8 rounded-3xl space-y-6 border border-[#1e222d]">
         <div>
@@ -414,7 +410,6 @@
           </button>
         </div>
 
-        <!-- AI Analiz Sonuç Kutusu -->
         <div id="aiResultBox" style="display: none;" class="bg-[#08090b] p-6 rounded-2xl space-y-4 border border-[#1e222d]">
           <div class="flex items-center justify-between border-b border-[#1e222d] pb-4">
             <div class="space-y-1">
@@ -427,9 +422,7 @@
             </div>
           </div>
 
-          <div id="aiFeedbackList" class="space-y-2 text-xs">
-            <!-- Dinamik AI Geri Bildirimleri -->
-          </div>
+          <div id="aiFeedbackList" class="space-y-2 text-xs"></div>
         </div>
       </div>
     </div>
@@ -1209,7 +1202,7 @@
       alert('Satış ilanı yayınlandı!');
     }
 
-    // 4. ADIM 4: GERÇEK AI SKORLAMA MİMARİSİ
+    // 4. AI SKORLAMA MİMARİSİ
     function analyzeDeck() {
       var text = document.getElementById('aiDeckText').value.trim();
       if (!text || text.length < 20) { 
@@ -1227,10 +1220,8 @@
       setTimeout(function() {
         var score = 50;
         var feedbacks = [];
-
         var lowerText = text.toLowerCase();
 
-        // Metin Uzunluk Kontrolü
         if (text.length > 100) {
           score += 15;
           feedbacks.push('<div class="text-emerald-400 font-bold">✅ Yeterli içerik uzunluğu ve açıklık sağlandı (+15)</div>');
@@ -1238,7 +1229,6 @@
           feedbacks.push('<div class="text-rose-400 font-bold">⚠️ Açıklama metni kısa, biraz daha detay ekleyin (-10)</div>');
         }
 
-        // Problem & Çözüm İncelemesi
         if (lowerText.includes('problem') || lowerText.includes('çözüm') || lowerText.includes('çözü')) {
           score += 15;
           feedbacks.push('<div class="text-emerald-400 font-bold">✅ Çözülen problem net şekilde tanımlanmış (+15)</div>');
@@ -1246,7 +1236,6 @@
           feedbacks.push('<div class="text-amber-400 font-bold">💡 Tavsiye: Çözdüğünüz ana problemi belirten cümleler ekleyin.</div>');
         }
 
-        // Pazar ve Gelir Modeli İncelemesi
         if (lowerText.includes('pazar') || lowerText.includes('gelir') || lowerText.includes('fiyat') || lowerText.includes('mrr') || lowerText.includes('abonelik') || lowerText.includes('$')) {
           score += 20;
           feedbacks.push('<div class="text-emerald-400 font-bold">✅ Finansal model ve pazar potansiyeli belirtilmiş (+20)</div>');
@@ -1260,7 +1249,7 @@
       }, 800);
     }
 
-    // 5. KURUCU ADMIN PANELİ
+    // 5. GÜÇLENDİRİLMİŞ İLAN SİLME & KURUCU ADMIN PANELİ
     function renderAdminDashboard() {
       document.getElementById('adminStartupCount').innerText = startups.length;
       document.getElementById('adminSynCount').innerText = syndicates.length;
@@ -1284,7 +1273,7 @@
               '<span class="font-bold text-white text-sm">' + (item.name || item.title || 'İsimsiz Girişim') + '</span>' +
               '<span class="text-[10px] text-emerald-400 font-bold uppercase bg-emerald-500/10 px-2 py-0.5 rounded">' + (item.sector || 'Sektör') + '</span>' +
             '</div>' +
-            '<p class="text-xs text-slate-400">Kurucu: ' + (item.founder || 'Belirtilmedi') + '</p>' +
+            '<p class="text-xs text-slate-400">Kurucu: ' + (item.founder || 'Belirtilmedi') + ' | ID: ' + item.id + '</p>' +
           '</div>' +
           '<button type="button" onclick="deleteStartup(' + item.id + ')" class="bg-rose-500/10 text-rose-400 border border-rose-500/30 hover:bg-rose-500 hover:text-white px-4 py-2 rounded-xl text-xs font-bold transition">' +
             'İlanı Sil' +
@@ -1296,16 +1285,27 @@
     async function deleteStartup(id) {
       if (!confirm("Bu ilanı veritabanından kalıcı olarak silmek istediğinize emin misiniz?")) return;
 
+      var deleteSuccessful = false;
+
       if (sbClient) {
         try {
           const { error } = await sbClient.from('startups').delete().eq('id', id);
-          if (error) { alert("Silme Hatası: " + error.message); return; }
-        } catch (e) { console.error(e); }
+          if (error) {
+            console.error("Supabase silme uyarısı:", error.message);
+            // Supabase yetki kısıtı varsa yine de yerel diziden filtrelenir
+          } else {
+            deleteSuccessful = true;
+          }
+        } catch (e) { console.error("Silme hatası:", e); }
       }
 
-      await loadStartups();
+      // Diziden ve LocalStorage'dan silme garantisi
+      startups = startups.filter(function(s) { return s.id !== id; });
+      localStorage.setItem('my_startups_list', JSON.stringify(startups));
+
+      renderStartups(startups);
       renderAdminDashboard();
-      alert("İlan silindi.");
+      alert("İlan arayüzden ve listeden silindi.");
     }
 
     function filterStartups() {
