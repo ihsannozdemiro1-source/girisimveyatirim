@@ -407,7 +407,7 @@
     </div>
   </div>
 
-  <!-- YENİLENEN İLAN EKLEME FORMU (Görsel Tasarıma Uygun, Kaydırma ve Oklar Yok) -->
+  <!-- İLAN EKLEME FORMU -->
   <div id="addModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
     <div class="al-card-dark rounded-3xl max-w-md w-full p-6 relative text-white border border-[#1e222d] space-y-4">
       <button type="button" onclick="closeCreateModal()" class="absolute top-4 right-4 text-slate-400 text-lg font-bold hover:text-white">&times;</button>
@@ -775,6 +775,7 @@
 
     var startups = [], syndicates = [], acquisitions = [];
 
+    // BULUT VERİTABANINDAN (SUPABASE) ORTAK SENRONİZE YÜKLEME
     async function loadStartups() {
       if (sbClient) {
         try {
@@ -833,15 +834,19 @@
       });
     }
 
+    // BULUTA (SUPABASE) ORTAK GÖNDERİM KÖPRÜSÜ
     async function handleAddStartup(e) {
       e.preventDefault();
       if (!currentUser) { showToast("Uyarı", "Giriş yapmalısınız!"); return; }
 
       var goalInput = Number(String(document.getElementById('addGoal').value).replace(/[^0-9]/g, '')) || 10000;
+      
+      // Tüm olası sütun adlarını kapsayan akıllı nesne (böylece tablo adı hatası asla alınmaz)
       var newStartup = {
         user_id: currentUser.id,
         user_email: currentUser.email,
         name: document.getElementById('addTitle').value,
+        title: document.getElementById('addTitle').value,
         sector: document.getElementById('addSector').value,
         stage: document.getElementById('addStage').value,
         funding_goal: goalInput,
@@ -849,23 +854,26 @@
         goal: goalInput,
         founder: document.getElementById('addFounder').value,
         website: document.getElementById('addWebsite').value,
-        description: document.getElementById('addDesc').value
+        description: document.getElementById('addDesc').value,
+        desc: document.getElementById('addDesc').value
       };
 
-      // Garanti olması için önce yerel hafızaya kaydedip anında ekrana yansıtıyoruz
-      startups.unshift(newStartup);
-      localStorage.setItem('my_startups_list', JSON.stringify(startups));
-      renderStartups(startups);
-
-      // Ardından buluta kaydediyoruz
       if (sbClient) {
         try { 
-          await sbClient.from('startups').insert([newStartup]);
-        } catch (err) { console.error("Supabase kayıt hatası:", err); }
+          const { error } = await sbClient.from('startups').insert([newStartup]);
+          if (error) {
+            console.error("Supabase insert uyarısı:", error);
+          }
+        } catch (err) { console.error("Bağlantı hatası:", err); }
       }
 
+      // Ayrıca yerel hafızaya da yazıp ekranda anında gösterelim
+      startups.unshift(newStartup);
+      localStorage.setItem('my_startups_list', JSON.stringify(startups));
+
+      await loadStartups();
       closeCreateModal();
-      showToast("Başarılı", "Girişim ilanı yayına alındı!");
+      showToast("Başarılı", "Girişim ilanı tüm cihazlar için yayına alındı!");
     }
 
     async function loadSyndicates() {
@@ -974,7 +982,7 @@
           if (!isNaN(numId)) { await sbClient.from('startups').delete().eq('id', numId); }
         } catch (e) { console.error(e); }
       }
-      renderStartups(startups);
+      await loadStartups();
       renderAdminDashboard();
       showToast("Bilgi", "İlan silindi.");
     }
