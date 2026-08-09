@@ -407,25 +407,25 @@
     </div>
   </div>
 
-  <!-- YENİLENEN İLAN EKLEME FORMU (Görsel Tasarıma Uygun, Oklar ve Kaydırma Yok) -->
+  <!-- YENİLENEN İLAN EKLEME FORMU (Görsel Tasarıma Uygun, Kaydırma ve Oklar Yok) -->
   <div id="addModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
-    <div class="al-card-dark rounded-3xl max-w-lg w-full p-8 relative text-white border border-[#1e222d] space-y-5">
-      <button type="button" onclick="closeCreateModal()" class="absolute top-5 right-5 text-slate-400 text-xl font-bold hover:text-white">&times;</button>
-      <div class="space-y-1">
-        <h2 class="text-2xl font-black text-white">Yeni Girişim İlanı Ekle</h2>
-        <p class="text-xs text-slate-400">Projenizi yatırımcı ağına hemen dahil edin.</p>
+    <div class="al-card-dark rounded-3xl max-w-md w-full p-6 relative text-white border border-[#1e222d] space-y-4">
+      <button type="button" onclick="closeCreateModal()" class="absolute top-4 right-4 text-slate-400 text-lg font-bold hover:text-white">&times;</button>
+      <div>
+        <h2 class="text-xl font-black text-white">Yeni Girişim İlanı Ekle</h2>
+        <p class="text-[11px] text-slate-400">Projenizi yatırımcı ağına hemen dahil edin.</p>
       </div>
       
       <form onsubmit="handleAddStartup(event)" class="space-y-3">
         <div>
           <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Girişim Adı</label>
-          <input type="text" id="addTitle" required placeholder="Projenizin Adı" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-2xl text-xs text-white outline-none focus:border-emerald-400 transition">
+          <input type="text" id="addTitle" required placeholder="Projenizin Adı" class="w-full p-2.5 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400 transition">
         </div>
         
         <div class="grid grid-cols-2 gap-3">
           <div>
             <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Sektör</label>
-            <select id="addSector" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-2xl text-xs text-white outline-none focus:border-emerald-400 transition">
+            <select id="addSector" class="w-full p-2.5 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400 transition">
               <option value="Yapay Zekâ">Yapay Zekâ</option>
               <option value="Fintek">Fintek</option>
               <option value="SaaS">SaaS</option>
@@ -434,7 +434,7 @@
           </div>
           <div>
             <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Aşama</label>
-            <select id="addStage" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-2xl text-xs text-white outline-none focus:border-emerald-400 transition">
+            <select id="addStage" class="w-full p-2.5 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400 transition">
               <option value="Fikir">Fikir</option>
               <option value="MVP">MVP</option>
               <option value="Erken Aşama">Erken Aşama</option>
@@ -445,25 +445,25 @@
         <div class="grid grid-cols-2 gap-3">
           <div>
             <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Hedef Yatırım ($)</label>
-            <input type="text" id="addGoal" required placeholder="50000" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-2xl text-xs text-white outline-none focus:border-emerald-400 transition">
+            <input type="text" id="addGoal" required placeholder="50000" class="w-full p-2.5 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400 transition">
           </div>
           <div>
             <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Kurucu İsim</label>
-            <input type="text" id="addFounder" required placeholder="Adınız Soyadınız" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-2xl text-xs text-white outline-none focus:border-emerald-400 transition">
+            <input type="text" id="addFounder" required placeholder="Adınız Soyadınız" class="w-full p-2.5 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400 transition">
           </div>
         </div>
 
         <div>
           <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Web Sitesi URL (İsteğe Bağlı)</label>
-          <input type="url" id="addWebsite" placeholder="https://projeniz.com" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-2xl text-xs text-white outline-none focus:border-emerald-400 transition">
+          <input type="url" id="addWebsite" placeholder="https://projeniz.com" class="w-full p-2.5 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400 transition">
         </div>
 
         <div>
           <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Girişim Açıklaması</label>
-          <textarea id="addDesc" rows="3" required placeholder="Projenizin çözdüğü problemi ve detayları anlatın..." class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-2xl text-xs text-white outline-none focus:border-emerald-400 transition"></textarea>
+          <textarea id="addDesc" rows="2" required placeholder="Projenizin çözdüğü problemi anlatın..." class="w-full p-2.5 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400 transition"></textarea>
         </div>
 
-        <button type="submit" class="w-full al-accent-bg font-black py-3 rounded-2xl text-xs transition shadow-lg cursor-pointer">Yayınla</button>
+        <button type="submit" class="w-full al-accent-bg font-black py-3 rounded-xl text-xs transition shadow-lg cursor-pointer">Yayınla</button>
       </form>
     </div>
   </div>
@@ -852,17 +852,18 @@
         description: document.getElementById('addDesc').value
       };
 
-      if (sbClient) {
-        try { 
-          const { error } = await sbClient.from('startups').insert([newStartup]);
-          if (error) console.error("Supabase kayıt hatası:", error);
-        } catch (err) { console.error("Bağlantı hatası:", err); }
-      }
-
+      // Garanti olması için önce yerel hafızaya kaydedip anında ekrana yansıtıyoruz
       startups.unshift(newStartup);
       localStorage.setItem('my_startups_list', JSON.stringify(startups));
+      renderStartups(startups);
 
-      await loadStartups();
+      // Ardından buluta kaydediyoruz
+      if (sbClient) {
+        try { 
+          await sbClient.from('startups').insert([newStartup]);
+        } catch (err) { console.error("Supabase kayıt hatası:", err); }
+      }
+
       closeCreateModal();
       showToast("Başarılı", "Girişim ilanı yayına alındı!");
     }
@@ -964,6 +965,8 @@
 
     async function deleteStartup(id) {
       if (!confirm("Bu ilanı silmek istediğinize emin misiniz?")) return;
+      startups = startups.filter(s => s.id != id && String(s.id) !== String(id));
+      localStorage.setItem('my_startups_list', JSON.stringify(startups));
       if (sbClient) {
         try {
           var numId = Number(id);
@@ -971,7 +974,7 @@
           if (!isNaN(numId)) { await sbClient.from('startups').delete().eq('id', numId); }
         } catch (e) { console.error(e); }
       }
-      await loadStartups();
+      renderStartups(startups);
       renderAdminDashboard();
       showToast("Bilgi", "İlan silindi.");
     }
