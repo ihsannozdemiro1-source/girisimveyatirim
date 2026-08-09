@@ -30,6 +30,12 @@
       margin: 0; 
     }
   </style>
+  <script>
+    // Sayfa yüklenirken anlık zıplamayı önleyen hızlı ön-kontrol
+    if (localStorage.getItem('user_logged_in') === 'true') {
+      document.write('<style>#landingView { display: none !important; } #appView { display: block !important; }</style>');
+    }
+  </script>
 </head>
 <body class="antialiased selection:bg-[#10b981] selection:text-black">
 
@@ -782,6 +788,7 @@
       const appView = document.getElementById('appView');
 
       if (user) {
+        localStorage.setItem('user_logged_in', 'true');
         userBox.classList.remove('hidden');
         loginBtn.classList.add('hidden');
         if (visitorNav) visitorNav.style.display = 'none';
@@ -794,6 +801,7 @@
         if (adminBtn) adminBtn.style.display = (user.email === ADMIN_EMAIL) ? 'inline-block' : 'none';
         showTab(activeTabName || 'startups');
       } else {
+        localStorage.removeItem('user_logged_in');
         userBox.classList.add('hidden');
         loginBtn.classList.remove('hidden');
         if (appNav) { appNav.style.display = 'none'; appNav.classList.add('hidden'); }
@@ -830,6 +838,7 @@
         if (error) {
           showToast("Giriş Hatası", error.message);
         } else {
+          localStorage.setItem('user_logged_in', 'true');
           showToast("Başarılı", "Giriş yapıldı!");
           closeAuthModal();
         }
@@ -852,7 +861,11 @@
     });
 
     async function handleLogout() {
-      if (sbClient) { await sbClient.auth.signOut(); showToast("Çıkış", "Oturum kapatıldı."); }
+      if (sbClient) { 
+        localStorage.removeItem('user_logged_in');
+        await sbClient.auth.signOut(); 
+        showToast("Çıkış", "Oturum kapatıldı."); 
+      }
     }
 
     var startups = [], syndicates = [], acquisitions = [];
