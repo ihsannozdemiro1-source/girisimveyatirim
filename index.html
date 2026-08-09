@@ -24,15 +24,6 @@
     .hero-glow {
       background: radial-gradient(circle at 50% 20%, rgba(16, 185, 129, 0.15) 0%, rgba(8, 9, 11, 0) 70%);
     }
-    .glass-search {
-      background: rgba(18, 20, 26, 0.7);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-    .glass-search:focus-within {
-      border-color: #10b981;
-      box-shadow: 0 0 25px rgba(16, 185, 129, 0.2);
-    }
     input[type=number]::-webkit-inner-spin-button, 
     input[type=number]::-webkit-outer-spin-button { 
       -webkit-appearance: none; 
@@ -114,39 +105,6 @@
           </button>
         </div>
 
-      </div>
-    </section>
-
-    <section id="ecosystem-solutions" class="border-b border-[#1e222d] bg-[#0b0c0e] py-20 scroll-mt-24">
-      <div class="max-w-7xl mx-auto px-6 space-y-12">
-        <div class="text-center max-w-2xl mx-auto space-y-3">
-          <span class="text-xs font-bold uppercase tracking-widest text-emerald-400">EKOSİSTEM ÇÖZÜMLERİ</span>
-          <h2 class="text-3xl sm:text-4xl font-black tracking-tight text-white">Kimler İçin Tasarlandı?</h2>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div class="al-card-dark p-8 rounded-3xl space-y-6 flex flex-col justify-between">
-            <div class="space-y-4">
-              <div class="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[10px] font-extrabold px-3 py-1 rounded-full uppercase">Girişimciler İçin</div>
-              <h3 class="text-2xl font-black text-white leading-snug">Erken Aşama Sermaye Bulun</h3>
-              <p class="text-slate-400 text-xs leading-relaxed">Fikir veya MVP aşamasındaki projenizin detaylarını ekleyin. Doğrulanmış melek yatırımcı ağımıza doğrudan sunum yapın.</p>
-            </div>
-          </div>
-          <div class="al-card-dark p-8 rounded-3xl space-y-6 flex flex-col justify-between">
-            <div class="space-y-4">
-              <div class="inline-flex items-center gap-2 bg-teal-500/10 border border-teal-500/30 text-teal-400 text-[10px] font-extrabold px-3 py-1 rounded-full uppercase">Yatırımcılar İçin</div>
-              <h3 class="text-2xl font-black text-white leading-snug">Sendikalara ve Turlara Katılın</h3>
-              <p class="text-slate-400 text-xs leading-relaxed">Lider melek yatırımcıların oluşturduğu canlı turları takip edin. Mikro bütçelerle yüksek potansiyelli girişimlere ortak olun.</p>
-            </div>
-          </div>
-          <div class="al-card-dark p-8 rounded-3xl space-y-6 flex flex-col justify-between">
-            <div class="space-y-4">
-              <div class="inline-flex items-center gap-2 bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 text-[10px] font-extrabold px-3 py-1 rounded-full uppercase">Geliştiriciler İçin</div>
-              <h3 class="text-2xl font-black text-white leading-snug">Mikro SaaS & Proje Devri</h3>
-              <p class="text-slate-400 text-xs leading-relaxed">Gelir getiren kodlarınızı, yan projelerinizi veya SaaS yazılımlarınızı pazarda satışa çıkarın.</p>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
   </div>
@@ -767,6 +725,15 @@
       loadStartups();
       loadSyndicates();
       loadAcquisitions();
+
+      // CANLI DİNLEME (REALTIME): Başka cihazdan ilan eklendiğinde ekranı otomatik günceller
+      if (sbClient) {
+        sbClient.channel('public:startups')
+          .on('postgres_changes', { event: '*', schema: 'public', table: 'startups' }, payload => {
+            loadStartups();
+          })
+          .subscribe();
+      }
     });
 
     async function handleLogout() {
@@ -775,24 +742,23 @@
 
     var startups = [], syndicates = [], acquisitions = [];
 
-    // KESİN ÇÖZÜM: YEREL HAFIZA (LOCALSTORAGE) GÜVENCESİYLE ANINDA GÖSTERME
+    // BULUT VERİTABANINDAN (SUPABASE) DOĞRUDAN ÇEKME MİMARİSİ
     async function loadStartups() {
-      var localData = JSON.parse(localStorage.getItem('my_startups_list') || '[]');
-      startups = localData;
-      renderStartups(startups);
-
-      // Arka planda buluttan da çekmeyi dener
       if (sbClient) {
         try {
           const { data, error } = await sbClient.from('startups').select('*').order('id', { ascending: false });
-          if (!error && data && data.length > 0) {
-            // Buluttakilerle yerel verileri birleştiriyoruz ki hiçbir şey kaybolmasın
-            var combined = data.concat(localData.filter(loc => !data.some(cloud => cloud.name === loc.name)));
-            startups = combined;
+          if (!error && data) {
+            startups = data;
             renderStartups(startups);
+            return;
           }
-        } catch (err) { console.error("Bulut senkronizasyon uyarısı:", err); }
+        } catch (err) { console.error("Supabase yükleme hatası:", err); }
       }
+      
+      // Buluta ulaşılamazsa yerel yedekten okur
+      var localData = JSON.parse(localStorage.getItem('my_startups_list') || '[]');
+      startups = localData;
+      renderStartups(startups);
     }
 
     function renderStartups(data) {
@@ -837,7 +803,7 @@
       });
     }
 
-    // %100 ANINDA YAYINLAYAN VE GÖSTEREN GÜVENLİ KAYIT SİSTEMİ
+    // DOĞRUDAN SUPABASE BULUTA KAYIT VE SENKRONİZASYON
     async function handleAddStartup(e) {
       e.preventDefault();
       if (!currentUser) { showToast("Uyarı", "Giriş yapmalısınız!"); return; }
@@ -851,7 +817,6 @@
       var descVal = document.getElementById('addDesc').value;
 
       var newStartup = {
-        id: Date.now(),
         user_id: currentUser.id,
         user_email: currentUser.email,
         name: titleVal,
@@ -866,34 +831,24 @@
         desc: descVal
       };
 
-      // 1. Önce kesin olarak yerel hafızaya kaydedip ekrana anında basıyoruz
-      var localList = JSON.parse(localStorage.getItem('my_startups_list') || '[]');
-      localList.unshift(newStartup);
-      localStorage.setItem('my_startups_list', JSON.stringify(localList));
-
-      // 2. Arka planda buluta göndermeyi dener
       if (sbClient) {
         try { 
-          await sbClient.from('startups').insert([{
-            user_id: currentUser.id,
-            user_email: currentUser.email,
-            name: titleVal,
-            title: titleVal,
-            sector: sectorVal,
-            stage: stageVal,
-            funding_goal: goalInput,
-            goal: goalInput,
-            founder: founderVal,
-            website: websiteVal,
-            description: descVal,
-            desc: descVal
-          }]);
-        } catch (err) { console.error("Bulut kayıt yedekleme:", err); }
+          const { error } = await sbClient.from('startups').insert([newStartup]);
+          if (error) {
+            console.error("Supabase kayıt hatası:", error);
+            showToast("Hata", "Buluta kaydedilemedi!");
+            return;
+          }
+        } catch (err) { 
+          console.error("Bağlantı hatası:", err); 
+          showToast("Hata", "Bağlantı hatası oluştu.");
+          return;
+        }
       }
 
       await loadStartups();
       closeCreateModal();
-      showToast("Başarılı", "Girişim ilanı yayına alındı!");
+      showToast("Başarılı", "Girişim ilanı tüm cihazlar için yayına alındı!");
     }
 
     async function loadSyndicates() {
@@ -903,8 +858,8 @@
           if (data && data.length > 0) { syndicates = data; renderSyndicates(syndicates); return; }
         } catch (e) {}
       }
-      var localData = localStorage.getItem('my_syndicates_list');
-      syndicates = localData ? JSON.parse(localData) : [];
+      var localData = JSON.parse(localStorage.getItem('my_syndicates_list') || '[]');
+      syndicates = localData;
       renderSyndicates(syndicates);
     }
 
@@ -938,8 +893,8 @@
           if (data && data.length > 0) { acquisitions = data; renderAcquisitions(acquisitions); return; }
         } catch (e) {}
       }
-      var localData = localStorage.getItem('my_acquisitions_list');
-      acquisitions = localData ? JSON.parse(localData) : [];
+      var localData = JSON.parse(localStorage.getItem('my_acquisitions_list') || '[]');
+      acquisitions = localData;
       renderAcquisitions(acquisitions);
     }
 
@@ -993,13 +948,9 @@
 
     async function deleteStartup(id) {
       if (!confirm("Bu ilanı silmek istediğinize emin misiniz?")) return;
-      startups = startups.filter(s => s.id != id && String(s.id) !== String(id));
-      localStorage.setItem('my_startups_list', JSON.stringify(startups));
       if (sbClient) {
         try {
-          var numId = Number(id);
           await sbClient.from('startups').delete().eq('id', id);
-          if (!isNaN(numId)) { await sbClient.from('startups').delete().eq('id', numId); }
         } catch (e) { console.error(e); }
       }
       await loadStartups();
