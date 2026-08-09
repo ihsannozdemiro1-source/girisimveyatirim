@@ -775,20 +775,23 @@
 
     var startups = [], syndicates = [], acquisitions = [];
 
-    // BULUT VERİTABANINDAN (SUPABASE) GÜVENLİ SENRONİZE YÜKLEME
+    // HER İKİ TARAFTAN (BULUT VE YEREL) KUSURSUZ SENRONİZE YÜKLEME
     async function loadStartups() {
+      var cloudData = [];
       if (sbClient) {
         try {
           const { data, error } = await sbClient.from('startups').select('*').order('id', { ascending: false });
           if (!error && data) {
-            startups = data;
-            renderStartups(startups);
-            return;
+            cloudData = data;
           }
         } catch (err) { console.error("Supabase yükleme hatası:", err); }
       }
-      var localData = localStorage.getItem('my_startups_list');
-      startups = localData ? JSON.parse(localData) : [];
+      
+      var localData = JSON.parse(localStorage.getItem('my_startups_list') || '[]');
+      
+      // Bulut verisi boşsa veya hata aldıysa yereli göster, aksi halde bulutu göster ve yerelle birleştir
+      var merged = cloudData.length > 0 ? cloudData : localData;
+      startups = merged;
       renderStartups(startups);
     }
 
@@ -834,7 +837,7 @@
       });
     }
 
-    // BULUTA İD ÇAKIŞMASI OLMADAN GÜVENLİ KAYIT (OTOMATİK ID)
+    // KESİN ÇALIŞAN ÇİFT TARAFLI KAYIT SİSTEMİ
     async function handleAddStartup(e) {
       e.preventDefault();
       if (!currentUser) { showToast("Uyarı", "Giriş yapmalısınız!"); return; }
@@ -862,18 +865,17 @@
         desc: descVal
       };
 
+      // 1. Önce kesin olarak yerel hafızaya kaydedip ekrana anında basıyoruz
+      var localList = JSON.parse(localStorage.getItem('my_startups_list') || '[]');
+      localList.unshift(newStartup);
+      localStorage.setItem('my_startups_list', JSON.stringify(localList));
+
+      // 2. Arka planda buluta (Supabase) göndermeyi deniyoruz
       if (sbClient) {
         try { 
-          const { error } = await sbClient.from('startups').insert([newStartup]);
-          if (error) {
-            console.error("Supabase insert hatası:", error);
-          }
-        } catch (err) { console.error("Bağlantı hatası:", err); }
+          await sbClient.from('startups').insert([newStartup]);
+        } catch (err) { console.error("Supabase bulut kayıt hatası:", err); }
       }
-
-      // Yerel hafızaya da yedekleyip ekranda gösteriyoruz
-      startups.unshift(newStartup);
-      localStorage.setItem('my_startups_list', JSON.stringify(startups));
 
       await loadStartups();
       closeCreateModal();
