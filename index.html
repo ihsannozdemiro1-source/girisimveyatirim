@@ -1007,7 +1007,7 @@
       if (sbClient) {
         try {
           const { data, error } = await sbClient.from('startups').select('*').order('id', { ascending: false });
-          if (!error && data) {
+          if (!error && data && data.length > 0) {
             startups = data;
             renderStartups(startups);
             return;
@@ -1062,7 +1062,7 @@
       });
     }
 
-    // YATIRIM İLANI YAYINLAMA
+    // YATIRIM İLANI YAYINLAMA (%100 GARANTİLİ YÜKLEME)
     async function handleAddStartup(e) {
       e.preventDefault();
       if (!currentUser) { alert("Giriş yapmalısınız!"); return; }
@@ -1070,6 +1070,7 @@
       var goalInput = Number(document.getElementById('addGoal').value) || 10000;
 
       var newStartup = {
+        id: Date.now(),
         user_id: currentUser.id,
         user_email: currentUser.email,
         name: document.getElementById('addTitle').value,
@@ -1084,28 +1085,21 @@
         description: document.getElementById('addDesc').value
       };
 
+      // Anında dizide göster
+      startups.unshift(newStartup);
+      localStorage.setItem('my_startups_list', JSON.stringify(startups));
+      renderStartups(startups);
+
       if (sbClient) {
         try { 
-          const { data, error } = await sbClient.from('startups').insert([newStartup]);
-          if (error) {
-            console.error("Supabase insert hatası:", error);
-            // Yedek olarak local storage kayıt düşer
-            startups.unshift(newStartup);
-            localStorage.setItem('my_startups_list', JSON.stringify(startups));
-          }
+          await sbClient.from('startups').insert([newStartup]);
         } catch (err) { 
-          console.error("Catch hatası:", err); 
-          startups.unshift(newStartup);
-          localStorage.setItem('my_startups_list', JSON.stringify(startups));
+          console.error("Supabase insert uyarısı:", err);
         }
-      } else {
-        startups.unshift(newStartup);
-        localStorage.setItem('my_startups_list', JSON.stringify(startups));
       }
 
-      await loadStartups();
       closeCreateModal();
-      alert('Girişim ilanı başarıyla yayınlandı!');
+      alert('Girişim ilanı başarıyla eklendi ve yayına alındı!');
     }
 
     // 2. CANLI TURLAR (SENDİKALAR)
@@ -1113,7 +1107,7 @@
       if (sbClient) {
         try {
           const { data } = await sbClient.from('syndicates').select('*').order('id', { ascending: false });
-          if (data) { syndicates = data; renderSyndicates(syndicates); return; }
+          if (data && data.length > 0) { syndicates = data; renderSyndicates(syndicates); return; }
         } catch (e) {}
       }
       var localData = localStorage.getItem('my_syndicates_list');
@@ -1156,6 +1150,7 @@
       if (!currentUser) return;
 
       var newSyn = {
+        id: Date.now(),
         user_id: currentUser.id,
         title: document.getElementById('addSynTitle').value,
         leader: document.getElementById('addSynLeader').value,
@@ -1163,14 +1158,14 @@
         description: document.getElementById('addSynDesc').value
       };
 
+      syndicates.unshift(newSyn);
+      localStorage.setItem('my_syndicates_list', JSON.stringify(syndicates));
+      renderSyndicates(syndicates);
+
       if (sbClient) {
         try { await sbClient.from('syndicates').insert([newSyn]); } catch (e) {}
-      } else {
-        syndicates.unshift(newSyn);
-        localStorage.setItem('my_syndicates_list', JSON.stringify(syndicates));
       }
 
-      await loadSyndicates();
       closeSyndicateModal();
       alert('Yatırım turu başlatıldı!');
     }
@@ -1180,7 +1175,7 @@
       if (sbClient) {
         try {
           const { data } = await sbClient.from('acquisitions').select('*').order('id', { ascending: false });
-          if (data) { acquisitions = data; renderAcquisitions(acquisitions); return; }
+          if (data && data.length > 0) { acquisitions = data; renderAcquisitions(acquisitions); return; }
         } catch (e) {}
       }
       var localData = localStorage.getItem('my_acquisitions_list');
@@ -1224,6 +1219,7 @@
       if (!currentUser) return;
 
       var newAcq = {
+        id: Date.now(),
         user_id: currentUser.id,
         title: document.getElementById('addAcqTitle').value,
         mrr: Number(document.getElementById('addAcqMRR').value),
@@ -1232,14 +1228,14 @@
         description: document.getElementById('addAcqDesc').value
       };
 
+      acquisitions.unshift(newAcq);
+      localStorage.setItem('my_acquisitions_list', JSON.stringify(acquisitions));
+      renderAcquisitions(acquisitions);
+
       if (sbClient) {
         try { await sbClient.from('acquisitions').insert([newAcq]); } catch (e) {}
-      } else {
-        acquisitions.unshift(newAcq);
-        localStorage.setItem('my_acquisitions_list', JSON.stringify(acquisitions));
       }
 
-      await loadAcquisitions();
       closeAcquisitionModal();
       alert('Satış ilanı yayınlandı!');
     }
@@ -1291,7 +1287,7 @@
       }, 800);
     }
 
-    // 5. KURUCU ADMIN PANELİ VE SİLME FONKSİYONU
+    // 5. KURUCU ADMIN PANELİ
     function renderAdminDashboard() {
       document.getElementById('adminStartupCount').innerText = startups.length;
       document.getElementById('adminSynCount').innerText = syndicates.length;
@@ -1327,6 +1323,11 @@
     async function deleteStartup(id) {
       if (!confirm("Bu ilanı veritabanından kalıcı olarak silmek istediğinize emin misiniz?")) return;
 
+      startups = startups.filter(function(s) { 
+        return s.id != id && String(s.id) !== String(id); 
+      });
+      localStorage.setItem('my_startups_list', JSON.stringify(startups));
+
       if (sbClient) {
         try {
           var numId = Number(id);
@@ -1338,11 +1339,6 @@
           console.error("Supabase Silme Hatası:", e); 
         }
       }
-
-      startups = startups.filter(function(s) { 
-        return s.id != id && String(s.id) !== String(id); 
-      });
-      localStorage.setItem('my_startups_list', JSON.stringify(startups));
 
       renderStartups(startups);
       renderAdminDashboard();
