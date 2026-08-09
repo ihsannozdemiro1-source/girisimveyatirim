@@ -112,7 +112,7 @@
       </div>
     </section>
 
-    <!-- 1. ÇÖZÜMLER BÖLÜMÜ -->
+    <!-- ÇÖZÜMLER BÖLÜMÜ -->
     <section id="ecosystem-solutions" class="py-24 max-w-7xl mx-auto px-6 border-b border-[#1e222d]">
       <div class="text-center max-w-2xl mx-auto space-y-3 mb-16">
         <span class="text-xs font-extrabold text-emerald-400 uppercase tracking-widest bg-emerald-500/10 px-3 py-1 rounded-full">Eko-Sistem Çözümleri</span>
@@ -139,7 +139,7 @@
       </div>
     </section>
 
-    <!-- 2. AVANTAJLAR BÖLÜMÜ -->
+    <!-- AVANTAJLAR BÖLÜMÜ -->
     <section id="platform-features" class="py-24 max-w-7xl mx-auto px-6 border-b border-[#1e222d]">
       <div class="text-center max-w-2xl mx-auto space-y-3 mb-16">
         <span class="text-xs font-extrabold text-teal-400 uppercase tracking-widest bg-teal-500/10 px-3 py-1 rounded-full">Neden Bu Platform?</span>
@@ -172,7 +172,7 @@
       </div>
     </section>
 
-    <!-- 3. NASIL ÇALIŞIR BÖLÜMÜ -->
+    <!-- NASIL ÇALIŞIR BÖLÜMÜ -->
     <section id="how-it-works" class="py-24 max-w-7xl mx-auto px-6 border-b border-[#1e222d]">
       <div class="text-center max-w-2xl mx-auto space-y-3 mb-16">
         <span class="text-xs font-extrabold text-indigo-400 uppercase tracking-widest bg-indigo-500/10 px-3 py-1 rounded-full">Süreç Rehberi</span>
@@ -210,7 +210,7 @@
       </div>
     </section>
 
-    <!-- 4. SSS (SIKÇA SORULAN SORULAR) BÖLÜMÜ -->
+    <!-- SSS (SIKÇA SORULAN SORULAR) BÖLÜMÜ -->
     <section id="faq-section" class="py-24 max-w-4xl mx-auto px-6">
       <div class="text-center max-w-2xl mx-auto space-y-3 mb-16">
         <span class="text-xs font-extrabold text-amber-400 uppercase tracking-widest bg-amber-500/10 px-3 py-1 rounded-full">Destek Merkezi</span>
@@ -229,7 +229,7 @@
         </div>
         <div class="al-card-dark p-6 rounded-2xl space-y-2">
           <h4 class="font-bold text-white text-sm">Yatırımcılarla nasıl iletişim kurabilirim?</h4>
-          <p class="text-slate-400 text-xs leading-relaxed">İlan detaylarında yer alan kurucu e-posta adresleri veya site içi "İletişime Geç" formu üzerinden doğrudan irtibat sağlayabilirsiniz.</p>
+          <p class="text-slate-400 text-xs leading-relaxed">İlan detaylarında yer alan kurucu adresleri veya site içi "İletişime Geç" formu üzerinden doğrudan irtibat sağlayabilirsiniz.</p>
         </div>
       </div>
     </section>
@@ -436,7 +436,7 @@
     <div class="al-card-dark rounded-3xl max-w-md w-full p-8 relative text-white space-y-6">
       <button type="button" onclick="closeAuthModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold">&times;</button>
       
-      <div class="flex bg-[#08090b] p-1.5 rounded-2xl border border-[#1e222d]">
+      <div id="authTabHeader" class="flex bg-[#08090b] p-1.5 rounded-2xl border border-[#1e222d]">
         <button type="button" id="tabLoginBtn" onclick="switchAuthTab('login')" class="w-1/2 py-2.5 rounded-xl text-xs font-black transition bg-[#1e222d] text-white">Giriş Yap</button>
         <button type="button" id="tabSignupBtn" onclick="switchAuthTab('signup')" class="w-1/2 py-2.5 rounded-xl text-xs font-medium text-slate-400 hover:text-white transition">Kayıt Ol</button>
       </div>
@@ -446,19 +446,20 @@
         <p class="text-slate-400 text-xs mt-1">Ekosistem hesabınıza erişin.</p>
       </div>
 
-      <div class="mb-2">
+      <div id="googleAuthBox" class="mb-2">
         <button type="button" id="googleBtn" class="w-full bg-white hover:bg-slate-200 text-black font-bold py-3 rounded-full text-xs flex items-center justify-center gap-2 transition">
           <span>Google ile Devam Et</span>
         </button>
       </div>
 
-      <div class="flex items-center my-2">
+      <div id="orDivider" class="flex items-center my-2">
         <div class="flex-grow border-t border-[#1e222d]"></div>
         <span class="px-3 text-slate-500 text-[11px] font-semibold">veya E-Posta</span>
         <div class="flex-grow border-t border-[#1e222d]"></div>
       </div>
 
-      <div class="space-y-3">
+      <!-- GİRİŞ / KAYIT FORMU -->
+      <div id="mainAuthForm" class="space-y-3">
         <div id="fullNameBox" style="display: none;">
           <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Ad Soyad</label>
           <input type="text" id="authFullName" placeholder="İhsan Özdemir" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs outline-none focus:border-emerald-400">
@@ -472,8 +473,45 @@
           <input type="password" id="authPassword" placeholder="******" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs outline-none focus:border-emerald-400">
         </div>
 
+        <div id="forgotPasswordLinkBox" class="text-right">
+          <button type="button" onclick="switchAuthTab('forgot')" class="text-[11px] font-semibold text-slate-400 hover:text-emerald-400 transition">Şifremi Unuttum?</button>
+        </div>
+
         <button type="button" id="authSubmitBtn" onclick="handleAuthSubmit()" class="w-full al-accent-bg font-extrabold py-3.5 rounded-xl text-xs transition mt-2 cursor-pointer">Giriş Yap</button>
       </div>
+
+      <!-- ŞİFREMİ UNUTTUM ADIM 1 (Mail Gönder) -->
+      <div id="forgotStep1" style="display: none;" class="space-y-3">
+        <div>
+          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Kayıtlı E-Posta Adresiniz</label>
+          <input type="email" id="forgotEmail" placeholder="ornek@domain.com" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs outline-none focus:border-emerald-400">
+        </div>
+        <button type="button" onclick="sendResetCode()" class="w-full al-accent-bg font-extrabold py-3.5 rounded-xl text-xs transition cursor-pointer">Tek Seferlik Kod Gönder</button>
+        <div class="text-center pt-2">
+          <button type="button" onclick="switchAuthTab('login')" class="text-xs text-slate-400 hover:text-white">&larr; Giriş Ekranına Dön</button>
+        </div>
+      </div>
+
+      <!-- ŞİFREMİ UNUTTUM ADIM 2 (Kod ve Yeni Şifreler) -->
+      <div id="forgotStep2" style="display: none;" class="space-y-3">
+        <div>
+          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">E-Postanıza Gelen Kod</label>
+          <input type="text" id="resetCodeInput" placeholder="Örn: 4892" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs outline-none focus:border-emerald-400">
+        </div>
+        <div>
+          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Yeni Parola</label>
+          <input type="password" id="newPassword1" placeholder="******" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs outline-none focus:border-emerald-400">
+        </div>
+        <div>
+          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Yeni Parola (Tekrar)</label>
+          <input type="password" id="newPassword2" placeholder="******" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs outline-none focus:border-emerald-400">
+        </div>
+        <button type="button" onclick="verifyAndSaveNewPassword()" class="w-full al-accent-bg font-extrabold py-3.5 rounded-xl text-xs transition cursor-pointer">Şifreyi Kaydet & Giriş Yap</button>
+        <div class="text-center pt-2">
+          <button type="button" onclick="switchAuthTab('login')" class="text-xs text-slate-400 hover:text-white">&larr; İptal Et</button>
+        </div>
+      </div>
+
     </div>
   </div>
 
@@ -590,6 +628,8 @@
     var activeStartupName = "";
     var currentAuthMode = 'login';
     var activeTabName = localStorage.getItem('active_tab_name') || 'startups';
+    var generatedResetCode = "";
+    var resetTargetEmail = "";
 
     function showToast(title, desc) {
       var toast = document.getElementById('customToast');
@@ -671,18 +711,79 @@
       var signupBtn = document.getElementById('tabSignupBtn');
       var fullNameBox = document.getElementById('fullNameBox');
       var submitBtn = document.getElementById('authSubmitBtn');
+      var mainForm = document.getElementById('mainAuthForm');
+      var forgotStep1 = document.getElementById('forgotStep1');
+      var forgotStep2 = document.getElementById('forgotStep2');
+      var tabHeader = document.getElementById('authTabHeader');
+      var googleBox = document.getElementById('googleAuthBox');
+      var divider = document.getElementById('orDivider');
+      var modalTitle = document.getElementById('authModalTitle');
+
+      // Görünürlükleri sıfırla
+      mainForm.style.display = 'none';
+      forgotStep1.style.display = 'none';
+      forgotStep2.style.display = 'none';
+      tabHeader.style.display = 'flex';
+      googleBox.style.display = 'block';
+      divider.style.display = 'flex';
+      modalTitle.style.display = 'block';
 
       if (mode === 'login') {
         loginBtn.className = "w-1/2 py-2.5 rounded-xl text-xs font-black transition bg-[#1e222d] text-white";
         signupBtn.className = "w-1/2 py-2.5 rounded-xl text-xs font-medium text-slate-400 hover:text-white transition";
         fullNameBox.style.display = 'none';
         submitBtn.innerText = "Giriş Yap";
-      } else {
+        mainForm.style.display = 'block';
+      } else if (mode === 'signup') {
         signupBtn.className = "w-1/2 py-2.5 rounded-xl text-xs font-black transition bg-[#1e222d] text-white";
         loginBtn.className = "w-1/2 py-2.5 rounded-xl text-xs font-medium text-slate-400 hover:text-white transition";
         fullNameBox.style.display = 'block';
         submitBtn.innerText = "Kayıt Ol";
+        mainForm.style.display = 'block';
+      } else if (mode === 'forgot') {
+        tabHeader.style.display = 'none';
+        googleBox.style.display = 'none';
+        divider.style.display = 'none';
+        modalTitle.style.display = 'none';
+        forgotStep1.style.display = 'block';
+      } else if (mode === 'forgot_step2') {
+        tabHeader.style.display = 'none';
+        googleBox.style.display = 'none';
+        divider.style.display = 'none';
+        modalTitle.style.display = 'none';
+        forgotStep2.style.display = 'block';
       }
+    }
+
+    function sendResetCode() {
+      var emailVal = document.getElementById('forgotEmail').value.trim();
+      if (!emailVal) { showToast("Uyarı", "Lütfen e-posta adresinizi girin."); return; }
+      
+      resetTargetEmail = emailVal;
+      generatedResetCode = String(Math.floor(1000 + Math.random() * 9000)); // 4 haneli tek seferlik kod
+      
+      // Bildirim ve simülasyon (Gerçek ortamda mail gönderilir, burada test için ekranda gösteriyoruz)
+      showToast("Kod Gönderildi!", "Doğrulama kodunuz iletildi. (Test Kodu: " + generatedResetCode + ")");
+      switchAuthTab('forgot_step2');
+    }
+
+    function verifyAndSaveNewPassword() {
+      var enteredCode = document.getElementById('resetCodeInput').value.trim();
+      var p1 = document.getElementById('newPassword1').value;
+      var p2 = document.getElementById('newPassword2').value;
+
+      if (!enteredCode || !p1 || !p2) { showToast("Uyarı", "Lütfen tüm alanları doldurun."); return; }
+      if (enteredCode !== generatedResetCode) { showToast("Hata", "Girdiğiniz tek seferlik kod hatalı!"); return; }
+      if (p1 !== p2) { showToast("Hata", "Yeni parolalar birbiriyle uyuşmuyor!"); return; }
+      if (p1.length < 6) { showToast("Uyarı", "Parola en az 6 karakter olmalıdır."); return; }
+
+      // Başarılı güncelleme
+      localStorage.setItem('user_logged_in', 'true');
+      localStorage.setItem('user_email', resetTargetEmail);
+      
+      showToast("Başarılı", "Şifreniz güncellendi ve giriş yapıldı!");
+      closeAuthModal();
+      checkUserSession();
     }
 
     function openStartupFormModal() { document.getElementById('addModal').classList.remove('hidden'); }
@@ -807,7 +908,6 @@
         landingView.style.display = 'none';
         appView.style.display = 'block';
 
-        // İsim Görüntüleme: localStorage'a kaydedilen Ad Soyad önceliklidir
         var rawName = localStorage.getItem('user_fullname') || user.user_metadata?.full_name || user.user_metadata?.name;
         if (!rawName || rawName.trim() === '') {
           var emailPart = (user.email || localStorage.getItem('user_email') || 'Kullanıcı').split('@')[0];
@@ -876,7 +976,6 @@
         } catch (e) {}
       }
 
-      // Yerel güvenli oturum açma
       localStorage.setItem('user_logged_in', 'true');
       showToast("Başarılı", "Oturum açıldı!");
       closeAuthModal();
