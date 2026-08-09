@@ -21,6 +21,24 @@
       background-color: #12141a;
       border: 1px solid #1e222d;
     }
+    .al-card-light {
+      background-color: #f4f1ea;
+      color: #0e0f12;
+    }
+    .al-button-dark {
+      background-color: #1d2026;
+      color: #ffffff;
+    }
+    .al-button-dark:hover {
+      background-color: #2a2e37;
+    }
+    .al-button-light {
+      background-color: #e2ded5;
+      color: #0e0f12;
+    }
+    .al-button-light:hover {
+      background-color: #d3cebf;
+    }
     .hero-glow {
       background: radial-gradient(circle at 50% 20%, rgba(16, 185, 129, 0.15) 0%, rgba(8, 9, 11, 0) 70%);
     }
@@ -68,6 +86,7 @@
         <button type="button" id="btn-acquisitions" onclick="showTab('acquisitions')" class="tab-btn px-5 py-2 rounded-full text-xs font-medium text-slate-400 hover:text-white transition">🛒 Proje Pazarı</button>
         <button type="button" id="btn-investors" onclick="showTab('investors')" class="tab-btn px-5 py-2 rounded-full text-xs font-medium text-slate-400 hover:text-white transition">💼 Yatırımcılar</button>
         <button type="button" id="btn-aiTools" onclick="showTab('aiTools')" class="tab-btn px-5 py-2 rounded-full text-xs font-medium text-slate-400 hover:text-white transition">🤖 AI Skorla</button>
+        <button type="button" id="btn-admin" onclick="showTab('admin')" style="display: none;" class="tab-btn px-5 py-2 rounded-full text-xs font-black text-amber-400 bg-amber-500/10 border border-amber-500/30 transition">⚡ Yönetici Paneli</button>
       </nav>
 
       <!-- Sağ Taraf Auth & İlan Butonları -->
@@ -85,30 +104,26 @@
   </header>
 
   <!-- ========================================== -->
-  <!-- 0. YENİ TEK PARÇA PRESTİJLİ HERO SAHNESİ -->
+  <!-- 0. ZİYARETÇİ HERO ARAYÜZÜ -->
   <!-- ========================================== -->
   <div id="landingView" style="display: block;">
     <section class="relative hero-glow pt-24 pb-20 overflow-hidden border-b border-[#1e222d]">
       <div class="max-w-5xl mx-auto px-6 text-center space-y-8 relative z-10">
         
-        <!-- Rozet -->
         <div class="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 px-4 py-1.5 rounded-full text-xs font-extrabold text-emerald-400 tracking-wide uppercase">
           <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
           <span>Türkiye Girişim & Yatırım Ekosistemi</span>
         </div>
 
-        <!-- Ana Başlık -->
         <h1 class="text-6xl sm:text-7xl lg:text-8xl font-black tracking-tight leading-[1.02] text-white">
           Geleceğin Şirketlerini <br/>
           <span class="bg-gradient-to-r from-emerald-400 via-teal-300 to-indigo-400 bg-clip-text text-transparent">Sermayeyle Buluşturun.</span>
         </h1>
 
-        <!-- Alt Açıklama -->
         <p class="text-slate-400 text-base sm:text-lg max-w-2xl mx-auto font-medium leading-relaxed">
           Erken aşama girişimler, melek yatırımcı sendikaları ve devredilebilir hazır Micro-SaaS projeleri için tasarlanmış bağımsız ekosistem portalı.
         </p>
 
-        <!-- Canlı Cam Arama & CTA Paneli -->
         <div class="max-w-2xl mx-auto pt-4">
           <div class="glass-search p-2 rounded-2xl flex items-center gap-2 shadow-2xl transition-all">
             <svg class="w-5 h-5 text-slate-400 ml-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -120,7 +135,6 @@
             </button>
           </div>
           
-          <!-- Hızlı Etiketler -->
           <div class="flex items-center justify-center gap-4 text-xs font-bold text-slate-500 pt-4">
             <span class="text-slate-600">Sektörler:</span>
             <button type="button" onclick="openAuthModal()" class="hover:text-emerald-400 transition">#YapayZekâ</button>
@@ -398,6 +412,42 @@
       </div>
     </div>
 
+    <!-- 6. KURUCU YÖNETİCİ (ADMIN) PANELİ (SADECE İHSAN ÖZDEMİR GÖRÜR) -->
+    <div id="tab-admin" class="content-tab space-y-8" style="display: none;">
+      <div class="al-card-dark p-8 rounded-3xl border border-amber-500/30 space-y-2">
+        <div class="flex justify-between items-center">
+          <span class="bg-amber-500/10 text-amber-400 text-xs font-black px-3 py-1 rounded-full uppercase tracking-wider border border-amber-500/30">Kurucu Yönetim Paneli</span>
+          <span class="text-xs font-bold text-slate-500">Hoş geldin, İhsan Özdemir</span>
+        </div>
+        <h2 class="text-3xl font-black text-white">Sistem & İlan Yönetimi</h2>
+        <p class="text-slate-400 text-xs">Platformdaki canlı içerikleri yönetin ve silme işlemlerini gerçekleştirin.</p>
+      </div>
+
+      <!-- İstatistik Metrikleri -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+        <div class="al-card-dark p-6 rounded-2xl text-center space-y-1">
+          <div class="text-3xl font-black text-emerald-400" id="adminStartupCount">0</div>
+          <div class="text-xs font-bold text-slate-400 uppercase">Toplam Girişim</div>
+        </div>
+        <div class="al-card-dark p-6 rounded-2xl text-center space-y-1">
+          <div class="text-3xl font-black text-rose-400" id="adminSynCount">0</div>
+          <div class="text-xs font-bold text-slate-400 uppercase">Aktif Yatırım Turu</div>
+        </div>
+        <div class="al-card-dark p-6 rounded-2xl text-center space-y-1">
+          <div class="text-3xl font-black text-indigo-400" id="adminAcqCount">0</div>
+          <div class="text-xs font-bold text-slate-400 uppercase">Satılık SaaS Projesi</div>
+        </div>
+      </div>
+
+      <!-- Yönetici İlan Listesi & Silme -->
+      <div class="space-y-4">
+        <h3 class="text-xl font-bold text-white">Yayınlanan İlanları Yönet</h3>
+        <div id="adminListingsGrid" class="space-y-3">
+          <!-- Dinamik içerik buraya yüklenecek -->
+        </div>
+      </div>
+    </div>
+
   </main>
 
   <!-- FOUNDER FOOTER -->
@@ -669,6 +719,8 @@
   </div>
 
   <script>
+    const ADMIN_EMAIL = 'ihsannozdemiro1@gmail.com';
+
     function extractGoalValue(item) {
       if (!item) return 10000;
       var possibleKeys = ['funding_goal', 'fundingGoal', 'goal', 'fundinggoal'];
@@ -709,7 +761,15 @@
 
       var targetBtn = document.getElementById('btn-' + name);
       if (targetBtn) {
-        targetBtn.className = "tab-btn px-5 py-2 rounded-full text-xs font-bold text-white bg-[#1e222d] shadow-sm transition";
+        if (name === 'admin') {
+          targetBtn.className = "tab-btn px-5 py-2 rounded-full text-xs font-black text-amber-400 bg-amber-500/20 border border-amber-500/40 shadow-sm transition";
+        } else {
+          targetBtn.className = "tab-btn px-5 py-2 rounded-full text-xs font-bold text-white bg-[#1e222d] shadow-sm transition";
+        }
+      }
+
+      if (name === 'admin') {
+        renderAdminDashboard();
       }
     }
 
@@ -803,6 +863,7 @@
       const userLabel = document.getElementById('userEmailLabel');
       const visitorNav = document.getElementById('visitorNav');
       const appNav = document.getElementById('appNav');
+      const adminBtn = document.getElementById('btn-admin');
       const landingView = document.getElementById('landingView');
       const appView = document.getElementById('appView');
 
@@ -826,6 +887,14 @@
         } else if (user.email) nameToShow = user.email;
 
         userLabel.innerText = "Hoş geldin, " + nameToShow;
+
+        // Kurucu Yetki Kontrolü
+        if (user.email === ADMIN_EMAIL) {
+          if (adminBtn) adminBtn.style.display = 'inline-block';
+        } else {
+          if (adminBtn) adminBtn.style.display = 'none';
+        }
+
         showTab('startups');
       } else {
         userBox.classList.add('hidden');
@@ -840,6 +909,7 @@
           visitorNav.classList.remove('hidden');
         }
         
+        if (adminBtn) adminBtn.style.display = 'none';
         userLabel.innerText = '';
 
         landingView.style.display = 'block';
@@ -1120,6 +1190,54 @@
       await loadAcquisitions();
       closeAcquisitionModal();
       alert('Satış ilanı yayınlandı!');
+    }
+
+    // 4. KURUCU ADMIN PANELİ İŞLEVLERİ
+    function renderAdminDashboard() {
+      document.getElementById('adminStartupCount').innerText = startups.length;
+      document.getElementById('adminSynCount').innerText = syndicates.length;
+      document.getElementById('adminAcqCount').innerText = acquisitions.length;
+
+      var grid = document.getElementById('adminListingsGrid');
+      if (!grid) return;
+      grid.innerHTML = '';
+
+      if (startups.length === 0) {
+        grid.innerHTML = '<div class="text-slate-500 text-xs text-center py-8">Sistemde silinecek ilan bulunmuyor.</div>';
+        return;
+      }
+
+      startups.forEach(function(item) {
+        var row = document.createElement('div');
+        row.className = "al-card-dark p-4 rounded-2xl flex items-center justify-between border border-[#1e222d]";
+        row.innerHTML = 
+          '<div class="space-y-1">' +
+            '<div class="flex items-center gap-2">' +
+              '<span class="font-bold text-white text-sm">' + (item.name || item.title || 'İsimsiz Girişim') + '</span>' +
+              '<span class="text-[10px] text-emerald-400 font-bold uppercase bg-emerald-500/10 px-2 py-0.5 rounded">' + (item.sector || 'Sektör') + '</span>' +
+            '</div>' +
+            '<p class="text-xs text-slate-400">Kurucu: ' + (item.founder || 'Belirtilmedi') + '</p>' +
+          '</div>' +
+          '<button type="button" onclick="deleteStartup(' + item.id + ')" class="bg-rose-500/10 text-rose-400 border border-rose-500/30 hover:bg-rose-500 hover:text-white px-4 py-2 rounded-xl text-xs font-bold transition">' +
+            'İlanı Sil' +
+          '</button>';
+        grid.appendChild(row);
+      });
+    }
+
+    async function deleteStartup(id) {
+      if (!confirm("Bu ilanı veritabanından kalıcı olarak silmek istediğinize emin misiniz?")) return;
+
+      if (sbClient) {
+        try {
+          const { error } = await sbClient.from('startups').delete().eq('id', id);
+          if (error) { alert("Silme Hatası: " + error.message); return; }
+        } catch (e) { console.error(e); }
+      }
+
+      await loadStartups();
+      renderAdminDashboard();
+      alert("İlan silindi.");
     }
 
     function filterStartups() {
