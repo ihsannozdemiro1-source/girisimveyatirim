@@ -321,7 +321,7 @@
         <p id="detailDesc" class="text-slate-300 text-xs leading-relaxed whitespace-pre-line"></p>
       </div>
 
-      <!-- SİTE İÇİ MESAJ MODALINI AÇAN KESİN ÇALIŞAN BUTON -->
+      <!-- KESİN ÇALIŞAN SİTE İÇİ MESAJ MODALINI AÇAN BUTON -->
       <div class="pt-4 border-t border-[#1e222d] flex justify-between items-center">
         <button type="button" onclick="openInAppMessageModal()" class="al-accent-bg font-extrabold text-xs px-6 py-2.5 rounded-full shadow-md transition cursor-pointer">
           📩 Girişimci ile İletişime Geç
@@ -559,7 +559,7 @@
 
     function closeDetailModal() { document.getElementById('detailModal').classList.add('hidden'); }
 
-    // Site İçi Mesaj Modali Fonksiyonları
+    // Kesin çalışan site içi mesaj modal açma fonksiyonu
     function openInAppMessageModal() {
       closeDetailModal();
       document.getElementById('targetFounderLabel').innerText = "Alıcı Proje: " + activeStartupName + " (" + activeContactEmail + ")";
