@@ -775,7 +775,7 @@
 
     var startups = [], syndicates = [], acquisitions = [];
 
-    // BULUT VERİTABANINDAN (SUPABASE) ORTAK SENRONİZE YÜKLEME
+    // BULUT VERİTABANINDAN (SUPABASE) GÜVENLİ SENRONİZE YÜKLEME
     async function loadStartups() {
       if (sbClient) {
         try {
@@ -834,46 +834,50 @@
       });
     }
 
-    // BULUTA (SUPABASE) ORTAK GÖNDERİM KÖPRÜSÜ
+    // BULUTA İD ÇAKIŞMASI OLMADAN GÜVENLİ KAYIT (OTOMATİK ID)
     async function handleAddStartup(e) {
       e.preventDefault();
       if (!currentUser) { showToast("Uyarı", "Giriş yapmalısınız!"); return; }
 
       var goalInput = Number(String(document.getElementById('addGoal').value).replace(/[^0-9]/g, '')) || 10000;
-      
-      // Tüm olası sütun adlarını kapsayan akıllı nesne (böylece tablo adı hatası asla alınmaz)
+      var titleVal = document.getElementById('addTitle').value;
+      var sectorVal = document.getElementById('addSector').value;
+      var stageVal = document.getElementById('addStage').value;
+      var founderVal = document.getElementById('addFounder').value;
+      var websiteVal = document.getElementById('addWebsite').value;
+      var descVal = document.getElementById('addDesc').value;
+
       var newStartup = {
         user_id: currentUser.id,
         user_email: currentUser.email,
-        name: document.getElementById('addTitle').value,
-        title: document.getElementById('addTitle').value,
-        sector: document.getElementById('addSector').value,
-        stage: document.getElementById('addStage').value,
+        name: titleVal,
+        title: titleVal,
+        sector: sectorVal,
+        stage: stageVal,
         funding_goal: goalInput,
-        fundingGoal: goalInput,
         goal: goalInput,
-        founder: document.getElementById('addFounder').value,
-        website: document.getElementById('addWebsite').value,
-        description: document.getElementById('addDesc').value,
-        desc: document.getElementById('addDesc').value
+        founder: founderVal,
+        website: websiteVal,
+        description: descVal,
+        desc: descVal
       };
 
       if (sbClient) {
         try { 
           const { error } = await sbClient.from('startups').insert([newStartup]);
           if (error) {
-            console.error("Supabase insert uyarısı:", error);
+            console.error("Supabase insert hatası:", error);
           }
         } catch (err) { console.error("Bağlantı hatası:", err); }
       }
 
-      // Ayrıca yerel hafızaya da yazıp ekranda anında gösterelim
+      // Yerel hafızaya da yedekleyip ekranda gösteriyoruz
       startups.unshift(newStartup);
       localStorage.setItem('my_startups_list', JSON.stringify(startups));
 
       await loadStartups();
       closeCreateModal();
-      showToast("Başarılı", "Girişim ilanı tüm cihazlar için yayına alındı!");
+      showToast("Başarılı", "Girişim ilanı yayına alındı!");
     }
 
     async function loadSyndicates() {
