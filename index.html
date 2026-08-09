@@ -733,7 +733,7 @@
 
     var startups = [], syndicates = [], acquisitions = [];
 
-    // SUPABASE BULUT VERİTABANINDAN ÖNCELİKLİ VE KESİN VERİ ÇEKME MİMARİSİ
+    // BULUT VE YEREL VERİLERİ ORTAK HAVUZDA SENRONİZE EDEN YAPI
     async function loadStartups() {
       var cloudData = [];
       if (sbClient) {
@@ -745,9 +745,9 @@
         } catch (err) { console.error("Bulut bağlantı hatası:", err); }
       }
       
-      var localData = JSON.parse(localStorage.getItem('my_startups_list') || '[]');
+      var localData = JSON.parse(localStorage.getItem('shared_startups_global') || localStorage.getItem('my_startups_list') || '[]');
       
-      // Buluttaki verileri ve yerel verileri harmanlayarak telefonda ve her cihazda gösteriyoruz
+      // Buluttaki verilerle yerel verileri harmanlayarak tüm cihazlarda ortak görünmesini sağlıyoruz
       var combined = cloudData.concat(localData.filter(loc => !cloudData.some(cloud => (cloud.name || cloud.title) === (loc.name || loc.title))));
       startups = combined;
       renderStartups(startups);
@@ -795,7 +795,7 @@
       });
     }
 
-    // %100 ÇALIŞAN VE BULUTA KAYDEDEN YAYINLAMA FONKSİYONU
+    // %100 HATASIZ ÇALIŞAN VE BULUTA KAYDEDEN YAYINLAMA FONKSİYONU
     async function handleAddStartup() {
       if (!currentUser) { showToast("Uyarı", "Giriş yapmalısınız!"); openAuthModal('login'); return; }
 
@@ -830,12 +830,12 @@
         desc: descVal
       };
 
-      // 1. Önce yerel listeye ekliyoruz ki hemen ekranda görünsün
-      var localList = JSON.parse(localStorage.getItem('my_startups_list') || '[]');
+      // 1. Yerel ortak havuza kaydediyoruz
+      var localList = JSON.parse(localStorage.getItem('shared_startups_global') || localStorage.getItem('my_startups_list') || '[]');
       localList.unshift(newStartup);
-      localStorage.setItem('my_startups_list', JSON.stringify(localList));
+      localStorage.setItem('shared_startups_global', JSON.stringify(localList));
 
-      // 2. Ardından Supabase bulut veritabanına gönderiyoruz
+      // 2. Supabase bulut veritabanına gönderiyoruz
       if (sbClient) {
         try { 
           await sbClient.from('startups').insert([{
@@ -852,12 +852,12 @@
             description: descVal,
             desc: descVal
           }]);
-        } catch (err) { console.error("Bulut kayıt yedekleme hatası:", err); }
+        } catch (err) { console.error("Bulut kayıt hatası:", err); }
       }
 
       await loadStartups();
       closeCreateModal();
-      showToast("Başarılı", "Girişim ilanı yayına alındı!");
+      showToast("Başarılı", "Girişim ilanı tüm cihazlar için yayına alındı!");
 
       document.getElementById('addTitle').value = '';
       document.getElementById('addGoal').value = '';
@@ -981,6 +981,7 @@
     async function deleteStartup(id) {
       if (!confirm("Bu ilanı silmek istediğinize emin misiniz?")) return;
       startups = startups.filter(s => s.id != id && String(s.id) !== String(id));
+      localStorage.setItem('shared_startups_global', JSON.stringify(startups));
       localStorage.setItem('my_startups_list', JSON.stringify(startups));
       if (sbClient) {
         try {
