@@ -584,6 +584,7 @@
     var activeContactEmail = "ihsannozdemiro1@gmail.com";
     var activeStartupName = "";
     var currentAuthMode = 'login';
+    var activeTabName = localStorage.getItem('active_tab_name') || 'startups';
 
     function showToast(title, desc) {
       var toast = document.getElementById('customToast');
@@ -622,6 +623,9 @@
     }
 
     function showTab(name) {
+      activeTabName = name;
+      localStorage.setItem('active_tab_name', name);
+
       var tabs = document.querySelectorAll('.content-tab');
       for (var i = 0; i < tabs.length; i++) tabs[i].style.display = 'none';
 
@@ -646,7 +650,7 @@
     }
 
     function handleLogoClick() {
-      if (currentUser) { showTab('startups'); } 
+      if (currentUser) { showTab(activeTabName || 'startups'); } 
       else { document.getElementById('landingView').style.display = 'block'; document.getElementById('appView').style.display = 'none'; }
     }
 
@@ -788,7 +792,7 @@
         var nameToShow = user.user_metadata?.full_name || user.user_metadata?.name || user.email || "Kullanıcı";
         userLabel.innerText = "Hoş geldin, " + nameToShow;
         if (adminBtn) adminBtn.style.display = (user.email === ADMIN_EMAIL) ? 'inline-block' : 'none';
-        showTab('startups');
+        showTab(activeTabName || 'startups');
       } else {
         userBox.classList.add('hidden');
         loginBtn.classList.remove('hidden');
