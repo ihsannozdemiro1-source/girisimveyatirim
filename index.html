@@ -91,42 +91,66 @@
   </header>
 
   <!-- ========================================== -->
-  <!-- 0. ZİYARETÇİ TANITIM ARAYÜZÜ -->
+  <!-- 0. YENİLENMİŞ ZİYARETÇİ HERO ARAYÜZÜ -->
   <!-- ========================================== -->
   <div id="landingView" style="display: block;">
     <section class="max-w-7xl mx-auto px-6 pt-16 pb-12 grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
+      
+      <!-- Sol Açık Kart: Slogan & Temel Çağrı -->
       <div class="al-card-light rounded-3xl p-10 flex flex-col justify-between">
         <div class="space-y-6">
           <span class="text-xs font-bold uppercase tracking-widest text-slate-600">TÜRKİYE GİRİŞİM EKOSİSTEMİ</span>
           <h1 class="text-5xl sm:text-6xl font-black tracking-tight leading-[1.08] text-[#0e0f12]">
-            Girişiminizi Büyütün, Yatırımcılarla Buluşun.
+            Sermayeye Ulaşmanın ve Girişim Büyütmenin En Hızlı Yolu.
           </h1>
           <p class="text-slate-700 text-base max-w-md font-medium leading-relaxed">
-            Erken aşama girişimler, melek yatırımcı turları ve devredilebilir projeler için modern buluşma platformu.
+            Melek yatırımcı turlarından Mikro SaaS proje devirlerine kadar tüm ekosistem tek bir platformda.
           </p>
         </div>
-        <div class="pt-8">
+        <div class="pt-8 flex items-center gap-4">
           <button type="button" onclick="openAuthModal()" class="al-button-dark font-extrabold text-xs px-6 py-3.5 rounded-full transition shadow-md">
-            Hemen Başlayın &rarr;
+            Hemen Katılın &rarr;
           </button>
         </div>
       </div>
 
-      <div class="al-card-dark rounded-3xl p-10 flex flex-col justify-between relative overflow-hidden">
-        <div class="flex flex-col justify-center items-start h-full my-8 space-y-4">
-          <span class="text-xs font-bold uppercase tracking-wider text-emerald-400">GİRİŞİMCİLER & YATIRIMCILAR</span>
-          <h2 class="text-3xl sm:text-4xl font-black tracking-tight text-white leading-snug">
-            Geleceğin Teknolojilerini Şimdiden Destekleyin
-          </h2>
-          <p class="text-slate-400 text-xs max-w-sm">
-            Projenizi yayınlayarak yatırımcılara ulaşın veya aktif melek turlarına doğrudan katılım sağlayın.
-          </p>
+      <!-- Sağ Koyu Kart: Yenilenmiş Canlı Ekosistem Paneli (Tekrarlar Kaldırıldı) -->
+      <div class="al-card-dark rounded-3xl p-8 flex flex-col justify-between relative overflow-hidden border border-[#23262d]">
+        <div>
+          <div class="flex items-center justify-between pb-6 border-b border-[#23262d]">
+            <div class="flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span class="text-xs font-bold text-slate-300 uppercase tracking-wider">CANLI PORTAL VERİLERİ</span>
+            </div>
+            <span class="text-[10px] font-extrabold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 px-2.5 py-1 rounded-full">Anlık Senkronize</span>
+          </div>
+
+          <!-- Mini Canlı Önizleme Kartları -->
+          <div class="py-6 space-y-4">
+            <div class="bg-[#0e0f12] p-4 rounded-2xl border border-[#23262d] flex justify-between items-center">
+              <div>
+                <div class="text-[10px] font-bold text-slate-500 uppercase">Aktif Yatırım Arayanlar</div>
+                <div class="text-lg font-black text-white mt-0.5">Erken Aşama & MVP Projeleri</div>
+              </div>
+              <span class="text-xs font-extrabold text-emerald-400 bg-emerald-500/10 px-3 py-1.5 rounded-xl">Aktif</span>
+            </div>
+
+            <div class="bg-[#0e0f12] p-4 rounded-2xl border border-[#23262d] flex justify-between items-center">
+              <div>
+                <div class="text-[10px] font-bold text-slate-500 uppercase">Proje Devir Pazarı</div>
+                <div class="text-lg font-black text-white mt-0.5">Satılık SaaS & Yan Projeler</div>
+              </div>
+              <span class="text-xs font-extrabold text-indigo-400 bg-indigo-500/10 px-3 py-1.5 rounded-xl">Pazar Açık</span>
+            </div>
+          </div>
         </div>
+
         <div class="flex justify-between items-center border-t border-[#23262d] pt-6">
-          <span class="text-xs text-slate-500 font-bold uppercase tracking-wider">Girişim ve Yatırım Portalı</span>
-          <button type="button" onclick="openAuthModal()" class="al-accent-bg text-[#0e0f12] font-bold text-xs px-4 py-2 rounded-full">Ücretsiz Katıl</button>
+          <span class="text-xs text-slate-400 font-semibold">Tüm içerikleri görmek için oturum açın</span>
+          <button type="button" onclick="openAuthModal()" class="al-accent-bg text-[#0e0f12] font-extrabold text-xs px-5 py-2.5 rounded-full transition">Ücretsiz Keşfet</button>
         </div>
       </div>
+
     </section>
 
     <!-- Ziyaretçi Çözümleri -->
@@ -187,6 +211,7 @@
       </div>
     </section>
 
+    <!-- Platform Avantajları -->
     <section id="platform-features" class="max-w-7xl mx-auto px-6 py-20 space-y-12 scroll-mt-24">
       <div class="text-center max-w-2xl mx-auto space-y-3">
         <span class="text-xs font-bold uppercase tracking-widest text-emerald-400">NEDEN GİRİŞİM VE YATIRIM?</span>
@@ -220,6 +245,69 @@
         </div>
       </div>
     </section>
+
+    <!-- Adım Adım Süreç -->
+    <section id="how-it-works" class="border-t border-[#23262d] bg-[#0b0c0e] py-20 scroll-mt-24">
+      <div class="max-w-7xl mx-auto px-6 space-y-12">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+          <div class="space-y-3 max-w-lg">
+            <span class="text-xs font-bold uppercase tracking-widest text-emerald-400">NASIL ÇALIŞIR?</span>
+            <h2 class="text-4xl font-black tracking-tight text-white">3 Adımda Yayına Alın</h2>
+          </div>
+          <button type="button" onclick="openAuthModal()" class="al-accent-bg text-[#0e0f12] font-black text-xs px-6 py-3 rounded-full transition">
+            Ücretsiz Hesap Oluştur
+          </button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div class="al-card-dark p-8 rounded-3xl space-y-4 relative">
+            <span class="text-5xl font-black text-[#23262d]">01</span>
+            <h4 class="text-lg font-bold text-white">Giriş Yapın</h4>
+            <p class="text-slate-400 text-xs leading-relaxed">Google hesabınızla veya e-posta adresinizle saniyeler içinde oturum açın.</p>
+          </div>
+
+          <div class="al-card-dark p-8 rounded-3xl space-y-4 relative">
+            <span class="text-5xl font-black text-[#23262d]">02</span>
+            <h4 class="text-lg font-bold text-white">İlanınızı Detaylandırın</h4>
+            <p class="text-slate-400 text-xs leading-relaxed">Girişiminizin sektörünü, aşamasını, fonlama hedefini ve özetini forma girin.</p>
+          </div>
+
+          <div class="al-card-dark p-8 rounded-3xl space-y-4 relative">
+            <span class="text-5xl font-black text-[#23262d]">03</span>
+            <h4 class="text-lg font-bold text-white">Yatırımcıları Çekin</h4>
+            <p class="text-slate-400 text-xs leading-relaxed">İlanınız anında tüm ekosistemin erişimine açılsın ve geri dönüşleri toplayın.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sıkça Sorulan Sorular -->
+    <section id="faq-section" class="border-t border-[#23262d] bg-[#0b0c0e] py-20 scroll-mt-24">
+      <div class="max-w-4xl mx-auto px-6 space-y-10">
+        <div class="text-center space-y-3">
+          <span class="text-xs font-bold uppercase tracking-widest text-emerald-400">SINKÇA SORULAN SORULAR</span>
+          <h2 class="text-3xl font-black text-white">Aklınıza Takılanlar</h2>
+        </div>
+
+        <div class="space-y-4">
+          <div class="al-card-dark p-6 rounded-2xl space-y-2">
+            <h4 class="font-bold text-sm text-white">Girişimimi yayınlamak ücretli mi?</h4>
+            <p class="text-slate-400 text-xs leading-relaxed">Hayır, platformumuzda hesap açmak ve ilk projenizi ilana çıkarmak tamamen ücretsizdir.</p>
+          </div>
+
+          <div class="al-card-dark p-6 rounded-2xl space-y-2">
+            <h4 class="font-bold text-sm text-white">Yatırımcılarla nasıl iletişime geçebilirim?</h4>
+            <p class="text-slate-400 text-xs leading-relaxed">Giriş yaptıktan sonra onaylı profilinizle doğrudan yatırımcı portföylerini inceleyebilir ve mesajlaşabilirsiniz.</p>
+          </div>
+
+          <div class="al-card-dark p-6 rounded-2xl space-y-2">
+            <h4 class="font-bold text-sm text-white">AI Pitch Deck analizi nasıl çalışır?</h4>
+            <p class="text-slate-400 text-xs leading-relaxed">Oturum açtıktan sonra AI Skorla sekmesine projenizin özetini yapıştırarak puanlama ve tavsiye raporu alabilirsiniz.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
   </div>
 
   <!-- ========================================== -->
@@ -370,7 +458,7 @@
 
   <!-- MODALLAR -->
   
-  <!-- 1. DETAY MODALI -->
+  <!-- DETAY MODALI -->
   <div id="detailModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
     <div class="al-card-dark rounded-3xl max-w-2xl w-full p-8 relative text-white max-h-[90vh] overflow-y-auto border border-[#23262d] space-y-6">
       <button type="button" onclick="closeDetailModal()" class="absolute top-5 right-5 text-slate-500 text-xl font-bold hover:text-white">&times;</button>
@@ -404,7 +492,7 @@
     </div>
   </div>
 
-  <!-- 2. İLAN TİPİ SEÇİM MODALI -->
+  <!-- İLAN TİPİ SEÇİM MODALI -->
   <div id="selectAddModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
     <div class="al-card-dark rounded-3xl max-w-md w-full p-8 relative text-white space-y-6">
       <button type="button" onclick="closeSelectAddModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold hover:text-white">&times;</button>
@@ -438,7 +526,7 @@
     </div>
   </div>
 
-  <!-- 3. CANLI TUR EKLEME MODALI -->
+  <!-- CANLI TUR EKLEME MODALI -->
   <div id="addSyndicateModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
     <div class="al-card-dark rounded-3xl max-w-lg w-full p-8 relative text-white max-h-[90vh] overflow-y-auto">
       <button type="button" onclick="closeSyndicateModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold hover:text-white">&times;</button>
@@ -468,7 +556,7 @@
     </div>
   </div>
 
-  <!-- 4. SATILIK PROJE EKLEME MODALI -->
+  <!-- SATILIK PROJE EKLEME MODALI -->
   <div id="addAcquisitionModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
     <div class="al-card-dark rounded-3xl max-w-lg w-full p-8 relative text-white max-h-[90vh] overflow-y-auto">
       <button type="button" onclick="closeAcquisitionModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold hover:text-white">&times;</button>
@@ -831,7 +919,7 @@
     var syndicates = [];
     var acquisitions = [];
 
-    // 1. GİRİŞİM İLANLARI
+    // 1. GİRİŞİMLER
     async function loadStartups() {
       if (sbClient) {
         try {
@@ -910,9 +998,7 @@
       };
 
       if (sbClient) {
-        try {
-          await sbClient.from('startups').insert([newStartup]);
-        } catch (err) { console.error(err); }
+        try { await sbClient.from('startups').insert([newStartup]); } catch (e) {}
       }
 
       await loadStartups();
