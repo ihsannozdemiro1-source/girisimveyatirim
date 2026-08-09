@@ -59,7 +59,7 @@
         <span>Girişim ve Yatırım</span>
       </button>
 
-      <!-- ZİYARETÇİ MENÜSÜ (Giriş Yapmayanlar İçin) -->
+      <!-- ZİYARETÇİ MENÜSÜ -->
       <nav id="visitorNav" class="flex items-center space-x-1 bg-[#16181d] p-1.5 rounded-full border border-[#23262d]">
         <a href="#ecosystem-solutions" class="px-5 py-2 rounded-full text-xs font-medium text-slate-300 hover:text-emerald-400 transition">Çözümler</a>
         <a href="#platform-features" class="px-5 py-2 rounded-full text-xs font-medium text-slate-300 hover:text-emerald-400 transition">Avantajlar</a>
@@ -67,13 +67,13 @@
         <a href="#faq-section" class="px-5 py-2 rounded-full text-xs font-medium text-slate-300 hover:text-emerald-400 transition">SSS</a>
       </nav>
 
-      <!-- UYGULAMA MENÜSÜ (Varsayılan Olarak Gizli - Sadece Giriş Yapan Görür) -->
+      <!-- UYGULAMA MENÜSÜ -->
       <nav id="appNav" style="display: none;" class="items-center space-x-1 bg-[#16181d] p-1.5 rounded-full border border-[#23262d]">
-        <button type="button" id="btn-startups" onclick="showTab('startups')" class="tab-btn px-5 py-2 rounded-full text-xs font-bold text-white bg-[#23262d] shadow-sm transition">Girişimler</button>
-        <button type="button" id="btn-syndicates" onclick="showTab('syndicates')" class="tab-btn px-5 py-2 rounded-full text-xs font-medium text-slate-400 hover:text-white transition">Canlı Turlar</button>
-        <button type="button" id="btn-acquisitions" onclick="showTab('acquisitions')" class="tab-btn px-5 py-2 rounded-full text-xs font-medium text-slate-400 hover:text-white transition">Proje Pazarı</button>
-        <button type="button" id="btn-investors" onclick="showTab('investors')" class="tab-btn px-5 py-2 rounded-full text-xs font-medium text-slate-400 hover:text-white transition">Yatırımcılar</button>
-        <button type="button" id="btn-aiTools" onclick="showTab('aiTools')" class="tab-btn px-5 py-2 rounded-full text-xs font-medium text-slate-400 hover:text-white transition">AI Skorla</button>
+        <button type="button" id="btn-startups" onclick="showTab('startups')" class="tab-btn px-5 py-2 rounded-full text-xs font-bold text-white bg-[#23262d] shadow-sm transition">🚀 Girişimler</button>
+        <button type="button" id="btn-syndicates" onclick="showTab('syndicates')" class="tab-btn px-5 py-2 rounded-full text-xs font-medium text-slate-400 hover:text-white transition">🔥 Canlı Turlar</button>
+        <button type="button" id="btn-acquisitions" onclick="showTab('acquisitions')" class="tab-btn px-5 py-2 rounded-full text-xs font-medium text-slate-400 hover:text-white transition">🛒 Proje Pazarı</button>
+        <button type="button" id="btn-investors" onclick="showTab('investors')" class="tab-btn px-5 py-2 rounded-full text-xs font-medium text-slate-400 hover:text-white transition">💼 Yatırımcılar</button>
+        <button type="button" id="btn-aiTools" onclick="showTab('aiTools')" class="tab-btn px-5 py-2 rounded-full text-xs font-medium text-slate-400 hover:text-white transition">🤖 AI Skorla</button>
       </nav>
 
       <!-- Sağ Taraf Auth & İlan Butonları -->
@@ -94,8 +94,6 @@
   <!-- 0. ZİYARETÇİ TANITIM ARAYÜZÜ -->
   <!-- ========================================== -->
   <div id="landingView" style="display: block;">
-    
-    <!-- Hero Bölümü -->
     <section class="max-w-7xl mx-auto px-6 pt-16 pb-12 grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
       <div class="al-card-light rounded-3xl p-10 flex flex-col justify-between">
         <div class="space-y-6">
@@ -114,7 +112,6 @@
         </div>
       </div>
 
-      <!-- Siyah Kart Alanı -->
       <div class="al-card-dark rounded-3xl p-10 flex flex-col justify-between relative overflow-hidden">
         <div class="flex flex-col justify-center items-start h-full my-8 space-y-4">
           <span class="text-xs font-bold uppercase tracking-wider text-emerald-400">GİRİŞİMCİLER & YATIRIMCILAR</span>
@@ -190,7 +187,6 @@
       </div>
     </section>
 
-    <!-- Platform Avantajları -->
     <section id="platform-features" class="max-w-7xl mx-auto px-6 py-20 space-y-12 scroll-mt-24">
       <div class="text-center max-w-2xl mx-auto space-y-3">
         <span class="text-xs font-bold uppercase tracking-widest text-emerald-400">NEDEN GİRİŞİM VE YATIRIM?</span>
@@ -224,69 +220,6 @@
         </div>
       </div>
     </section>
-
-    <!-- Adım Adım Süreç -->
-    <section id="how-it-works" class="border-t border-[#23262d] bg-[#0b0c0e] py-20 scroll-mt-24">
-      <div class="max-w-7xl mx-auto px-6 space-y-12">
-        <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
-          <div class="space-y-3 max-w-lg">
-            <span class="text-xs font-bold uppercase tracking-widest text-emerald-400">NASIL ÇALIŞIR?</span>
-            <h2 class="text-4xl font-black tracking-tight text-white">3 Adımda Yayına Alın</h2>
-          </div>
-          <button type="button" onclick="openAuthModal()" class="al-accent-bg text-[#0e0f12] font-black text-xs px-6 py-3 rounded-full transition">
-            Ücretsiz Hesap Oluştur
-          </button>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div class="al-card-dark p-8 rounded-3xl space-y-4 relative">
-            <span class="text-5xl font-black text-[#23262d]">01</span>
-            <h4 class="text-lg font-bold text-white">Giriş Yapın</h4>
-            <p class="text-slate-400 text-xs leading-relaxed">Google hesabınızla veya e-posta adresinizle saniyeler içinde oturum açın.</p>
-          </div>
-
-          <div class="al-card-dark p-8 rounded-3xl space-y-4 relative">
-            <span class="text-5xl font-black text-[#23262d]">02</span>
-            <h4 class="text-lg font-bold text-white">İlanınızı Detaylandırın</h4>
-            <p class="text-slate-400 text-xs leading-relaxed">Girişiminizin sektörünü, aşamasını, fonlama hedefini ve özetini forma girin.</p>
-          </div>
-
-          <div class="al-card-dark p-8 rounded-3xl space-y-4 relative">
-            <span class="text-5xl font-black text-[#23262d]">03</span>
-            <h4 class="text-lg font-bold text-white">Yatırımcıları Çekin</h4>
-            <p class="text-slate-400 text-xs leading-relaxed">İlanınız anında tüm ekosistemin erişimine açılsın ve geri dönüşleri toplayın.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Sıkça Sorulan Sorular -->
-    <section id="faq-section" class="border-t border-[#23262d] bg-[#0b0c0e] py-20 scroll-mt-24">
-      <div class="max-w-4xl mx-auto px-6 space-y-10">
-        <div class="text-center space-y-3">
-          <span class="text-xs font-bold uppercase tracking-widest text-emerald-400">SINKÇA SORULAN SORULAR</span>
-          <h2 class="text-3xl font-black text-white">Aklınıza Takılanlar</h2>
-        </div>
-
-        <div class="space-y-4">
-          <div class="al-card-dark p-6 rounded-2xl space-y-2">
-            <h4 class="font-bold text-sm text-white">Girişimimi yayınlamak ücretli mi?</h4>
-            <p class="text-slate-400 text-xs leading-relaxed">Hayır, platformumuzda hesap açmak ve ilk projenizi ilana çıkarmak tamamen ücretsizdir.</p>
-          </div>
-
-          <div class="al-card-dark p-6 rounded-2xl space-y-2">
-            <h4 class="font-bold text-sm text-white">Yatırımcılarla nasıl iletişime geçebilirim?</h4>
-            <p class="text-slate-400 text-xs leading-relaxed">Giriş yaptıktan sonra onaylı profilinizle doğrudan yatırımcı portföylerini inceleyebilir ve mesajlaşabilirsiniz.</p>
-          </div>
-
-          <div class="al-card-dark p-6 rounded-2xl space-y-2">
-            <h4 class="font-bold text-sm text-white">AI Pitch Deck analizi nasıl çalışır?</h4>
-            <p class="text-slate-400 text-xs leading-relaxed">Oturum açtıktan sonra AI Skorla sekmesine projenizin özetini yapıştırarak puanlama ve tavsiye raporu alabilirsiniz.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
   </div>
 
   <!-- ========================================== -->
@@ -334,23 +267,41 @@
 
     <!-- 2. CANLI TURLAR -->
     <div id="tab-syndicates" class="content-tab space-y-6" style="display: none;">
-      <div class="al-card-dark p-8 rounded-3xl space-y-2">
-        <span class="text-xs font-bold uppercase text-rose-400">🔥 SÜRE SINIRLI YATIRIM TURLARI</span>
-        <h2 class="text-2xl font-black">Lider Yatırımcı Sendikaları</h2>
+      <div class="al-card-dark p-8 rounded-3xl flex justify-between items-center border border-[#23262d]">
+        <div>
+          <span class="text-xs font-bold uppercase text-rose-400">🔥 SÜRE SINIRLI YATIRIM TURLARI</span>
+          <h2 class="text-2xl font-black text-white mt-1">Lider Yatırımcı Sendikaları</h2>
+          <p class="text-slate-400 text-xs mt-1">Girişimler için açık olan aktif yatırım turları.</p>
+        </div>
+        <button type="button" onclick="openSyndicateModal()" class="bg-rose-500 hover:bg-rose-600 text-white font-extrabold text-xs px-5 py-3 rounded-full shadow-md transition">
+          + Yatırım Turu Başlat
+        </button>
       </div>
-      <div class="text-center py-16 text-slate-500 text-sm font-semibold al-card-dark rounded-3xl">
-        Henüz aktif bir yatırım turu bulunmuyor.
+
+      <div id="syndicatesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="col-span-full text-center py-16 text-slate-500 text-sm font-semibold al-card-dark rounded-3xl">
+          Henüz aktif bir yatırım turu bulunmuyor. İlk turu siz başlatın!
+        </div>
       </div>
     </div>
 
     <!-- 3. PROJE PAZARI -->
     <div id="tab-acquisitions" class="content-tab space-y-6" style="display: none;">
-      <div class="al-card-dark p-8 rounded-3xl space-y-2">
-        <span class="text-xs font-bold uppercase text-emerald-400">🛒 MICRO-ACQUISITION PAZARI</span>
-        <h2 class="text-2xl font-black">Satılık Proje & SaaS Pazar Yeri</h2>
+      <div class="al-card-dark p-8 rounded-3xl flex justify-between items-center border border-[#23262d]">
+        <div>
+          <span class="text-xs font-bold uppercase text-emerald-400">🛒 MICRO-ACQUISITION PAZARI</span>
+          <h2 class="text-2xl font-black text-white mt-1">Satılık Proje & SaaS Pazar Yeri</h2>
+          <p class="text-slate-400 text-xs mt-1">Devredilebilir hazır yazılımlar ve gelir getiren mikro projeler.</p>
+        </div>
+        <button type="button" onclick="openAcquisitionModal()" class="al-accent-bg text-[#0e0f12] font-extrabold text-xs px-5 py-3 rounded-full shadow-md transition">
+          + Satılık Proje İlanı Ver
+        </button>
       </div>
-      <div class="text-center py-16 text-slate-500 text-sm font-semibold al-card-dark rounded-3xl">
-        Henüz satılık proje ilanı verilmedi.
+
+      <div id="acquisitionsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="col-span-full text-center py-16 text-slate-500 text-sm font-semibold al-card-dark rounded-3xl">
+          Henüz satılık proje ilanı verilmedi. İlk ilanı verin!
+        </div>
       </div>
     </div>
 
@@ -384,8 +335,6 @@
   <!-- FOUNDER FOOTER -->
   <footer class="border-t border-[#23262d] bg-[#0b0c0e] py-16 text-xs">
     <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-10">
-      
-      <!-- Sol Taraf Platform Tanımı -->
       <div class="space-y-2 text-center md:text-left">
         <div class="flex items-center justify-center md:justify-start gap-3 font-black text-white text-base">
           <div class="w-7 h-7 rounded-lg bg-gradient-to-tr from-emerald-600 to-indigo-500 flex items-center justify-center text-white text-xs">
@@ -398,7 +347,6 @@
         <p class="text-slate-500 text-xs">Girişimciler ve Melek Yatırımcılar için Dijital Ekosistem Portalı © 2026</p>
       </div>
 
-      <!-- Sağ Taraf Founder İletişim Kartı -->
       <div class="relative group">
         <div class="absolute -inset-0.5 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-3xl blur opacity-20 group-hover:opacity-60 transition duration-500"></div>
         <div class="relative bg-[#16181d] border border-[#23262d] px-8 py-5 rounded-3xl flex items-center gap-6">
@@ -417,15 +365,15 @@
           </div>
         </div>
       </div>
-
     </div>
   </footer>
 
-  <!-- DETAY MODALI -->
+  <!-- MODALLAR -->
+  
+  <!-- 1. DETAY MODALI -->
   <div id="detailModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
     <div class="al-card-dark rounded-3xl max-w-2xl w-full p-8 relative text-white max-h-[90vh] overflow-y-auto border border-[#23262d] space-y-6">
       <button type="button" onclick="closeDetailModal()" class="absolute top-5 right-5 text-slate-500 text-xl font-bold hover:text-white">&times;</button>
-      
       <div class="space-y-2">
         <div class="flex items-center gap-3">
           <span id="detailSector" class="bg-[#0e0f12] text-emerald-400 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider border border-[#23262d]"></span>
@@ -456,11 +404,108 @@
     </div>
   </div>
 
+  <!-- 2. İLAN TİPİ SEÇİM MODALI -->
+  <div id="selectAddModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
+    <div class="al-card-dark rounded-3xl max-w-md w-full p-8 relative text-white space-y-6">
+      <button type="button" onclick="closeSelectAddModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold hover:text-white">&times;</button>
+      <div class="text-center">
+        <h3 class="text-2xl font-black">Ne Yayınlamak İstersiniz?</h3>
+        <p class="text-slate-400 text-xs mt-1">İlan tipini seçerek devam edin.</p>
+      </div>
+      <div class="space-y-3">
+        <button type="button" onclick="closeSelectAddModal(); openCreateModal();" class="w-full al-card-dark hover:border-emerald-400 p-4 rounded-2xl text-left transition flex items-center justify-between">
+          <div>
+            <div class="font-extrabold text-sm text-white">🚀 Girişim İlanı</div>
+            <div class="text-[11px] text-slate-400">Fikir veya MVP aşamasındaki projenizi ekleyin.</div>
+          </div>
+          <span class="text-emerald-400 font-bold">&rarr;</span>
+        </button>
+        <button type="button" onclick="closeSelectAddModal(); openSyndicateModal();" class="w-full al-card-dark hover:border-rose-400 p-4 rounded-2xl text-left transition flex items-center justify-between">
+          <div>
+            <div class="font-extrabold text-sm text-white">🔥 Canlı Yatırım Turu</div>
+            <div class="text-[11px] text-slate-400">Melek liderliğinde yatırım turu başlatın.</div>
+          </div>
+          <span class="text-rose-400 font-bold">&rarr;</span>
+        </button>
+        <button type="button" onclick="closeSelectAddModal(); openAcquisitionModal();" class="w-full al-card-dark hover:border-indigo-400 p-4 rounded-2xl text-left transition flex items-center justify-between">
+          <div>
+            <div class="font-extrabold text-sm text-white">🛒 Satılık Proje (Micro-SaaS)</div>
+            <div class="text-[11px] text-slate-400">Gelir getiren veya hazır projenizi devredin.</div>
+          </div>
+          <span class="text-indigo-400 font-bold">&rarr;</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. CANLI TUR EKLEME MODALI -->
+  <div id="addSyndicateModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
+    <div class="al-card-dark rounded-3xl max-w-lg w-full p-8 relative text-white max-h-[90vh] overflow-y-auto">
+      <button type="button" onclick="closeSyndicateModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold hover:text-white">&times;</button>
+      <h2 class="text-2xl font-black mb-4">🔥 Yeni Yatırım Turu Başlat</h2>
+      
+      <form onsubmit="handleAddSyndicate(event)" class="space-y-4">
+        <div>
+          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Tur / Girişim Başlığı</label>
+          <input type="text" id="addSynTitle" required placeholder="Örn: AI Agent Platform SPV" class="w-full p-3 bg-[#0e0f12] border border-[#23262d] rounded-xl text-xs text-white outline-none focus:border-rose-400">
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Lider Yatırımcı</label>
+            <input type="text" id="addSynLeader" required placeholder="İsim Soyisim" class="w-full p-3 bg-[#0e0f12] border border-[#23262d] rounded-xl text-xs text-white outline-none focus:border-rose-400">
+          </div>
+          <div>
+            <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Toplam Tur Büyüklüğü ($)</label>
+            <input type="number" id="addSynGoal" required placeholder="100000" class="w-full p-3 bg-[#0e0f12] border border-[#23262d] rounded-xl text-xs text-white outline-none focus:border-rose-400">
+          </div>
+        </div>
+        <div>
+          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Tur Açıklaması & Şartlar</label>
+          <textarea id="addSynDesc" rows="3" required placeholder="Yatırım turu detayları..." class="w-full p-3 bg-[#0e0f12] border border-[#23262d] rounded-xl text-xs text-white outline-none focus:border-rose-400"></textarea>
+        </div>
+        <button type="submit" class="w-full bg-rose-500 hover:bg-rose-600 text-white font-extrabold py-3 rounded-xl text-xs transition">Turu Yayınla</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- 4. SATILIK PROJE EKLEME MODALI -->
+  <div id="addAcquisitionModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
+    <div class="al-card-dark rounded-3xl max-w-lg w-full p-8 relative text-white max-h-[90vh] overflow-y-auto">
+      <button type="button" onclick="closeAcquisitionModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold hover:text-white">&times;</button>
+      <h2 class="text-2xl font-black mb-4">🛒 Satılık Proje İlanı Ver</h2>
+      
+      <form onsubmit="handleAddAcquisition(event)" class="space-y-4">
+        <div>
+          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Proje Adı</label>
+          <input type="text" id="addAcqTitle" required placeholder="Örn: SEO Analyzer SaaS" class="w-full p-3 bg-[#0e0f12] border border-[#23262d] rounded-xl text-xs text-white outline-none focus:border-indigo-400">
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Aylık Gelir - MRR ($)</label>
+            <input type="number" id="addAcqMRR" required placeholder="500" class="w-full p-3 bg-[#0e0f12] border border-[#23262d] rounded-xl text-xs text-white outline-none focus:border-indigo-400">
+          </div>
+          <div>
+            <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Satış Fiyatı ($)</label>
+            <input type="number" id="addAcqPrice" required placeholder="5000" class="w-full p-3 bg-[#0e0f12] border border-[#23262d] rounded-xl text-xs text-white outline-none focus:border-indigo-400">
+          </div>
+        </div>
+        <div>
+          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Kullanılan Teknolojiler (Stack)</label>
+          <input type="text" id="addAcqTech" required placeholder="Next.js, Supabase, Tailwind" class="w-full p-3 bg-[#0e0f12] border border-[#23262d] rounded-xl text-xs text-white outline-none focus:border-indigo-400">
+        </div>
+        <div>
+          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Proje Detayları</label>
+          <textarea id="addAcqDesc" rows="3" required placeholder="Müşteri sayısı, büyüme potansiyeli..." class="w-full p-3 bg-[#0e0f12] border border-[#23262d] rounded-xl text-xs text-white outline-none focus:border-indigo-400"></textarea>
+        </div>
+        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold py-3 rounded-xl text-xs transition">Satış İlanını Yayınla</button>
+      </form>
+    </div>
+  </div>
+
   <!-- AUTH MODAL -->
   <div id="authModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
     <div class="al-card-dark rounded-3xl max-w-md w-full p-8 relative text-white">
       <button type="button" onclick="closeAuthModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold hover:text-white">&times;</button>
-      
       <div class="text-center mb-6">
         <h2 class="text-2xl font-black">Oturum Açın</h2>
         <p class="text-slate-400 text-xs mt-1">Girişim ve Yatırım ekosistemine bağlanın.</p>
@@ -506,11 +551,11 @@
     </div>
   </div>
 
-  <!-- İLAN EKLEME MODALI -->
+  <!-- İLAN EKLEME MODALI (Girişim) -->
   <div id="addModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
     <div class="al-card-dark rounded-3xl max-w-lg w-full p-8 relative text-white max-h-[90vh] overflow-y-auto">
       <button type="button" onclick="closeCreateModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold hover:text-white">&times;</button>
-      <h2 class="text-2xl font-black mb-4">Yeni İlan Ekle</h2>
+      <h2 class="text-2xl font-black mb-4">Yeni Girişim İlanı Ekle</h2>
       
       <form onsubmit="handleAddStartup(event)" class="space-y-4">
         <div>
@@ -556,36 +601,27 @@
   </div>
 
   <script>
-    // Tüm Olası Veritabanı Kolon İsimlerini Kontrol Eden Güvenli Sayı Çıkarıcı
     function extractGoalValue(item) {
       if (!item) return 10000;
-      
-      // Olası tüm Supabase / LocalStorage kolon isimleri
-      var possibleKeys = ['funding_goal', 'fundingGoal', 'goal', 'fundinggoal', 'funding_goal_usd'];
-      
+      var possibleKeys = ['funding_goal', 'fundingGoal', 'goal', 'fundinggoal'];
       for (var i = 0; i < possibleKeys.length; i++) {
         var key = possibleKeys[i];
         if (item[key] !== undefined && item[key] !== null && item[key] !== '') {
           var num = Number(item[key]);
-          if (!isNaN(num) && num > 0) {
-            return num;
-          }
+          if (!isNaN(num) && num > 0) return num;
         }
       }
-      return 10000; // Hiçbiri yoksa varsayılan değer
+      return 10000;
     }
 
     function extractRaisedValue(item) {
       if (!item) return 0;
-      var possibleKeys = ['raised', 'funding_raised', 'current_funding', 'raised_usd'];
-      
+      var possibleKeys = ['raised', 'funding_raised', 'current_funding'];
       for (var i = 0; i < possibleKeys.length; i++) {
         var key = possibleKeys[i];
         if (item[key] !== undefined && item[key] !== null && item[key] !== '') {
           var num = Number(item[key]);
-          if (!isNaN(num)) {
-            return num;
-          }
+          if (!isNaN(num)) return num;
         }
       }
       return 0;
@@ -622,8 +658,25 @@
     function closeAuthModal() { document.getElementById('authModal').classList.add('hidden'); }
     function openCreateModal() { document.getElementById('addModal').classList.remove('hidden'); }
     function closeCreateModal() { document.getElementById('addModal').classList.add('hidden'); }
-    
-    // Detay Modalı
+
+    function openSelectAddModal() { document.getElementById('selectAddModal').classList.remove('hidden'); }
+    function closeSelectAddModal() { document.getElementById('selectAddModal').classList.add('hidden'); }
+
+    function openSyndicateModal() { document.getElementById('addSyndicateModal').classList.remove('hidden'); }
+    function closeSyndicateModal() { document.getElementById('addSyndicateModal').classList.add('hidden'); }
+
+    function openAcquisitionModal() { document.getElementById('addAcquisitionModal').classList.remove('hidden'); }
+    function closeAcquisitionModal() { document.getElementById('addAcquisitionModal').classList.add('hidden'); }
+
+    function handleNewAddClick() {
+      if (!currentUser) {
+        alert("İlan eklemek için giriş yapın.");
+        openAuthModal();
+      } else {
+        openSelectAddModal();
+      }
+    }
+
     function openDetailModal(item) {
       document.getElementById('detailTitle').innerText = item.name || item.title || 'İsimsiz Girişim';
       document.getElementById('detailSector').innerText = item.sector || 'Teknoloji';
@@ -689,9 +742,7 @@
         userBox.classList.remove('hidden');
         loginBtn.classList.add('hidden');
         
-        // Ziyaretçi menüsünü gizle, uygulama menüsünü aç
         if (visitorNav) visitorNav.style.display = 'none';
-        if (appNav) visitorNav ? visitorNav.style.display = 'none' : null;
         if (appNav) {
           appNav.style.display = 'flex';
           appNav.classList.remove('hidden');
@@ -712,7 +763,6 @@
         userBox.classList.add('hidden');
         loginBtn.classList.remove('hidden');
         
-        // Uygulama menüsünü tamamen gizle, ziyaretçi menüsünü göster
         if (appNav) {
           appNav.style.display = 'none';
           appNav.classList.add('hidden');
@@ -726,15 +776,6 @@
 
         landingView.style.display = 'block';
         appView.style.display = 'none';
-      }
-    }
-
-    function handleNewAddClick() {
-      if (!currentUser) {
-        alert("İlan eklemek için giriş yapın.");
-        openAuthModal();
-      } else {
-        openCreateModal();
       }
     }
 
@@ -775,6 +816,8 @@
       }
       checkUserSession();
       loadStartups();
+      loadSyndicates();
+      loadAcquisitions();
     });
 
     async function handleLogout() {
@@ -785,7 +828,10 @@
     }
 
     var startups = [];
+    var syndicates = [];
+    var acquisitions = [];
 
+    // 1. GİRİŞİM İLANLARI
     async function loadStartups() {
       if (sbClient) {
         try {
@@ -865,16 +911,149 @@
 
       if (sbClient) {
         try {
-          const { error } = await sbClient.from('startups').insert([newStartup]);
-          if (error) { 
-            console.error("Supabase insert error:", error);
-          }
-        } catch (err) { console.error("Catch error:", err); }
+          await sbClient.from('startups').insert([newStartup]);
+        } catch (err) { console.error(err); }
       }
 
       await loadStartups();
       closeCreateModal();
-      alert('İlan başarıyla eklendi!');
+      alert('İlan eklendi!');
+    }
+
+    // 2. CANLI TURLAR (SENDİKALAR)
+    async function loadSyndicates() {
+      if (sbClient) {
+        try {
+          const { data } = await sbClient.from('syndicates').select('*').order('id', { ascending: false });
+          if (data) { syndicates = data; renderSyndicates(syndicates); return; }
+        } catch (e) {}
+      }
+      var localData = localStorage.getItem('my_syndicates_list');
+      syndicates = localData ? JSON.parse(localData) : [];
+      renderSyndicates(syndicates);
+    }
+
+    function renderSyndicates(data) {
+      var grid = document.getElementById('syndicatesGrid');
+      if (!grid) return;
+      grid.innerHTML = '';
+
+      if (data.length === 0) {
+        grid.innerHTML = '<div class="col-span-full text-center py-16 text-slate-500 text-sm font-semibold al-card-dark rounded-3xl">Henüz aktif bir yatırım turu bulunmuyor. İlk turu siz başlatın!</div>';
+        return;
+      }
+
+      data.forEach(function(item) {
+        var card = document.createElement('div');
+        card.className = "al-card-dark rounded-3xl p-6 flex flex-col justify-between space-y-4 border border-[#23262d]";
+        card.innerHTML = 
+          '<div>' +
+            '<div class="flex items-center justify-between mb-3">' +
+              '<span class="bg-rose-500/10 text-rose-400 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider border border-rose-500/30">🔥 CANLI TUR</span>' +
+            '</div>' +
+            '<h3 class="text-xl font-bold text-white mb-1">' + (item.title || 'İsimsiz Tur') + '</h3>' +
+            '<p class="text-xs text-slate-400 font-semibold mb-3">👑 Lider Yatırımcı: ' + (item.leader || 'Belirtilmedi') + '</p>' +
+            '<p class="text-slate-400 text-xs leading-relaxed line-clamp-3">' + (item.description || '') + '</p>' +
+          '</div>' +
+          '<div class="pt-4 border-t border-[#23262d] flex justify-between items-center text-xs font-bold">' +
+            '<span class="text-rose-400">Tur Büyüklüğü: $' + Number(item.goal || 50000).toLocaleString() + '</span>' +
+            '<button type="button" onclick="alert(\'Yatırım talebiniz lider yatırımcıya iletildi.\')" class="bg-rose-500 hover:bg-rose-600 text-white px-3 py-1.5 rounded-full transition">Tura Katıl</button>' +
+          '</div>';
+        grid.appendChild(card);
+      });
+    }
+
+    async function handleAddSyndicate(e) {
+      e.preventDefault();
+      if (!currentUser) return;
+
+      var newSyn = {
+        user_id: currentUser.id,
+        title: document.getElementById('addSynTitle').value,
+        leader: document.getElementById('addSynLeader').value,
+        goal: Number(document.getElementById('addSynGoal').value),
+        description: document.getElementById('addSynDesc').value
+      };
+
+      if (sbClient) {
+        try { await sbClient.from('syndicates').insert([newSyn]); } catch (e) {}
+      } else {
+        syndicates.unshift(newSyn);
+        localStorage.setItem('my_syndicates_list', JSON.stringify(syndicates));
+      }
+
+      await loadSyndicates();
+      closeSyndicateModal();
+      alert('Yatırım turu başlatıldı!');
+    }
+
+    // 3. PROJE PAZARI (MICRO-ACQUISITION)
+    async function loadAcquisitions() {
+      if (sbClient) {
+        try {
+          const { data } = await sbClient.from('acquisitions').select('*').order('id', { ascending: false });
+          if (data) { acquisitions = data; renderAcquisitions(acquisitions); return; }
+        } catch (e) {}
+      }
+      var localData = localStorage.getItem('my_acquisitions_list');
+      acquisitions = localData ? JSON.parse(localData) : [];
+      renderAcquisitions(acquisitions);
+    }
+
+    function renderAcquisitions(data) {
+      var grid = document.getElementById('acquisitionsGrid');
+      if (!grid) return;
+      grid.innerHTML = '';
+
+      if (data.length === 0) {
+        grid.innerHTML = '<div class="col-span-full text-center py-16 text-slate-500 text-sm font-semibold al-card-dark rounded-3xl">Henüz satılık proje ilanı verilmedi. İlk ilanı verin!</div>';
+        return;
+      }
+
+      data.forEach(function(item) {
+        var card = document.createElement('div');
+        card.className = "al-card-dark rounded-3xl p-6 flex flex-col justify-between space-y-4 border border-[#23262d]";
+        card.innerHTML = 
+          '<div>' +
+            '<div class="flex items-center justify-between mb-3">' +
+              '<span class="bg-indigo-500/10 text-indigo-400 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider border border-indigo-500/30">🛒 SATILIK PROJE</span>' +
+              '<span class="text-emerald-400 text-xs font-black">$' + Number(item.mrr || 0).toLocaleString() + '/ay MRR</span>' +
+            '</div>' +
+            '<h3 class="text-xl font-bold text-white mb-1">' + (item.title || 'İsimsiz Proje') + '</h3>' +
+            '<p class="text-xs text-slate-400 font-semibold mb-2">💻 Stack: ' + (item.tech || 'Teknoloji') + '</p>' +
+            '<p class="text-slate-400 text-xs leading-relaxed line-clamp-3">' + (item.description || '') + '</p>' +
+          '</div>' +
+          '<div class="pt-4 border-t border-[#23262d] flex justify-between items-center text-xs font-bold">' +
+            '<span class="text-white text-sm">Fiyat: $' + Number(item.price || 1000).toLocaleString() + '</span>' +
+            '<button type="button" onclick="alert(\'Satıcı ile iletişim talebiniz gönderildi.\')" class="al-accent-bg text-[#0e0f12] px-3 py-1.5 rounded-full transition">Teklif Ver</button>' +
+          '</div>';
+        grid.appendChild(card);
+      });
+    }
+
+    async function handleAddAcquisition(e) {
+      e.preventDefault();
+      if (!currentUser) return;
+
+      var newAcq = {
+        user_id: currentUser.id,
+        title: document.getElementById('addAcqTitle').value,
+        mrr: Number(document.getElementById('addAcqMRR').value),
+        price: Number(document.getElementById('addAcqPrice').value),
+        tech: document.getElementById('addAcqTech').value,
+        description: document.getElementById('addAcqDesc').value
+      };
+
+      if (sbClient) {
+        try { await sbClient.from('acquisitions').insert([newAcq]); } catch (e) {}
+      } else {
+        acquisitions.unshift(newAcq);
+        localStorage.setItem('my_acquisitions_list', JSON.stringify(acquisitions));
+      }
+
+      await loadAcquisitions();
+      closeAcquisitionModal();
+      alert('Satış ilanı yayınlandı!');
     }
 
     function filterStartups() {
