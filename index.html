@@ -498,6 +498,28 @@
     </div>
   </div>
 
+  <!-- E-POSTA DOĞRULAMA (OTP) MODALI -->
+  <div id="otpVerifyModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
+    <div class="al-card-dark rounded-3xl max-w-md w-full p-8 relative text-white space-y-5">
+      <button type="button" onclick="closeOtpModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold">&times;</button>
+      <div class="text-center space-y-2">
+        <div class="w-14 h-14 rounded-2xl bg-emerald-500/10 flex items-center justify-center text-emerald-400 text-2xl mx-auto">✉️</div>
+        <h2 class="text-2xl font-black">E-Postanı Doğrula</h2>
+        <p class="text-slate-400 text-xs">
+          <span id="otpTargetEmail" class="text-emerald-400 font-bold"></span> adresine gönderilen 6 haneli tek kullanımlık kodu gir.
+        </p>
+      </div>
+      <div>
+        <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Doğrulama Kodu</label>
+        <input type="text" id="otpCodeInput" maxlength="6" inputmode="numeric" autocomplete="one-time-code" placeholder="••••••" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-center text-lg tracking-[0.5em] text-white outline-none focus:border-emerald-400">
+      </div>
+      <button type="button" onclick="verifySignupOtp()" class="w-full al-accent-bg font-extrabold py-3.5 rounded-xl text-xs transition cursor-pointer">Doğrula ve Devam Et</button>
+      <div class="text-center">
+        <button type="button" onclick="resendSignupOtp()" class="text-xs text-slate-400 hover:text-emerald-400 transition">Kodu Tekrar Gönder</button>
+      </div>
+    </div>
+  </div>
+
   <!-- İLAN TİPİ SEÇİMİ -->
   <div id="selectAddModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
     <div class="al-card-dark rounded-3xl max-w-md w-full p-8 relative text-white space-y-6">
@@ -610,6 +632,8 @@
     var activeContactEmail = "ihsannozdemiro1@gmail.com";
     var activeStartupName = "";
     var currentAuthMode = 'login';
+    var pendingSignupEmail = '';
+    var pendingSignupPassword = '';
     var activeTabName = localStorage.getItem('active_tab_name') || 'startups';
 
     function showToast(title, desc) {
@@ -753,6 +777,98 @@
       switchAuthTab('login');
     }
 
+    // ------------------ OTP (TEK KULLANIMLIK KOD) DOĞRULAMA ------------------
+
+    function openOtpModal(email) {
+      document.getElementById('authModal').classList.add('hidden');
+      document.getElementById('otpTargetEmail').innerText = email;
+      document.getElementById('otpCodeInput').value = '';
+      document.getElementById('otpVerifyModal').classList.remove('hidden');
+      setTimeout(function () {
+        var input = document.getElementById('otpCodeInput');
+        if (input) input.focus();
+      }, 100);
+    }
+
+    function closeOtpModal() {
+      document.getElementById('otpVerifyModal').classList.add('hidden');
+      document.getElementById('otpCodeInput').value = '';
+    }
+
+    async function verifySignupOtp() {
+      var code = document.getElementById('otpCodeInput').value.trim();
+      if (!code || code.length < 6) {
+        showToast("Hata", "Lütfen 6 haneli kodu eksiksiz girin.");
+        return;
+      }
+      if (!sbClient) {
+        showToast("Hata", "Veritabanı bağlantısı kurulamadı.");
+        return;
+      }
+      if (!pendingSignupEmail) {
+        showToast("Hata", "Doğrulanacak bir e-posta bulunamadı. Lütfen tekrar kayıt olun.");
+        return;
+      }
+
+      try {
+        const { data, error } = await sbClient.auth.verifyOtp({
+          email: pendingSignupEmail,
+          token: code,
+          type: 'signup'
+        });
+
+        if (error) {
+          showToast("Doğrulama Hatası", error.message);
+          return;
+        }
+
+        showToast("Başarılı", "E-posta doğrulandı, hoş geldiniz!");
+        closeOtpModal();
+        closeAuthModal();
+
+        if (data && data.session) {
+          updateUserUI(data.session.user);
+        } else if (pendingSignupPassword) {
+          // Bazı Supabase yapılandırmalarında doğrulama sonrası oturum otomatik açılmaz,
+          // bu durumda kayıtlı şifre ile otomatik giriş deneriz.
+          const { data: signInData, error: signInErr } = await sbClient.auth.signInWithPassword({
+            email: pendingSignupEmail,
+            password: pendingSignupPassword
+          });
+          if (!signInErr && signInData.session) {
+            updateUserUI(signInData.session.user);
+          }
+        }
+
+        pendingSignupPassword = '';
+      } catch (err) {
+        showToast("Hata", "Doğrulama sırasında bir hata oluştu.");
+      }
+    }
+
+    async function resendSignupOtp() {
+      if (!pendingSignupEmail) {
+        showToast("Hata", "Önce e-posta adresinizle kayıt olmalısınız.");
+        return;
+      }
+      if (!sbClient) {
+        showToast("Hata", "Veritabanı bağlantısı kurulamadı.");
+        return;
+      }
+      try {
+        const { error } = await sbClient.auth.resend({ type: 'signup', email: pendingSignupEmail });
+        if (error) {
+          showToast("Hata", error.message);
+          return;
+        }
+        showToast("Gönderildi", "Yeni doğrulama kodu e-postanıza gönderildi.");
+      } catch (err) {
+        showToast("Hata", "Kod tekrar gönderilemedi.");
+      }
+    }
+
+    // ---------------------------------------------------------------------
+
     const SUPABASE_URL = 'https://kaovkjsttcyyrwrbmtpb.supabase.co';
     const SUPABASE_KEY = 'sb_publishable_NrZ4UXAzYjs7VZ52t7XJww_gMTDBJJl';
     var sbClient = null, currentUser = null;
@@ -855,8 +971,13 @@
             showToast("Kayıt Hatası", error.message);
             return;
           }
-          showToast("Kayıt Başarılı", "Hesabınız oluşturuldu, giriş yapabilirsiniz.");
-          switchAuthTab('login');
+
+          // Kayıt başarılı: Supabase e-postaya 6 haneli tek kullanımlık kod gönderir.
+          // (Supabase panelinde "Confirm email" açık olmalı ve mail şablonunda {{ .Token }} kullanılmalı.)
+          pendingSignupEmail = email;
+          pendingSignupPassword = password;
+          showToast("Kod Gönderildi", "E-postanıza gelen 6 haneli doğrulama kodunu girin.");
+          openOtpModal(email);
           return;
         } catch (err) {
           showToast("Hata", "Kayıt işlemi başarısız.");
@@ -866,6 +987,14 @@
         try {
           const { data, error } = await sbClient.auth.signInWithPassword({ email, password });
           if (error) {
+            var msg = (error.message || '').toLowerCase();
+            if (msg.indexOf('confirm') !== -1 || msg.indexOf('not confirmed') !== -1) {
+              pendingSignupEmail = email;
+              pendingSignupPassword = password;
+              showToast("E-posta Doğrulanmamış", "Devam etmek için e-postanıza gelen kodu girin.");
+              openOtpModal(email);
+              return;
+            }
             showToast("Giriş Başarısız", "E-posta veya şifre hatalı!");
             return;
           }
@@ -889,6 +1018,15 @@
           await sbClient.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: window.location.origin } });
         });
       }
+
+      var otpInput = document.getElementById('otpCodeInput');
+      if (otpInput) {
+        otpInput.addEventListener('keyup', function (e) {
+          this.value = this.value.replace(/[^0-9]/g, '');
+          if (e.key === 'Enter') verifySignupOtp();
+        });
+      }
+
       checkUserSession();
       loadStartups();
       loadSyndicates();
@@ -1117,10 +1255,6 @@
     }
 
     function renderAdminDashboard() {
-      document.getElementById('adminStartupCount').innerText = startups.length;
-      document.getElementById('adminSynCount').innerText = syndicates.length;
-      document.getElementById('adminAcqCount').innerText = acquisitions.length;
-      
       document.getElementById('adminTotalListings').innerText = startups.length + syndicates.length + acquisitions.length;
       document.getElementById('adminUserCount').innerText = currentUser ? "1" : "1";
 
