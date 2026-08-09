@@ -91,64 +91,112 @@
   </header>
 
   <!-- ========================================== -->
-  <!-- 0. YENİLENMİŞ ZİYARETÇİ HERO ARAYÜZÜ -->
+  <!-- 0. YENİLENMİŞ DEV DEĞİŞİKLİK: YÜKSEK TEKNOLOJİLİ HERO BÖLÜMÜ -->
   <!-- ========================================== -->
   <div id="landingView" style="display: block;">
     <section class="max-w-7xl mx-auto px-6 pt-16 pb-12 grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
       
-      <!-- Sol Açık Kart: Slogan & Temel Çağrı -->
-      <div class="al-card-light rounded-3xl p-10 flex flex-col justify-between">
+      <!-- Sol Kart: Vizyon & Canlı Etkileşimli Arama Kapsülü -->
+      <div class="al-card-light rounded-3xl p-10 flex flex-col justify-between shadow-2xl relative overflow-hidden">
         <div class="space-y-6">
-          <span class="text-xs font-bold uppercase tracking-widest text-slate-600">TÜRKİYE GİRİŞİM EKOSİSTEMİ</span>
-          <h1 class="text-5xl sm:text-6xl font-black tracking-tight leading-[1.08] text-[#0e0f12]">
-            Sermayeye Ulaşmanın ve Girişim Büyütmenin En Hızlı Yolu.
+          <div class="inline-flex items-center gap-2 bg-[#0e0f12]/10 border border-[#0e0f12]/20 px-3 py-1 rounded-full text-[11px] font-extrabold text-[#0e0f12] uppercase tracking-wider">
+            <span>⚡ Erken Aşama & SaaS Ekosistemi</span>
+          </div>
+          <h1 class="text-5xl sm:text-6xl font-black tracking-tight leading-[1.05] text-[#0e0f12]">
+            Geleceğin Şirketlerini İnşa Edin & Fonlayın.
           </h1>
-          <p class="text-slate-700 text-base max-w-md font-medium leading-relaxed">
-            Melek yatırımcı turlarından Mikro SaaS proje devirlerine kadar tüm ekosistem tek bir platformda.
+          <p class="text-slate-700 text-sm max-w-md font-medium leading-relaxed">
+            Melek yatırım turlarından hazır Micro-SaaS projelerine kadar girişim dünyasının tüm bileşenleri tek çatı altında.
           </p>
         </div>
-        <div class="pt-8 flex items-center gap-4">
-          <button type="button" onclick="openAuthModal()" class="al-button-dark font-extrabold text-xs px-6 py-3.5 rounded-full transition shadow-md">
-            Hemen Katılın &rarr;
-          </button>
+
+        <!-- Hızlı Ön Arama Barı -->
+        <div class="pt-8 space-y-3">
+          <div class="flex items-center bg-white rounded-2xl p-2 border border-slate-300 shadow-md">
+            <svg class="w-5 h-5 text-slate-400 ml-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            </svg>
+            <input type="text" placeholder="Yapay Zeka, Fintek veya SaaS projelerinde ara..." class="w-full bg-transparent px-3 text-xs text-slate-800 font-medium outline-none">
+            <button type="button" onclick="openAuthModal()" class="al-button-dark font-extrabold text-xs px-5 py-3 rounded-xl transition whitespace-nowrap">
+              Keşfet &rarr;
+            </button>
+          </div>
+          <div class="flex items-center gap-3 text-[11px] font-bold text-slate-500 pl-2">
+            <span>Popüler:</span>
+            <span class="hover:text-black cursor-pointer" onclick="openAuthModal()">#YapayZekâ</span>
+            <span class="hover:text-black cursor-pointer" onclick="openAuthModal()">#Fintek</span>
+            <span class="hover:text-black cursor-pointer" onclick="openAuthModal()">#MicroSaaS</span>
+          </div>
         </div>
       </div>
 
-      <!-- Sağ Koyu Kart: Yenilenmiş Canlı Ekosistem Paneli (Tekrarlar Kaldırıldı) -->
-      <div class="al-card-dark rounded-3xl p-8 flex flex-col justify-between relative overflow-hidden border border-[#23262d]">
-        <div>
-          <div class="flex items-center justify-between pb-6 border-b border-[#23262d]">
-            <div class="flex items-center gap-2">
-              <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
-              <span class="text-xs font-bold text-slate-300 uppercase tracking-wider">CANLI PORTAL VERİLERİ</span>
-            </div>
-            <span class="text-[10px] font-extrabold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 px-2.5 py-1 rounded-full">Anlık Senkronize</span>
+      <!-- Sağ Kart: Görsel Mimarili Canlı Akış Şeması (Sıfır Metin Tekrarı) -->
+      <div class="al-card-dark rounded-3xl p-8 flex flex-col justify-between relative overflow-hidden border border-[#23262d] bg-gradient-to-b from-[#16181d] to-[#0e0f12]">
+        
+        <!-- Header İndikatör -->
+        <div class="flex items-center justify-between pb-6 border-b border-[#23262d]">
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+            <span class="text-xs font-extrabold text-white uppercase tracking-wider">PLATFORM AKIŞ MİMARİSİ</span>
           </div>
-
-          <!-- Mini Canlı Önizleme Kartları -->
-          <div class="py-6 space-y-4">
-            <div class="bg-[#0e0f12] p-4 rounded-2xl border border-[#23262d] flex justify-between items-center">
-              <div>
-                <div class="text-[10px] font-bold text-slate-500 uppercase">Aktif Yatırım Arayanlar</div>
-                <div class="text-lg font-black text-white mt-0.5">Erken Aşama & MVP Projeleri</div>
-              </div>
-              <span class="text-xs font-extrabold text-emerald-400 bg-emerald-500/10 px-3 py-1.5 rounded-xl">Aktif</span>
-            </div>
-
-            <div class="bg-[#0e0f12] p-4 rounded-2xl border border-[#23262d] flex justify-between items-center">
-              <div>
-                <div class="text-[10px] font-bold text-slate-500 uppercase">Proje Devir Pazarı</div>
-                <div class="text-lg font-black text-white mt-0.5">Satılık SaaS & Yan Projeler</div>
-              </div>
-              <span class="text-xs font-extrabold text-indigo-400 bg-indigo-500/10 px-3 py-1.5 rounded-xl">Pazar Açık</span>
-            </div>
-          </div>
+          <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest bg-[#0e0f12] px-3 py-1 rounded-full border border-[#23262d]">Sistem Aktif</span>
         </div>
 
-        <div class="flex justify-between items-center border-t border-[#23262d] pt-6">
-          <span class="text-xs text-slate-400 font-semibold">Tüm içerikleri görmek için oturum açın</span>
-          <button type="button" onclick="openAuthModal()" class="al-accent-bg text-[#0e0f12] font-extrabold text-xs px-5 py-2.5 rounded-full transition">Ücretsiz Keşfet</button>
+        <!-- İnteraktif Akış Görseli -->
+        <div class="py-6 space-y-3">
+          
+          <!-- Adım 1 -->
+          <div class="bg-[#0e0f12] p-4 rounded-2xl border border-[#23262d] flex items-center justify-between group hover:border-emerald-500/50 transition">
+            <div class="flex items-center gap-3">
+              <div class="w-9 h-9 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-black text-xs">01</div>
+              <div>
+                <div class="text-xs font-bold text-white">İlan & Sunum Doğrulama</div>
+                <div class="text-[10px] text-slate-500">Supabase & AI Skorlayıcı Filtresi</div>
+              </div>
+            </div>
+            <span class="text-[10px] font-extrabold text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full">Otomatik</span>
+          </div>
+
+          <!-- Ok İkonu -->
+          <div class="flex justify-center text-slate-600 text-xs my-0.5">↓</div>
+
+          <!-- Adım 2 -->
+          <div class="bg-[#0e0f12] p-4 rounded-2xl border border-[#23262d] flex items-center justify-between group hover:border-rose-500/50 transition">
+            <div class="flex items-center gap-3">
+              <div class="w-9 h-9 rounded-xl bg-rose-500/10 border border-rose-500/30 flex items-center justify-center text-rose-400 font-black text-xs">02</div>
+              <div>
+                <div class="text-xs font-bold text-white">Lider Melek Turları</div>
+                <div class="text-[10px] text-slate-500">Sendikalar & Eş Zamanlı Fonlama</div>
+              </div>
+            </div>
+            <span class="text-[10px] font-extrabold text-rose-400 bg-rose-500/10 px-2.5 py-1 rounded-full">Canlı</span>
+          </div>
+
+          <!-- Ok İkonu -->
+          <div class="flex justify-center text-slate-600 text-xs my-0.5">↓</div>
+
+          <!-- Adım 3 -->
+          <div class="bg-[#0e0f12] p-4 rounded-2xl border border-[#23262d] flex items-center justify-between group hover:border-indigo-500/50 transition">
+            <div class="flex items-center gap-3">
+              <div class="w-9 h-9 rounded-xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400 font-black text-xs">03</div>
+              <div>
+                <div class="text-xs font-bold text-white">Mikro SaaS & Devir Pazarı</div>
+                <div class="text-[11px] text-slate-500">Anında Mülkiyet & Kod Devri</div>
+              </div>
+            </div>
+            <span class="text-[10px] font-extrabold text-indigo-400 bg-indigo-500/10 px-2.5 py-1 rounded-full">Tamamlandı</span>
+          </div>
+
         </div>
+
+        <!-- Bottom CTA -->
+        <div class="pt-4 border-t border-[#23262d] flex items-center justify-between">
+          <span class="text-xs text-slate-400 font-bold">Ekosistemde yerinizi alın.</span>
+          <button type="button" onclick="openAuthModal()" class="al-accent-bg text-[#0e0f12] font-black text-xs px-5 py-2.5 rounded-full hover:opacity-90 transition">
+            Oturum Aç &rarr;
+          </button>
+        </div>
+
       </div>
 
     </section>
