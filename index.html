@@ -229,7 +229,7 @@
         </div>
         <div class="al-card-dark p-6 rounded-2xl space-y-2">
           <h4 class="font-bold text-white text-sm">Yatırımcılarla nasıl iletişim kurabilirim?</h4>
-          <p class="text-slate-400 text-xs leading-relaxed">İlan detaylarında yer alan kurucu e-posta adresleri veya site içi "İletişime Geç" formu üzerinden doğrudan irtibat sağlayabilirsiniz.</p>
+          <p class="text-slate-400 text-xs leading-relaxed">İlan detaylarında yer alan kurucu adresleri veya site içi "İletişime Geç" formu üzerinden doğrudan irtibat sağlayabilirsiniz.</p>
         </div>
       </div>
     </section>
@@ -434,7 +434,7 @@
   <!-- KAYIT OL & GİRİŞ YAP MODALI -->
   <div id="authModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
     <div class="al-card-dark rounded-3xl max-w-md w-full p-8 relative text-white space-y-6">
-      <button type="button" onclick="closeAuthModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold">&times;</button>
+      <button type="button" onclick="closeAuthModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold hover:text-white">&times;</button>
       
       <div class="flex bg-[#08090b] p-1.5 rounded-2xl border border-[#1e222d]">
         <button type="button" id="tabLoginBtn" onclick="switchAuthTab('login')" class="w-1/2 py-2.5 rounded-xl text-xs font-black transition bg-[#1e222d] text-white">Giriş Yap</button>
@@ -826,15 +826,22 @@
           password, 
           options: { data: { full_name: fullName } } 
         });
+        
         if (error) {
           showToast("Kayıt Hatası", error.message);
         } else {
-          // Kayıt sonrası otomatik giriş denemesi (Eğer e-posta onayı kapalıysa direkt oturum açar)
-          const loginAttempt = await sbClient.auth.signInWithPassword({ email, password });
-          localStorage.setItem('user_logged_in', 'true');
-          showToast("Başarılı", "Kayıt olundu ve giriş yapıldı!");
-          closeAuthModal();
-          checkUserSession();
+          // Kayıttan hemen sonra doğrudan giriş yapmayı dene
+          const loginRes = await sbClient.auth.signInWithPassword({ email, password });
+          if (loginRes.error) {
+            // E-posta onayı gerekiyorsa kullanıcıyı bilgilendir ve giriş sekmesine at
+            showToast("Kayıt Başarılı", "Hesabınız açıldı. Şimdi giriş yapabilirsiniz.");
+            switchAuthTab('login');
+          } else {
+            localStorage.setItem('user_logged_in', 'true');
+            showToast("Başarılı", "Kayıt olundu ve giriş yapıldı!");
+            closeAuthModal();
+            checkUserSession();
+          }
         }
       } else {
         const { data, error } = await sbClient.auth.signInWithPassword({ email, password });
