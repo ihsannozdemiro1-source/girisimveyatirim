@@ -25,13 +25,6 @@
       background-color: #f4f1ea;
       color: #0e0f12;
     }
-    .al-button-dark {
-      background-color: #1d2026;
-      color: #ffffff;
-    }
-    .al-button-dark:hover {
-      background-color: #2a2e37;
-    }
     .hero-glow {
       background: radial-gradient(circle at 50% 20%, rgba(16, 185, 129, 0.15) 0%, rgba(8, 9, 11, 0) 70%);
     }
@@ -454,7 +447,7 @@
 
   </main>
 
-  <!-- FOUNDER FOOTER -->
+  <!-- FOOTER -->
   <footer class="border-t border-[#1e222d] bg-[#0b0c0e] py-16 text-xs">
     <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-10">
       <div class="space-y-2 text-center md:text-left">
@@ -492,7 +485,7 @@
 
   <!-- MODALLAR -->
   
-  <!-- DETAY MODALI (MEDYA & SUNUM BAĞLANTILARI İLE GÜNCELLENDİ) -->
+  <!-- DETAY MODALI -->
   <div id="detailModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
     <div class="al-card-dark rounded-3xl max-w-2xl w-full p-8 relative text-white max-h-[90vh] overflow-y-auto border border-[#1e222d] space-y-6">
       <button type="button" onclick="closeDetailModal()" class="absolute top-5 right-5 text-slate-500 text-xl font-bold hover:text-white">&times;</button>
@@ -515,7 +508,6 @@
         </div>
       </div>
 
-      <!-- Bağlantılar (Web sitesi & Pitch Deck) -->
       <div id="detailLinksBox" class="flex flex-wrap gap-3"></div>
 
       <div class="space-y-2">
@@ -523,10 +515,11 @@
         <p id="detailDesc" class="text-slate-300 text-xs leading-relaxed whitespace-pre-line"></p>
       </div>
 
+      <!-- İLETİŞİM BUTONU (KOPYALAMA MİMARİSİ İLE GÜNCELLENDİ) -->
       <div class="pt-4 border-t border-[#1e222d] flex justify-between items-center">
-        <a id="detailContactBtn" href="#" target="_blank" class="al-accent-bg font-extrabold text-xs px-6 py-2.5 rounded-full shadow-md transition">
-          📩 Kurucu İle İletişime Geç
-        </a>
+        <button type="button" id="detailContactBtn" class="al-accent-bg font-extrabold text-xs px-6 py-2.5 rounded-full shadow-md transition">
+          📩 Kurucu E-Postasını Kopyala
+        </button>
         <button type="button" onclick="closeDetailModal()" class="bg-[#1e222d] text-white font-bold text-xs px-5 py-2.5 rounded-full hover:bg-slate-700 transition">Kapat</button>
       </div>
     </div>
@@ -679,68 +672,6 @@
     </div>
   </div>
 
-  <!-- İLAN EKLEME MODALI (GİRİŞİM - YENİ MEDYA LİNKLERİ İLE) -->
-  <div id="addModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
-    <div class="al-card-dark rounded-3xl max-w-lg w-full p-8 relative text-white max-h-[90vh] overflow-y-auto">
-      <button type="button" onclick="closeCreateModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold hover:text-white">&times;</button>
-      <h2 class="text-2xl font-black mb-4">Yeni Girişim İlanı Ekle</h2>
-      
-      <form onsubmit="handleAddStartup(event)" class="space-y-4">
-        <div>
-          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Girişim Adı</label>
-          <input type="text" id="addTitle" required class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400">
-        </div>
-        <div class="grid grid-cols-2 gap-4">
-          <div>
-            <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Sektör</label>
-            <select id="addSector" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none">
-              <option value="Yapay Zekâ">Yapay Zekâ</option>
-              <option value="Fintek">Fintek</option>
-              <option value="SaaS">SaaS</option>
-              <option value="Lojistik">Lojistik</option>
-            </select>
-          </div>
-          <div>
-            <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Aşama</label>
-            <select id="addStage" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none">
-              <option value="Fikir">Fikir</option>
-              <option value="MVP">MVP</option>
-              <option value="Erken Aşama">Erken Aşama</option>
-            </select>
-          </div>
-        </div>
-        <div class="grid grid-cols-2 gap-4">
-          <div>
-            <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Hedef Yatırım ($)</label>
-            <input type="number" id="addGoal" required placeholder="50000" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400">
-          </div>
-          <div>
-            <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Kurucu İsim</label>
-            <input type="text" id="addFounder" required placeholder="İsim Soyisim" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400">
-          </div>
-        </div>
-
-        <!-- YENİ EKLENEN MEDYA VE LİNK ALANLARI -->
-        <div class="grid grid-cols-2 gap-4">
-          <div>
-            <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Web Sitesi URL</label>
-            <input type="url" id="addWebsite" placeholder="https://projeniz.com" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400">
-          </div>
-          <div>
-            <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Pitch Deck / Sunum Linki</label>
-            <input type="url" id="addDeck" placeholder="https://drive.google.com/..." class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400">
-          </div>
-        </div>
-
-        <div>
-          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Açıklama</label>
-          <textarea id="addDesc" rows="3" required placeholder="Girişimin çözdüğü problem..." class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400"></textarea>
-        </div>
-        <button type="submit" class="w-full bg-white hover:bg-slate-200 text-[#08090b] font-extrabold py-3 rounded-xl text-xs transition">Yayınla</button>
-      </form>
-    </div>
-  </div>
-
   <script>
     const ADMIN_EMAIL = 'ihsannozdemiro1@gmail.com';
 
@@ -843,7 +774,6 @@
       document.getElementById('detailGoal').innerText = "Hedef: $" + goal.toLocaleString();
       document.getElementById('detailProgress').style.width = percent + "%";
 
-      // Dinamik Link Butonları Yapılandırması
       var linksBox = document.getElementById('detailLinksBox');
       linksBox.innerHTML = '';
 
@@ -854,7 +784,16 @@
         linksBox.innerHTML += '<a href="' + item.deck + '" target="_blank" class="bg-[#08090b] hover:bg-[#12141a] text-indigo-400 border border-indigo-500/30 px-3.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5">📄 Pitch Deck (Sunum) &rarr;</a>';
       }
 
-      document.getElementById('detailContactBtn').href = "mailto:" + (item.user_email || "ihsannozdemiro1@gmail.com") + "?subject=" + encodeURIComponent(item.name + " İle İlgili Yatırım Talebi");
+      // E-POSTA PENCERESİNİ ENGELLEYEN VE E-POSTAYI PANOYA KOPYALAYAN YENİ BUTON
+      var contactEmail = item.user_email || "ihsannozdemiro1@gmail.com";
+      var contactBtn = document.getElementById('detailContactBtn');
+      contactBtn.onclick = function() {
+        navigator.clipboard.writeText(contactEmail).then(function() {
+          alert("Kurucu e-posta adresi panoya kopyalandı!\nE-Posta: " + contactEmail);
+        }).catch(function() {
+          alert("Kurucu E-Postası: " + contactEmail);
+        });
+      };
 
       document.getElementById('detailModal').classList.remove('hidden');
     }
@@ -1277,7 +1216,7 @@
       }, 800);
     }
 
-    // 5. İLAN SİLME & ADMIN PANELİ
+    // 5. KESİN VE GARANTİLİ İLAN SİLME MİMARİSİ
     function renderAdminDashboard() {
       document.getElementById('adminStartupCount').innerText = startups.length;
       document.getElementById('adminSynCount').innerText = syndicates.length;
@@ -1303,7 +1242,7 @@
             '</div>' +
             '<p class="text-xs text-slate-400">Kurucu: ' + (item.founder || 'Belirtilmedi') + ' | ID: ' + item.id + '</p>' +
           '</div>' +
-          '<button type="button" onclick="deleteStartup(' + item.id + ')" class="bg-rose-500/10 text-rose-400 border border-rose-500/30 hover:bg-rose-500 hover:text-white px-4 py-2 rounded-xl text-xs font-bold transition">' +
+          '<button type="button" onclick="deleteStartup(\'' + item.id + '\')" class="bg-rose-500/10 text-rose-400 border border-rose-500/30 hover:bg-rose-500 hover:text-white px-4 py-2 rounded-xl text-xs font-bold transition">' +
             'İlanı Sil' +
           '</button>';
         grid.appendChild(row);
@@ -1315,16 +1254,27 @@
 
       if (sbClient) {
         try {
-          await sbClient.from('startups').delete().eq('id', id);
-        } catch (e) { console.error("Silme hatası:", e); }
+          // Sayı ve String Tip Uyumluluğu İçin Çift Yönlü Silme
+          var numId = Number(id);
+          var { error } = await sbClient.from('startups').delete().eq('id', id);
+          if (error && !isNaN(numId)) {
+            await sbClient.from('startups').delete().eq('id', numId);
+          }
+        } catch (e) { 
+          console.error("Supabase Silme Hatası:", e); 
+        }
       }
 
-      startups = startups.filter(function(s) { return s.id !== id; });
+      // Diziden tamamen temizle
+      startups = startups.filter(function(s) { 
+        return s.id != id && String(s.id) !== String(id); 
+      });
+      
       localStorage.setItem('my_startups_list', JSON.stringify(startups));
 
       renderStartups(startups);
       renderAdminDashboard();
-      alert("İlan silindi.");
+      alert("İlan veritabanından silindi.");
     }
 
     function filterStartups() {
