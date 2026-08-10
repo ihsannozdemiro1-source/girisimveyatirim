@@ -321,7 +321,7 @@
       </div>
     </div>
 
-    <!-- 5. MESAJLAR / GELEN KUTUSU -->
+    <!-- 5. MESAJLAR / GELEN KUTUSU (Yanıtla Özelliği Eklendi) -->
     <div id="tab-messages" class="content-tab space-y-6" style="display: none;">
       <div class="al-card-dark p-8 rounded-3xl border border-[#1e222d]">
         <span class="text-xs font-bold uppercase text-emerald-400">📥 GELEN KUTUSU</span>
@@ -396,7 +396,7 @@
 
   <!-- MODALLAR -->
   
-  <!-- DETAY MODALI (AngelList Data Room & Valuation Entegreli) -->
+  <!-- DETAY MODALI -->
   <div id="detailModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
     <div class="al-card-dark rounded-3xl max-w-2xl w-full p-8 relative text-white max-h-[90vh] overflow-y-auto border border-[#1e222d] space-y-6">
       <button type="button" onclick="closeDetailModal()" class="absolute top-5 right-5 text-slate-500 text-xl font-bold hover:text-white">&times;</button>
@@ -415,7 +415,6 @@
         <p id="detailFounder" class="text-xs text-slate-400 font-semibold"></p>
       </div>
 
-      <!-- Değerleme ve Metrik Kutusu -->
       <div class="bg-[#08090b] p-5 rounded-2xl border border-[#1e222d] space-y-3">
         <div class="flex justify-between items-center text-xs font-bold">
           <span id="detailRaised" class="text-emerald-400 text-sm"></span>
@@ -444,6 +443,19 @@
           </button>
         </div>
         <button type="button" onclick="closeDetailModal()" class="bg-[#1e222d] text-white font-bold text-xs px-5 py-2.5 rounded-full hover:bg-slate-700 transition">Kapat</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MESAJ YANITLAMA (REPLY) MODALI -->
+  <div id="replyMessageModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
+    <div class="al-card-dark rounded-3xl max-w-lg w-full p-8 relative text-white space-y-4">
+      <button type="button" onclick="closeReplyModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold hover:text-white">&times;</button>
+      <h2 class="text-2xl font-black">Mesajı Yanıtla</h2>
+      <p id="replyToLabel" class="text-xs text-emerald-400 font-semibold"></p>
+      <div class="space-y-3">
+        <textarea id="replyContent" rows="4" placeholder="Yanıtınızı buraya yazın..." class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400"></textarea>
+        <button type="button" onclick="sendReply()" class="w-full al-accent-bg font-extrabold py-3 rounded-xl text-xs transition cursor-pointer">Yanıtı Gönder</button>
       </div>
     </div>
   </div>
@@ -481,7 +493,7 @@
   <!-- SİTE İÇİ MESAJ MODALI -->
   <div id="inAppMessageModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
     <div class="al-card-dark rounded-3xl max-w-lg w-full p-8 relative text-white">
-      <button type="button" onclick="closeInAppMessageModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold">&times;</button>
+      <button type="button" onclick="closeInAppMessageModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold hover:text-white">&times;</button>
       <h2 class="text-2xl font-black mb-2">Kurucuya Mesaj Gönder</h2>
       <p id="targetFounderLabel" class="text-xs text-emerald-400 font-semibold mb-4"></p>
       <div class="space-y-4">
@@ -597,7 +609,7 @@
     </div>
   </div>
 
-  <!-- İLAN EKLEME FORMU (Gelişmiş AngelList Metrikleri ile) -->
+  <!-- İLAN EKLEME FORMU -->
   <div id="addModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
     <div class="al-card-dark rounded-3xl max-w-md w-full p-6 relative text-white border border-[#1e222d] space-y-4">
       <button type="button" onclick="closeCreateModal()" class="absolute top-4 right-4 text-slate-400 text-lg font-bold hover:text-white">&times;</button>
@@ -717,6 +729,8 @@
     var pendingSignupPassword = '';
     var activeTabName = localStorage.getItem('active_tab_name') || 'startups';
     var activeModalStartupId = null;
+    var replyTargetSender = "";
+    var replyTargetStartup = "";
 
     function showToast(title, desc) {
       var toast = document.getElementById('customToast');
@@ -1404,7 +1418,6 @@
       document.getElementById('detailGoal').innerText = "Hedef Yatırım: $" + goal.toLocaleString();
       document.getElementById('detailProgress').style.width = percent + "%";
 
-      // Şirket Değerleme (Valuation) Hesaplayıcı Gösterimi
       var equity = Number(item.equity) || 10;
       var valuation = Math.round((goal / equity) * 100);
       document.getElementById('valuationBox').innerText = "📊 Tahmini Şirket Değerlemesi (Valuation): $" + valuation.toLocaleString() + " (% " + equity + " hisse karşılığı)";
@@ -1418,7 +1431,7 @@
         linksBox.innerHTML += '<a href="' + item.website + '" target="_blank" class="bg-[#08090b] hover:bg-[#12141a] text-emerald-400 border border-emerald-500/30 px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5">🌐 Web Sitesi &rarr;</a>';
       }
       if (item.pitch_deck) {
-        linksBox.innerHTML += '<a href="' + item.pitch_deck + '" target="_blank" class="bg-[#08090b] hover:bg-[#12141a] text-indigo-400 border border-indigo-500/30 px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5">📊 Veri Odası (Data Room & Pitch Deck) &rarr;</a>';
+        linksBox.innerHTML += '<a href="' + item.pitch_deck + '" target="_blank" class="bg-[#08090b] hover:bg-[#12141a] text-indigo-400 border border-emerald-500/30 px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5">📊 Veri Odası (Data Room & Pitch Deck) &rarr;</a>';
       }
 
       activeContactEmail = item.user_email || "ihsannozdemiro1@gmail.com";
@@ -1495,6 +1508,7 @@
       document.getElementById('msgContent').value = '';
     }
 
+    // Mesajlaşma & Yanıtla Fonksiyonları
     function renderMessages() {
       var grid = document.getElementById('messagesGrid');
       if (!grid) return;
@@ -1508,10 +1522,52 @@
 
       msgs.forEach(function(m) {
         var card = document.createElement('div');
-        card.className = "al-card-dark p-6 rounded-2xl space-y-2 border border-[#1e222d]";
-        card.innerHTML = '<div class="flex justify-between items-center text-xs"><span class="font-black text-emerald-400">Proje: ' + m.startup + '</span><span class="text-slate-500">' + m.date + '</span></div><p class="text-xs font-bold text-white">Gönderen: ' + m.sender + '</p><p class="text-slate-300 text-xs bg-[#08090b] p-3 rounded-xl border border-[#1e222d]">' + m.message + '</p>';
+        card.className = "al-card-dark p-6 rounded-2xl space-y-3 border border-[#1e222d]";
+        card.innerHTML = `
+          <div class="flex justify-between items-center text-xs">
+            <span class="font-black text-emerald-400">Proje: ${m.startup}</span>
+            <span class="text-slate-500">${m.date}</span>
+          </div>
+          <p class="text-xs font-bold text-white">Gönderen: ${m.sender}</p>
+          <p class="text-slate-300 text-xs bg-[#08090b] p-3 rounded-xl border border-[#1e222d]">${m.message}</p>
+          <button type="button" onclick="openReplyModal('${m.sender}', '${m.startup}')" class="text-[10px] font-bold text-emerald-400 hover:text-white transition cursor-pointer">↩️ Cevap Yaz</button>
+        `;
         grid.appendChild(card);
       });
+    }
+
+    function openReplyModal(sender, startup) {
+      replyTargetSender = sender;
+      replyTargetStartup = startup;
+      document.getElementById('replyToLabel').innerText = "Alıcı: " + sender + " | Proje: " + startup;
+      document.getElementById('replyMessageModal').classList.remove('hidden');
+    }
+
+    function closeReplyModal() {
+      document.getElementById('replyMessageModal').classList.add('hidden');
+    }
+
+    function sendReply() {
+      var content = document.getElementById('replyContent').value;
+      if (!content) { showToast("Uyarı", "Lütfen bir yanıt yazın."); return; }
+
+      var reply = {
+        id: Date.now(),
+        startup: replyTargetStartup,
+        recipient: replyTargetSender,
+        sender: "Siz (Kurucu)",
+        message: "RE: " + content,
+        date: new Date().toLocaleString()
+      };
+
+      var existingMsgs = JSON.parse(localStorage.getItem('platform_messages') || '[]');
+      existingMsgs.unshift(reply);
+      localStorage.setItem('platform_messages', JSON.stringify(existingMsgs));
+
+      closeReplyModal();
+      document.getElementById('replyContent').value = '';
+      showToast("Başarılı", "Yanıt gönderildi.");
+      renderMessages();
     }
 
     async function renderAdminDashboard() {
