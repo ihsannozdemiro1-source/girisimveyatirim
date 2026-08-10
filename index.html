@@ -61,11 +61,11 @@
       </nav>
 
       <nav id="appNav" style="display: none;" class="items-center space-x-1.5 bg-[#12141a] p-1.5 rounded-full border border-[#1e222d]">
-        <button type="button" id="btn-startups" onclick="showTab('startups')" class="tab-btn px-5 py-2.5 rounded-full text-xs font-bold text-white bg-[#1e222d] shadow-sm transition">🚀 Girişimler</button>
-        <button type="button" id="btn-syndicates" onclick="showTab('syndicates')" class="tab-btn px-5 py-2.5 rounded-full text-xs font-semibold text-slate-400 hover:text-white transition">🔥 Canlı Turlar</button>
-        <button type="button" id="btn-acquisitions" onclick="showTab('acquisitions')" class="tab-btn px-5 py-2.5 rounded-full text-xs font-semibold text-slate-400 hover:text-white transition">🛒 Proje Pazarı</button>
-        <button type="button" id="btn-investors" onclick="showTab('investors')" class="tab-btn px-5 py-2.5 rounded-full text-xs font-semibold text-slate-400 hover:text-white transition">💼 Yatırımcılar</button>
-        <button type="button" id="btn-admin" onclick="showTab('admin')" style="display: none;" class="tab-btn px-5 py-2.5 rounded-full text-xs font-black text-amber-400 bg-amber-500/10 border border-amber-500/30 transition">⚡ Yönetici Paneli</button>
+        <button type="button" id="btn-startups" onclick="showTab('startups')" class="tab-btn px-4 py-2.5 rounded-full text-xs font-bold text-white bg-[#1e222d] shadow-sm transition">🚀 Girişimler</button>
+        <button type="button" id="btn-syndicates" onclick="showTab('syndicates')" class="tab-btn px-4 py-2.5 rounded-full text-xs font-semibold text-slate-400 hover:text-white transition">🔥 Canlı Turlar</button>
+        <button type="button" id="btn-acquisitions" onclick="showTab('acquisitions')" class="tab-btn px-4 py-2.5 rounded-full text-xs font-semibold text-slate-400 hover:text-white transition">🛒 Proje Pazarı</button>
+        <button type="button" id="btn-messages" onclick="showTab('messages')" class="tab-btn px-4 py-2.5 rounded-full text-xs font-semibold text-slate-400 hover:text-white transition">📥 Mesajlar</button>
+        <button type="button" id="btn-admin" onclick="showTab('admin')" style="display: none;" class="tab-btn px-4 py-2.5 rounded-full text-xs font-black text-amber-400 bg-amber-500/10 border border-amber-500/30 transition">⚡ Yönetici</button>
       </nav>
 
       <div class="flex items-center space-x-3">
@@ -302,13 +302,18 @@
       </div>
     </div>
 
-    <!-- 4. YATIRIMCILAR -->
-    <div id="tab-investors" class="content-tab space-y-6" style="display: none;">
-      <div class="al-card-dark p-8 rounded-3xl space-y-2"><h2 class="text-2xl font-black">Yatırımcı Portföyleri</h2></div>
-      <div class="text-center py-16 text-slate-500 text-sm font-semibold al-card-dark rounded-3xl">Kayıtlı yatırımcı profili bulunmuyor.</div>
+    <!-- 4. MESAJLAR / GELEN KUTUSU -->
+    <div id="tab-messages" class="content-tab space-y-6" style="display: none;">
+      <div class="al-card-dark p-8 rounded-3xl border border-[#1e222d]">
+        <span class="text-xs font-bold uppercase text-emerald-400">📥 GELEN KUTUSU</span>
+        <h2 class="text-2xl font-black text-white mt-1">Kurucu ve Yatırımcı Mesajları</h2>
+      </div>
+      <div id="messagesGrid" class="space-y-4">
+        <div class="text-center py-16 text-slate-500 text-sm font-semibold al-card-dark rounded-3xl">Henüz gelen bir mesaj bulunmuyor.</div>
+      </div>
     </div>
 
-    <!-- 6. KURUCU ADMIN PANELİ -->
+    <!-- 5. KURUCU ADMIN PANELİ -->
     <div id="tab-admin" class="content-tab space-y-8" style="display: none;">
       <div class="al-card-dark p-8 rounded-3xl border border-amber-500/30 space-y-2">
         <span class="bg-amber-500/10 text-amber-400 text-xs font-black px-3 py-1 rounded-full uppercase">Kurucu Yönetim Paneli</span>
@@ -334,6 +339,17 @@
     </div>
 
   </main>
+
+  <!-- CANLI AKTİVİTE BİLDİRİM BALONU -->
+  <div id="liveActivityToast" class="fixed bottom-6 left-6 z-40 transform translate-y-24 opacity-0 transition-all duration-500 pointer-events-none">
+    <div class="al-card-dark bg-[#12141a]/95 backdrop-blur border border-emerald-500/40 px-5 py-3.5 rounded-2xl shadow-2xl flex items-center gap-3">
+      <div class="w-8 h-8 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-400 text-sm font-bold">🔔</div>
+      <div>
+        <div class="text-[10px] font-extrabold text-emerald-400 uppercase tracking-widest">Canlı Ekosistem Akışı</div>
+        <div class="text-xs font-bold text-white" id="liveActivityText">Yeni bir girişim eklendi!</div>
+      </div>
+    </div>
+  </div>
 
   <!-- FOOTER -->
   <footer class="border-t border-[#1e222d] bg-[#0b0c0e] py-16 text-xs">
@@ -380,6 +396,7 @@
         <div class="flex items-center gap-3">
           <span id="detailSector" class="bg-[#08090b] text-emerald-400 text-xs font-bold px-3 py-1 rounded-full uppercase"></span>
           <span id="detailStage" class="text-slate-500 text-xs font-bold uppercase"></span>
+          <span class="bg-emerald-500/10 text-emerald-400 text-[10px] font-bold px-2 py-0.5 rounded border border-emerald-500/30">✓ Doğrulanmış Kurucu</span>
         </div>
         <h2 id="detailTitle" class="text-3xl font-black text-white"></h2>
         <p id="detailFounder" class="text-xs text-slate-400 font-semibold"></p>
@@ -402,11 +419,46 @@
         <p id="detailDesc" class="text-slate-300 text-xs leading-relaxed whitespace-pre-line"></p>
       </div>
 
-      <div class="pt-4 border-t border-[#1e222d] flex justify-between items-center">
-        <button type="button" onclick="openInAppMessageModal()" class="al-accent-bg font-extrabold text-xs px-6 py-2.5 rounded-full shadow-md transition cursor-pointer">
-          📩 Girişimci ile İletişime Geç
-        </button>
+      <div class="pt-4 border-t border-[#1e222d] flex flex-wrap gap-3 justify-between items-center">
+        <div class="flex gap-2">
+          <button type="button" onclick="openInAppMessageModal()" class="al-accent-bg font-extrabold text-xs px-5 py-2.5 rounded-full shadow-md transition cursor-pointer">
+            📩 Mesaj Gönder
+          </button>
+          <button type="button" onclick="openMeetingModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-xs px-5 py-2.5 rounded-full shadow-md transition cursor-pointer">
+            📅 Toplantı Planla
+          </button>
+        </div>
         <button type="button" onclick="closeDetailModal()" class="bg-[#1e222d] text-white font-bold text-xs px-5 py-2.5 rounded-full hover:bg-slate-700 transition">Kapat</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOPLANTI / GÖRÜŞME RANDEVU MODALI -->
+  <div id="meetingModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
+    <div class="al-card-dark rounded-3xl max-w-md w-full p-8 relative text-white space-y-5">
+      <button type="button" onclick="closeMeetingModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold hover:text-white">&times;</button>
+      <h2 class="text-2xl font-black">Toplantı & Görüşme Talep Et</h2>
+      <p id="meetingTargetLabel" class="text-xs text-emerald-400 font-semibold"></p>
+      <div class="space-y-4">
+        <div>
+          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Adınız / Yatırımcı Kurum</label>
+          <input type="text" id="meetingSender" placeholder="Adınız Soyadınız / Fon Adı" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400">
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Tercih Edilen Tarih</label>
+            <input type="date" id="meetingDate" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400">
+          </div>
+          <div>
+            <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Saat</label>
+            <input type="time" id="meetingTime" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400">
+          </div>
+        </div>
+        <div>
+          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Görüşme Notu / Amaç</label>
+          <textarea id="meetingNote" rows="3" placeholder="Örn: Ön görüşme ve tanışma toplantısı..." class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400"></textarea>
+        </div>
+        <button type="button" onclick="submitMeetingRequest()" class="w-full al-accent-bg font-extrabold py-3.5 rounded-xl text-xs transition cursor-pointer">Toplantı Talebini Gönder</button>
       </div>
     </div>
   </div>
@@ -414,7 +466,7 @@
   <!-- SİTE İÇİ MESAJ MODALI -->
   <div id="inAppMessageModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
     <div class="al-card-dark rounded-3xl max-w-lg w-full p-8 relative text-white">
-      <button type="button" onclick="closeInAppMessageModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold">&times;</button>
+      <button type="button" onclick="closeInAppMessageModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold hover:text-white">&times;</button>
       <h2 class="text-2xl font-black mb-2">Kurucuya Mesaj Gönder</h2>
       <p id="targetFounderLabel" class="text-xs text-emerald-400 font-semibold mb-4"></p>
       <div class="space-y-4">
@@ -514,9 +566,6 @@
         <input type="text" id="otpCodeInput" maxlength="6" inputmode="numeric" autocomplete="one-time-code" placeholder="••••••" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-center text-lg tracking-[0.5em] text-white outline-none focus:border-emerald-400">
       </div>
       <button type="button" onclick="verifySignupOtp()" class="w-full al-accent-bg font-extrabold py-3.5 rounded-xl text-xs transition cursor-pointer">Doğrula ve Devam Et</button>
-      <div class="text-center">
-        <button type="button" onclick="resendSignupOtp()" class="text-xs text-slate-400 hover:text-emerald-400 transition">Kodu Tekrar Gönder</button>
-      </div>
     </div>
   </div>
 
@@ -533,7 +582,7 @@
     </div>
   </div>
 
-  <!-- İLAN EKLEME FORMU -->
+  <!-- İLAN EKLEME FORMU (PITCH DECK EKLENDİ) -->
   <div id="addModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
     <div class="al-card-dark rounded-3xl max-w-md w-full p-6 relative text-white border border-[#1e222d] space-y-4">
       <button type="button" onclick="closeCreateModal()" class="absolute top-4 right-4 text-slate-400 text-lg font-bold hover:text-white">&times;</button>
@@ -579,9 +628,15 @@
           </div>
         </div>
 
-        <div>
-          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Web Sitesi URL (İsteğe Bağlı)</label>
-          <input type="url" id="addWebsite" placeholder="https://projeniz.com" class="w-full p-2.5 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400 transition">
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Web Sitesi URL</label>
+            <input type="url" id="addWebsite" placeholder="https://projeniz.com" class="w-full p-2.5 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400 transition">
+          </div>
+          <div>
+            <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Sunum (Pitch Deck) URL</label>
+            <input type="url" id="addPitchDeck" placeholder="https://doc.../deck.pdf" class="w-full p-2.5 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400 transition">
+          </div>
         </div>
 
         <div>
@@ -648,6 +703,16 @@
       }, 3500);
     }
 
+    function triggerLiveActivity(text) {
+      var toast = document.getElementById('liveActivityToast');
+      document.getElementById('liveActivityText').innerText = text;
+      toast.classList.remove('translate-y-24', 'opacity-0');
+      setTimeout(function() {
+        toast.classList.remove('translate-y-24', 'opacity-0');
+        toast.classList.add('translate-y-24', 'opacity-0');
+      }, 4000);
+    }
+
     function extractGoalValue(item) {
       if (!item) return 10000;
       var keys = ['funding_goal', 'fundingGoal', 'goal', 'fundinggoal'];
@@ -681,7 +746,7 @@
 
       var btns = document.querySelectorAll('.tab-btn');
       for (var j = 0; j < btns.length; j++) {
-        btns[j].className = "tab-btn px-5 py-2.5 rounded-full text-xs font-semibold text-slate-400 hover:text-white transition";
+        btns[j].className = "tab-btn px-4 py-2.5 rounded-full text-xs font-semibold text-slate-400 hover:text-white transition";
       }
 
       var targetTab = document.getElementById('tab-' + name);
@@ -690,13 +755,14 @@
       var targetBtn = document.getElementById('btn-' + name);
       if (targetBtn) {
         if (name === 'admin') {
-          targetBtn.className = "tab-btn px-5 py-2.5 rounded-full text-xs font-black text-amber-400 bg-amber-500/20 border border-amber-500/40 shadow-sm transition";
+          targetBtn.className = "tab-btn px-4 py-2.5 rounded-full text-xs font-black text-amber-400 bg-amber-500/20 border border-amber-500/40 shadow-sm transition";
         } else {
-          targetBtn.className = "tab-btn px-5 py-2.5 rounded-full text-xs font-bold text-white bg-[#1e222d] shadow-sm transition";
+          targetBtn.className = "tab-btn px-4 py-2.5 rounded-full text-xs font-bold text-white bg-[#1e222d] shadow-sm transition";
         }
       }
 
       if (name === 'admin') renderAdminDashboard();
+      if (name === 'messages') renderMessages();
     }
 
     function handleLogoClick() {
@@ -777,8 +843,6 @@
       switchAuthTab('login');
     }
 
-    // ------------------ OTP (TEK KULLANIMLIK KOD) DOĞRULAMA ------------------
-
     function openOtpModal(email) {
       document.getElementById('authModal').classList.add('hidden');
       document.getElementById('otpTargetEmail').innerText = email;
@@ -801,12 +865,8 @@
         showToast("Hata", "Lütfen 6 haneli kodu eksiksiz girin.");
         return;
       }
-      if (!sbClient) {
-        showToast("Hata", "Veritabanı bağlantısı kurulamadı.");
-        return;
-      }
-      if (!pendingSignupEmail) {
-        showToast("Hata", "Doğrulanacak bir e-posta bulunamadı. Lütfen tekrar kayıt olun.");
+      if (!sbClient || !pendingSignupEmail) {
+        showToast("Hata", "Doğrulama oturumu bulunamadı.");
         return;
       }
 
@@ -837,35 +897,11 @@
             updateUserUI(signInData.session.user);
           }
         }
-
         pendingSignupPassword = '';
       } catch (err) {
-        showToast("Hata", "Doğrulama sırasında bir hata oluştu.");
+        showToast("Hata", "Doğrulama sırasında hata oluştu.");
       }
     }
-
-    async function resendSignupOtp() {
-      if (!pendingSignupEmail) {
-        showToast("Hata", "Önce e-posta adresinizle kayıt olmalısınız.");
-        return;
-      }
-      if (!sbClient) {
-        showToast("Hata", "Veritabanı bağlantısı kurulamadı.");
-        return;
-      }
-      try {
-        const { error } = await sbClient.auth.resend({ type: 'signup', email: pendingSignupEmail });
-        if (error) {
-          showToast("Hata", error.message);
-          return;
-        }
-        showToast("Gönderildi", "Yeni doğrulama kodu e-postanıza gönderildi.");
-      } catch (err) {
-        showToast("Hata", "Kod tekrar gönderilemedi.");
-      }
-    }
-
-    // ---------------------------------------------------------------------
 
     const SUPABASE_URL = 'https://kaovkjsttcyyrwrbmtpb.supabase.co';
     const SUPABASE_KEY = 'sb_publishable_NrZ4UXAzYjs7VZ52t7XJww_gMTDBJJl';
@@ -968,26 +1004,18 @@
             showToast("Kayıt Hatası", error.message);
             return;
           }
-
-          // Durum 1: Supabase panelinde "Confirm email" KAPALIYSA, hiç mail gönderilmez
-          // ve oturum direkt açılır. Bu durumda kod ekranını atlayıp direkt içeri alırız.
           if (data && data.session) {
             showToast("Başarılı", "Kayıt tamamlandı, giriş yapıldı!");
             closeAuthModal();
             updateUserUI(data.session.user);
             return;
           }
-
-          // Durum 2: Normal akış — Supabase e-postaya 6 haneli tek kullanımlık kod gönderir.
-          // (Supabase panelinde "Confirm email" açık olmalı ve mail şablonunda {{ .Token }} kullanılmalı.)
           pendingSignupEmail = email;
           pendingSignupPassword = password;
           showToast("Kod Gönderildi", "E-postanıza gelen 6 haneli doğrulama kodunu girin.");
           openOtpModal(email);
-          return;
         } catch (err) {
           showToast("Hata", "Kayıt işlemi başarısız.");
-          return;
         }
       } else {
         try {
@@ -997,7 +1025,7 @@
             if (msg.indexOf('confirm') !== -1 || msg.indexOf('not confirmed') !== -1) {
               pendingSignupEmail = email;
               pendingSignupPassword = password;
-              showToast("E-posta Doğrulanmamış", "Devam etmek için e-postanıza gelen kodu girin.");
+              showToast("Doğrulanmamış E-posta", "Lütfen e-postanıza gelen kodu girin.");
               openOtpModal(email);
               return;
             }
@@ -1010,7 +1038,7 @@
             updateUserUI(data.session.user);
           }
         } catch (e) {
-          showToast("Hata", "Giriş yapılırken bir hata oluştu.");
+          showToast("Hata", "Giriş yapılırken hata oluştu.");
         }
       }
     }
@@ -1037,6 +1065,11 @@
       loadStartups();
       loadSyndicates();
       loadAcquisitions();
+
+      // Canlı ekosistem akış simülasyonu
+      setTimeout(function() {
+        triggerLiveActivity("🔥 Yeni bir Melek Yatırım Turu başlatıldı!");
+      }, 5000);
     });
 
     async function handleLogout() {
@@ -1094,7 +1127,7 @@
               '<span class="text-slate-500 text-[10px] font-bold uppercase">' + (item.stage || 'Erken Aşama') + '</span>' +
             '</div>' +
             '<h3 class="text-xl font-bold text-white mb-1">' + (item.name || item.title || 'İsimsiz Girişim') + '</h3>' +
-            '<p class="text-xs text-slate-400 font-semibold mb-3">👤 Kurucu: ' + (item.founder || 'Belirtilmedi') + '</p>' +
+            '<p class="text-xs text-slate-400 font-semibold mb-3 flex items-center gap-1.5">👤 Kurucu: ' + (item.founder || 'Belirtilmedi') + ' <span class="text-emerald-400 text-[10px] bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">✓ Doğrulanmış</span></p>' +
             '<p class="text-slate-400 text-xs leading-relaxed line-clamp-3">' + (item.description || item.desc || '') + '</p>' +
           '</div>' +
           '<div class="pt-4 border-t border-[#1e222d]">' +
@@ -1125,6 +1158,7 @@
       var sectorVal = document.getElementById('addSector').value;
       var stageVal = document.getElementById('addStage').value;
       var websiteVal = document.getElementById('addWebsite').value;
+      var pitchDeckVal = document.getElementById('addPitchDeck').value;
 
       var newStartup = {
         id: Date.now(),
@@ -1138,6 +1172,7 @@
         goal: goalInput,
         founder: founderVal,
         website: websiteVal,
+        pitch_deck: pitchDeckVal,
         description: descVal,
         description_text: descVal
       };
@@ -1149,6 +1184,7 @@
             await loadStartups();
             closeCreateModal();
             showToast("Başarılı", "Girişim ilanı yayına alındı!");
+            triggerLiveActivity("🚀 Yeni Girişim Eklendi: " + titleVal);
             return;
           }
         } catch (err) {}
@@ -1161,11 +1197,13 @@
       await loadStartups();
       closeCreateModal();
       showToast("Başarılı", "Girişim ilanı yayınlandı!");
+      triggerLiveActivity("🚀 Yeni Girişim Eklendi: " + titleVal);
 
       document.getElementById('addTitle').value = '';
       document.getElementById('addGoal').value = '';
       document.getElementById('addFounder').value = '';
       document.getElementById('addWebsite').value = '';
+      document.getElementById('addPitchDeck').value = '';
       document.getElementById('addDesc').value = '';
     }
 
@@ -1188,30 +1226,9 @@
       data.forEach(function(item) {
         var card = document.createElement('div');
         card.className = "al-card-dark rounded-3xl p-6 flex flex-col justify-between space-y-4 border border-[#1e222d]";
-        card.innerHTML = '<div><span class="bg-rose-500/10 text-rose-400 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase border border-rose-500/30">🔥 CANLI TUR</span><h3 class="text-xl font-bold text-white mt-3">' + item.title + '</h3><p class="text-xs text-slate-400 font-semibold">👑 ' + item.leader + '</p><p class="text-slate-400 text-xs mt-2">' + item.description + '</p></div><div class="pt-4 border-t border-[#1e222d] flex justify-between items-center text-xs font-bold"><span class="text-rose-400">Tur: $' + Number(item.goal).toLocaleString() + '</span><button onclick="showToast(\'Bilgi\', \'Talep iletildi.\')" class="bg-rose-500 text-white px-3 py-1.5 rounded-full cursor-pointer">Tura Katıl</button></div>';
+        card.innerHTML = '<div><span class="bg-rose-500/10 text-rose-400 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase border border-rose-500/30">🔥 CANLI TUR</span><h3 class="text-xl font-bold text-white mt-3">' + item.title + '</h3><p class="text-xs text-slate-400 font-semibold flex items-center gap-1.5">👑 ' + item.leader + ' <span class="text-emerald-400 text-[10px] bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">✓ Doğrulanmış Yatırımcı</span></p><p class="text-slate-400 text-xs mt-2">' + item.description + '</p></div><div class="pt-4 border-t border-[#1e222d] flex justify-between items-center text-xs font-bold"><span class="text-rose-400">Tur: $' + Number(item.goal).toLocaleString() + '</span><button onclick="showToast(\'Bilgi\', \'Tura katılım talebiniz lider yatırımcıya iletildi.\')" class="bg-rose-500 hover:bg-rose-600 text-white px-4 py-2 rounded-full cursor-pointer transition">Tura Katıl</button></div>';
         grid.appendChild(card);
       });
-    }
-
-    async function handleAddSyndicate() {
-      if (!currentUser) { showToast("Uyarı", "Giriş yapmalısınız!"); openAuthModal('login'); return; }
-      var title = document.getElementById('addSynTitle').value;
-      var leader = document.getElementById('addSynLeader').value;
-      var goal = document.getElementById('addSynGoal').value;
-      var desc = document.getElementById('addSynDesc').value;
-      if (!title || !leader || !goal || !desc) { showToast("Eksik Alan", "Lütfen tüm alanları doldurun."); return; }
-
-      var newSyn = { id: Date.now(), user_id: currentUser.id || 'local', title: title, leader: leader, goal: Number(String(goal).replace(/[^0-9]/g, '')), description: desc };
-
-      if (sbClient) { try { await sbClient.from('syndicates').insert([newSyn]); } catch (e) {} }
-      
-      var localSyns = JSON.parse(localStorage.getItem('my_syndicates_list') || '[]');
-      localSyns.unshift(newSyn);
-      localStorage.setItem('my_syndicates_list', JSON.stringify(localSyns));
-
-      await loadSyndicates();
-      closeSyndicateModal();
-      showToast("Başarılı", "Yatırım turu başlatıldı!");
     }
 
     async function loadAcquisitions() {
@@ -1233,31 +1250,144 @@
       data.forEach(function(item) {
         var card = document.createElement('div');
         card.className = "al-card-dark rounded-3xl p-6 flex flex-col justify-between space-y-4 border border-[#1e222d]";
-        card.innerHTML = '<div><div class="flex justify-between items-center mb-3"><span class="bg-indigo-500/10 text-indigo-400 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase border border-indigo-500/30">🛒 SATILIK</span><span class="text-emerald-400 text-xs font-black">$' + Number(item.mrr).toLocaleString() + '/ay MRR</span></div><h3 class="text-xl font-bold text-white">' + item.title + '</h3><p class="text-xs text-slate-400">Stack: ' + item.tech + '</p><p class="text-slate-400 text-xs mt-2">' + item.description + '</p></div><div class="pt-4 border-t border-[#1e222d] flex justify-between items-center text-xs font-bold"><span class="text-white">Fiyat: $' + Number(item.price).toLocaleString() + '</span><button onclick="showToast(\'Bilgi\', \'Teklif verildi.\')" class="al-accent-bg text-[#08090b] px-3 py-1.5 rounded-full cursor-pointer">Teklif Ver</button></div>';
+        card.innerHTML = '<div><div class="flex justify-between items-center mb-3"><span class="bg-indigo-500/10 text-indigo-400 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase border border-indigo-500/30">🛒 SATILIK</span><span class="text-emerald-400 text-xs font-black">$' + Number(item.mrr).toLocaleString() + '/ay MRR</span></div><h3 class="text-xl font-bold text-white">' + item.title + '</h3><p class="text-xs text-slate-400">Stack: ' + item.tech + '</p><p class="text-slate-400 text-xs mt-2">' + item.description + '</p></div><div class="pt-4 border-t border-[#1e222d] flex justify-between items-center text-xs font-bold"><span class="text-white">Fiyat: $' + Number(item.price).toLocaleString() + '</span><button onclick="showToast(\'Bilgi\', \'Proje satın alma teklifiniz satıcıya iletildi.\')" class="al-accent-bg text-[#08090b] px-4 py-2 rounded-full cursor-pointer transition">Teklif Ver</button></div>';
         grid.appendChild(card);
       });
     }
 
-    async function handleAddAcquisition() {
-      if (!currentUser) { showToast("Uyarı", "Giriş yapmalısınız!"); openAuthModal('login'); return; }
-      var title = document.getElementById('addAcqTitle').value;
-      var mrr = document.getElementById('addAcqMRR').value;
-      var price = document.getElementById('addAcqPrice').value;
-      var tech = document.getElementById('addAcqTech').value;
-      var desc = document.getElementById('addAcqDesc').value;
-      if (!title || !mrr || !price || !tech || !desc) { showToast("Eksik Alan", "Lütfen tüm alanları doldurun."); return; }
+    // Modal & Detay Yönetimleri
+    function openStartupFormModal() { document.getElementById('addModal').classList.remove('hidden'); }
+    function closeCreateModal() { document.getElementById('addModal').classList.add('hidden'); }
+    function openSelectAddModal() { document.getElementById('selectAddModal').classList.remove('hidden'); }
+    function closeSelectAddModal() { document.getElementById('selectAddModal').classList.add('hidden'); }
+    function openSyndicateModal() { document.getElementById('addSyndicateModal').classList.remove('hidden'); }
+    function closeSyndicateModal() { document.getElementById('addSyndicateModal').classList.add('hidden'); }
+    function openAcquisitionModal() { document.getElementById('addAcquisitionModal').classList.remove('hidden'); }
+    function closeAcquisitionModal() { document.getElementById('addAcquisitionModal').classList.add('hidden'); }
 
-      var newAcq = { id: Date.now(), user_id: currentUser.id || 'local', title: title, mrr: Number(String(mrr).replace(/[^0-9]/g, '')), price: Number(String(price).replace(/[^0-9]/g, '')), tech: tech, description: desc };
+    function handleNewAddClick() {
+      if (!currentUser) { showToast("Uyarı", "İlan eklemek için giriş yapın."); openAuthModal('login'); } 
+      else { openSelectAddModal(); }
+    }
 
-      if (sbClient) { try { await sbClient.from('acquisitions').insert([newAcq]); } catch (e) {} }
+    function openDetailModal(item) {
+      document.getElementById('detailTitle').innerText = item.name || item.title || 'İsimsiz Girişim';
+      document.getElementById('detailSector').innerText = item.sector || 'Teknoloji';
+      document.getElementById('detailStage').innerText = item.stage || 'Erken Aşama';
+      document.getElementById('detailFounder').innerText = "👤 Kurucu: " + (item.founder || 'Belirtilmedi');
+      document.getElementById('detailDesc').innerText = item.description || item.desc || 'Açıklama bulunmuyor.';
+      
+      var goal = extractGoalValue(item);
+      var raised = extractRaisedValue(item);
+      var percent = Math.min(100, Math.round((raised / goal) * 100));
 
-      var localAcqs = JSON.parse(localStorage.getItem('my_acquisitions_list') || '[]');
-      localAcqs.unshift(newAcq);
-      localStorage.setItem('my_acquisitions_list', JSON.stringify(localAcqs));
+      document.getElementById('detailRaised').innerText = "$" + raised.toLocaleString() + " toplandı";
+      document.getElementById('detailGoal').innerText = "Hedef: $" + goal.toLocaleString();
+      document.getElementById('detailProgress').style.width = percent + "%";
 
-      await loadAcquisitions();
-      closeAcquisitionModal();
-      showToast("Başarılı", "Satış ilanı yayınlandı!");
+      var linksBox = document.getElementById('detailLinksBox');
+      linksBox.innerHTML = '';
+
+      if (item.website) {
+        linksBox.innerHTML += '<a href="' + item.website + '" target="_blank" class="bg-[#08090b] hover:bg-[#12141a] text-emerald-400 border border-emerald-500/30 px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5">🌐 Web Sitesi &rarr;</a>';
+      }
+      if (item.pitch_deck) {
+        linksBox.innerHTML += '<a href="' + item.pitch_deck + '" target="_blank" class="bg-[#08090b] hover:bg-[#12141a] text-indigo-400 border border-indigo-500/30 px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5">📊 Sunum Dosyası (Pitch Deck) &rarr;</a>';
+      }
+
+      activeContactEmail = item.user_email || "ihsannozdemiro1@gmail.com";
+      activeStartupName = item.name || item.title || "Girişim";
+
+      document.getElementById('detailModal').classList.remove('hidden');
+    }
+
+    function closeDetailModal() { document.getElementById('detailModal').classList.add('hidden'); }
+
+    // Toplantı Planla Modalı
+    function openMeetingModal() {
+      closeDetailModal();
+      document.getElementById('meetingTargetLabel').innerText = "Hedef Girişim: " + activeStartupName;
+      document.getElementById('meetingModal').classList.remove('hidden');
+    }
+    function closeMeetingModal() { document.getElementById('meetingModal').classList.add('hidden'); }
+
+    function submitMeetingRequest() {
+      var sender = document.getElementById('meetingSender').value;
+      var date = document.getElementById('meetingDate').value;
+      var time = document.getElementById('meetingTime').value;
+      var note = document.getElementById('meetingNote').value;
+
+      if (!sender || !date || !time) {
+        showToast("Uyarı", "Lütfen adınızı, tarih ve saat bilgilerini doldurun.");
+        return;
+      }
+
+      var newMsg = {
+        id: Date.now(),
+        startup: activeStartupName,
+        recipient: activeContactEmail,
+        sender: sender,
+        message: "📅 Toplantı Talebi [" + date + " - " + time + "]: " + (note || "Not belirtilmedi."),
+        date: new Date().toLocaleString()
+      };
+
+      var existingMsgs = JSON.parse(localStorage.getItem('platform_messages') || '[]');
+      existingMsgs.unshift(newMsg);
+      localStorage.setItem('platform_messages', JSON.stringify(existingMsgs));
+
+      closeMeetingModal();
+      showToast("Başarılı", "Toplantı talebiniz kurucuya iletildi!");
+    }
+
+    // Site İçi Mesajlaşma
+    function openInAppMessageModal() {
+      closeDetailModal();
+      document.getElementById('targetFounderLabel').innerText = "Alıcı Proje: " + activeStartupName + " (" + activeContactEmail + ")";
+      document.getElementById('inAppMessageModal').classList.remove('hidden');
+    }
+    function closeInAppMessageModal() { document.getElementById('inAppMessageModal').classList.add('hidden'); }
+
+    async function sendInAppMessage() {
+      var sender = document.getElementById('msgSender').value;
+      var content = document.getElementById('msgContent').value;
+      if (!sender || !content) { showToast("Uyarı", "Lütfen tüm alanları doldurun."); return; }
+
+      var newMessage = {
+        id: Date.now(),
+        startup: activeStartupName,
+        recipient: activeContactEmail,
+        sender: sender,
+        message: content,
+        date: new Date().toLocaleString()
+      };
+
+      var existingMsgs = JSON.parse(localStorage.getItem('platform_messages') || '[]');
+      existingMsgs.unshift(newMessage);
+      localStorage.setItem('platform_messages', JSON.stringify(existingMsgs));
+
+      closeInAppMessageModal();
+      showToast("Mesaj Gönderildi", "Kurucuya başarıyla mesaj iletildi.");
+      document.getElementById('msgSender').value = '';
+      document.getElementById('msgContent').value = '';
+    }
+
+    function renderMessages() {
+      var grid = document.getElementById('messagesGrid');
+      if (!grid) return;
+      var msgs = JSON.parse(localStorage.getItem('platform_messages') || '[]');
+      grid.innerHTML = '';
+
+      if (msgs.length === 0) {
+        grid.innerHTML = '<div class="text-center py-16 text-slate-500 text-sm font-semibold al-card-dark rounded-3xl">Henüz gelen bir mesaj bulunmuyor.</div>';
+        return;
+      }
+
+      msgs.forEach(function(m) {
+        var card = document.createElement('div');
+        card.className = "al-card-dark p-6 rounded-2xl space-y-2 border border-[#1e222d]";
+        card.innerHTML = '<div class="flex justify-between items-center text-xs"><span class="font-black text-emerald-400">Proje: ' + m.startup + '</span><span class="text-slate-500">' + m.date + '</span></div><p class="text-xs font-bold text-white">Gönderen: ' + m.sender + '</p><p class="text-slate-300 text-xs bg-[#08090b] p-3 rounded-xl border border-[#1e222d]">' + m.message + '</p>';
+        grid.appendChild(card);
+      });
     }
 
     function renderAdminDashboard() {
@@ -1279,11 +1409,8 @@
     async function deleteStartup(id) {
       if (!confirm("Bu ilanı silmek istediğinize emin misiniz?")) return;
       if (sbClient) {
-        try {
-          await sbClient.from('startups').delete().eq('id', id);
-        } catch (e) {}
+        try { await sbClient.from('startups').delete().eq('id', id); } catch (e) {}
       }
-      
       var localList = JSON.parse(localStorage.getItem('my_startups_list') || '[]');
       localList = localList.filter(function(s) { return String(s.id) !== String(id); });
       localStorage.setItem('my_startups_list', JSON.stringify(localList));
