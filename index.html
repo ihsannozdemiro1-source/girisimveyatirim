@@ -864,7 +864,6 @@
       document.getElementById('otpCodeInput').value = '';
     }
 
-    // Kullanıcıyı kayıt listesine ekleyen yardımcı fonksiyon
     function registerUserLocally(email) {
       if (!email) return;
       var registeredUsers = JSON.parse(localStorage.getItem('platform_registered_users') || '[]');
@@ -952,6 +951,7 @@
       const appView = document.getElementById('appView');
 
       if (user) {
+        registerUserLocally(user.email);
         localStorage.setItem('user_logged_in', 'true');
         userBox.classList.remove('hidden');
         loginBtn.classList.add('hidden');
@@ -1493,7 +1493,6 @@
     async function renderAdminDashboard() {
       document.getElementById('adminTotalListings').innerText = startups.length + syndicates.length + acquisitions.length;
       
-      // Dinamik kayıtlı kullanıcı sayısı
       var storedUsers = JSON.parse(localStorage.getItem('platform_registered_users') || '[]');
       var totalUsersCount = Math.max(1, storedUsers.length);
       document.getElementById('adminUserCount').innerText = totalUsersCount;
