@@ -479,7 +479,7 @@
   <!-- SİTE İÇİ MESAJ MODALI -->
   <div id="inAppMessageModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
     <div class="al-card-dark rounded-3xl max-w-lg w-full p-8 relative text-white">
-      <button type="button" onclick="closeInAppMessageModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold hover:text-white">&times;</button>
+      <button type="button" onclick="closeInAppMessageModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold">&times;</button>
       <h2 class="text-2xl font-black mb-2">Kurucuya Mesaj Gönder</h2>
       <p id="targetFounderLabel" class="text-xs text-emerald-400 font-semibold mb-4"></p>
       <div class="space-y-4">
@@ -1476,14 +1476,26 @@
       });
     }
 
-    function renderAdminDashboard() {
+    async function renderAdminDashboard() {
       document.getElementById('adminTotalListings').innerText = startups.length + syndicates.length + acquisitions.length;
-      document.getElementById('adminUserCount').innerText = currentUser ? "1" : "1";
+      
+      // Dinamik kayıtlı kullanıcı sayısı
+      var totalUsersCount = 1;
+      if (sbClient) {
+        try {
+          var storedUsers = JSON.parse(localStorage.getItem('platform_registered_users') || '[]');
+          totalUsersCount = Math.max(1, storedUsers.length);
+        } catch (e) {}
+      }
+      document.getElementById('adminUserCount').innerText = totalUsersCount;
 
       var grid = document.getElementById('adminListingsGrid');
       if (!grid) return;
       grid.innerHTML = '';
-      if (startups.length === 0) { grid.innerHTML = '<div class="text-slate-500 text-xs text-center py-8">İlan yok.</div>'; return; }
+      if (startups.length === 0) { 
+        grid.innerHTML = '<div class="text-slate-500 text-xs text-center py-8">İlan yok.</div>'; 
+        return; 
+      }
       startups.forEach(function(item) {
         var row = document.createElement('div');
         row.className = "al-card-dark p-4 rounded-2xl flex items-center justify-between border border-[#1e222d]";
