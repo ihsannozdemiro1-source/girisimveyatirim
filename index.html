@@ -479,7 +479,7 @@
   <!-- SİTE İÇİ MESAJ MODALI -->
   <div id="inAppMessageModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
     <div class="al-card-dark rounded-3xl max-w-lg w-full p-8 relative text-white">
-      <button type="button" onclick="closeInAppMessageModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold">&times;</button>
+      <button type="button" onclick="closeInAppMessageModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold hover:text-white">&times;</button>
       <h2 class="text-2xl font-black mb-2">Kurucuya Mesaj Gönder</h2>
       <p id="targetFounderLabel" class="text-xs text-emerald-400 font-semibold mb-4"></p>
       <div class="space-y-4">
@@ -864,6 +864,16 @@
       document.getElementById('otpCodeInput').value = '';
     }
 
+    // Kullanıcıyı kayıt listesine ekleyen yardımcı fonksiyon
+    function registerUserLocally(email) {
+      if (!email) return;
+      var registeredUsers = JSON.parse(localStorage.getItem('platform_registered_users') || '[]');
+      if (!registeredUsers.includes(email)) {
+        registeredUsers.push(email);
+        localStorage.setItem('platform_registered_users', JSON.stringify(registeredUsers));
+      }
+    }
+
     async function verifySignupOtp() {
       var code = document.getElementById('otpCodeInput').value.trim();
       if (!code || code.length < 6) {
@@ -887,6 +897,7 @@
           return;
         }
 
+        registerUserLocally(pendingSignupEmail);
         showToast("Başarılı", "E-posta doğrulandı, hoş geldiniz!");
         closeOtpModal();
         closeAuthModal();
@@ -921,6 +932,7 @@
       try {
         const { data: { session } } = await sbClient.auth.getSession();
         if (session && session.user) {
+          registerUserLocally(session.user.email);
           updateUserUI(session.user);
           return;
         }
@@ -1009,6 +1021,7 @@
             showToast("Kayıt Hatası", error.message);
             return;
           }
+          registerUserLocally(email);
           if (data && data.session) {
             showToast("Başarılı", "Kayıt tamamlandı, giriş yapıldı!");
             closeAuthModal();
@@ -1037,6 +1050,7 @@
             showToast("Giriş Başarısız", "E-posta veya şifre hatalı!");
             return;
           }
+          registerUserLocally(email);
           if (data.session) {
             showToast("Başarılı", "Giriş yapıldı!");
             closeAuthModal();
@@ -1480,13 +1494,8 @@
       document.getElementById('adminTotalListings').innerText = startups.length + syndicates.length + acquisitions.length;
       
       // Dinamik kayıtlı kullanıcı sayısı
-      var totalUsersCount = 1;
-      if (sbClient) {
-        try {
-          var storedUsers = JSON.parse(localStorage.getItem('platform_registered_users') || '[]');
-          totalUsersCount = Math.max(1, storedUsers.length);
-        } catch (e) {}
-      }
+      var storedUsers = JSON.parse(localStorage.getItem('platform_registered_users') || '[]');
+      var totalUsersCount = Math.max(1, storedUsers.length);
       document.getElementById('adminUserCount').innerText = totalUsersCount;
 
       var grid = document.getElementById('adminListingsGrid');
