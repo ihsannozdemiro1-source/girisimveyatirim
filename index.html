@@ -8,9 +8,27 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
-    body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #08090b; color: #f4f1ea; }
-    .al-accent-bg { background-color: #10b981; color: #08090b; }
-    .al-card-dark { background-color: #12141a; border: 1px solid #1e222d; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #08090b;
+      color: #f4f1ea;
+    }
+    .al-accent-bg {
+      background-color: #10b981;
+      color: #08090b;
+    }
+    .al-card-dark {
+      background-color: #12141a;
+      border: 1px solid #1e222d;
+    }
+    .hero-glow {
+      background: radial-gradient(circle at 50% 20%, rgba(16, 185, 129, 0.15) 0%, rgba(8, 9, 11, 0) 70%);
+    }
+    input[type=number]::-webkit-inner-spin-button, 
+    input[type=number]::-webkit-outer-spin-button { 
+      -webkit-appearance: none; 
+      margin: 0; 
+    }
   </style>
   <script>
     if (localStorage.getItem('user_logged_in') === 'true') {
@@ -18,77 +36,1529 @@
     }
   </script>
 </head>
-<body class="antialiased">
+<body class="antialiased selection:bg-[#10b981] selection:text-black">
 
   <!-- Header -->
   <header class="border-b border-[#1e222d] bg-[#08090b]/90 backdrop-blur-md sticky top-0 z-40">
     <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-      <button type="button" onclick="handleLogoClick()" class="text-2xl font-black text-white">Girişim ve Yatırım</button>
-      <nav id="appNav" style="display: none;" class="flex items-center space-x-2">
-        <button onclick="showTab('startups')" class="tab-btn px-4 py-2 rounded-full text-xs font-bold bg-[#1e222d] text-white">🚀 Girişimler</button>
-        <button onclick="showTab('admin')" id="btn-admin" style="display: none;" class="tab-btn px-4 py-2 rounded-full text-xs font-bold text-amber-400 border border-amber-500/30">⚡ Yönetici</button>
+      
+      <button type="button" onclick="handleLogoClick()" class="text-2xl font-black tracking-tight text-white flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 via-teal-500 to-indigo-500 p-0.5 flex items-center justify-center shadow-lg shadow-emerald-900/20">
+          <div class="w-full h-full bg-[#08090b] rounded-[10px] flex items-center justify-center">
+            <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+            </svg>
+          </div>
+        </div>
+        <span>Girişim ve Yatırım</span>
+      </button>
+
+      <nav id="visitorNav" class="flex items-center space-x-1.5 bg-[#12141a] p-1.5 rounded-full border border-[#1e222d]">
+        <a href="#ecosystem-solutions" class="px-5 py-2.5 rounded-full text-xs font-semibold text-slate-300 hover:text-emerald-400 transition">Çözümler</a>
+        <a href="#platform-features" class="px-5 py-2.5 rounded-full text-xs font-semibold text-slate-300 hover:text-emerald-400 transition">Avantajlar</a>
+        <a href="#how-it-works" class="px-5 py-2.5 rounded-full text-xs font-semibold text-slate-300 hover:text-emerald-400 transition">Nasıl Çalışır?</a>
+        <a href="#faq-section" class="px-5 py-2.5 rounded-full text-xs font-semibold text-slate-300 hover:text-emerald-400 transition">SSS</a>
       </nav>
-      <button type="button" id="loginHeaderBtn" onclick="openAuthModal('login')" class="text-xs font-bold text-white px-4 py-2 border border-[#1e222d] rounded-full">Giriş Yap</button>
+
+      <nav id="appNav" style="display: none;" class="items-center space-x-1.5 bg-[#12141a] p-1.5 rounded-full border border-[#1e222d]">
+        <button type="button" id="btn-startups" onclick="showTab('startups')" class="tab-btn px-4 py-2.5 rounded-full text-xs font-bold text-white bg-[#1e222d] shadow-sm transition">🚀 Girişimler</button>
+        <button type="button" id="btn-syndicates" onclick="showTab('syndicates')" class="tab-btn px-4 py-2.5 rounded-full text-xs font-semibold text-slate-400 hover:text-white transition">🔥 Canlı Turlar</button>
+        <button type="button" id="btn-acquisitions" onclick="showTab('acquisitions')" class="tab-btn px-4 py-2.5 rounded-full text-xs font-semibold text-slate-400 hover:text-white transition">🛒 Proje Pazarı</button>
+        <button type="button" id="btn-favorites" onclick="showTab('favorites')" class="tab-btn px-4 py-2.5 rounded-full text-xs font-semibold text-slate-400 hover:text-white transition">⭐ Favoriler</button>
+        <button type="button" id="btn-messages" onclick="showTab('messages')" class="tab-btn px-4 py-2.5 rounded-full text-xs font-semibold text-slate-400 hover:text-white transition">📥 Mesajlar</button>
+        <button type="button" id="btn-admin" onclick="showTab('admin')" style="display: none;" class="tab-btn px-4 py-2.5 rounded-full text-xs font-black text-amber-400 bg-amber-500/10 border border-amber-500/30 transition">⚡ Yönetici</button>
+      </nav>
+
+      <div class="flex items-center space-x-3">
+        <div id="userProfileBox" class="hidden flex items-center space-x-3">
+          <span id="userEmailLabel" class="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-3 py-1.5 rounded-full border border-emerald-500/30"></span>
+          <button type="button" onclick="handleLogout()" class="text-xs font-semibold text-slate-400 hover:text-rose-400 transition">Çıkış Yap</button>
+        </div>
+        <button type="button" id="loginHeaderBtn" onclick="openAuthModal('login')" class="text-xs font-bold text-slate-300 hover:text-white px-3 py-2 transition">Giriş Yap</button>
+        <button type="button" onclick="handleNewAddClick()" class="bg-white hover:bg-slate-200 text-[#08090b] font-extrabold text-xs px-5 py-2.5 rounded-full shadow-md transition">
+          + İlan Ekle
+        </button>
+      </div>
     </div>
   </header>
 
-  <!-- UYGULAMA ALANI -->
-  <main id="appView" class="max-w-7xl mx-auto px-6 py-10" style="display: none;">
-    <div id="tab-admin" class="content-tab space-y-8" style="display: none;">
-      <div class="al-card-dark p-8 rounded-3xl border border-amber-500/30">
-        <h2 class="text-2xl font-black text-white">İstatistikler</h2>
-        <div class="grid grid-cols-2 gap-4 mt-6">
-          <div class="al-card-dark p-6 rounded-2xl">
-            <div class="text-slate-400 text-xs">Toplam Kayıtlı Kullanıcı</div>
-            <div class="text-3xl font-black text-emerald-400" id="adminUserCount">1</div>
+  <!-- ZİYARETÇİ HERO ARAYÜZÜ -->
+  <div id="landingView" style="display: block;">
+    <section class="relative hero-glow pt-24 pb-20 overflow-hidden border-b border-[#1e222d]">
+      <div class="max-w-5xl mx-auto px-6 text-center space-y-8 relative z-10">
+        
+        <div class="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 px-4 py-1.5 rounded-full text-xs font-extrabold text-emerald-400 tracking-wide uppercase">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span>Türkiye Girişim & Yatırım Ekosistemi</span>
+        </div>
+
+        <h1 class="text-6xl sm:text-7xl lg:text-8xl font-black tracking-tight leading-[1.02] text-white">
+          Geleceğin Şirketlerini <br/>
+          <span class="bg-gradient-to-r from-emerald-400 via-teal-300 to-indigo-400 bg-clip-text text-transparent">Sermayeyle Buluşturun.</span>
+        </h1>
+
+        <p class="text-slate-400 text-base sm:text-lg max-w-2xl mx-auto font-medium leading-relaxed">
+          Erken aşama girişimler, melek yatırımcı sendikaları ve devredilebilir hazır Micro-SaaS projeleri için tasarlanmış bağımsız ekosistem portalı.
+        </p>
+
+        <div class="max-w-2xl mx-auto pt-4 flex justify-center gap-4">
+          <button type="button" onclick="openAuthModal('signup')" class="al-accent-bg font-black text-xs px-8 py-4 rounded-xl transition shadow-lg">
+            Kayıt Ol &rarr;
+          </button>
+          <button type="button" onclick="openAuthModal('login')" class="bg-[#12141a] hover:bg-[#1e222d] text-white border border-[#1e222d] font-bold text-xs px-8 py-4 rounded-xl transition">
+            Giriş Yap
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ÇÖZÜMLER BÖLÜMÜ -->
+    <section id="ecosystem-solutions" class="py-24 max-w-7xl mx-auto px-6 border-b border-[#1e222d]">
+      <div class="text-center max-w-2xl mx-auto space-y-3 mb-16">
+        <span class="text-xs font-extrabold text-emerald-400 uppercase tracking-widest bg-emerald-500/10 px-3 py-1 rounded-full">Eko-Sistem Çözümleri</span>
+        <h2 class="text-4xl font-black text-white">Girişimciler ve Yatırımcılar İçin Neler Sunuyoruz?</h2>
+        <p class="text-slate-400 text-sm">Platformumuz, sermaye bulma ve ortaklık süreçlerini tek bir çatı altında dijitalleştirir.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="bg-[#0f1117] border-2 border-emerald-500/20 hover:border-emerald-500 p-8 rounded-3xl space-y-5 transition duration-300 shadow-xl">
+          <div class="w-14 h-14 rounded-2xl bg-emerald-500/10 flex items-center justify-center text-emerald-400 text-2xl font-black">🚀</div>
+          <h3 class="text-2xl font-bold text-white">Erken Aşama Girişim Turları</h3>
+          <p class="text-slate-400 text-xs leading-relaxed">Fikir veya MVP aşamasındaki projelerinizi listeyin, yatırımcı havuzuna ulaşın ve büyüme sermayesini toplayın.</p>
+        </div>
+        <div class="bg-[#0f1117] border-2 border-rose-500/20 hover:border-rose-500 p-8 rounded-3xl space-y-5 transition duration-300 shadow-xl">
+          <div class="w-14 h-14 rounded-2xl bg-rose-500/10 flex items-center justify-center text-rose-400 text-2xl font-black">🔥</div>
+          <h3 class="text-2xl font-bold text-white">Canlı Yatırım Sendikaları</h3>
+          <p class="text-slate-400 text-xs leading-relaxed">Lider yatırımcılar eşliğinde süre sınırlı ortak yatırım turları başlatın veya yüksek potansiyelli turlara dahil olun.</p>
+        </div>
+        <div class="bg-[#0f1117] border-2 border-indigo-500/20 hover:border-indigo-500 p-8 rounded-3xl space-y-5 transition duration-300 shadow-xl">
+          <div class="w-14 h-14 rounded-2xl bg-indigo-500/10 flex items-center justify-center text-indigo-400 text-2xl font-black">🛒</div>
+          <h3 class="text-2xl font-bold text-white">Micro-SaaS Proje Pazarı</h3>
+          <p class="text-slate-400 text-xs leading-relaxed">Gelir elde eden hazır yazılım projelerinizi listeleyin ya da anahtar teslim karlı projeler satın alın.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- AVANTAJLAR BÖLÜMÜ -->
+    <section id="platform-features" class="py-24 max-w-7xl mx-auto px-6 border-b border-[#1e222d]">
+      <div class="text-center max-w-2xl mx-auto space-y-3 mb-16">
+        <span class="text-xs font-extrabold text-teal-400 uppercase tracking-widest bg-teal-500/10 px-3 py-1 rounded-full">Neden Bu Platform?</span>
+        <h2 class="text-4xl font-black text-white">Girişimciler ve Yatırımcılar İçin Üstün Avantajlar</h2>
+        <p class="text-slate-400 text-sm">Geleneksel ve yavaş ağların aksine, doğrudan sonuca ulaştıran modern ekosistem ayrıcalıkları.</p>
+      </div>
+
+      <div class="space-y-4 max-w-4xl mx-auto">
+        <div class="bg-gradient-to-r from-[#12141a] to-[#181d28] border border-[#1e222d] p-6 rounded-2xl flex items-center gap-6 shadow-md">
+          <div class="w-12 h-12 rounded-xl bg-teal-500/10 border border-teal-500/30 flex items-center justify-center text-teal-400 font-black text-lg shrink-0">01</div>
+          <div>
+            <h4 class="text-base font-bold text-white mb-1">Hızlı ve Sürtünmesiz Ağ</h4>
+            <p class="text-slate-400 text-xs leading-relaxed">Karmaşık bürokratik engelleri ve uzun onay süreçlerini unutturuyoruz. Projenizi dakikalar içinde küresel yatırımcı ağına sunun.</p>
+          </div>
+        </div>
+        <div class="bg-gradient-to-r from-[#12141a] to-[#181d28] border border-[#1e222d] p-6 rounded-2xl flex items-center gap-6 shadow-md">
+          <div class="w-12 h-12 rounded-xl bg-teal-500/10 border border-teal-500/30 flex items-center justify-center text-teal-400 font-black text-lg shrink-0">02</div>
+          <div>
+            <h4 class="text-base font-bold text-white mb-1">Doğrudan İletişim Köprüsü</h4>
+            <p class="text-slate-400 text-xs leading-relaxed">Aracı komisyoncuları ve fon yöneticilerini aradan çıkararak kurucularla ve melek yatırımcılarla birebir görüşme sağlayın.</p>
+          </div>
+        </div>
+        <div class="bg-gradient-to-r from-[#12141a] to-[#181d28] border border-[#1e222d] p-6 rounded-2xl flex items-center gap-6 shadow-md">
+          <div class="w-12 h-12 rounded-xl bg-teal-500/10 border border-teal-500/30 flex items-center justify-center text-teal-400 font-black text-lg shrink-0">03</div>
+          <div>
+            <h4 class="text-base font-bold text-white mb-1">Ortak Bulut Senkronizasyonu</h4>
+            <p class="text-slate-400 text-xs leading-relaxed">İster telefondan ister bilgisayardan işlem yapın; tüm verileriniz bulut tabanında anlık olarak senkronize edilir ve her yerden erişilebilir.</p>
           </div>
         </div>
       </div>
+    </section>
+
+    <!-- NASIL ÇALIŞIR BÖLÜMÜ -->
+    <section id="how-it-works" class="py-24 max-w-7xl mx-auto px-6 border-b border-[#1e222d]">
+      <div class="text-center max-w-2xl mx-auto space-y-3 mb-16">
+        <span class="text-xs font-extrabold text-indigo-400 uppercase tracking-widest bg-indigo-500/10 px-3 py-1 rounded-full">Süreç Rehberi</span>
+        <h2 class="text-4xl font-black text-white">Nasıl Çalışır?</h2>
+        <p class="text-slate-400 text-sm">3 adımda ekosisteme dahil olun, projenizi büyütün veya yatırım yapın.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-gradient-to-b from-[#12141a] to-[#0d0f14] border border-[#1e222d] hover:border-indigo-500/50 p-8 rounded-3xl space-y-4 transition">
+          <div class="flex items-center justify-between">
+            <span class="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-400 font-black flex items-center justify-center text-sm">1</span>
+            <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Kayıt Ol</span>
+          </div>
+          <h3 class="text-xl font-bold text-white">Hesabınızı Oluşturun</h3>
+          <p class="text-slate-400 text-xs leading-relaxed">Sisteme e-postanızla veya Google hesabınızla saniyeler içinde güvenli bir şekilde giriş yapın.</p>
+        </div>
+
+        <div class="bg-gradient-to-b from-[#12141a] to-[#0d0f14] border border-[#1e222d] hover:border-indigo-500/50 p-8 rounded-3xl space-y-4 transition">
+          <div class="flex items-center justify-between">
+            <span class="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-400 font-black flex items-center justify-center text-sm">2</span>
+            <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">İlan Ver</span>
+          </div>
+          <h3 class="text-xl font-bold text-white">Projenizi Yayınlayın</h3>
+          <p class="text-slate-400 text-xs leading-relaxed">Girişiminizi, hedef yatırım tutarınızı ve sektör bilgilerinizi girerek ilanınızı tüm ağa açın.</p>
+        </div>
+
+        <div class="bg-gradient-to-b from-[#12141a] to-[#0d0f14] border border-[#1e222d] hover:border-indigo-500/50 p-8 rounded-3xl space-y-4 transition">
+          <div class="flex items-center justify-between">
+            <span class="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-400 font-black flex items-center justify-center text-sm">3</span>
+            <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Yatırım Al</span>
+          </div>
+          <h3 class="text-xl font-bold text-white">Bağlantı Kurun</h3>
+          <p class="text-slate-400 text-xs leading-relaxed">Melek yatırımcılardan teklifler alın, projenizi ölçeklendirin ve ortaklık görüşmeleri başlatın.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SSS (SIKÇA SORULAN SORULAR) BÖLÜMÜ -->
+    <section id="faq-section" class="py-24 max-w-4xl mx-auto px-6">
+      <div class="text-center max-w-2xl mx-auto space-y-3 mb-16">
+        <span class="text-xs font-extrabold text-amber-400 uppercase tracking-widest bg-amber-500/10 px-3 py-1 rounded-full">Destek Merkezi</span>
+        <h2 class="text-4xl font-black text-white">Sıkça Sorulan Sorular</h2>
+        <p class="text-slate-400 text-sm">Merak ettiğiniz tüm soruların yanıtlarını burada topladık.</p>
+      </div>
+
+      <div class="space-y-4">
+        <div class="al-card-dark p-6 rounded-2xl space-y-2">
+          <h4 class="font-bold text-white text-sm">Platforma ilan eklemek ücretli mi?</h4>
+          <p class="text-slate-400 text-xs leading-relaxed">Şu an erken aşama girişimciler ve yatırımcılar için temel ilan yayınlama süreçleri tamamen ücretsizdir.</p>
+        </div>
+        <div class="al-card-dark p-6 rounded-2xl space-y-2">
+          <h4 class="font-bold text-white text-sm">Eklediğim ilanlar diğer cihazlarda görünür mü?</h4>
+          <p class="text-slate-400 text-xs leading-relaxed">Evet! Gelişmiş bulut veritabanı entegrasyonu sayesinde telefonda, tablette veya bilgisayarda eklediğiniz ilanlar anında ortak havuzda senkronize olur.</p>
+        </div>
+        <div class="al-card-dark p-6 rounded-2xl space-y-2">
+          <h4 class="font-bold text-white text-sm">Yatırımcılarla nasıl iletişim kurabilirim?</h4>
+          <p class="text-slate-400 text-xs leading-relaxed">İlan detaylarında yer alan kurucu adresleri veya site içi "İletişime Geç" formu üzerinden doğrudan irtibat sağlayabilirsiniz.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- UYGULAMA ALANI (Giriş Yapınca Görünür) -->
+  <main id="appView" class="max-w-7xl mx-auto px-6 py-10" style="display: none;">
+
+    <div id="tab-startups" class="content-tab space-y-8" style="display: block;">
+      <section class="al-card-dark p-8 rounded-3xl flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-emerald-400 mb-2 block">🚀 AKTİF GİRİŞİMLER</span>
+          <h1 class="text-3xl font-black text-white">Geleceğin Şirketlerini Keşfet</h1>
+          <p class="text-slate-400 text-sm mt-1">Veritabanında aktif olarak yer alan güncel girişimler. İlan detayları ve bağlantılar için kartlara tıklayın.</p>
+        </div>
+        <div class="flex items-center gap-6 bg-[#08090b] p-4 rounded-2xl border border-[#1e222d]">
+          <div class="text-center px-2">
+            <div class="text-2xl font-black text-emerald-400" id="statStartupCount">0</div>
+            <div class="text-[11px] text-slate-400 uppercase font-bold">Eklenen İlan</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Gelişmiş Filtreleme (Bütçe ve Sektör) -->
+      <section class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 gap-3 al-card-dark p-4 rounded-2xl">
+        <input type="text" id="searchInput" onkeyup="filterStartups()" placeholder="Girişim adı ara..." class="sm:col-span-2 p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400">
+        <select id="sectorFilter" onchange="filterStartups()" class="p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none">
+          <option value="">Tüm Sektörler</option>
+          <option value="Yapay Zekâ">Yapay Zekâ</option>
+          <option value="Fintek">Fintek</option>
+          <option value="SaaS">SaaS</option>
+          <option value="Lojistik">Lojistik</option>
+        </select>
+        <select id="stageFilter" onchange="filterStartups()" class="p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none">
+          <option value="">Tüm Aşamalar</option>
+          <option value="Fikir">Fikir</option>
+          <option value="MVP">MVP</option>
+          <option value="Erken Aşama">Erken Aşama</option>
+        </select>
+        <select id="budgetFilter" onchange="filterStartups()" class="p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none">
+          <option value="">Tüm Bütçeler</option>
+          <option value="50000">&le; $50,000</option>
+          <option value="100000">&le; $100,000</option>
+          <option value="500000">&gt; $100,000</option>
+        </select>
+        <button type="button" onclick="resetFilters()" class="text-xs font-bold text-slate-400 hover:text-white border border-[#1e222d] rounded-xl p-3 bg-[#08090b] transition">Sıfırla</button>
+      </section>
+
+      <section id="startupGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></section>
     </div>
+
+    <!-- 2. CANLI TURLAR -->
+    <div id="tab-syndicates" class="content-tab space-y-6" style="display: none;">
+      <div class="al-card-dark p-8 rounded-3xl flex justify-between items-center border border-[#1e222d]">
+        <div>
+          <span class="text-xs font-bold uppercase text-rose-400">🔥 SÜRE SINIRLI YATIRIM TURLARI</span>
+          <h2 class="text-2xl font-black text-white mt-1">Lider Yatırımcı Sendikaları</h2>
+        </div>
+        <button type="button" onclick="openSyndicateModal()" class="bg-rose-500 hover:bg-rose-600 text-white font-extrabold text-xs px-5 py-3 rounded-full shadow-md transition">+ Yatırım Turu Başlat</button>
+      </div>
+      <div id="syndicatesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="col-span-full text-center py-16 text-slate-500 text-sm font-semibold al-card-dark rounded-3xl">Henüz aktif bir yatırım turu bulunmuyor.</div>
+      </div>
+    </div>
+
+    <!-- 3. PROJE PAZARI -->
+    <div id="tab-acquisitions" class="content-tab space-y-6" style="display: none;">
+      <div class="al-card-dark p-8 rounded-3xl flex justify-between items-center border border-[#1e222d]">
+        <div>
+          <span class="text-xs font-bold uppercase text-emerald-400">🛒 MICRO-ACQUISITION PAZARI</span>
+          <h2 class="text-2xl font-black text-white mt-1">Satılık Proje & SaaS Pazar Yeri</h2>
+        </div>
+        <button type="button" onclick="openAcquisitionModal()" class="al-accent-bg text-[#08090b] font-extrabold text-xs px-5 py-3 rounded-full shadow-md transition">+ Satılık Proje İlanı Ver</button>
+      </div>
+      <div id="acquisitionsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="col-span-full text-center py-16 text-slate-500 text-sm font-semibold al-card-dark rounded-3xl">Henüz satılık proje ilanı verilmedi.</div>
+      </div>
+    </div>
+
+    <!-- 4. YATIRIMCI FAVORİLERİ -->
+    <div id="tab-favorites" class="content-tab space-y-6" style="display: none;">
+      <div class="al-card-dark p-8 rounded-3xl border border-[#1e222d]">
+        <span class="text-xs font-bold uppercase text-amber-400">⭐ FAVORİLERİM</span>
+        <h2 class="text-2xl font-black text-white mt-1">Kaydettiğiniz Girişimler</h2>
+      </div>
+      <div id="favoritesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="col-span-full text-center py-16 text-slate-500 text-sm font-semibold al-card-dark rounded-3xl">Henüz favorilere eklenen girişim bulunmuyor.</div>
+      </div>
+    </div>
+
+    <!-- 5. MESAJLAR / GELEN KUTUSU -->
+    <div id="tab-messages" class="content-tab space-y-6" style="display: none;">
+      <div class="al-card-dark p-8 rounded-3xl border border-[#1e222d]">
+        <span class="text-xs font-bold uppercase text-emerald-400">📥 GELEN KUTUSU</span>
+        <h2 class="text-2xl font-black text-white mt-1">Kurucu ve Yatırımcı Mesajları</h2>
+      </div>
+      <div id="messagesGrid" class="space-y-4">
+        <div class="text-center py-16 text-slate-500 text-sm font-semibold al-card-dark rounded-3xl">Henüz gelen bir mesaj bulunmuyor.</div>
+      </div>
+    </div>
+
+    <!-- 6. KURUCU ADMIN PANELİ -->
+    <div id="tab-admin" class="content-tab space-y-8" style="display: none;">
+      <div class="al-card-dark p-8 rounded-3xl border border-amber-500/30 space-y-2">
+        <span class="bg-amber-500/10 text-amber-400 text-xs font-black px-3 py-1 rounded-full uppercase">Kurucu Yönetim Paneli</span>
+        <h2 class="text-3xl font-black text-white">Sistem, Kullanıcı & İlan İstatistikleri</h2>
+      </div>
+
+      <!-- İstatistik Kartları -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div class="al-card-dark p-6 rounded-2xl text-center space-y-1">
+          <div class="text-xs font-bold text-slate-400 uppercase">Toplam Kayıtlı Kullanıcı</div>
+          <div class="text-3xl font-black text-emerald-400" id="adminUserCount">1</div>
+        </div>
+        <div class="al-card-dark p-6 rounded-2xl text-center space-y-1">
+          <div class="text-xs font-bold text-slate-400 uppercase">Toplam Aktif İlan</div>
+          <div class="text-3xl font-black text-indigo-400" id="adminTotalListings">0</div>
+        </div>
+      </div>
+
+      <div class="space-y-4">
+        <h3 class="text-xl font-bold text-white">Yayınlanan İlanları Yönet</h3>
+        <div id="adminListingsGrid" class="space-y-3"></div>
+      </div>
+    </div>
+
   </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-[#1e222d] bg-[#0b0c0e] py-16 text-xs">
+    <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-10">
+      <div class="space-y-2 text-center md:text-left">
+        <div class="flex items-center justify-center md:justify-start gap-3 font-black text-white text-base">
+          <div class="w-7 h-7 rounded-lg bg-gradient-to-tr from-emerald-600 to-indigo-500 flex items-center justify-center text-white text-xs">🚀</div>
+          <span>Girişim ve Yatırım</span>
+        </div>
+        <p class="text-slate-500 text-xs">Girişimciler ve Melek Yatırımcılar için Dijital Ekosistem Portalı © 2026</p>
+      </div>
+
+      <!-- Kurucu Alanı -->
+      <div class="bg-[#12141a] border border-[#1e222d] hover:border-emerald-500/40 px-8 py-5 rounded-3xl shadow-xl transition-all duration-300 flex items-center gap-5">
+        <div class="space-y-1 text-left">
+          <div class="text-[11px] font-extrabold text-emerald-400 uppercase tracking-widest">Founder / Kurucu</div>
+          <h3 class="text-base font-black text-white tracking-tight">İhsan Özdemir</h3>
+          <a href="mailto:ihsannozdemiro1@gmail.com" class="text-xs font-semibold text-slate-300 hover:text-emerald-400 transition block">
+            ihsannozdemiro1@gmail.com
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- TOAST BİLDİRİM -->
+  <div id="customToast" class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none">
+    <div class="al-card-dark bg-[#161822] border border-emerald-500/40 px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-3">
+      <div class="w-8 h-8 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-400 text-sm font-bold">✓</div>
+      <div>
+        <div class="text-xs font-bold text-white" id="toastTitle">Başarılı</div>
+        <div class="text-[11px] text-slate-400" id="toastDesc">İşlem gerçekleştirildi.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODALLAR -->
+  
+  <!-- DETAY MODALI -->
+  <div id="detailModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
+    <div class="al-card-dark rounded-3xl max-w-2xl w-full p-8 relative text-white max-h-[90vh] overflow-y-auto border border-[#1e222d] space-y-6">
+      <button type="button" onclick="closeDetailModal()" class="absolute top-5 right-5 text-slate-500 text-xl font-bold hover:text-white">&times;</button>
+      <div class="space-y-2">
+        <div class="flex items-center gap-3">
+          <span id="detailSector" class="bg-[#08090b] text-emerald-400 text-xs font-bold px-3 py-1 rounded-full uppercase"></span>
+          <span id="detailStage" class="text-slate-500 text-xs font-bold uppercase"></span>
+          <span class="bg-emerald-500/10 text-emerald-400 text-[10px] font-bold px-2 py-0.5 rounded border border-emerald-500/30">✓ Doğrulanmış Kurucu</span>
+        </div>
+        <div class="flex justify-between items-start">
+          <h2 id="detailTitle" class="text-3xl font-black text-white"></h2>
+          <button type="button" id="modalFavoriteBtn" onclick="toggleFavoriteFromModal()" class="bg-[#08090b] border border-[#1e222d] hover:border-amber-400 px-4 py-2 rounded-xl text-xs font-bold text-amber-400 transition flex items-center gap-1.5 cursor-pointer">
+            ⭐ Favorilere Ekle
+          </button>
+        </div>
+        <p id="detailFounder" class="text-xs text-slate-400 font-semibold"></p>
+      </div>
+
+      <div class="bg-[#08090b] p-5 rounded-2xl border border-[#1e222d] space-y-3">
+        <div class="flex justify-between items-center text-xs font-bold">
+          <span id="detailRaised" class="text-emerald-400 text-sm"></span>
+          <span id="detailGoal" class="text-slate-400"></span>
+        </div>
+        <div class="w-full bg-[#12141a] rounded-full h-2">
+          <div id="detailProgress" class="bg-emerald-400 h-2 rounded-full" style="width: 0%"></div>
+        </div>
+      </div>
+
+      <div id="detailLinksBox" class="flex flex-wrap gap-3"></div>
+
+      <div class="space-y-2">
+        <h4 class="text-xs font-bold text-slate-400 uppercase tracking-widest">Girişim Açıklaması</h4>
+        <p id="detailDesc" class="text-slate-300 text-xs leading-relaxed whitespace-pre-line"></p>
+      </div>
+
+      <div class="pt-4 border-t border-[#1e222d] flex flex-wrap gap-3 justify-between items-center">
+        <div class="flex gap-2">
+          <button type="button" onclick="openInAppMessageModal()" class="al-accent-bg font-extrabold text-xs px-5 py-2.5 rounded-full shadow-md transition cursor-pointer">
+            📩 Mesaj Gönder
+          </button>
+          <button type="button" onclick="openMeetingModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-xs px-5 py-2.5 rounded-full shadow-md transition cursor-pointer">
+            📅 Toplantı Planla
+          </button>
+        </div>
+        <button type="button" onclick="closeDetailModal()" class="bg-[#1e222d] text-white font-bold text-xs px-5 py-2.5 rounded-full hover:bg-slate-700 transition">Kapat</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOPLANTI / GÖRÜŞME RANDEVU MODALI -->
+  <div id="meetingModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
+    <div class="al-card-dark rounded-3xl max-w-md w-full p-8 relative text-white space-y-5">
+      <button type="button" onclick="closeMeetingModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold hover:text-white">&times;</button>
+      <h2 class="text-2xl font-black">Toplantı & Görüşme Talep Et</h2>
+      <p id="meetingTargetLabel" class="text-xs text-emerald-400 font-semibold"></p>
+      <div class="space-y-4">
+        <div>
+          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Adınız / Yatırımcı Kurum</label>
+          <input type="text" id="meetingSender" placeholder="Adınız Soyadınız / Fon Adı" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400">
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Tercih Edilen Tarih</label>
+            <input type="date" id="meetingDate" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400">
+          </div>
+          <div>
+            <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Saat</label>
+            <input type="time" id="meetingTime" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400">
+          </div>
+        </div>
+        <div>
+          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Görüşme Notu / Amaç</label>
+          <textarea id="meetingNote" rows="3" placeholder="Örn: Ön görüşme ve tanışma toplantısı..." class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400"></textarea>
+        </div>
+        <button type="button" onclick="submitMeetingRequest()" class="w-full al-accent-bg font-extrabold py-3.5 rounded-xl text-xs transition cursor-pointer">Toplantı Talebini Gönder</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SİTE İÇİ MESAJ MODALI -->
+  <div id="inAppMessageModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
+    <div class="al-card-dark rounded-3xl max-w-lg w-full p-8 relative text-white">
+      <button type="button" onclick="closeInAppMessageModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold hover:text-white">&times;</button>
+      <h2 class="text-2xl font-black mb-2">Kurucuya Mesaj Gönder</h2>
+      <p id="targetFounderLabel" class="text-xs text-emerald-400 font-semibold mb-4"></p>
+      <div class="space-y-4">
+        <div>
+          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Adınız / E-Postanız</label>
+          <input type="text" id="msgSender" placeholder="Adınız veya e-posta adresiniz" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400">
+        </div>
+        <div>
+          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Mesajınız / Yatırım Teklifiniz</label>
+          <textarea id="msgContent" rows="4" placeholder="Girişiminizle ilgileniyoruz..." class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400"></textarea>
+        </div>
+        <button type="button" onclick="sendInAppMessage()" class="w-full al-accent-bg font-extrabold py-3 rounded-xl text-xs transition cursor-pointer">Mesajı Gönder</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- KAYIT OL & GİRİŞ YAP MODALI -->
+  <div id="authModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
+    <div class="al-card-dark rounded-3xl max-w-md w-full p-8 relative text-white space-y-6">
+      <button type="button" onclick="closeAuthModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold">&times;</button>
+      
+      <div id="authTabHeader" class="flex bg-[#08090b] p-1.5 rounded-2xl border border-[#1e222d]">
+        <button type="button" id="tabLoginBtn" onclick="switchAuthTab('login')" class="w-1/2 py-2.5 rounded-xl text-xs font-black transition bg-[#1e222d] text-white">Giriş Yap</button>
+        <button type="button" id="tabSignupBtn" onclick="switchAuthTab('signup')" class="w-1/2 py-2.5 rounded-xl text-xs font-medium text-slate-400 hover:text-white transition">Kayıt Ol</button>
+      </div>
+
+      <div id="authModalTitle" class="text-center">
+        <h2 class="text-2xl font-black">Tekrar Hoş Geldiniz</h2>
+        <p class="text-slate-400 text-xs mt-1">Ekosistem hesabınıza erişin.</p>
+      </div>
+
+      <div id="googleAuthBox" class="mb-2">
+        <button type="button" id="googleBtn" class="w-full bg-white hover:bg-slate-200 text-black font-bold py-3 rounded-full text-xs flex items-center justify-center gap-2 transition">
+          <span>Google ile Devam Et</span>
+        </button>
+      </div>
+
+      <div id="orDivider" class="flex items-center my-2">
+        <div class="flex-grow border-t border-[#1e222d]"></div>
+        <span class="px-3 text-slate-500 text-[11px] font-semibold">veya E-Posta</span>
+        <div class="flex-grow border-t border-[#1e222d]"></div>
+      </div>
+
+      <!-- GİRİŞ / KAYIT FORMU -->
+      <div id="mainAuthForm" class="space-y-3">
+        <div id="fullNameBox" style="display: none;">
+          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Ad Soyad</label>
+          <input type="text" id="authFullName" placeholder="İhsan Özdemir" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs outline-none focus:border-emerald-400">
+        </div>
+        <div>
+          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">E-Posta Adresi</label>
+          <input type="email" id="authEmail" placeholder="ornek@domain.com" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs outline-none focus:border-emerald-400">
+        </div>
+        <div>
+          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Şifre</label>
+          <input type="password" id="authPassword" placeholder="******" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs outline-none focus:border-emerald-400">
+        </div>
+
+        <div id="forgotPasswordLinkBox" class="text-right">
+          <button type="button" onclick="switchAuthTab('forgot')" class="text-[11px] font-semibold text-slate-400 hover:text-emerald-400 transition">Şifremi Unuttum?</button>
+        </div>
+
+        <button type="button" id="authSubmitBtn" onclick="handleAuthSubmit()" class="w-full al-accent-bg font-extrabold py-3.5 rounded-xl text-xs transition mt-2 cursor-pointer">Giriş Yap</button>
+      </div>
+
+      <!-- ŞİFREMİ UNUTTUM FORMU -->
+      <div id="forgotStep1" style="display: none;" class="space-y-3">
+        <div class="bg-emerald-500/10 border border-emerald-500/20 p-3 rounded-xl text-emerald-400 text-xs font-semibold leading-relaxed text-center">
+          ✉️ E-posta adresinizi girin. Supabase sunucusu üzerinden e-posta kutunuza resmi şifre sıfırlama yönergesi gönderilecektir.
+        </div>
+        <div>
+          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Kayıtlı E-Posta Adresiniz</label>
+          <input type="email" id="forgotEmail" placeholder="ornek@domain.com" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs outline-none focus:border-emerald-400">
+        </div>
+        <button type="button" onclick="sendSupabaseResetEmail()" class="w-full al-accent-bg font-extrabold py-3.5 rounded-xl text-xs transition cursor-pointer">Sıfırlama Bağlantısı Gönder</button>
+        <div class="text-center pt-2">
+          <button type="button" onclick="switchAuthTab('login')" class="text-xs text-slate-400 hover:text-white">&larr; Giriş Ekranına Dön</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- E-POSTA DOĞRULAMA (OTP) MODALI -->
+  <div id="otpVerifyModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
+    <div class="al-card-dark rounded-3xl max-w-md w-full p-8 relative text-white space-y-5">
+      <button type="button" onclick="closeOtpModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold">&times;</button>
+      <div class="text-center space-y-2">
+        <div class="w-14 h-14 rounded-2xl bg-emerald-500/10 flex items-center justify-center text-emerald-400 text-2xl mx-auto">✉️</div>
+        <h2 class="text-2xl font-black">E-Postanı Doğrula</h2>
+        <p class="text-slate-400 text-xs">
+          <span id="otpTargetEmail" class="text-emerald-400 font-bold"></span> adresine gönderilen 6 haneli tek kullanımlık kodu gir.
+        </p>
+      </div>
+      <div>
+        <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Doğrulama Kodu</label>
+        <input type="text" id="otpCodeInput" maxlength="6" inputmode="numeric" autocomplete="one-time-code" placeholder="••••••" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-center text-lg tracking-[0.5em] text-white outline-none focus:border-emerald-400">
+      </div>
+      <button type="button" onclick="verifySignupOtp()" class="w-full al-accent-bg font-extrabold py-3.5 rounded-xl text-xs transition cursor-pointer">Doğrula ve Devam Et</button>
+    </div>
+  </div>
+
+  <!-- İLAN TİPİ SEÇİMİ -->
+  <div id="selectAddModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
+    <div class="al-card-dark rounded-3xl max-w-md w-full p-8 relative text-white space-y-6">
+      <button type="button" onclick="closeSelectAddModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold">&times;</button>
+      <h3 class="text-2xl font-black text-center">Ne Yayınlamak İstersiniz?</h3>
+      <div class="space-y-3">
+        <button type="button" onclick="closeSelectAddModal(); openStartupFormModal();" class="w-full al-card-dark p-4 rounded-2xl text-left flex justify-between items-center hover:border-emerald-400 transition cursor-pointer"><span>🚀 Girişim İlanı</span>&rarr;</button>
+        <button type="button" onclick="closeSelectAddModal(); openSyndicateModal();" class="w-full al-card-dark p-4 rounded-2xl text-left flex justify-between items-center hover:border-rose-400 transition cursor-pointer"><span>🔥 Yatırım Turu</span>&rarr;</button>
+        <button type="button" onclick="closeSelectAddModal(); openAcquisitionModal();" class="w-full al-card-dark p-4 rounded-2xl text-left flex justify-between items-center hover:border-indigo-400 transition cursor-pointer"><span>🛒 Satılık Proje (SaaS)</span>&rarr;</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- İLAN EKLEME FORMU -->
+  <div id="addModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
+    <div class="al-card-dark rounded-3xl max-w-md w-full p-6 relative text-white border border-[#1e222d] space-y-4">
+      <button type="button" onclick="closeCreateModal()" class="absolute top-4 right-4 text-slate-400 text-lg font-bold hover:text-white">&times;</button>
+      <div>
+        <h2 class="text-xl font-black text-white">Yeni Girişim İlanı Ekle</h2>
+        <p class="text-[11px] text-slate-400">Projenizi yatırımcı ağına hemen dahil edin.</p>
+      </div>
+      
+      <div class="space-y-3">
+        <div>
+          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Girişim Adı</label>
+          <input type="text" id="addTitle" placeholder="Projenizin Adı" class="w-full p-2.5 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400 transition">
+        </div>
+        
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Sektör</label>
+            <select id="addSector" class="w-full p-2.5 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400 transition">
+              <option value="Yapay Zekâ">Yapay Zekâ</option>
+              <option value="Fintek">Fintek</option>
+              <option value="SaaS">SaaS</option>
+              <option value="Lojistik">Lojistik</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Aşama</label>
+            <select id="addStage" class="w-full p-2.5 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400 transition">
+              <option value="Fikir">Fikir</option>
+              <option value="MVP">MVP</option>
+              <option value="Erken Aşama">Erken Aşama</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Hedef Yatırım ($)</label>
+            <input type="text" id="addGoal" placeholder="50000" class="w-full p-2.5 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400 transition">
+          </div>
+          <div>
+            <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Kurucu İsim</label>
+            <input type="text" id="addFounder" placeholder="Adınız Soyadınız" class="w-full p-2.5 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400 transition">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Web Sitesi URL</label>
+            <input type="url" id="addWebsite" placeholder="https://projeniz.com" class="w-full p-2.5 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400 transition">
+          </div>
+          <div>
+            <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Sunum (Pitch Deck) URL</label>
+            <input type="url" id="addPitchDeck" placeholder="https://doc.../deck.pdf" class="w-full p-2.5 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400 transition">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Girişim Açıklaması</label>
+          <textarea id="addDesc" rows="2" placeholder="Projenizin çözdüğü problemi anlatın..." class="w-full p-2.5 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400 transition"></textarea>
+        </div>
+
+        <button type="button" onclick="handleAddStartup()" class="w-full al-accent-bg font-black py-3 rounded-xl text-xs transition shadow-lg cursor-pointer">Yayınla</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="addSyndicateModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
+    <div class="al-card-dark rounded-3xl max-w-lg w-full p-8 relative text-white">
+      <button type="button" onclick="closeSyndicateModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold">&times;</button>
+      <h2 class="text-2xl font-black mb-4">🔥 Yeni Yatırım Turu Başlat</h2>
+      <div class="space-y-4">
+        <input type="text" id="addSynTitle" placeholder="Tur Başlığı" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white">
+        <div class="grid grid-cols-2 gap-4">
+          <input type="text" id="addSynLeader" placeholder="Lider Yatırımcı" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white">
+          <input type="text" id="addSynGoal" placeholder="Tur Büyüklüğü ($)" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white">
+        </div>
+        <textarea id="addSynDesc" rows="3" placeholder="Tur Açıklaması..." class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white"></textarea>
+        <button type="button" onclick="handleAddSyndicate()" class="w-full bg-rose-500 text-white font-extrabold py-3 rounded-xl text-xs cursor-pointer">Turu Yayınla</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="addAcquisitionModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
+    <div class="al-card-dark rounded-3xl max-w-lg w-full p-8 relative text-white">
+      <button type="button" onclick="closeAcquisitionModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold">&times;</button>
+      <h2 class="text-2xl font-black mb-4">🛒 Satılık Proje İlanı Ver</h2>
+      <div class="space-y-4">
+        <input type="text" id="addAcqTitle" placeholder="Proje Adı" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white">
+        <div class="grid grid-cols-2 gap-4">
+          <input type="text" id="addAcqMRR" placeholder="Aylık Gelir - MRR ($)" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white">
+          <input type="text" id="addAcqPrice" placeholder="Satış Fiyatı ($)" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white">
+        </div>
+        <input type="text" id="addAcqTech" placeholder="Teknolojiler (Next.js, Supabase vb.)" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white">
+        <textarea id="addAcqDesc" rows="3" placeholder="Proje Detayları..." class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white"></textarea>
+        <button type="button" onclick="handleAddAcquisition()" class="w-full bg-indigo-600 text-white font-extrabold py-3 rounded-xl text-xs cursor-pointer">Satış İlanını Yayınla</button>
+      </div>
+    </div>
+  </div>
 
   <script>
     const ADMIN_EMAIL = 'ihsannozdemiro1@gmail.com';
-    var currentUser = null;
+    var activeContactEmail = "ihsannozdemiro1@gmail.com";
+    var activeStartupName = "";
+    var currentAuthMode = 'login';
+    var pendingSignupEmail = '';
+    var pendingSignupPassword = '';
+    var activeTabName = localStorage.getItem('active_tab_name') || 'startups';
+    var activeModalStartupId = null;
 
-    // Kullanıcıyı her zaman "platform_users" dizisine ekler ve günceller
-    function trackUser(email) {
+    function showToast(title, desc) {
+      var toast = document.getElementById('customToast');
+      document.getElementById('toastTitle').innerText = title;
+      document.getElementById('toastDesc').innerText = desc;
+      toast.classList.remove('translate-y-24', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+      setTimeout(function() {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-24', 'opacity-0');
+      }, 3500);
+    }
+
+    function extractGoalValue(item) {
+      if (!item) return 10000;
+      var keys = ['funding_goal', 'fundingGoal', 'goal', 'fundinggoal'];
+      for (var i = 0; i < keys.length; i++) {
+        if (item[keys[i]] !== undefined && item[keys[i]] !== null && item[keys[i]] !== '') {
+          var num = Number(String(item[keys[i]]).replace(/[^0-9]/g, ''));
+          if (!isNaN(num) && num > 0) return num;
+        }
+      }
+      return 10000;
+    }
+
+    function extractRaisedValue(item) {
+      if (!item) return 0;
+      var keys = ['raised', 'funding_raised', 'current_funding'];
+      for (var i = 0; i < keys.length; i++) {
+        if (item[keys[i]] !== undefined && item[keys[i]] !== null && item[keys[i]] !== '') {
+          var num = Number(String(item[keys[i]]).replace(/[^0-9]/g, ''));
+          if (!isNaN(num)) return num;
+        }
+      }
+      return 0;
+    }
+
+    // Otomatik kullanıcı kaydı ve takibi için havuz fonksiyonu
+    function trackRegisteredUser(email) {
       if (!email) return;
-      var users = JSON.parse(localStorage.getItem('platform_users') || '[]');
+      var users = JSON.parse(localStorage.getItem('platform_registered_users') || '[]');
       if (!users.includes(email)) {
         users.push(email);
-        localStorage.setItem('platform_users', JSON.stringify(users));
+        localStorage.setItem('platform_registered_users', JSON.stringify(users));
       }
+    }
+
+    function showTab(name) {
+      activeTabName = name;
+      localStorage.setItem('active_tab_name', name);
+
+      var tabs = document.querySelectorAll('.content-tab');
+      for (var i = 0; i < tabs.length; i++) tabs[i].style.display = 'none';
+
+      var btns = document.querySelectorAll('.tab-btn');
+      for (var j = 0; j < btns.length; j++) {
+        btns[j].className = "tab-btn px-4 py-2.5 rounded-full text-xs font-semibold text-slate-400 hover:text-white transition";
+      }
+
+      var targetTab = document.getElementById('tab-' + name);
+      if (targetTab) targetTab.style.display = 'block';
+
+      var targetBtn = document.getElementById('btn-' + name);
+      if (targetBtn) {
+        if (name === 'admin') {
+          targetBtn.className = "tab-btn px-4 py-2.5 rounded-full text-xs font-black text-amber-400 bg-amber-500/20 border border-amber-500/40 shadow-sm transition";
+        } else {
+          targetBtn.className = "tab-btn px-4 py-2.5 rounded-full text-xs font-bold text-white bg-[#1e222d] shadow-sm transition";
+        }
+      }
+
+      if (name === 'admin') renderAdminDashboard();
+      if (name === 'messages') renderMessages();
+      if (name === 'favorites') renderFavorites();
+    }
+
+    function handleLogoClick() {
+      if (currentUser) { showTab(activeTabName || 'startups'); } 
+      else { document.getElementById('landingView').style.display = 'block'; document.getElementById('appView').style.display = 'none'; }
+    }
+
+    function openAuthModal(mode) {
+      switchAuthTab(mode || 'login');
+      document.getElementById('authModal').classList.remove('hidden');
+    }
+    function closeAuthModal() { document.getElementById('authModal').classList.add('hidden'); }
+
+    function switchAuthTab(mode) {
+      currentAuthMode = mode;
+      var loginBtn = document.getElementById('tabLoginBtn');
+      var signupBtn = document.getElementById('tabSignupBtn');
+      var fullNameBox = document.getElementById('fullNameBox');
+      var submitBtn = document.getElementById('authSubmitBtn');
+      var mainForm = document.getElementById('mainAuthForm');
+      var forgotStep1 = document.getElementById('forgotStep1');
+      var tabHeader = document.getElementById('authTabHeader');
+      var googleBox = document.getElementById('googleAuthBox');
+      var divider = document.getElementById('orDivider');
+      var modalTitle = document.getElementById('authModalTitle');
+
+      mainForm.style.display = 'none';
+      forgotStep1.style.display = 'none';
+      tabHeader.style.display = 'flex';
+      googleBox.style.display = 'block';
+      divider.style.display = 'flex';
+      modalTitle.style.display = 'block';
+
+      if (mode === 'login') {
+        loginBtn.className = "w-1/2 py-2.5 rounded-xl text-xs font-black transition bg-[#1e222d] text-white";
+        signupBtn.className = "w-1/2 py-2.5 rounded-xl text-xs font-medium text-slate-400 hover:text-white transition";
+        fullNameBox.style.display = 'none';
+        submitBtn.innerText = "Giriş Yap";
+        mainForm.style.display = 'block';
+      } else if (mode === 'signup') {
+        signupBtn.className = "w-1/2 py-2.5 rounded-xl text-xs font-black transition bg-[#1e222d] text-white";
+        loginBtn.className = "w-1/2 py-2.5 rounded-xl text-xs font-medium text-slate-400 hover:text-white transition";
+        fullNameBox.style.display = 'block';
+        submitBtn.innerText = "Kayıt Ol";
+        mainForm.style.display = 'block';
+      } else if (mode === 'forgot') {
+        tabHeader.style.display = 'none';
+        googleBox.style.display = 'none';
+        divider.style.display = 'none';
+        modalTitle.style.display = 'none';
+        forgotStep1.style.display = 'block';
+      }
+    }
+
+    async function sendSupabaseResetEmail() {
+      var emailVal = document.getElementById('forgotEmail').value.trim();
+      if (!emailVal || !emailVal.includes('@')) { 
+        showToast("Hata", "Lütfen geçerli bir e-posta adresi girin."); 
+        return; 
+      }
+      
+      if (sbClient) {
+        try {
+          const { error } = await sbClient.auth.resetPasswordForEmail(emailVal, {
+            redirectTo: window.location.origin
+          });
+          if (error) {
+            showToast("Hata", error.message);
+            return;
+          }
+        } catch (err) {
+          showToast("Hata", "E-posta gönderilemedi.");
+          return;
+        }
+      }
+
+      showToast("Başarılı", emailVal + " adresine şifre sıfırlama bağlantısı gönderildi.");
+      switchAuthTab('login');
+    }
+
+    function openOtpModal(email) {
+      document.getElementById('authModal').classList.add('hidden');
+      document.getElementById('otpTargetEmail').innerText = email;
+      document.getElementById('otpCodeInput').value = '';
+      document.getElementById('otpVerifyModal').classList.remove('hidden');
+      setTimeout(function () {
+        var input = document.getElementById('otpCodeInput');
+        if (input) input.focus();
+      }, 100);
+    }
+
+    function closeOtpModal() {
+      document.getElementById('otpVerifyModal').classList.add('hidden');
+      document.getElementById('otpCodeInput').value = '';
+    }
+
+    async function verifySignupOtp() {
+      var code = document.getElementById('otpCodeInput').value.trim();
+      if (!code || code.length < 6) {
+        showToast("Hata", "Lütfen 6 haneli kodu eksiksiz girin.");
+        return;
+      }
+      if (!sbClient || !pendingSignupEmail) {
+        showToast("Hata", "Doğrulama oturumu bulunamadı.");
+        return;
+      }
+
+      try {
+        const { data, error } = await sbClient.auth.verifyOtp({
+          email: pendingSignupEmail,
+          token: code,
+          type: 'signup'
+        });
+
+        if (error) {
+          showToast("Doğrulama Hatası", error.message);
+          return;
+        }
+
+        trackRegisteredUser(pendingSignupEmail);
+        showToast("Başarılı", "E-posta doğrulandı, hoş geldiniz!");
+        closeOtpModal();
+        closeAuthModal();
+
+        if (data && data.session) {
+          updateUserUI(data.session.user);
+        } else if (pendingSignupPassword) {
+          const { data: signInData, error: signInErr } = await sbClient.auth.signInWithPassword({
+            email: pendingSignupEmail,
+            password: pendingSignupPassword
+          });
+          if (!signInErr && signInData.session) {
+            updateUserUI(signInData.session.user);
+          }
+        }
+        pendingSignupPassword = '';
+      } catch (err) {
+        showToast("Hata", "Doğrulama sırasında hata oluştu.");
+      }
+    }
+
+    const SUPABASE_URL = 'https://kaovkjsttcyyrwrbmtpb.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_NrZ4UXAzYjs7VZ52t7XJww_gMTDBJJl';
+    var sbClient = null, currentUser = null;
+
+    if (window.supabase && window.supabase.createClient) {
+      sbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    }
+
+    async function checkUserSession() {
+      if (!sbClient) { updateUserUI(null); return; }
+      try {
+        const { data: { session } } = await sbClient.auth.getSession();
+        if (session && session.user) {
+          trackRegisteredUser(session.user.email);
+          updateUserUI(session.user);
+          return;
+        }
+      } catch (e) {}
+      updateUserUI(null);
     }
 
     function updateUserUI(user) {
       currentUser = user;
+      const userBox = document.getElementById('userProfileBox');
+      const loginBtn = document.getElementById('loginHeaderBtn');
+      const userLabel = document.getElementById('userEmailLabel');
+      const visitorNav = document.getElementById('visitorNav');
+      const appNav = document.getElementById('appNav');
+      const adminBtn = document.getElementById('btn-admin');
+      const landingView = document.getElementById('landingView');
+      const appView = document.getElementById('appView');
+
       if (user) {
-        trackUser(user.email); // Kayıt/Giriş yapıldığında listeye ekle
-        document.getElementById('appNav').style.display = 'flex';
-        document.getElementById('loginHeaderBtn').style.display = 'none';
-        document.getElementById('landingView').style.display = 'none';
-        document.getElementById('appView').style.display = 'block';
+        trackRegisteredUser(user.email);
+        localStorage.setItem('user_logged_in', 'true');
+        userBox.classList.remove('hidden');
+        loginBtn.classList.add('hidden');
+        if (visitorNav) visitorNav.style.display = 'none';
+        if (appNav) { appNav.style.display = 'flex'; appNav.classList.remove('hidden'); }
+        landingView.style.display = 'none';
+        appView.style.display = 'block';
+
+        var rawName = user.user_metadata?.full_name || user.user_metadata?.name;
+        if (!rawName || rawName.trim() === '') {
+          var emailPart = (user.email || 'Kullanıcı').split('@')[0];
+          rawName = emailPart.charAt(0).toUpperCase() + emailPart.slice(1);
+        }
         
-        // Admin mi kontrol et
-        if (user.email === ADMIN_EMAIL) {
-          document.getElementById('btn-admin').style.display = 'block';
+        userLabel.innerText = "Hoş geldin, " + rawName;
+
+        if (adminBtn) {
+          var currentEmail = user.email;
+          adminBtn.style.display = (currentEmail === ADMIN_EMAIL) ? 'inline-block' : 'none';
+        }
+
+        showTab(activeTabName || 'startups');
+      } else {
+        localStorage.removeItem('user_logged_in');
+        userBox.classList.add('hidden');
+        loginBtn.classList.remove('hidden');
+        if (appNav) { appNav.style.display = 'none'; appNav.classList.add('hidden'); }
+        if (visitorNav) { visitorNav.style.display = 'flex'; visitorNav.classList.remove('hidden'); }
+        if (adminBtn) adminBtn.style.display = 'none';
+        userLabel.innerText = '';
+        landingView.style.display = 'block';
+        appView.style.display = 'none';
+      }
+    }
+
+    async function handleAuthSubmit() {
+      const email = document.getElementById('authEmail').value.trim();
+      const password = document.getElementById('authPassword').value;
+      const fullName = document.getElementById('authFullName').value.trim();
+
+      if (!email || !email.includes('@') || !email.includes('.')) { 
+        showToast("Geçersiz E-Posta", "Lütfen geçerli bir e-posta adresi girin."); 
+        return; 
+      }
+      if (!password || password.length < 6) { 
+        showToast("Zayıf Şifre", "Şifre en az 6 karakter olmalıdır."); 
+        return; 
+      }
+      if (currentAuthMode === 'signup' && !fullName) { 
+        showToast("Eksik Bilgi", "Lütfen ad soyad girin."); 
+        return; 
+      }
+
+      if (!sbClient) {
+        showToast("Hata", "Veritabanı bağlantısı kurulamadı.");
+        return;
+      }
+
+      if (currentAuthMode === 'signup') {
+        try {
+          const { data, error } = await sbClient.auth.signUp({ 
+            email, 
+            password, 
+            options: { data: { full_name: fullName } } 
+          });
+          if (error) {
+            showToast("Kayıt Hatası", error.message);
+            return;
+          }
+          trackRegisteredUser(email);
+          if (data && data.session) {
+            showToast("Başarılı", "Kayıt tamamlandı, giriş yapıldı!");
+            closeAuthModal();
+            updateUserUI(data.session.user);
+            return;
+          }
+          pendingSignupEmail = email;
+          pendingSignupPassword = password;
+          showToast("Kod Gönderildi", "E-postanıza gelen 6 haneli doğrulama kodunu girin.");
+          openOtpModal(email);
+        } catch (err) {
+          showToast("Hata", "Kayıt işlemi başarısız.");
+        }
+      } else {
+        try {
+          const { data, error } = await sbClient.auth.signInWithPassword({ email, password });
+          if (error) {
+            var msg = (error.message || '').toLowerCase();
+            if (msg.indexOf('confirm') !== -1 || msg.indexOf('not confirmed') !== -1) {
+              pendingSignupEmail = email;
+              pendingSignupPassword = password;
+              showToast("Doğrulanmamış E-posta", "Lütfen e-postanıza gelen kodu girin.");
+              openOtpModal(email);
+              return;
+            }
+            showToast("Giriş Başarısız", "E-posta veya şifre hatalı!");
+            return;
+          }
+          trackRegisteredUser(email);
+          if (data.session) {
+            showToast("Başarılı", "Giriş yapıldı!");
+            closeAuthModal();
+            updateUserUI(data.session.user);
+          }
+        } catch (e) {
+          showToast("Hata", "Giriş yapılırken hata oluştu.");
         }
       }
     }
 
-    function renderAdminDashboard() {
-      // Her zaman güncel listeyi çek ve say
-      var users = JSON.parse(localStorage.getItem('platform_users') || '[]');
-      document.getElementById('adminUserCount').innerText = Math.max(1, users.length);
+    document.addEventListener('DOMContentLoaded', function() {
+      var btn = document.getElementById('googleBtn');
+      if (btn) {
+        btn.addEventListener('click', async function(e) {
+          e.preventDefault();
+          if (!sbClient) return;
+          await sbClient.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: window.location.origin } });
+        });
+      }
+
+      var otpInput = document.getElementById('otpCodeInput');
+      if (otpInput) {
+        otpInput.addEventListener('keyup', function (e) {
+          this.value = this.value.replace(/[^0-9]/g, '');
+          if (e.key === 'Enter') verifySignupOtp();
+        });
+      }
+
+      checkUserSession();
+      loadStartups();
+      loadSyndicates();
+      loadAcquisitions();
+    });
+
+    async function handleLogout() {
+      if (sbClient) { 
+        try { await sbClient.auth.signOut(); } catch (e) {} 
+      }
+      showToast("Çıkış", "Oturum kapatıldı.");
+      updateUserUI(null);
     }
 
-    // Auth sonrası tetiklenecek fonksiyon
-    async function handleAuthSubmit() {
-        // ... giriş/kayıt işlemleri ...
-        // İşlem başarılı olduktan sonra:
-        // trackUser(email); 
-        // renderAdminDashboard();
+    var startups = [], syndicates = [], acquisitions = [];
+
+    async function loadStartups() {
+      if (sbClient) {
+        try {
+          const { data, error } = await sbClient.from('startups').select('*').order('id', { ascending: false });
+          if (!error && data) {
+            startups = data;
+            renderStartups(startups);
+            return;
+          }
+        } catch (err) {}
+      }
+      
+      var localData = JSON.parse(localStorage.getItem('my_startups_list') || '[]');
+      startups = localData;
+      renderStartups(startups);
+    }
+
+    function renderStartups(data) {
+      var grid = document.getElementById('startupGrid');
+      var countElem = document.getElementById('statStartupCount');
+      if (countElem) countElem.innerText = data.length;
+      if (!grid) return;
+      grid.innerHTML = '';
+
+      if (data.length === 0) {
+        grid.innerHTML = '<div class="col-span-full text-center py-12 text-slate-500 text-sm font-semibold al-card-dark rounded-3xl">Henüz eklenmiş ilan bulunmuyor. İlk ilanı sen yayınla!</div>';
+        return;
+      }
+
+      var favorites = JSON.parse(localStorage.getItem('user_favorites') || '[]');
+
+      data.forEach(function(item) {
+        var goal = extractGoalValue(item);
+        var raised = extractRaisedValue(item);
+        var percent = Math.min(100, Math.round((raised / goal) * 100));
+        var isFav = favorites.includes(String(item.id));
+        
+        var card = document.createElement('div');
+        card.className = "al-card-dark rounded-3xl p-6 flex flex-col justify-between space-y-4 hover:border-slate-700 transition cursor-pointer relative";
+        card.onclick = function(e) {
+          if (e.target.closest('.fav-btn')) return;
+          openDetailModal(item);
+        };
+        
+        card.innerHTML = 
+          '<div>' +
+            '<div class="flex items-center justify-between mb-3">' +
+              '<span class="bg-[#08090b] text-emerald-400 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider border border-[#1e222d]">' + (item.sector || 'Teknoloji') + '</span>' +
+              '<div class="flex items-center gap-2">' +
+                '<span class="text-slate-500 text-[10px] font-bold uppercase">' + (item.stage || 'Erken Aşama') + '</span>' +
+                '<button type="button" onclick="toggleFavorite(\'' + item.id + '\')" class="fav-btn w-7 h-7 rounded-full bg-[#08090b] border border-[#1e222d] flex items-center justify-center text-xs ' + (isFav ? 'text-amber-400 border-amber-400/50' : 'text-slate-500 hover:text-amber-400') + ' transition">⭐</button>' +
+              '</div>' +
+            '</div>' +
+            '<h3 class="text-xl font-bold text-white mb-1">' + (item.name || item.title || 'İsimsiz Girişim') + '</h3>' +
+            '<p class="text-xs text-slate-400 font-semibold mb-3 flex items-center gap-1.5">👤 Kurucu: ' + (item.founder || 'Belirtilmedi') + ' <span class="text-emerald-400 text-[10px] bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">✓ Doğrulanmış</span></p>' +
+            '<p class="text-slate-400 text-xs leading-relaxed line-clamp-3">' + (item.description || item.desc || '') + '</p>' +
+          '</div>' +
+          '<div class="pt-4 border-t border-[#1e222d]">' +
+            '<div class="flex justify-between text-xs font-bold mb-1.5">' +
+              '<span class="text-emerald-400">$' + raised.toLocaleString() + ' toplandı</span>' +
+              '<span class="text-slate-500">Hedef: $' + goal.toLocaleString() + '</span>' +
+            '</div>' +
+            '<div class="w-full bg-[#08090b] rounded-full h-1.5"><div class="bg-emerald-400 h-1.5 rounded-full" style="width: ' + percent + '%"></div></div>' +
+          '</div>';
+        grid.appendChild(card);
+      });
+    }
+
+    // Favori Yönetimi
+    function toggleFavorite(id) {
+      var favs = JSON.parse(localStorage.getItem('user_favorites') || '[]');
+      var strId = String(id);
+      var idx = favs.indexOf(strId);
+      if (idx > -1) {
+        favs.splice(idx, 1);
+        showToast("Favorilerden Çıkarıldı", "Girişim favorilerinizden kaldırıldı.");
+      } else {
+        favs.push(strId);
+        showToast("Favorilere Eklendi", "Girişim favorilerinize kaydedildi!");
+      }
+      localStorage.setItem('user_favorites', JSON.stringify(favs));
+      filterStartups();
+      if (activeTabName === 'favorites') renderFavorites();
+      if (activeModalStartupId === strId) updateModalFavButton();
+    }
+
+    function toggleFavoriteFromModal() {
+      if (activeModalStartupId) {
+        toggleFavorite(activeModalStartupId);
+      }
+    }
+
+    function updateModalFavButton() {
+      var btn = document.getElementById('modalFavoriteBtn');
+      if (!btn) return;
+      var favs = JSON.parse(localStorage.getItem('user_favorites') || '[]');
+      if (favs.includes(String(activeModalStartupId))) {
+        btn.innerText = "⭐ Favorilerden Çıkar";
+        btn.className = "bg-[#08090b] border border-amber-400/50 px-4 py-2 rounded-xl text-xs font-bold text-amber-400 transition flex items-center gap-1.5 cursor-pointer";
+      } else {
+        btn.innerText = "⭐ Favorilere Ekle";
+        btn.className = "bg-[#08090b] border border-[#1e222d] hover:border-amber-400 px-4 py-2 rounded-xl text-xs font-bold text-amber-400 transition flex items-center gap-1.5 cursor-pointer";
+      }
+    }
+
+    function renderFavorites() {
+      var grid = document.getElementById('favoritesGrid');
+      if (!grid) return;
+      var favs = JSON.parse(localStorage.getItem('user_favorites') || '[]');
+      var favStartups = startups.filter(function(s) { return favs.includes(String(s.id)); });
+
+      grid.innerHTML = '';
+      if (favStartups.length === 0) {
+        grid.innerHTML = '<div class="col-span-full text-center py-16 text-slate-500 text-sm font-semibold al-card-dark rounded-3xl">Henüz favorilere eklenen girişim bulunmuyor.</div>';
+        return;
+      }
+
+      favStartups.forEach(function(item) {
+        var goal = extractGoalValue(item);
+        var raised = extractRaisedValue(item);
+        var percent = Math.min(100, Math.round((raised / goal) * 100));
+
+        var card = document.createElement('div');
+        card.className = "al-card-dark rounded-3xl p-6 flex flex-col justify-between space-y-4 hover:border-slate-700 transition cursor-pointer";
+        card.onclick = function() { openDetailModal(item); };
+
+        card.innerHTML = 
+          '<div>' +
+            '<div class="flex items-center justify-between mb-3">' +
+              '<span class="bg-[#08090b] text-emerald-400 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider border border-[#1e222d]">' + (item.sector || 'Teknoloji') + '</span>' +
+              '<span class="text-amber-400 text-[10px] font-bold uppercase">⭐ Favori</span>' +
+            '</div>' +
+            '<h3 class="text-xl font-bold text-white mb-1">' + (item.name || item.title || 'İsimsiz Girişim') + '</h3>' +
+            '<p class="text-xs text-slate-400 font-semibold mb-3">👤 Kurucu: ' + (item.founder || 'Belirtilmedi') + '</p>' +
+            '<p class="text-slate-400 text-xs leading-relaxed line-clamp-3">' + (item.description || item.desc || '') + '</p>' +
+          '</div>' +
+          '<div class="pt-4 border-t border-[#1e222d]">' +
+            '<div class="flex justify-between text-xs font-bold mb-1.5">' +
+              '<span class="text-emerald-400">$' + raised.toLocaleString() + ' toplandı</span>' +
+              '<span class="text-slate-500">Hedef: $' + goal.toLocaleString() + '</span>' +
+            '</div>' +
+            '<div class="w-full bg-[#08090b] rounded-full h-1.5"><div class="bg-emerald-400 h-1.5 rounded-full" style="width: ' + percent + '%"></div></div>' +
+          '</div>';
+        grid.appendChild(card);
+      });
+    }
+
+    async function handleAddStartup() {
+      if (!currentUser) { showToast("Uyarı", "Giriş yapmalısınız!"); openAuthModal('login'); return; }
+
+      var titleVal = document.getElementById('addTitle').value;
+      var goalVal = document.getElementById('addGoal').value;
+      var founderVal = document.getElementById('addFounder').value;
+      var descVal = document.getElementById('addDesc').value;
+
+      if (!titleVal || !goalVal || !founderVal || !descVal) {
+        showToast("Eksik Alan", "Lütfen tüm zorunlu alanları doldurun.");
+        return;
+      }
+
+      var goalInput = Number(String(goalVal).replace(/[^0-9]/g, '')) || 10000;
+      var sectorVal = document.getElementById('addSector').value;
+      var stageVal = document.getElementById('addStage').value;
+      var websiteVal = document.getElementById('addWebsite').value;
+      var pitchDeckVal = document.getElementById('addPitchDeck').value;
+
+      var newStartup = {
+        id: Date.now(),
+        user_id: currentUser.id || 'local_user',
+        user_email: currentUser.email || ADMIN_EMAIL,
+        name: titleVal,
+        title: titleVal,
+        sector: sectorVal,
+        stage: stageVal,
+        funding_goal: goalInput,
+        goal: goalInput,
+        founder: founderVal,
+        website: websiteVal,
+        pitch_deck: pitchDeckVal,
+        description: descVal,
+        description_text: descVal
+      };
+
+      if (sbClient) {
+        try { 
+          const { error } = await sbClient.from('startups').insert([newStartup]);
+          if (!error) {
+            await loadStartups();
+            closeCreateModal();
+            showToast("Başarılı", "Girişim ilanı yayına alındı!");
+            return;
+          }
+        } catch (err) {}
+      }
+
+      var localList = JSON.parse(localStorage.getItem('my_startups_list') || '[]');
+      localList.unshift(newStartup);
+      localStorage.setItem('my_startups_list', JSON.stringify(localList));
+
+      await loadStartups();
+      closeCreateModal();
+      showToast("Başarılı", "Girişim ilanı yayınlandı!");
+
+      document.getElementById('addTitle').value = '';
+      document.getElementById('addGoal').value = '';
+      document.getElementById('addFounder').value = '';
+      document.getElementById('addWebsite').value = '';
+      document.getElementById('addPitchDeck').value = '';
+      document.getElementById('addDesc').value = '';
+    }
+
+    async function loadSyndicates() {
+      if (sbClient) {
+        try {
+          const { data } = await sbClient.from('syndicates').select('*').order('id', { ascending: false });
+          if (data && data.length > 0) { renderSyndicates(data); return; }
+        } catch (e) {}
+      }
+      var localData = JSON.parse(localStorage.getItem('my_syndicates_list') || '[]');
+      renderSyndicates(localData);
+    }
+
+    function renderSyndicates(data) {
+      var grid = document.getElementById('syndicatesGrid');
+      if (!grid) return;
+      grid.innerHTML = '';
+      if (data.length === 0) { grid.innerHTML = '<div class="col-span-full text-center py-16 text-slate-500 text-sm font-semibold al-card-dark rounded-3xl">Henüz aktif bir yatırım turu bulunmuyor.</div>'; return; }
+      data.forEach(function(item) {
+        var card = document.createElement('div');
+        card.className = "al-card-dark rounded-3xl p-6 flex flex-col justify-between space-y-4 border border-[#1e222d]";
+        card.innerHTML = '<div><span class="bg-rose-500/10 text-rose-400 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase border border-rose-500/30">🔥 CANLI TUR</span><h3 class="text-xl font-bold text-white mt-3">' + item.title + '</h3><p class="text-xs text-slate-400 font-semibold flex items-center gap-1.5">👑 ' + item.leader + ' <span class="text-emerald-400 text-[10px] bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">✓ Doğrulanmış Yatırımcı</span></p><p class="text-slate-400 text-xs mt-2">' + item.description + '</p></div><div class="pt-4 border-t border-[#1e222d] flex justify-between items-center text-xs font-bold"><span class="text-rose-400">Tur: $' + Number(item.goal).toLocaleString() + '</span><button onclick="showToast(\'Bilgi\', \'Tura katılım talebiniz lider yatırımcıya iletildi.\')" class="bg-rose-500 hover:bg-rose-600 text-white px-4 py-2 rounded-full cursor-pointer transition">Tura Katıl</button></div>';
+        grid.appendChild(card);
+      });
+    }
+
+    async function loadAcquisitions() {
+      if (sbClient) {
+        try {
+          const { data } = await sbClient.from('acquisitions').select('*').order('id', { ascending: false });
+          if (data && data.length > 0) { renderAcquisitions(data); return; }
+        } catch (e) {}
+      }
+      var localData = JSON.parse(localStorage.getItem('my_acquisitions_list') || '[]');
+      renderAcquisitions(localData);
+    }
+
+    function renderAcquisitions(data) {
+      var grid = document.getElementById('acquisitionsGrid');
+      if (!grid) return;
+      grid.innerHTML = '';
+      if (data.length === 0) { grid.innerHTML = '<div class="col-span-full text-center py-16 text-slate-500 text-sm font-semibold al-card-dark rounded-3xl">Henüz satılık proje ilanı verilmedi.</div>'; return; }
+      data.forEach(function(item) {
+        var card = document.createElement('div');
+        card.className = "al-card-dark rounded-3xl p-6 flex flex-col justify-between space-y-4 border border-[#1e222d]";
+        card.innerHTML = '<div><div class="flex justify-between items-center mb-3"><span class="bg-indigo-500/10 text-indigo-400 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase border border-indigo-500/30">🛒 SATILIK</span><span class="text-emerald-400 text-xs font-black">$' + Number(item.mrr).toLocaleString() + '/ay MRR</span></div><h3 class="text-xl font-bold text-white">' + item.title + '</h3><p class="text-xs text-slate-400">Stack: ' + item.tech + '</p><p class="text-slate-400 text-xs mt-2">' + item.description + '</p></div><div class="pt-4 border-t border-[#1e222d] flex justify-between items-center text-xs font-bold"><span class="text-white">Fiyat: $' + Number(item.price).toLocaleString() + '</span><button onclick="showToast(\'Bilgi\', \'Proje satın alma teklifiniz satıcıya iletildi.\')" class="al-accent-bg text-[#08090b] px-4 py-2 rounded-full cursor-pointer transition">Teklif Ver</button></div>';
+        grid.appendChild(card);
+      });
+    }
+
+    function openStartupFormModal() { document.getElementById('addModal').classList.remove('hidden'); }
+    function closeCreateModal() { document.getElementById('addModal').classList.add('hidden'); }
+    function openSelectAddModal() { document.getElementById('selectAddModal').classList.remove('hidden'); }
+    function closeSelectAddModal() { document.getElementById('selectAddModal').classList.add('hidden'); }
+    function openSyndicateModal() { document.getElementById('addSyndicateModal').classList.remove('hidden'); }
+    function closeSyndicateModal() { document.getElementById('addSyndicateModal').classList.add('hidden'); }
+    function openAcquisitionModal() { document.getElementById('addAcquisitionModal').classList.remove('hidden'); }
+    function closeAcquisitionModal() { document.getElementById('addAcquisitionModal').classList.add('hidden'); }
+
+    function handleNewAddClick() {
+      if (!currentUser) { showToast("Uyarı", "İlan eklemek için giriş yapın."); openAuthModal('login'); } 
+      else { openSelectAddModal(); }
+    }
+
+    function openDetailModal(item) {
+      activeModalStartupId = String(item.id);
+      document.getElementById('detailTitle').innerText = item.name || item.title || 'İsimsiz Girişim';
+      document.getElementById('detailSector').innerText = item.sector || 'Teknoloji';
+      document.getElementById('detailStage').innerText = item.stage || 'Erken Aşama';
+      document.getElementById('detailFounder').innerText = "👤 Kurucu: " + (item.founder || 'Belirtilmedi');
+      document.getElementById('detailDesc').innerText = item.description || item.desc || 'Açıklama bulunmuyor.';
+      
+      var goal = extractGoalValue(item);
+      var raised = extractRaisedValue(item);
+      var percent = Math.min(100, Math.round((raised / goal) * 100));
+
+      document.getElementById('detailRaised').innerText = "$" + raised.toLocaleString() + " toplandı";
+      document.getElementById('detailGoal').innerText = "Hedef: $" + goal.toLocaleString();
+      document.getElementById('detailProgress').style.width = percent + "%";
+
+      updateModalFavButton();
+
+      var linksBox = document.getElementById('detailLinksBox');
+      linksBox.innerHTML = '';
+
+      if (item.website) {
+        linksBox.innerHTML += '<a href="' + item.website + '" target="_blank" class="bg-[#08090b] hover:bg-[#12141a] text-emerald-400 border border-emerald-500/30 px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5">🌐 Web Sitesi &rarr;</a>';
+      }
+      if (item.pitch_deck) {
+        linksBox.innerHTML += '<a href="' + item.pitch_deck + '" target="_blank" class="bg-[#08090b] hover:bg-[#12141a] text-indigo-400 border border-indigo-500/30 px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5">📊 Sunum Dosyası (Pitch Deck) &rarr;</a>';
+      }
+
+      activeContactEmail = item.user_email || "ihsannozdemiro1@gmail.com";
+      activeStartupName = item.name || item.title || "Girişim";
+
+      document.getElementById('detailModal').classList.remove('hidden');
+    }
+
+    function closeDetailModal() { document.getElementById('detailModal').classList.add('hidden'); }
+
+    function openMeetingModal() {
+      closeDetailModal();
+      document.getElementById('meetingTargetLabel').innerText = "Hedef Girişim: " + activeStartupName;
+      document.getElementById('meetingModal').classList.remove('hidden');
+    }
+    function closeMeetingModal() { document.getElementById('meetingModal').classList.add('hidden'); }
+
+    function submitMeetingRequest() {
+      var sender = document.getElementById('meetingSender').value;
+      var date = document.getElementById('meetingDate').value;
+      var time = document.getElementById('meetingTime').value;
+      var note = document.getElementById('meetingNote').value;
+
+      if (!sender || !date || !time) {
+        showToast("Uyarı", "Lütfen adınızı, tarih ve saat bilgilerini doldurun.");
+        return;
+      }
+
+      var newMsg = {
+        id: Date.now(),
+        startup: activeStartupName,
+        recipient: activeContactEmail,
+        sender: sender,
+        message: "📅 Toplantı Talebi [" + date + " - " + time + "]: " + (note || "Not belirtilmedi."),
+        date: new Date().toLocaleString()
+      };
+
+      var existingMsgs = JSON.parse(localStorage.getItem('platform_messages') || '[]');
+      existingMsgs.unshift(newMsg);
+      localStorage.setItem('platform_messages', JSON.stringify(existingMsgs));
+
+      closeMeetingModal();
+      showToast("Başarılı", "Toplantı talebiniz kurucuya iletildi!");
+    }
+
+    function openInAppMessageModal() {
+      closeDetailModal();
+      document.getElementById('targetFounderLabel').innerText = "Alıcı Proje: " + activeStartupName + " (" + activeContactEmail + ")";
+      document.getElementById('inAppMessageModal').classList.remove('hidden');
+    }
+    function closeInAppMessageModal() { document.getElementById('inAppMessageModal').classList.add('hidden'); }
+
+    async function sendInAppMessage() {
+      var sender = document.getElementById('msgSender').value;
+      var content = document.getElementById('msgContent').value;
+      if (!sender || !content) { showToast("Uyarı", "Lütfen tüm alanları doldurun."); return; }
+
+      var newMessage = {
+        id: Date.now(),
+        startup: activeStartupName,
+        recipient: activeContactEmail,
+        sender: sender,
+        message: content,
+        date: new Date().toLocaleString()
+      };
+
+      var existingMsgs = JSON.parse(localStorage.getItem('platform_messages') || '[]');
+      existingMsgs.unshift(newMessage);
+      localStorage.setItem('platform_messages', JSON.stringify(existingMsgs));
+
+      closeInAppMessageModal();
+      showToast("Mesaj Gönderildi", "Kurucuya başarıyla mesaj iletildi.");
+      document.getElementById('msgSender').value = '';
+      document.getElementById('msgContent').value = '';
+    }
+
+    function renderMessages() {
+      var grid = document.getElementById('messagesGrid');
+      if (!grid) return;
+      var msgs = JSON.parse(localStorage.getItem('platform_messages') || '[]');
+      grid.innerHTML = '';
+
+      if (msgs.length === 0) {
+        grid.innerHTML = '<div class="text-center py-16 text-slate-500 text-sm font-semibold al-card-dark rounded-3xl">Henüz gelen bir mesaj bulunmuyor.</div>';
+        return;
+      }
+
+      msgs.forEach(function(m) {
+        var card = document.createElement('div');
+        card.className = "al-card-dark p-6 rounded-2xl space-y-2 border border-[#1e222d]";
+        card.innerHTML = '<div class="flex justify-between items-center text-xs"><span class="font-black text-emerald-400">Proje: ' + m.startup + '</span><span class="text-slate-500">' + m.date + '</span></div><p class="text-xs font-bold text-white">Gönderen: ' + m.sender + '</p><p class="text-slate-300 text-xs bg-[#08090b] p-3 rounded-xl border border-[#1e222d]">' + m.message + '</p>';
+        grid.appendChild(card);
+      });
+    }
+
+    async function renderAdminDashboard() {
+      document.getElementById('adminTotalListings').innerText = startups.length + syndicates.length + acquisitions.length;
+      
+      // Güvenli ve anlık güncellenen yerel kayıtlı kullanıcı havuzu
+      var registeredUsers = JSON.parse(localStorage.getItem('platform_registered_users') || '[]');
+      if (currentUser && currentUser.email && !registeredUsers.includes(currentUser.email)) {
+        registeredUsers.push(currentUser.email);
+        localStorage.setItem('platform_registered_users', JSON.stringify(registeredUsers));
+      }
+      var totalUsersCount = Math.max(1, registeredUsers.length);
+      document.getElementById('adminUserCount').innerText = totalUsersCount;
+
+      var grid = document.getElementById('adminListingsGrid');
+      if (!grid) return;
+      grid.innerHTML = '';
+      if (startups.length === 0) { 
+        grid.innerHTML = '<div class="text-slate-500 text-xs text-center py-8">İlan yok.</div>'; 
+        return; 
+      }
+      startups.forEach(function(item) {
+        var row = document.createElement('div');
+        row.className = "al-card-dark p-4 rounded-2xl flex items-center justify-between border border-[#1e222d]";
+        row.innerHTML = '<div class="space-y-1"><span class="font-bold text-white text-sm">' + (item.name || item.title) + '</span><p class="text-xs text-slate-400">Kurucu: ' + item.founder + '</p></div><button type="button" onclick="deleteStartup(\'' + item.id + '\')" class="bg-rose-500/10 text-rose-400 border border-rose-500/30 px-4 py-2 rounded-xl text-xs font-bold cursor-pointer">İlanı Sil</button>';
+        grid.appendChild(row);
+      });
+    }
+
+    async function deleteStartup(id) {
+      if (!confirm("Bu ilanı silmek istediğinize emin misiniz?")) return;
+      if (sbClient) {
+        try { await sbClient.from('startups').delete().eq('id', id); } catch (e) {}
+      }
+      var localList = JSON.parse(localStorage.getItem('my_startups_list') || '[]');
+      localList = localList.filter(function(s) { return String(s.id) !== String(id); });
+      localStorage.setItem('my_startups_list', JSON.stringify(localList));
+
+      await loadStartups();
+      renderAdminDashboard();
+      showToast("Bilgi", "İlan silindi.");
+    }
+
+    function filterStartups() {
+      var search = document.getElementById('searchInput').value.toLowerCase();
+      var sector = document.getElementById('sectorFilter').value;
+      var stage = document.getElementById('stageFilter').value;
+      var budgetMax = document.getElementById('budgetFilter').value;
+
+      var filtered = startups.filter(function(s) {
+        var matchSearch = (s.name || '').toLowerCase().includes(search);
+        var matchSector = (sector === "" || s.sector === sector);
+        var matchStage = (stage === "" || s.stage === stage);
+        var goalVal = extractGoalValue(s);
+        var matchBudget = true;
+        if (budgetMax === "50000") matchBudget = goalVal <= 50000;
+        else if (budgetMax === "100000") matchBudget = goalVal <= 100000;
+        else if (budgetMax === "500000") matchBudget = goalVal > 100000;
+
+        return matchSearch && matchSector && matchStage && matchBudget;
+      });
+      renderStartups(filtered);
+    }
+
+    function resetFilters() {
+      document.getElementById('searchInput').value = '';
+      document.getElementById('sectorFilter').value = '';
+      document.getElementById('stageFilter').value = '';
+      document.getElementById('budgetFilter').value = '';
+      renderStartups(startups);
     }
   </script>
 </body>
