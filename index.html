@@ -347,27 +347,31 @@
 
   </main>
 
-  <!-- SAĞ ALT KÖŞE CANLI SOHBET & MESAJ ÇEKMECESİ (Floating Chat Drawer) -->
+  <!-- SAĞ ALT KÖŞE WHATSAPP TARZI CANLI SOHBET ÇEKMECESİ -->
   <div id="floatingChatContainer" class="fixed bottom-6 right-6 z-50">
-    <!-- Sohbet Açma Butonu -->
     <button type="button" onclick="toggleChatDrawer()" class="bg-emerald-500 hover:bg-emerald-600 text-black font-extrabold px-5 py-3.5 rounded-full shadow-2xl flex items-center gap-2.5 transition transform hover:scale-105 cursor-pointer">
       <span class="w-3 h-3 rounded-full bg-black animate-ping"></span>
-      <span class="text-xs tracking-wide">💬 Mesaj Kutusu</span>
+      <span class="text-xs tracking-wide">💬 Canlı Mesajlar</span>
     </button>
 
-    <!-- Sohbet Penceresi (Drawer) -->
     <div id="chatDrawerBox" class="hidden absolute bottom-16 right-0 w-96 max-w-[90vw] al-card-dark rounded-3xl shadow-2xl border border-emerald-500/30 flex flex-col overflow-hidden bg-[#12141a]">
       <div class="p-4 bg-[#08090b] border-b border-[#1e222d] flex justify-between items-center">
         <div>
-          <h3 class="text-sm font-black text-white">📥 Gelen Kutusu & Sohbet</h3>
-          <p class="text-[10px] text-slate-400">Kurucu ve yatırımcı mesajlaşmaları</p>
+          <h3 class="text-sm font-black text-white">💬 Anlık Sohbet & Gelen Kutusu</h3>
+          <p class="text-[10px] text-slate-400">WhatsApp tarzı hızlı mesajlaşma</p>
         </div>
-        <button type="button" onclick="toggleChatDrawer()" class="text-slate-400 text-lg font-bold hover:text-white">&times;</button>
+        <button type="button" onclick="toggleChatDrawer()" class="text-slate-400 text-lg font-bold hover:text-white cursor-pointer">&times;</button>
       </div>
       
-      <!-- Mesaj Listesi Alanı -->
-      <div id="messagesGrid" class="p-4 space-y-3 max-h-[60vh] overflow-y-auto">
-        <div class="text-center py-10 text-slate-500 text-xs font-semibold">Henüz gelen bir mesaj bulunmuyor.</div>
+      <!-- Mesaj Akışı -->
+      <div id="messagesGrid" class="p-4 space-y-3 max-h-[50vh] overflow-y-auto bg-[#08090b]/50">
+        <div class="text-center py-10 text-slate-500 text-xs font-semibold">Henüz mesaj bulunmuyor.</div>
+      </div>
+
+      <!-- Hızlı Mesaj Gönderme Inputu -->
+      <div class="p-3 bg-[#08090b] border-t border-[#1e222d] flex gap-2">
+        <input type="text" id="quickMsgInput" onkeyup="if(event.key === 'Enter') sendQuickMessage()" placeholder="Hızlı mesaj yaz ve gönder..." class="w-full p-2.5 bg-[#12141a] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400">
+        <button type="button" onclick="sendQuickMessage()" class="al-accent-bg px-4 py-2.5 rounded-xl text-xs font-bold transition cursor-pointer">Gönder</button>
       </div>
     </div>
   </div>
@@ -458,19 +462,6 @@
           </button>
         </div>
         <button type="button" onclick="closeDetailModal()" class="bg-[#1e222d] text-white font-bold text-xs px-5 py-2.5 rounded-full hover:bg-slate-700 transition">Kapat</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- MESAJ YANITLAMA (REPLY) MODALI -->
-  <div id="replyMessageModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
-    <div class="al-card-dark rounded-3xl max-w-lg w-full p-8 relative text-white space-y-4">
-      <button type="button" onclick="closeReplyModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold hover:text-white">&times;</button>
-      <h2 class="text-2xl font-black">Mesajı Yanıtla</h2>
-      <p id="replyToLabel" class="text-xs text-emerald-400 font-semibold"></p>
-      <div class="space-y-3">
-        <textarea id="replyContent" rows="4" placeholder="Yanıtınızı buraya yazın..." class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400"></textarea>
-        <button type="button" onclick="sendReply()" class="w-full al-accent-bg font-extrabold py-3 rounded-xl text-xs transition cursor-pointer">Yanıtı Gönder</button>
       </div>
     </div>
   </div>
@@ -753,8 +744,6 @@
     var pendingSignupPassword = '';
     var activeTabName = localStorage.getItem('active_tab_name') || 'startups';
     var activeModalStartupId = null;
-    var replyTargetSender = "";
-    var replyTargetStartup = "";
 
     function showToast(title, desc) {
       var toast = document.getElementById('customToast');
@@ -801,7 +790,6 @@
       }
     }
 
-    // Sağ alt köşe çekmecesini açıp kapatma fonksiyonu
     function toggleChatDrawer() {
       var box = document.getElementById('chatDrawerBox');
       if (box.classList.contains('hidden')) {
@@ -1239,7 +1227,6 @@
       }
       localStorage.setItem('user_favorites', JSON.stringify(favs));
       filterStartups();
-      if (activeTabName === 'favorites') renderFavorites();
       if (activeModalStartupId === strId) updateModalFavButton();
     }
 
@@ -1547,9 +1534,10 @@
       showToast("Mesaj Gönderildi", "Kurucuya başarıyla mesaj iletildi.");
       document.getElementById('msgSender').value = '';
       document.getElementById('msgContent').value = '';
+      renderMessages();
     }
 
-    // Sağ alttaki kayar çekmece için mesajları render etme
+    // Canlı Sohbet Çekmecesi (WhatsApp Tarzı Hızlı Gönderim)
     function renderMessages() {
       var grid = document.getElementById('messagesGrid');
       if (!grid) return;
@@ -1557,58 +1545,48 @@
       grid.innerHTML = '';
 
       if (msgs.length === 0) {
-        grid.innerHTML = '<div class="text-center py-10 text-slate-500 text-xs font-semibold">Henüz gelen bir mesaj bulunmuyor.</div>';
+        grid.innerHTML = '<div class="text-center py-10 text-slate-500 text-xs font-semibold">Henüz mesaj bulunmuyor.</div>';
         return;
       }
 
       msgs.forEach(function(m) {
         var card = document.createElement('div');
-        card.className = "al-card-dark p-4 rounded-2xl space-y-2 border border-[#1e222d]";
+        card.className = "al-card-dark p-3 rounded-xl space-y-1.5 border border-[#1e222d] bg-[#12141a]";
         card.innerHTML = `
           <div class="flex justify-between items-center text-[10px]">
-            <span class="font-black text-emerald-400">Proje: ${m.startup}</span>
+            <span class="font-bold text-emerald-400">${m.startup || 'Genel Sohbet'}</span>
             <span class="text-slate-500">${m.date}</span>
           </div>
-          <p class="text-[11px] font-bold text-white">Gönderen: ${m.sender}</p>
-          <p class="text-slate-300 text-[11px] bg-[#08090b] p-2.5 rounded-xl border border-[#1e222d]">${m.message}</p>
-          <button type="button" onclick="openReplyModal('${m.sender}', '${m.startup}')" class="text-[10px] font-bold text-emerald-400 hover:text-white transition cursor-pointer">↩️ Cevap Yaz</button>
+          <p class="text-[11px] font-bold text-white">${m.sender}:</p>
+          <p class="text-slate-300 text-[11px] bg-[#08090b] p-2 rounded-lg border border-[#1e222d]">${m.message}</p>
         `;
         grid.appendChild(card);
       });
     }
 
-    function openReplyModal(sender, startup) {
-      replyTargetSender = sender;
-      replyTargetStartup = startup;
-      document.getElementById('replyToLabel').innerText = "Alıcı: " + sender + " | Proje: " + startup;
-      document.getElementById('replyMessageModal').classList.remove('hidden');
-    }
+    function sendQuickMessage() {
+      var input = document.getElementById('quickMsgInput');
+      var content = input.value.trim();
+      if (!content) return;
 
-    function closeReplyModal() {
-      document.getElementById('replyMessageModal').classList.add('hidden');
-    }
+      var senderName = currentUser ? (currentUser.user_metadata?.full_name || currentUser.email) : "Ziyaretçi Yatırımcı";
 
-    function sendReply() {
-      var content = document.getElementById('replyContent').value;
-      if (!content) { showToast("Uyarı", "Lütfen bir yanıt yazın."); return; }
-
-      var reply = {
+      var newMessage = {
         id: Date.now(),
-        startup: replyTargetStartup,
-        recipient: replyTargetSender,
-        sender: "Siz (Kurucu)",
-        message: "RE: " + content,
+        startup: "Hızlı Sohbet",
+        recipient: ADMIN_EMAIL,
+        sender: senderName,
+        message: content,
         date: new Date().toLocaleString()
       };
 
       var existingMsgs = JSON.parse(localStorage.getItem('platform_messages') || '[]');
-      existingMsgs.unshift(reply);
+      existingMsgs.unshift(newMessage);
       localStorage.setItem('platform_messages', JSON.stringify(existingMsgs));
 
-      closeReplyModal();
-      document.getElementById('replyContent').value = '';
-      showToast("Başarılı", "Yanıt gönderildi.");
+      input.value = '';
       renderMessages();
+      showToast("Gönderildi", "Mesajınız iletildi.");
     }
 
     async function renderAdminDashboard() {
