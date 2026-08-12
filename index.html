@@ -29,7 +29,6 @@
       -webkit-appearance: none; 
       margin: 0; 
     }
-    /* WhatsApp Tarzı Şık ve İnce Kaydırma Çubuğu */
     #messagesGrid::-webkit-scrollbar {
       width: 5px;
     }
@@ -56,7 +55,7 @@
   <header class="border-b border-[#1e222d] bg-[#08090b]/90 backdrop-blur-md sticky top-0 z-40">
     <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
       
-      <button type="button" onclick="handleLogoClick()" class="text-2xl font-black tracking-tight text-white flex items-center gap-3">
+      <button type="button" onclick="handleLogoClick()" class="text-2xl font-black tracking-tight text-white flex items-center gap-3 cursor-pointer">
         <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 via-teal-500 to-indigo-500 p-0.5 flex items-center justify-center shadow-lg shadow-emerald-900/20">
           <div class="w-full h-full bg-[#08090b] rounded-[10px] flex items-center justify-center">
             <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -75,20 +74,20 @@
       </nav>
 
       <nav id="appNav" style="display: none;" class="items-center space-x-1.5 bg-[#12141a] p-1.5 rounded-full border border-[#1e222d]">
-        <button type="button" id="btn-startups" onclick="showTab('startups')" class="tab-btn px-4 py-2.5 rounded-full text-xs font-bold text-white bg-[#1e222d] shadow-sm transition">🚀 Girişimler</button>
-        <button type="button" id="btn-syndicates" onclick="showTab('syndicates')" class="tab-btn px-4 py-2.5 rounded-full text-xs font-semibold text-slate-400 hover:text-white transition">🔥 Canlı Turlar</button>
-        <button type="button" id="btn-acquisitions" onclick="showTab('acquisitions')" class="tab-btn px-4 py-2.5 rounded-full text-xs font-semibold text-slate-400 hover:text-white transition">🛒 Proje Pazarı</button>
-        <button type="button" id="btn-favorites" onclick="showTab('favorites')" class="tab-btn px-4 py-2.5 rounded-full text-xs font-semibold text-slate-400 hover:text-white transition">⭐ Favoriler</button>
-        <button type="button" id="btn-admin" onclick="showTab('admin')" style="display: none;" class="tab-btn px-4 py-2.5 rounded-full text-xs font-black text-amber-400 bg-amber-500/10 border border-amber-500/30 transition">⚡ Yönetici</button>
+        <button type="button" id="btn-startups" onclick="showTab('startups')" class="tab-btn px-4 py-2.5 rounded-full text-xs font-bold text-white bg-[#1e222d] shadow-sm transition cursor-pointer">🚀 Girişimler</button>
+        <button type="button" id="btn-syndicates" onclick="showTab('syndicates')" class="tab-btn px-4 py-2.5 rounded-full text-xs font-semibold text-slate-400 hover:text-white transition cursor-pointer">🔥 Canlı Turlar</button>
+        <button type="button" id="btn-acquisitions" onclick="showTab('acquisitions')" class="tab-btn px-4 py-2.5 rounded-full text-xs font-semibold text-slate-400 hover:text-white transition cursor-pointer">🛒 Proje Pazarı</button>
+        <button type="button" id="btn-favorites" onclick="showTab('favorites')" class="tab-btn px-4 py-2.5 rounded-full text-xs font-semibold text-slate-400 hover:text-white transition cursor-pointer">⭐ Favoriler</button>
+        <button type="button" id="btn-admin" onclick="showTab('admin')" style="display: none;" class="tab-btn px-4 py-2.5 rounded-full text-xs font-black text-amber-400 bg-amber-500/10 border border-amber-500/30 transition cursor-pointer">⚡ Yönetici</button>
       </nav>
 
       <div class="flex items-center space-x-3">
         <div id="userProfileBox" class="hidden flex items-center space-x-3">
           <span id="userEmailLabel" class="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-3 py-1.5 rounded-full border border-emerald-500/30"></span>
-          <button type="button" onclick="handleLogout()" class="text-xs font-semibold text-slate-400 hover:text-rose-400 transition">Çıkış Yap</button>
+          <button type="button" onclick="handleLogout()" class="text-xs font-semibold text-slate-400 hover:text-rose-400 transition cursor-pointer">Çıkış Yap</button>
         </div>
-        <button type="button" id="loginHeaderBtn" onclick="openAuthModal('login')" class="text-xs font-bold text-slate-300 hover:text-white px-3 py-2 transition">Giriş Yap</button>
-        <button type="button" onclick="handleNewAddClick()" class="bg-white hover:bg-slate-200 text-[#08090b] font-extrabold text-xs px-5 py-2.5 rounded-full shadow-md transition">
+        <button type="button" id="loginHeaderBtn" onclick="openAuthModal('login')" class="text-xs font-bold text-slate-300 hover:text-white px-3 py-2 transition cursor-pointer">Giriş Yap</button>
+        <button type="button" onclick="handleNewAddClick()" class="bg-white hover:bg-slate-200 text-[#08090b] font-extrabold text-xs px-5 py-2.5 rounded-full shadow-md transition cursor-pointer">
           + İlan Ekle
         </button>
       </div>
@@ -115,10 +114,10 @@
         </p>
 
         <div class="max-w-2xl mx-auto pt-4 flex justify-center gap-4">
-          <button type="button" onclick="openAuthModal('signup')" class="al-accent-bg font-black text-xs px-8 py-4 rounded-xl transition shadow-lg">
+          <button type="button" onclick="openAuthModal('signup')" class="al-accent-bg font-black text-xs px-8 py-4 rounded-xl transition shadow-lg cursor-pointer">
             Kayıt Ol &rarr;
           </button>
-          <button type="button" onclick="openAuthModal('login')" class="bg-[#12141a] hover:bg-[#1e222d] text-white border border-[#1e222d] font-bold text-xs px-8 py-4 rounded-xl transition">
+          <button type="button" onclick="openAuthModal('login')" class="bg-[#12141a] hover:bg-[#1e222d] text-white border border-[#1e222d] font-bold text-xs px-8 py-4 rounded-xl transition cursor-pointer">
             Giriş Yap
           </button>
         </div>
@@ -289,7 +288,7 @@
           <option value="100000">&le; $100,000</option>
           <option value="500000">&gt; $100,000</option>
         </select>
-        <button type="button" onclick="resetFilters()" class="text-xs font-bold text-slate-400 hover:text-white border border-[#1e222d] rounded-xl p-3 bg-[#08090b] transition">Sıfırla</button>
+        <button type="button" onclick="resetFilters()" class="text-xs font-bold text-slate-400 hover:text-white border border-[#1e222d] rounded-xl p-3 bg-[#08090b] transition cursor-pointer">Sıfırla</button>
       </section>
 
       <section id="startupGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></section>
@@ -302,7 +301,7 @@
           <span class="text-xs font-bold uppercase text-rose-400">🔥 SÜRE SINIRLI YATIRIM TURLARI</span>
           <h2 class="text-2xl font-black text-white mt-1">Lider Yatırımcı Sendikaları</h2>
         </div>
-        <button type="button" onclick="openSyndicateModal()" class="bg-rose-500 hover:bg-rose-600 text-white font-extrabold text-xs px-5 py-3 rounded-full shadow-md transition">+ Yatırım Turu Başlat</button>
+        <button type="button" onclick="openSyndicateModal()" class="bg-rose-500 hover:bg-rose-600 text-white font-extrabold text-xs px-5 py-3 rounded-full shadow-md transition cursor-pointer">+ Yatırım Turu Başlat</button>
       </div>
       <div id="syndicatesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <div class="col-span-full text-center py-16 text-slate-500 text-sm font-semibold al-card-dark rounded-3xl">Henüz aktif bir yatırım turu bulunmuyor.</div>
@@ -316,7 +315,7 @@
           <span class="text-xs font-bold uppercase text-emerald-400">🛒 MICRO-ACQUISITION PAZARI</span>
           <h2 class="text-2xl font-black text-white mt-1">Satılık Proje & SaaS Pazar Yeri</h2>
         </div>
-        <button type="button" onclick="openAcquisitionModal()" class="al-accent-bg text-[#08090b] font-extrabold text-xs px-5 py-3 rounded-full shadow-md transition">+ Satılık Proje İlanı Ver</button>
+        <button type="button" onclick="openAcquisitionModal()" class="al-accent-bg text-[#08090b] font-extrabold text-xs px-5 py-3 rounded-full shadow-md transition cursor-pointer">+ Satılık Proje İlanı Ver</button>
       </div>
       <div id="acquisitionsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <div class="col-span-full text-center py-16 text-slate-500 text-sm font-semibold al-card-dark rounded-3xl">Henüz satılık proje ilanı verilmedi.</div>
@@ -371,7 +370,7 @@
     <div id="chatDrawerBox" class="hidden absolute bottom-16 right-0 w-96 max-w-[90vw] h-[480px] al-card-dark rounded-3xl shadow-2xl border border-emerald-500/30 flex flex-col overflow-hidden bg-[#12141a]">
       <div class="p-4 bg-[#08090b] border-b border-[#1e222d] flex justify-between items-center">
         <div>
-          <h3 class="text-sm font-black text-white">💬 Sohbet</h3>
+          <h3 class="text-sm font-black text-white">Sohbet</h3>
           <p class="text-[10px] text-slate-400">Canlı mesajlaşma akışı</p>
         </div>
         <button type="button" onclick="toggleChatDrawer()" class="text-slate-400 text-lg font-bold hover:text-white cursor-pointer">&times;</button>
@@ -430,7 +429,7 @@
   <!-- DETAY MODALI -->
   <div id="detailModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
     <div class="al-card-dark rounded-3xl max-w-2xl w-full p-8 relative text-white max-h-[90vh] overflow-y-auto border border-[#1e222d] space-y-6">
-      <button type="button" onclick="closeDetailModal()" class="absolute top-5 right-5 text-slate-500 text-xl font-bold hover:text-white">&times;</button>
+      <button type="button" onclick="closeDetailModal()" class="absolute top-5 right-5 text-slate-500 text-xl font-bold hover:text-white cursor-pointer">&times;</button>
       <div class="space-y-2">
         <div class="flex items-center gap-3">
           <span id="detailSector" class="bg-[#08090b] text-emerald-400 text-xs font-bold px-3 py-1 rounded-full uppercase"></span>
@@ -475,7 +474,7 @@
             📅 Toplantı Planla
           </button>
         </div>
-        <button type="button" onclick="closeDetailModal()" class="bg-[#1e222d] text-white font-bold text-xs px-5 py-2.5 rounded-full hover:bg-slate-700 transition">Kapat</button>
+        <button type="button" onclick="closeDetailModal()" class="bg-[#1e222d] text-white font-bold text-xs px-5 py-2.5 rounded-full hover:bg-slate-700 transition cursor-pointer">Kapat</button>
       </div>
     </div>
   </div>
@@ -483,7 +482,7 @@
   <!-- TOPLANTI / GÖRÜŞME RANDEVU MODALI -->
   <div id="meetingModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
     <div class="al-card-dark rounded-3xl max-w-md w-full p-8 relative text-white space-y-5">
-      <button type="button" onclick="closeMeetingModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold hover:text-white">&times;</button>
+      <button type="button" onclick="closeMeetingModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold hover:text-white cursor-pointer">&times;</button>
       <h2 class="text-2xl font-black">Toplantı & Görüşme Talep Et</h2>
       <p id="meetingTargetLabel" class="text-xs text-emerald-400 font-semibold"></p>
       <div class="space-y-4">
@@ -513,7 +512,7 @@
   <!-- SİTE İÇİ MESAJ MODALI -->
   <div id="inAppMessageModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
     <div class="al-card-dark rounded-3xl max-w-lg w-full p-8 relative text-white">
-      <button type="button" onclick="closeInAppMessageModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold hover:text-white">&times;</button>
+      <button type="button" onclick="closeInAppMessageModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold hover:text-white cursor-pointer">&times;</button>
       <h2 class="text-2xl font-black mb-2">Kurucuya Mesaj Gönder</h2>
       <p id="targetFounderLabel" class="text-xs text-emerald-400 font-semibold mb-4"></p>
       <div class="space-y-4">
@@ -533,11 +532,11 @@
   <!-- KAYIT OL & GİRİŞ YAP MODALI -->
   <div id="authModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
     <div class="al-card-dark rounded-3xl max-w-md w-full p-8 relative text-white space-y-6">
-      <button type="button" onclick="closeAuthModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold">&times;</button>
+      <button type="button" onclick="closeAuthModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold hover:text-white cursor-pointer">&times;</button>
       
       <div id="authTabHeader" class="flex bg-[#08090b] p-1.5 rounded-2xl border border-[#1e222d]">
-        <button type="button" id="tabLoginBtn" onclick="switchAuthTab('login')" class="w-1/2 py-2.5 rounded-xl text-xs font-black transition bg-[#1e222d] text-white">Giriş Yap</button>
-        <button type="button" id="tabSignupBtn" onclick="switchAuthTab('signup')" class="w-1/2 py-2.5 rounded-xl text-xs font-medium text-slate-400 hover:text-white transition">Kayıt Ol</button>
+        <button type="button" id="tabLoginBtn" onclick="switchAuthTab('login')" class="w-1/2 py-2.5 rounded-xl text-xs font-black transition bg-[#1e222d] text-white cursor-pointer">Giriş Yap</button>
+        <button type="button" id="tabSignupBtn" onclick="switchAuthTab('signup')" class="w-1/2 py-2.5 rounded-xl text-xs font-medium text-slate-400 hover:text-white transition cursor-pointer">Kayıt Ol</button>
       </div>
 
       <div id="authModalTitle" class="text-center">
@@ -546,7 +545,7 @@
       </div>
 
       <div id="googleAuthBox" class="mb-2">
-        <button type="button" id="googleBtn" class="w-full bg-white hover:bg-slate-200 text-black font-bold py-3 rounded-full text-xs flex items-center justify-center gap-2 transition">
+        <button type="button" id="googleBtn" class="w-full bg-white hover:bg-slate-200 text-black font-bold py-3 rounded-full text-xs flex items-center justify-center gap-2 transition cursor-pointer">
           <span>Google ile Devam Et</span>
         </button>
       </div>
@@ -573,7 +572,7 @@
         </div>
 
         <div id="forgotPasswordLinkBox" class="text-right">
-          <button type="button" onclick="switchAuthTab('forgot')" class="text-[11px] font-semibold text-slate-400 hover:text-emerald-400 transition">Şifremi Unuttum?</button>
+          <button type="button" onclick="switchAuthTab('forgot')" class="text-[11px] font-semibold text-slate-400 hover:text-emerald-400 transition cursor-pointer">Şifremi Unuttum?</button>
         </div>
 
         <button type="button" id="authSubmitBtn" onclick="handleAuthSubmit()" class="w-full al-accent-bg font-extrabold py-3.5 rounded-xl text-xs transition mt-2 cursor-pointer">Giriş Yap</button>
@@ -590,7 +589,7 @@
         </div>
         <button type="button" onclick="sendSupabaseResetEmail()" class="w-full al-accent-bg font-extrabold py-3.5 rounded-xl text-xs transition cursor-pointer">Sıfırlama Bağlantısı Gönder</button>
         <div class="text-center pt-2">
-          <button type="button" onclick="switchAuthTab('login')" class="text-xs text-slate-400 hover:text-white">&larr; Giriş Ekranına Dön</button>
+          <button type="button" onclick="switchAuthTab('login')" class="text-xs text-slate-400 hover:text-white cursor-pointer">&larr; Giriş Ekranına Dön</button>
         </div>
       </div>
 
@@ -600,7 +599,7 @@
   <!-- E-POSTA DOĞRULAMA (OTP) MODALI -->
   <div id="otpVerifyModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
     <div class="al-card-dark rounded-3xl max-w-md w-full p-8 relative text-white space-y-5">
-      <button type="button" onclick="closeOtpModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold">&times;</button>
+      <button type="button" onclick="closeOtpModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold hover:text-white cursor-pointer">&times;</button>
       <div class="text-center space-y-2">
         <div class="w-14 h-14 rounded-2xl bg-emerald-500/10 flex items-center justify-center text-emerald-400 text-2xl mx-auto">✉️</div>
         <h2 class="text-2xl font-black">E-Postanı Doğrula</h2>
@@ -619,7 +618,7 @@
   <!-- İLAN TİPİ SEÇİMİ -->
   <div id="selectAddModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
     <div class="al-card-dark rounded-3xl max-w-md w-full p-8 relative text-white space-y-6">
-      <button type="button" onclick="closeSelectAddModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold">&times;</button>
+      <button type="button" onclick="closeSelectAddModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold hover:text-white cursor-pointer">&times;</button>
       <h3 class="text-2xl font-black text-center">Ne Yayınlamak İstersiniz?</h3>
       <div class="space-y-3">
         <button type="button" onclick="closeSelectAddModal(); openStartupFormModal();" class="w-full al-card-dark p-4 rounded-2xl text-left flex justify-between items-center hover:border-emerald-400 transition cursor-pointer"><span>🚀 Girişim İlanı</span>&rarr;</button>
@@ -632,7 +631,7 @@
   <!-- İLAN EKLEME FORMU -->
   <div id="addModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
     <div class="al-card-dark rounded-3xl max-w-md w-full p-6 relative text-white border border-[#1e222d] space-y-4">
-      <button type="button" onclick="closeCreateModal()" class="absolute top-4 right-4 text-slate-400 text-lg font-bold hover:text-white">&times;</button>
+      <button type="button" onclick="closeCreateModal()" class="absolute top-4 right-4 text-slate-400 text-lg font-bold hover:text-white cursor-pointer">&times;</button>
       <div>
         <h2 class="text-xl font-black text-white">Yeni Girişim İlanı Ekle</h2>
         <p class="text-[11px] text-slate-400">Projenizi yatırımcı ağına hemen dahil edin.</p>
@@ -718,7 +717,7 @@
 
   <div id="addSyndicateModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
     <div class="al-card-dark rounded-3xl max-w-lg w-full p-8 relative text-white">
-      <button type="button" onclick="closeSyndicateModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold">&times;</button>
+      <button type="button" onclick="closeSyndicateModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold cursor-pointer">&times;</button>
       <h2 class="text-2xl font-black mb-4">🔥 Yeni Yatırım Turu Başlat</h2>
       <div class="space-y-4">
         <input type="text" id="addSynTitle" placeholder="Tur Başlığı" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white">
@@ -734,7 +733,7 @@
 
   <div id="addAcquisitionModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
     <div class="al-card-dark rounded-3xl max-w-lg w-full p-8 relative text-white">
-      <button type="button" onclick="closeAcquisitionModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold">&times;</button>
+      <button type="button" onclick="closeAcquisitionModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold cursor-pointer">&times;</button>
       <h2 class="text-2xl font-black mb-4">🛒 Satılık Proje İlanı Ver</h2>
       <div class="space-y-4">
         <input type="text" id="addAcqTitle" placeholder="Proje Adı" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white">
@@ -874,14 +873,14 @@
       modalTitle.style.display = 'block';
 
       if (mode === 'login') {
-        loginBtn.className = "w-1/2 py-2.5 rounded-xl text-xs font-black transition bg-[#1e222d] text-white";
-        signupBtn.className = "w-1/2 py-2.5 rounded-xl text-xs font-medium text-slate-400 hover:text-white transition";
+        loginBtn.className = "w-1/2 py-2.5 rounded-xl text-xs font-black transition bg-[#1e222d] text-white cursor-pointer";
+        signupBtn.className = "w-1/2 py-2.5 rounded-xl text-xs font-medium text-slate-400 hover:text-white transition cursor-pointer";
         fullNameBox.style.display = 'none';
         submitBtn.innerText = "Giriş Yap";
         mainForm.style.display = 'block';
       } else if (mode === 'signup') {
-        signupBtn.className = "w-1/2 py-2.5 rounded-xl text-xs font-black transition bg-[#1e222d] text-white";
-        loginBtn.className = "w-1/2 py-2.5 rounded-xl text-xs font-medium text-slate-400 hover:text-white transition";
+        signupBtn.className = "w-1/2 py-2.5 rounded-xl text-xs font-black transition bg-[#1e222d] text-white cursor-pointer";
+        loginBtn.className = "w-1/2 py-2.5 rounded-xl text-xs font-medium text-slate-400 hover:text-white transition cursor-pointer";
         fullNameBox.style.display = 'block';
         submitBtn.innerText = "Kayıt Ol";
         mainForm.style.display = 'block';
@@ -1153,7 +1152,6 @@
       if (sbClient) { 
         try { await sbClient.auth.signOut(); } catch (e) {} 
       }
-      // Çıkış yapıldığında verileri ve arayüzü anında sıfırla (yenileme gerektirmez)
       localStorage.removeItem('user_logged_in');
       currentUser = null;
       updateUserUI(null);
@@ -1213,7 +1211,7 @@
               '<span class="bg-[#08090b] text-emerald-400 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider border border-[#1e222d]">' + (item.sector || 'Teknoloji') + '</span>' +
               '<div class="flex items-center gap-2">' +
                 '<span class="text-slate-500 text-[10px] font-bold uppercase">' + (item.stage || 'Erken Aşama') + '</span>' +
-                '<button type="button" onclick="toggleFavorite(\'' + item.id + '\')" class="fav-btn w-7 h-7 rounded-full bg-[#08090b] border border-[#1e222d] flex items-center justify-center text-xs ' + (isFav ? 'text-amber-400 border-amber-400/50' : 'text-slate-500 hover:text-amber-400') + ' transition">⭐</button>' +
+                '<button type="button" onclick="toggleFavorite(\'' + item.id + '\')" class="fav-btn w-7 h-7 rounded-full bg-[#08090b] border border-[#1e222d] flex items-center justify-center text-xs ' + (isFav ? 'text-amber-400 border-amber-400/50' : 'text-slate-500 hover:text-amber-400') + ' transition cursor-pointer">⭐</button>' +
               '</div>' +
             '</div>' +
             '<h3 class="text-xl font-bold text-white mb-1">' + (item.name || item.title || 'İsimsiz Girişim') + '</h3>' +
@@ -1567,7 +1565,6 @@
         return;
       }
 
-      // Eski mesajlar üstte, yeni mesajlar altta (WhatsApp akışı) görünmesi için ters çeviriyoruz
       msgs.slice().reverse().forEach(function(m) {
         var myName = currentUser ? (currentUser.user_metadata?.full_name || currentUser.email) : "Ziyaretçi Yatırımcı";
         var isMe = (m.sender === myName || m.sender.includes("Siz"));
@@ -1576,7 +1573,6 @@
         bubbleWrapper.className = "flex flex-col mb-2 " + (isMe ? "items-end" : "items-start");
 
         var bubble = document.createElement('div');
-        // Kendi mesajlarımız yeşil (WhatsApp tonu), karşı tarafın mesajları koyu gri
         bubble.className = "max-w-[85%] px-3.5 py-2.5 rounded-2xl text-xs space-y-1 shadow-md " + 
           (isMe ? "bg-[#065f46] text-white rounded-br-none" : "bg-[#1e222d] text-slate-200 rounded-bl-none");
 
