@@ -354,23 +354,23 @@
       <span class="text-xs tracking-wide">💬 Canlı Mesajlar</span>
     </button>
 
-    <div id="chatDrawerBox" class="hidden absolute bottom-16 right-0 w-96 max-w-[90vw] al-card-dark rounded-3xl shadow-2xl border border-emerald-500/30 flex flex-col overflow-hidden bg-[#12141a]">
+    <div id="chatDrawerBox" class="hidden absolute bottom-16 right-0 w-96 max-w-[90vw] h-[450px] al-card-dark rounded-3xl shadow-2xl border border-emerald-500/30 flex flex-col overflow-hidden bg-[#12141a]">
       <div class="p-4 bg-[#08090b] border-b border-[#1e222d] flex justify-between items-center">
         <div>
-          <h3 class="text-sm font-black text-white">💬 Anlık Sohbet & Gelen Kutusu</h3>
-          <p class="text-[10px] text-slate-400">WhatsApp tarzı hızlı mesajlaşma</p>
+          <h3 class="text-sm font-black text-white">💬 Anlık Sohbet</h3>
+          <p class="text-[10px] text-slate-400">WhatsApp tarzı hızlı mesajlaşma akışı</p>
         </div>
         <button type="button" onclick="toggleChatDrawer()" class="text-slate-400 text-lg font-bold hover:text-white cursor-pointer">&times;</button>
       </div>
       
-      <!-- Mesaj Akışı -->
-      <div id="messagesGrid" class="p-4 space-y-3 max-h-[50vh] overflow-y-auto bg-[#08090b]/50">
+      <!-- Mesaj Balonları Alanı (WhatsApp Tarzı) -->
+      <div id="messagesGrid" class="p-4 space-y-3 flex-grow overflow-y-auto bg-[#08090b]/50 flex flex-col">
         <div class="text-center py-10 text-slate-500 text-xs font-semibold">Henüz mesaj bulunmuyor.</div>
       </div>
 
       <!-- Hızlı Mesaj Gönderme Inputu -->
       <div class="p-3 bg-[#08090b] border-t border-[#1e222d] flex gap-2">
-        <input type="text" id="quickMsgInput" onkeyup="if(event.key === 'Enter') sendQuickMessage()" placeholder="Hızlı mesaj yaz ve gönder..." class="w-full p-2.5 bg-[#12141a] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400">
+        <input type="text" id="quickMsgInput" onkeyup="if(event.key === 'Enter') sendQuickMessage()" placeholder="Mesaj yazın..." class="w-full p-2.5 bg-[#12141a] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400">
         <button type="button" onclick="sendQuickMessage()" class="al-accent-bg px-4 py-2.5 rounded-xl text-xs font-bold transition cursor-pointer">Gönder</button>
       </div>
     </div>
@@ -499,7 +499,7 @@
   <!-- SİTE İÇİ MESAJ MODALI -->
   <div id="inAppMessageModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
     <div class="al-card-dark rounded-3xl max-w-lg w-full p-8 relative text-white">
-      <button type="button" onclick="closeInAppMessageModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold hover:text-white">&times;</button>
+      <button type="button" onclick="closeInAppMessageModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold">&times;</button>
       <h2 class="text-2xl font-black mb-2">Kurucuya Mesaj Gönder</h2>
       <p id="targetFounderLabel" class="text-xs text-emerald-400 font-semibold mb-4"></p>
       <div class="space-y-4">
@@ -1537,7 +1537,7 @@
       renderMessages();
     }
 
-    // Canlı Sohbet Çekmecesi (WhatsApp Tarzı Hızlı Gönderim)
+    // WhatsApp Tarzı Sağ/Sol Balonlu Canlı Sohbet Render Fonksiyonu
     function renderMessages() {
       var grid = document.getElementById('messagesGrid');
       if (!grid) return;
@@ -1545,23 +1545,35 @@
       grid.innerHTML = '';
 
       if (msgs.length === 0) {
-        grid.innerHTML = '<div class="text-center py-10 text-slate-500 text-xs font-semibold">Henüz mesaj bulunmuyor.</div>';
+        grid.innerHTML = '<div class="text-center py-10 text-slate-500 text-xs font-semibold my-auto">Henüz mesaj bulunmuyor.</div>';
         return;
       }
 
-      msgs.forEach(function(m) {
-        var card = document.createElement('div');
-        card.className = "al-card-dark p-3 rounded-xl space-y-1.5 border border-[#1e222d] bg-[#12141a]";
-        card.innerHTML = `
-          <div class="flex justify-between items-center text-[10px]">
-            <span class="font-bold text-emerald-400">${m.startup || 'Genel Sohbet'}</span>
-            <span class="text-slate-500">${m.date}</span>
-          </div>
-          <p class="text-[11px] font-bold text-white">${m.sender}:</p>
-          <p class="text-slate-300 text-[11px] bg-[#08090b] p-2 rounded-lg border border-[#1e222d]">${m.message}</p>
+      // Eski mesajlar aşağıda, yeni mesajlar yukarıda görünmesi için ters çeviriyoruz
+      msgs.slice().reverse().forEach(function(m) {
+        var myName = currentUser ? (currentUser.user_metadata?.full_name || currentUser.email) : "Ziyaretçi Yatırımcı";
+        var isMe = (m.sender === myName || m.sender.includes("Siz"));
+
+        var bubbleWrapper = document.createElement('div');
+        bubbleWrapper.className = "flex flex-col " + (isMe ? "items-end" : "items-start");
+
+        var bubble = document.createElement('div');
+        // WhatsApp tarzı renkler: Kendi mesajlarımız yeşilimsi/koyu yeşil, karşı taraf koyu gri
+        bubble.className = "max-w-[85%] p-3 rounded-2xl text-xs space-y-1 shadow-md " + 
+          (isMe ? "bg-[#065f46] text-white rounded-br-none" : "bg-[#1e222d] text-slate-200 rounded-bl-none");
+
+        bubble.innerHTML = `
+          <div class="text-[9px] font-bold opacity-70 mb-0.5">${m.sender} (${m.startup || 'Genel'})</div>
+          <div class="leading-relaxed break-words">${m.message}</div>
+          <div class="text-[8px] text-right opacity-50 mt-1">${m.date}</div>
         `;
-        grid.appendChild(card);
+
+        bubbleWrapper.appendChild(bubble);
+        grid.appendChild(bubbleWrapper);
       });
+
+      // Sohbet açıldığında veya mesaj gelince en alta kaydır
+      grid.scrollTop = grid.scrollHeight;
     }
 
     function sendQuickMessage() {
@@ -1573,11 +1585,11 @@
 
       var newMessage = {
         id: Date.now(),
-        startup: "Hızlı Sohbet",
-        recipient: ADMIN_EMAIL,
+        startup: activeStartupName || "Genel Sohbet",
+        recipient: activeContactEmail || ADMIN_EMAIL,
         sender: senderName,
         message: content,
-        date: new Date().toLocaleString()
+        date: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       };
 
       var existingMsgs = JSON.parse(localStorage.getItem('platform_messages') || '[]');
@@ -1586,7 +1598,6 @@
 
       input.value = '';
       renderMessages();
-      showToast("Gönderildi", "Mesajınız iletildi.");
     }
 
     async function renderAdminDashboard() {
