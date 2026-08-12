@@ -29,6 +29,20 @@
       -webkit-appearance: none; 
       margin: 0; 
     }
+    /* WhatsApp Tarzı Şık ve İnce Kaydırma Çubuğu */
+    #messagesGrid::-webkit-scrollbar {
+      width: 5px;
+    }
+    #messagesGrid::-webkit-scrollbar-track {
+      background: #08090b;
+    }
+    #messagesGrid::-webkit-scrollbar-thumb {
+      background: #1e222d;
+      border-radius: 10px;
+    }
+    #messagesGrid::-webkit-scrollbar-thumb:hover {
+      background: #10b981;
+    }
   </style>
   <script>
     if (localStorage.getItem('user_logged_in') === 'true') {
@@ -354,18 +368,18 @@
       <span class="text-xs tracking-wide">💬 Canlı Mesajlar</span>
     </button>
 
-    <div id="chatDrawerBox" class="hidden absolute bottom-16 right-0 w-96 max-w-[90vw] h-[450px] al-card-dark rounded-3xl shadow-2xl border border-emerald-500/30 flex flex-col overflow-hidden bg-[#12141a]">
+    <div id="chatDrawerBox" class="hidden absolute bottom-16 right-0 w-96 max-w-[90vw] h-[480px] al-card-dark rounded-3xl shadow-2xl border border-emerald-500/30 flex flex-col overflow-hidden bg-[#12141a]">
       <div class="p-4 bg-[#08090b] border-b border-[#1e222d] flex justify-between items-center">
         <div>
-          <h3 class="text-sm font-black text-white">💬 Anlık Sohbet</h3>
-          <p class="text-[10px] text-slate-400">WhatsApp tarzı hızlı mesajlaşma akışı</p>
+          <h3 class="text-sm font-black text-white">💬 WhatsApp Tarzı Sohbet</h3>
+          <p class="text-[10px] text-slate-400">Anlık mesajlaşma akışı</p>
         </div>
         <button type="button" onclick="toggleChatDrawer()" class="text-slate-400 text-lg font-bold hover:text-white cursor-pointer">&times;</button>
       </div>
       
-      <!-- Mesaj Balonları Alanı (WhatsApp Tarzı) -->
+      <!-- Mesaj Balonları Alanı (Biri sağda, biri solda) -->
       <div id="messagesGrid" class="p-4 space-y-3 flex-grow overflow-y-auto bg-[#08090b]/50 flex flex-col">
-        <div class="text-center py-10 text-slate-500 text-xs font-semibold">Henüz mesaj bulunmuyor.</div>
+        <div class="text-center py-10 text-slate-500 text-xs font-semibold my-auto">Henüz mesaj bulunmuyor.</div>
       </div>
 
       <!-- Hızlı Mesaj Gönderme Inputu -->
@@ -499,7 +513,7 @@
   <!-- SİTE İÇİ MESAJ MODALI -->
   <div id="inAppMessageModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
     <div class="al-card-dark rounded-3xl max-w-lg w-full p-8 relative text-white">
-      <button type="button" onclick="closeInAppMessageModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold">&times;</button>
+      <button type="button" onclick="closeInAppMessageModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold hover:text-white">&times;</button>
       <h2 class="text-2xl font-black mb-2">Kurucuya Mesaj Gönder</h2>
       <p id="targetFounderLabel" class="text-xs text-emerald-400 font-semibold mb-4"></p>
       <div class="space-y-4">
@@ -1494,7 +1508,7 @@
         recipient: activeContactEmail,
         sender: sender,
         message: "📅 Toplantı Talebi [" + date + " - " + time + "]: " + (note || "Not belirtilmedi."),
-        date: new Date().toLocaleString()
+        date: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       };
 
       var existingMsgs = JSON.parse(localStorage.getItem('platform_messages') || '[]');
@@ -1523,7 +1537,7 @@
         recipient: activeContactEmail,
         sender: sender,
         message: content,
-        date: new Date().toLocaleString()
+        date: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       };
 
       var existingMsgs = JSON.parse(localStorage.getItem('platform_messages') || '[]');
@@ -1537,7 +1551,7 @@
       renderMessages();
     }
 
-    // WhatsApp Tarzı Sağ/Sol Balonlu Canlı Sohbet Render Fonksiyonu
+    // WhatsApp Tarzı Sağ/Soldan Akan Balonlu Sohbet Motoru
     function renderMessages() {
       var grid = document.getElementById('messagesGrid');
       if (!grid) return;
@@ -1549,30 +1563,29 @@
         return;
       }
 
-      // Eski mesajlar aşağıda, yeni mesajlar yukarıda görünmesi için ters çeviriyoruz
+      // Eski mesajlar üstte, yeni mesajlar altta (WhatsApp akışı) görünmesi için ters çeviriyoruz
       msgs.slice().reverse().forEach(function(m) {
         var myName = currentUser ? (currentUser.user_metadata?.full_name || currentUser.email) : "Ziyaretçi Yatırımcı";
         var isMe = (m.sender === myName || m.sender.includes("Siz"));
 
         var bubbleWrapper = document.createElement('div');
-        bubbleWrapper.className = "flex flex-col " + (isMe ? "items-end" : "items-start");
+        bubbleWrapper.className = "flex flex-col mb-2 " + (isMe ? "items-end" : "items-start");
 
         var bubble = document.createElement('div');
-        // WhatsApp tarzı renkler: Kendi mesajlarımız yeşilimsi/koyu yeşil, karşı taraf koyu gri
-        bubble.className = "max-w-[85%] p-3 rounded-2xl text-xs space-y-1 shadow-md " + 
+        // Kendi mesajlarımız yeşilimsi (WhatsApp tonu), karşı tarafın mesajları koyu gri
+        bubble.className = "max-w-[85%] px-3.5 py-2.5 rounded-2xl text-xs space-y-1 shadow-md " + 
           (isMe ? "bg-[#065f46] text-white rounded-br-none" : "bg-[#1e222d] text-slate-200 rounded-bl-none");
 
         bubble.innerHTML = `
-          <div class="text-[9px] font-bold opacity-70 mb-0.5">${m.sender} (${m.startup || 'Genel'})</div>
+          <div class="text-[9px] font-bold opacity-70 mb-0.5">${m.sender}</div>
           <div class="leading-relaxed break-words">${m.message}</div>
-          <div class="text-[8px] text-right opacity-50 mt-1">${m.date}</div>
+          <div class="text-[8px] text-right opacity-50 mt-0.5">${m.date}</div>
         `;
 
         bubbleWrapper.appendChild(bubble);
         grid.appendChild(bubbleWrapper);
       });
 
-      // Sohbet açıldığında veya mesaj gelince en alta kaydır
       grid.scrollTop = grid.scrollHeight;
     }
 
@@ -1585,7 +1598,7 @@
 
       var newMessage = {
         id: Date.now(),
-        startup: activeStartupName || "Genel Sohbet",
+        startup: activeStartupName || "Canlı Sohbet",
         recipient: activeContactEmail || ADMIN_EMAIL,
         sender: senderName,
         message: content,
