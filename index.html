@@ -84,6 +84,7 @@
       <div class="flex items-center space-x-3">
         <div id="userProfileBox" class="hidden flex items-center space-x-3">
           <span id="userEmailLabel" class="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-3 py-1.5 rounded-full border border-emerald-500/30"></span>
+          <button type="button" onclick="openInvestorVerificationModal()" class="text-xs font-bold text-amber-400 bg-amber-500/10 px-3 py-1.5 rounded-full border border-amber-500/30 hover:bg-amber-500/20 transition cursor-pointer">🛡️ Yatırımcı Doğrula</button>
           <button type="button" onclick="handleLogout()" class="text-xs font-semibold text-slate-400 hover:text-rose-400 transition cursor-pointer">Çıkış Yap</button>
         </div>
         <button type="button" id="loginHeaderBtn" onclick="openAuthModal('login')" class="text-xs font-bold text-slate-300 hover:text-white px-3 py-2 transition cursor-pointer">Giriş Yap</button>
@@ -426,6 +427,33 @@
 
   <!-- MODALLAR -->
   
+  <!-- YATIRIMCI DOĞRULAMA MODALI -->
+  <div id="investorVerificationModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
+    <div class="al-card-dark rounded-3xl max-w-md w-full p-8 relative text-white space-y-5">
+      <button type="button" onclick="closeInvestorVerificationModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold hover:text-white cursor-pointer">&times;</button>
+      <div class="space-y-1">
+        <span class="bg-amber-500/10 text-amber-400 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase border border-amber-500/30">🛡️ Akredite Yatırımcı</span>
+        <h2 class="text-2xl font-black mt-2">Yatırımcı Rozeti Başvurusu</h2>
+        <p class="text-xs text-slate-400">Profilinize resmi "Doğrulanmış Melek Yatırımcı" rozeti ekleyin.</p>
+      </div>
+      <div class="space-y-3">
+        <div>
+          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Yatırımcı / Fon Adı</label>
+          <input type="text" id="invFundName" placeholder="Örn: Galata Business Angels / Bireysel" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-amber-400">
+        </div>
+        <div>
+          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Ortalama Yatırım Bütçesi (Check Size)</label>
+          <input type="text" id="invCheckSize" placeholder="Örn: $25,000 - $100,000" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-amber-400">
+        </div>
+        <div>
+          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Yatırım Geçmişi / LinkedIn Profil Linki</label>
+          <input type="url" id="invProfileLink" placeholder="https://linkedin.com/in/..." class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-amber-400">
+        </div>
+        <button type="button" onclick="submitInvestorVerification()" class="w-full bg-amber-500 hover:bg-amber-600 text-black font-extrabold py-3.5 rounded-xl text-xs transition cursor-pointer shadow-lg">Doğrulama Talebi Gönder</button>
+      </div>
+    </div>
+  </div>
+
   <!-- DETAY MODALI -->
   <div id="detailModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
     <div class="al-card-dark rounded-3xl max-w-2xl w-full p-8 relative text-white max-h-[90vh] overflow-y-auto border border-[#1e222d] space-y-6">
@@ -575,7 +603,6 @@
           <button type="button" onclick="switchAuthTab('forgot')" class="text-[11px] font-semibold text-slate-400 hover:text-emerald-400 transition cursor-pointer">Şifremi Unuttum?</button>
         </div>
 
-        <!-- EK HATA ÇÖZÜMÜ İÇİN ID EKLENDİ -->
         <button type="button" id="authSubmitBtn" onclick="handleAuthSubmit()" class="w-full al-accent-bg font-extrabold py-3.5 rounded-xl text-xs transition mt-2 cursor-pointer">Giriş Yap</button>
       </div>
 
@@ -832,6 +859,45 @@
     }
     function closeAuthModal() { document.getElementById('authModal').classList.add('hidden'); }
 
+    function openInvestorVerificationModal() {
+      if (!currentUser) { showToast("Uyarı", "Giriş yapmalısınız!"); openAuthModal('login'); return; }
+      document.getElementById('investorVerificationModal').classList.remove('hidden');
+    }
+    function closeInvestorVerificationModal() {
+      document.getElementById('investorVerificationModal').classList.add('hidden');
+    }
+
+    function submitInvestorVerification() {
+      var fundName = document.getElementById('invFundName').value.trim();
+      var checkSize = document.getElementById('invCheckSize').value.trim();
+      var link = document.getElementById('invProfileLink').value.trim();
+
+      if (!fundName || !checkSize) {
+        showToast("Eksik Bilgi", "Lütfen fon adını ve yatırım bütçesini doldurun.");
+        return;
+      }
+
+      var verifications = JSON.parse(localStorage.getItem('investor_verifications') || '{}');
+      verifications[currentUser.email] = {
+        fundName: fundName,
+        checkSize: checkSize,
+        link: link,
+        status: currentUser.email === ADMIN_EMAIL ? 'approved' : 'pending'
+      };
+      localStorage.setItem('investor_verifications', JSON.stringify(verifications));
+
+      closeInvestorVerificationModal();
+      showToast("Başarılı", currentUser.email === ADMIN_EMAIL ? "Kurucu olarak yatırımcı rozetiniz aktifleştirildi!" : "Doğrulama talebiniz incelemeye alındı.");
+      updateUserUI(currentUser);
+    }
+
+    function isUserVerifiedInvestor(email) {
+      if (!email) return false;
+      if (email === ADMIN_EMAIL) return true;
+      var verifications = JSON.parse(localStorage.getItem('investor_verifications') || '{}');
+      return verifications[email] && verifications[email].status === 'approved';
+    }
+
     function switchAuthTab(mode) {
       currentAuthMode = mode;
       var loginBtn = document.getElementById('tabLoginBtn');
@@ -947,7 +1013,8 @@
           rawName = emailPart.charAt(0).toUpperCase() + emailPart.slice(1);
         }
         
-        userLabel.innerText = "Hoş geldin, " + rawName;
+        var verified = isUserVerifiedInvestor(user.email);
+        userLabel.innerHTML = "Hoş geldin, " + rawName + (verified ? ' <span class="text-amber-400">🛡️ [Doğrulanmış Yatırımcı]</span>' : '');
 
         if (adminBtn) {
           var currentEmail = user.email;
@@ -1407,11 +1474,14 @@
         return;
       }
 
+      var isVerified = currentUser ? isUserVerifiedInvestor(currentUser.email) : false;
+      var senderDisplay = sender + (isVerified ? " 🛡️ [Doğrulanmış Yatırımcı]" : "");
+
       var newMsg = {
         id: Date.now(),
         startup: activeStartupName,
         recipient: activeContactEmail,
-        sender: sender,
+        sender: senderDisplay,
         message: "📅 Toplantı Talebi [" + date + " - " + time + "]: " + (note || "Not belirtilmedi."),
         date: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       };
@@ -1436,11 +1506,14 @@
       var content = document.getElementById('msgContent').value;
       if (!sender || !content) { showToast("Uyarı", "Lütfen tüm alanları doldurun."); return; }
 
+      var isVerified = currentUser ? isUserVerifiedInvestor(currentUser.email) : false;
+      var senderDisplay = sender + (isVerified ? " 🛡️ [Doğrulanmış Yatırımcı]" : "");
+
       var newMessage = {
         id: Date.now(),
         startup: activeStartupName,
         recipient: activeContactEmail,
-        sender: sender,
+        sender: senderDisplay,
         message: content,
         date: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       };
@@ -1470,7 +1543,7 @@
 
       msgs.slice().reverse().forEach(function(m) {
         var myName = currentUser ? (currentUser.user_metadata?.full_name || currentUser.email) : "Ziyaretçi Yatırımcı";
-        var isMe = (m.sender === myName || m.sender.includes("Siz"));
+        var isMe = (m.sender.includes(myName) || m.sender.includes("Siz"));
 
         var bubbleWrapper = document.createElement('div');
         bubbleWrapper.className = "flex flex-col mb-2 " + (isMe ? "items-end" : "items-start");
@@ -1498,12 +1571,14 @@
       if (!content) return;
 
       var senderName = currentUser ? (currentUser.user_metadata?.full_name || currentUser.email) : "Ziyaretçi Yatırımcı";
+      var isVerified = currentUser ? isUserVerifiedInvestor(currentUser.email) : false;
+      var senderDisplay = senderName + (isVerified ? " 🛡️ [Doğrulanmış Yatırımcı]" : "");
 
       var newMessage = {
         id: Date.now(),
         startup: activeStartupName || "Canlı Sohbet",
         recipient: activeContactEmail || ADMIN_EMAIL,
-        sender: senderName,
+        sender: senderDisplay,
         message: content,
         date: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       };
