@@ -254,7 +254,7 @@
         </div>
       </section>
 
-      <!-- AngelList Tarzı Gelişmiş Filtreleme (Check Size, Sektör ve Aşama) -->
+      <!-- AngelList Tarzı Gelişmiş Filtreleme -->
       <section class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 gap-3 al-card-dark p-4 rounded-2xl">
         <input type="text" id="searchInput" onkeyup="filterStartups()" placeholder="Girişim adı ara..." class="sm:col-span-2 p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400">
         <select id="sectorFilter" onchange="filterStartups()" class="p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none">
@@ -413,6 +413,7 @@
           </button>
         </div>
         <p id="detailFounder" class="text-xs text-slate-400 font-semibold"></p>
+        <p id="detailPreviousWorks" class="text-xs text-indigo-300 font-medium pt-1"></p>
       </div>
 
       <!-- Değerleme ve Metrik Kutusu -->
@@ -610,7 +611,7 @@
     </div>
   </div>
 
-  <!-- İLAN EKLEME FORMU (TTM ve MRR Alanları Eklendi) -->
+  <!-- İLAN EKLEME FORMU (Kurucu Deneyimi / Önceki İşleri Alanı Eklendi) -->
   <div id="addModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
     <div class="al-card-dark rounded-3xl max-w-md w-full p-6 relative text-white border border-[#1e222d] space-y-4">
       <button type="button" onclick="closeCreateModal()" class="absolute top-4 right-4 text-slate-400 text-lg font-bold hover:text-white">&times;</button>
@@ -654,6 +655,11 @@
             <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Kurucu İsim</label>
             <input type="text" id="addFounder" placeholder="Adınız Soyadınız" class="w-full p-2.5 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400 transition">
           </div>
+        </div>
+
+        <div>
+          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Kurucunun Önceki İşleri / Deneyimleri</label>
+          <input type="text" id="addPreviousWorks" placeholder="Örn: Eski Startup Kurucusu (Exited), Google Alumni" class="w-full p-2.5 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400 transition">
         </div>
 
         <div class="grid grid-cols-3 gap-2">
@@ -1282,6 +1288,7 @@
       var goalVal = document.getElementById('addGoal').value;
       var founderVal = document.getElementById('addFounder').value;
       var descVal = document.getElementById('addDesc').value;
+      var prevWorksVal = document.getElementById('addPreviousWorks').value;
       var mrrVal = document.getElementById('addMRR').value;
       var ttmVal = document.getElementById('addTTM').value;
       var equityVal = document.getElementById('addEquity').value;
@@ -1308,6 +1315,7 @@
         funding_goal: goalInput,
         goal: goalInput,
         founder: founderVal,
+        previous_works: prevWorksVal || 'İlk Girişimi',
         mrr: Number(mrrVal) || 0,
         ttm: Number(ttmVal) || 0,
         equity: Number(equityVal) || 10,
@@ -1340,6 +1348,7 @@
       document.getElementById('addTitle').value = '';
       document.getElementById('addGoal').value = '';
       document.getElementById('addFounder').value = '';
+      document.getElementById('addPreviousWorks').value = '';
       document.getElementById('addMRR').value = '';
       document.getElementById('addTTM').value = '';
       document.getElementById('addEquity').value = '';
@@ -1416,6 +1425,7 @@
       document.getElementById('detailSector').innerText = item.sector || 'Teknoloji';
       document.getElementById('detailStage').innerText = item.stage || 'Erken Aşama';
       document.getElementById('detailFounder').innerText = "👤 Kurucu: " + (item.founder || 'Belirtilmedi');
+      document.getElementById('detailPreviousWorks').innerText = "💼 Kurucu Geçmişi / Son İşleri: " + (item.previous_works || 'Belirtilmedi');
       document.getElementById('detailDesc').innerText = item.description || item.desc || 'Açıklama bulunmuyor.';
       
       var goal = extractGoalValue(item);
@@ -1516,7 +1526,6 @@
       document.getElementById('msgContent').value = '';
     }
 
-    // Mesajlaşma & Yanıtla Fonksiyonları
     function renderMessages() {
       var grid = document.getElementById('messagesGrid');
       if (!grid) return;
