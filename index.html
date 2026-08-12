@@ -365,19 +365,19 @@
   <div id="floatingChatContainer" class="fixed bottom-6 right-6 z-50">
     <button type="button" onclick="toggleChatDrawer()" class="bg-emerald-500 hover:bg-emerald-600 text-black font-extrabold px-5 py-3.5 rounded-full shadow-2xl flex items-center gap-2.5 transition transform hover:scale-105 cursor-pointer">
       <span class="w-3 h-3 rounded-full bg-black animate-ping"></span>
-      <span class="text-xs tracking-wide">💬 Canlı Mesajlar</span>
+      <span class="text-xs tracking-wide">💬 Sohbet</span>
     </button>
 
     <div id="chatDrawerBox" class="hidden absolute bottom-16 right-0 w-96 max-w-[90vw] h-[480px] al-card-dark rounded-3xl shadow-2xl border border-emerald-500/30 flex flex-col overflow-hidden bg-[#12141a]">
       <div class="p-4 bg-[#08090b] border-b border-[#1e222d] flex justify-between items-center">
         <div>
-          <h3 class="text-sm font-black text-white">💬 WhatsApp Tarzı Sohbet</h3>
-          <p class="text-[10px] text-slate-400">Anlık mesajlaşma akışı</p>
+          <h3 class="text-sm font-black text-white">💬 Sohbet</h3>
+          <p class="text-[10px] text-slate-400">Canlı mesajlaşma akışı</p>
         </div>
         <button type="button" onclick="toggleChatDrawer()" class="text-slate-400 text-lg font-bold hover:text-white cursor-pointer">&times;</button>
       </div>
       
-      <!-- Mesaj Balonları Alanı (Biri sağda, biri solda) -->
+      <!-- Mesaj Balonları Alanı -->
       <div id="messagesGrid" class="p-4 space-y-3 flex-grow overflow-y-auto bg-[#08090b]/50 flex flex-col">
         <div class="text-center py-10 text-slate-500 text-xs font-semibold my-auto">Henüz mesaj bulunmuyor.</div>
       </div>
@@ -1153,8 +1153,12 @@
       if (sbClient) { 
         try { await sbClient.auth.signOut(); } catch (e) {} 
       }
-      showToast("Çıkış", "Oturum kapatıldı.");
+      // Çıkış yapıldığında verileri ve arayüzü anında sıfırla (yenileme gerektirmez)
+      localStorage.removeItem('user_logged_in');
+      currentUser = null;
       updateUserUI(null);
+      showToast("Çıkış", "Oturum kapatıldı.");
+      window.location.reload();
     }
 
     var startups = [], syndicates = [], acquisitions = [];
@@ -1572,7 +1576,7 @@
         bubbleWrapper.className = "flex flex-col mb-2 " + (isMe ? "items-end" : "items-start");
 
         var bubble = document.createElement('div');
-        // Kendi mesajlarımız yeşilimsi (WhatsApp tonu), karşı tarafın mesajları koyu gri
+        // Kendi mesajlarımız yeşil (WhatsApp tonu), karşı tarafın mesajları koyu gri
         bubble.className = "max-w-[85%] px-3.5 py-2.5 rounded-2xl text-xs space-y-1 shadow-md " + 
           (isMe ? "bg-[#065f46] text-white rounded-br-none" : "bg-[#1e222d] text-slate-200 rounded-bl-none");
 
