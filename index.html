@@ -575,6 +575,7 @@
           <button type="button" onclick="switchAuthTab('forgot')" class="text-[11px] font-semibold text-slate-400 hover:text-emerald-400 transition cursor-pointer">Şifremi Unuttum?</button>
         </div>
 
+        <!-- EK HATA ÇÖZÜMÜ İÇİN ID EKLENDİ -->
         <button type="button" id="authSubmitBtn" onclick="handleAuthSubmit()" class="w-full al-accent-bg font-extrabold py-3.5 rounded-xl text-xs transition mt-2 cursor-pointer">Giriş Yap</button>
       </div>
 
@@ -1007,7 +1008,6 @@
           if (data && data.session) {
             updateUserUI(data.session.user);
           } else {
-            // Doğrulama kapalıysa otomatik giriş dene
             const { data: signInData } = await sbClient.auth.signInWithPassword({ email, password });
             if (signInData && signInData.session) {
               updateUserUI(signInData.session.user);
