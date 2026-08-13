@@ -424,7 +424,7 @@
       <button type="button" onclick="closeEditModal()" class="absolute top-4 right-4 text-slate-400 text-lg font-bold hover:text-white cursor-pointer">&times;</button>
       <div>
         <h2 class="text-xl font-black text-white">Girişim İlanını Düzenle</h2>
-        <p class="text-[11px] text-slate-400">Proje bilgilerinizi anında güncelleyin.</p>
+        <p class="text-[11px] text-slate-400">Proje bilgilerinizi ve toplanan yatırım miktarını güncelleyin.</p>
       </div>
       <input type="hidden" id="editId">
       <div class="space-y-3">
@@ -432,13 +432,17 @@
           <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Girişim Adı</label>
           <input type="text" id="editTitle" class="w-full p-2.5 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400">
         </div>
-        <div class="grid grid-cols-2 gap-3">
+        <div class="grid grid-cols-3 gap-2">
           <div>
-            <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Hedef Yatırım ($)</label>
+            <label class="block text-[9px] font-bold text-slate-400 uppercase mb-1">Hedef Yatırım ($)</label>
             <input type="text" id="editGoal" class="w-full p-2.5 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400">
           </div>
           <div>
-            <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Aylık Gelir (MRR $)</label>
+            <label class="block text-[9px] font-bold text-slate-400 uppercase mb-1">Toplanan ($)</label>
+            <input type="text" id="editRaised" class="w-full p-2.5 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400">
+          </div>
+          <div>
+            <label class="block text-[9px] font-bold text-slate-400 uppercase mb-1">MRR ($)</label>
             <input type="text" id="editMRR" class="w-full p-2.5 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400">
           </div>
         </div>
@@ -525,7 +529,7 @@
         <div class="flex items-center gap-3">
           <span id="detailSector" class="bg-[#08090b] text-emerald-400 text-xs font-bold px-3 py-1 rounded-full uppercase"></span>
           <span id="detailStage" class="text-slate-500 text-xs font-bold uppercase"></span>
-          <span class="bg-emerald-500/10 text-emerald-400 text-[10px] font-bold px-2 py-0.5 rounded border border-emerald-500/30">✓ Doğrulanmış Veri Odası (Data Room)</span>
+          <span class="bg-emerald-500/10 text-emerald-400 text-[10px] font-bold px-2 py-0.5 rounded border border-emerald-500/30">✓ Doğrulanmış Veri Odası</span>
         </div>
         <div class="flex justify-between items-start">
           <h2 id="detailTitle" class="text-3xl font-black text-white"></h2>
@@ -537,14 +541,14 @@
         <p id="detailPreviousWorks" class="text-xs text-indigo-300 font-medium pt-1"></p>
       </div>
 
-      <!-- Değerleme ve Metrik Kutusu -->
+      <!-- Değerleme ve İlerleme Çubuğu -->
       <div class="bg-[#08090b] p-5 rounded-2xl border border-[#1e222d] space-y-3">
         <div class="flex justify-between items-center text-xs font-bold">
-          <span id="detailRaised" class="text-emerald-400 text-sm"></span>
-          <span id="detailGoal" class="text-slate-400"></span>
+          <span id="detailRaisedText" class="text-emerald-400 text-sm"></span>
+          <span id="detailGoalText" class="text-slate-400"></span>
         </div>
-        <div class="w-full bg-[#12141a] rounded-full h-2">
-          <div id="detailProgress" class="bg-emerald-400 h-2 rounded-full" style="width: 0%"></div>
+        <div class="w-full bg-[#12141a] rounded-full h-2.5">
+          <div id="detailProgress" class="bg-emerald-400 h-2.5 rounded-full transition-all duration-500" style="width: 0%"></div>
         </div>
         <div id="valuationBox" class="pt-2 text-[11px] text-indigo-400 font-bold"></div>
       </div>
@@ -570,20 +574,20 @@
     </div>
   </div>
 
-  <!-- TOPLANTI / GÖRÜŞME RANDEVU MODALI -->
+  <!-- TOPLANTI MODALI -->
   <div id="meetingModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
     <div class="al-card-dark rounded-3xl max-w-md w-full p-8 relative text-white space-y-5">
       <button type="button" onclick="closeMeetingModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold hover:text-white cursor-pointer">&times;</button>
-      <h2 class="text-2xl font-black">Toplantı & Görüşme Talep Et</h2>
+      <h2 class="text-2xl font-black">Toplantı Talep Et</h2>
       <p id="meetingTargetLabel" class="text-xs text-emerald-400 font-semibold"></p>
       <div class="space-y-4">
         <div>
-          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Adınız / Yatırımcı Kurum</label>
+          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Adınız / Kurum</label>
           <input type="text" id="meetingSender" placeholder="Adınız Soyadınız / Fon Adı" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400">
         </div>
         <div class="grid grid-cols-2 gap-3">
           <div>
-            <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Tercih Edilen Tarih</label>
+            <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Tarih</label>
             <input type="date" id="meetingDate" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400">
           </div>
           <div>
@@ -592,15 +596,15 @@
           </div>
         </div>
         <div>
-          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Görüşme Notu / Amaç</label>
-          <textarea id="meetingNote" rows="3" placeholder="Örn: Ön görüşme ve tanışma toplantısı..." class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400"></textarea>
+          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Görüşme Notu</label>
+          <textarea id="meetingNote" rows="3" placeholder="Örn: Ön görüşme..." class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400"></textarea>
         </div>
         <button type="button" onclick="submitMeetingRequest()" class="w-full al-accent-bg font-extrabold py-3.5 rounded-xl text-xs transition cursor-pointer">Toplantı Talebini Gönder</button>
       </div>
     </div>
   </div>
 
-  <!-- SİTE İÇİ MESAJ MODALI -->
+  <!-- MESAJ MODALI -->
   <div id="inAppMessageModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
     <div class="al-card-dark rounded-3xl max-w-lg w-full p-8 relative text-white">
       <button type="button" onclick="closeInAppMessageModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold hover:text-white cursor-pointer">&times;</button>
@@ -612,7 +616,7 @@
           <input type="text" id="msgSender" placeholder="Adınız veya e-posta adresiniz" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400">
         </div>
         <div>
-          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Mesajınız / Yatırım Teklifiniz</label>
+          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Mesajınız</label>
           <textarea id="msgContent" rows="4" placeholder="Girişiminizle ilgileniyoruz..." class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400"></textarea>
         </div>
         <button type="button" onclick="sendInAppMessage()" class="w-full al-accent-bg font-extrabold py-3 rounded-xl text-xs transition cursor-pointer">Mesajı Gönder</button>
@@ -620,7 +624,7 @@
     </div>
   </div>
 
-  <!-- KAYIT OL & GİRİŞ YAP MODALI -->
+  <!-- GİRİŞ / KAYIT MODALI -->
   <div id="authModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
     <div class="al-card-dark rounded-3xl max-w-md w-full p-8 relative text-white space-y-6">
       <button type="button" onclick="closeAuthModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold hover:text-white cursor-pointer">&times;</button>
@@ -647,7 +651,6 @@
         <div class="flex-grow border-t border-[#1e222d]"></div>
       </div>
 
-      <!-- GİRİŞ / KAYIT FORMU -->
       <div id="mainAuthForm" class="space-y-3">
         <div id="fullNameBox" style="display: none;">
           <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Ad Soyad</label>
@@ -669,13 +672,12 @@
         <button type="button" id="authSubmitBtn" onclick="handleAuthSubmit()" class="w-full al-accent-bg font-extrabold py-3.5 rounded-xl text-xs transition mt-2 cursor-pointer">Giriş Yap</button>
       </div>
 
-      <!-- ŞİFREMİ UNUTTUM FORMU -->
       <div id="forgotStep1" style="display: none;" class="space-y-3">
         <div class="bg-emerald-500/10 border border-emerald-500/20 p-3 rounded-xl text-emerald-400 text-xs font-semibold leading-relaxed text-center">
           ✉️ E-posta adresinizi girin. Şifre sıfırlama bağlantısı gönderilecektir.
         </div>
         <div>
-          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Kayıtlı E-Posta Adresiniz</label>
+          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Kayıtlı E-Posta</label>
           <input type="email" id="forgotEmail" placeholder="ornek@domain.com" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs outline-none focus:border-emerald-400">
         </div>
         <button type="button" onclick="sendSupabaseResetEmail()" class="w-full al-accent-bg font-extrabold py-3.5 rounded-xl text-xs transition cursor-pointer">Sıfırlama Bağlantısı Gönder</button>
@@ -683,7 +685,6 @@
           <button type="button" onclick="switchAuthTab('login')" class="text-xs text-slate-400 hover:text-white cursor-pointer">&larr; Giriş Ekranına Dön</button>
         </div>
       </div>
-
     </div>
   </div>
 
@@ -1219,6 +1220,7 @@
         var raised = extractRaisedValue(item);
         var percent = Math.min(100, Math.round((raised / goal) * 100));
         var isFav = favorites.includes(String(item.id));
+        var isCompleted = raised >= goal;
         
         var card = document.createElement('div');
         card.className = "al-card-dark rounded-3xl p-6 flex flex-col justify-between space-y-4 hover:border-slate-700 transition cursor-pointer relative";
@@ -1232,6 +1234,7 @@
             '<div class="flex items-center justify-between mb-3">' +
               '<span class="bg-[#08090b] text-emerald-400 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider border border-[#1e222d]">' + (item.sector || 'Teknoloji') + '</span>' +
               '<div class="flex items-center gap-2">' +
+                (isCompleted ? '<span class="bg-emerald-500/20 text-emerald-400 text-[9px] font-black px-2 py-0.5 rounded border border-emerald-500/40">Yatırım Turu Tamamlandı 🚀</span>' : '') +
                 '<span class="text-slate-500 text-[10px] font-bold uppercase">' + (item.stage || 'Erken Aşama') + '</span>' +
                 '<button type="button" onclick="toggleFavorite(\'' + item.id + '\')" class="fav-btn w-7 h-7 rounded-full bg-[#08090b] border border-[#1e222d] flex items-center justify-center text-xs ' + (isFav ? 'text-amber-400 border-amber-400/50' : 'text-slate-500 hover:text-amber-400') + ' transition cursor-pointer">⭐</button>' +
               '</div>' +
@@ -1242,10 +1245,10 @@
           '</div>' +
           '<div class="pt-4 border-t border-[#1e222d]">' +
             '<div class="flex justify-between text-xs font-bold mb-1.5">' +
-              '<span class="text-emerald-400">MRR: $' + (item.mrr || 0) + ' | TTM: $' + (item.ttm || 0) + '</span>' +
-              '<span class="text-slate-500">Hedef: $' + goal.toLocaleString() + '</span>' +
+              '<span class="text-emerald-400">Toplanan: $' + raised.toLocaleString() + '</span>' +
+              '<span class="text-slate-500">Hedef: $' + goal.toLocaleString() + ' (' + percent + '%)</span>' +
             '</div>' +
-            '<div class="w-full bg-[#08090b] rounded-full h-1.5"><div class="bg-emerald-400 h-1.5 rounded-full" style="width: ' + percent + '%"></div></div>' +
+            '<div class="w-full bg-[#08090b] rounded-full h-2"><div class="bg-emerald-400 h-2 rounded-full transition-all duration-500" style="width: ' + percent + '%"></div></div>' +
           '</div>';
         grid.appendChild(card);
       });
@@ -1320,7 +1323,7 @@
           '</div>' +
           '<div class="pt-4 border-t border-[#1e222d]">' +
             '<div class="flex justify-between text-xs font-bold mb-1.5">' +
-              '<span class="text-emerald-400">MRR: $' + (item.mrr || 0) + ' | TTM: $' + (item.ttm || 0) + '</span>' +
+              '<span class="text-emerald-400">Toplanan: $' + raised.toLocaleString() + '</span>' +
               '<span class="text-slate-500">Hedef: $' + goal.toLocaleString() + '</span>' +
             '</div>' +
             '<div class="w-full bg-[#08090b] rounded-full h-1.5"><div class="bg-emerald-400 h-1.5 rounded-full" style="width: ' + percent + '%"></div></div>' +
@@ -1348,19 +1351,20 @@
 
       myListings.forEach(function(item) {
         var goal = extractGoalValue(item);
+        var raised = extractRaisedValue(item);
         var card = document.createElement('div');
         card.className = "al-card-dark rounded-3xl p-6 flex flex-col justify-between space-y-4 border border-[#1e222d]";
         card.innerHTML = 
           '<div>' +
             '<div class="flex items-center justify-between mb-3">' +
               '<span class="bg-[#08090b] text-emerald-400 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase border border-[#1e222d]">' + (item.sector || 'Teknoloji') + '</span>' +
-              '<span class="text-slate-500 text-[10px] font-bold uppercase">' + (item.stage || 'Erken Aşama') + '</span>' +
+              '<span class="text-slate-500 text-[10px] font-bold uppercase">Toplanan: $' + raised.toLocaleString() + ' / $' + goal.toLocaleString() + '</span>' +
             '</div>' +
             '<h3 class="text-xl font-bold text-white mb-1">' + (item.name || item.title) + '</h3>' +
             '<p class="text-slate-400 text-xs leading-relaxed line-clamp-2">' + (item.description || item.desc || '') + '</p>' +
           '</div>' +
           '<div class="pt-4 border-t border-[#1e222d] flex justify-between items-center">' +
-            '<span class="text-xs font-bold text-emerald-400">Hedef: $' + goal.toLocaleString() + '</span>' +
+            '<span class="text-xs font-bold text-emerald-400">MRR: $' + (item.mrr || 0) + '</span>' +
             '<div class="flex gap-2">' +
               '<button type="button" onclick="openEditModal(\'' + item.id + '\')" class="bg-indigo-500/10 text-indigo-400 border border-indigo-500/30 px-3 py-1.5 rounded-xl text-xs font-bold cursor-pointer transition hover:bg-indigo-500/20">Düzenle</button>' +
               '<button type="button" onclick="deleteStartup(\'' + item.id + '\')" class="bg-rose-500/10 text-rose-400 border border-rose-500/30 px-3 py-1.5 rounded-xl text-xs font-bold cursor-pointer transition hover:bg-rose-500/20">Sil</button>' +
@@ -1376,6 +1380,7 @@
       document.getElementById('editId').value = item.id;
       document.getElementById('editTitle').value = item.name || item.title || '';
       document.getElementById('editGoal').value = extractGoalValue(item);
+      document.getElementById('editRaised').value = extractRaisedValue(item);
       document.getElementById('editMRR').value = item.mrr || 0;
       document.getElementById('editDesc').value = item.description || item.desc || '';
       document.getElementById('editModal').classList.remove('hidden');
@@ -1389,6 +1394,7 @@
       var id = document.getElementById('editId').value;
       var title = document.getElementById('editTitle').value;
       var goal = Number(document.getElementById('editGoal').value) || 10000;
+      var raised = Number(document.getElementById('editRaised').value) || 0;
       var mrr = Number(document.getElementById('editMRR').value) || 0;
       var desc = document.getElementById('editDesc').value;
 
@@ -1404,6 +1410,7 @@
             title: title,
             funding_goal: goal,
             goal: goal,
+            raised: raised,
             mrr: mrr,
             description: desc,
             description_text: desc
@@ -1418,6 +1425,7 @@
           s.title = title;
           s.funding_goal = goal;
           s.goal = goal;
+          s.raised = raised;
           s.mrr = mrr;
           s.description = desc;
         }
@@ -1426,7 +1434,7 @@
       localStorage.setItem('my_startups_list', JSON.stringify(localList));
 
       closeEditModal();
-      showToast("Başarılı", "İlanınız güncellendi!");
+      showToast("Başarılı", "İlanınız ve fon ilerleme durumu güncellendi!");
       loadStartups();
       renderMyListings();
     }
@@ -1578,8 +1586,8 @@
       var raised = extractRaisedValue(item);
       var percent = Math.min(100, Math.round((raised / goal) * 100));
 
-      document.getElementById('detailRaised').innerText = "MRR: $" + (item.mrr || 0) + " | TTM (Son 12 Ay): $" + (item.ttm || 0);
-      document.getElementById('detailGoal').innerText = "Hedef Yatırım: $" + goal.toLocaleString();
+      document.getElementById('detailRaisedText').innerText = "Toplanan: $" + raised.toLocaleString();
+      document.getElementById('detailGoalText').innerText = "Hedef Yatırım: $" + goal.toLocaleString() + " (" + percent + "%)";
       document.getElementById('detailProgress').style.width = percent + "%";
 
       var equity = Number(item.equity) || 10;
