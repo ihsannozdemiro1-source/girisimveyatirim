@@ -43,10 +43,10 @@
       background: #10b981;
     }
   </style>
-  <!-- Sayfa ilk açılışta anlık flicker (yanıp sönme) olmasını engelleyen kritik kontrol -->
+  <!-- Tarayıcı belleğinde oturum varsa, ilk milisaniyede ana sayfa flicker'ını (yanıp sönmesini) kesin olarak önler -->
   <script>
     if (localStorage.getItem('user_logged_in') === 'true') {
-      document.write('<style id="antiFlicker">#landingView { display: none !important; } #appView { display: block !important; }</style>');
+      document.write('<style id="authFlickerBlock">#landingView { display: none !important; } #appView { display: block !important; }</style>');
     }
   </script>
 </head>
@@ -97,7 +97,7 @@
     </div>
   </header>
 
-  <!-- ZİYARETÇİ HERO ARAYÜZÜ -->
+  <!-- ZİYARETÇİ HERO ARAYÜZÜ (Giriş yapılmışsa style script ile başlangıçta gizlenir) -->
   <div id="landingView" style="display: block;">
     <section class="relative hero-glow pt-24 pb-20 overflow-hidden border-b border-[#1e222d]">
       <div class="max-w-5xl mx-auto px-6 text-center space-y-8 relative z-10">
@@ -1043,20 +1043,22 @@
     }
 
     async function checkUserSession() {
-      if (!sbClient) { updateUserUI(null); return; }
+      if (!sbClient) { updateUserUI(null); removeAntiFlicker(); return; }
       try {
         const { data: { session } } = await sbClient.auth.getSession();
         if (session && session.user) {
           trackRegisteredUser(session.user.email);
           updateUserUI(session.user);
-          // Oturum açılmışsa anti-flicker style'ını kaldır
-          var af = document.getElementById('antiFlicker');
-          if (af) af.remove();
+          removeAntiFlicker();
           return;
         }
       } catch (e) {}
       updateUserUI(null);
-      var af = document.getElementById('antiFlicker');
+      removeAntiFlicker();
+    }
+
+    function removeAntiFlicker() {
+      var af = document.getElementById('authFlickerBlock');
       if (af) af.remove();
     }
 
