@@ -281,6 +281,15 @@
         </div>
       </section>
 
+      <!-- Hazır Check Size (Bütçe) Hızlı Filtre Butonları (3. Madde Eklendi) -->
+      <div class="flex flex-wrap items-center gap-2 pb-2">
+        <span class="text-xs font-bold text-slate-400 mr-2">Hızlı Filtrele:</span>
+        <button type="button" onclick="quickBudgetFilter(0)" class="px-3.5 py-1.5 rounded-full text-xs font-bold bg-[#12141a] text-slate-300 border border-[#1e222d] hover:border-emerald-400 transition cursor-pointer">Tümü</button>
+        <button type="button" onclick="quickBudgetFilter(50000)" class="px-3.5 py-1.5 rounded-full text-xs font-bold bg-[#12141a] text-slate-300 border border-[#1e222d] hover:border-emerald-400 transition cursor-pointer">Melek Yatırımcı (&le; $50k)</button>
+        <button type="button" onclick="quickBudgetFilter(100000)" class="px-3.5 py-1.5 rounded-full text-xs font-bold bg-[#12141a] text-slate-300 border border-[#1e222d] hover:border-emerald-400 transition cursor-pointer">Erken Aşama Fonu (&le; $100k)</button>
+        <button type="button" onclick="quickBudgetFilter(500000)" class="px-3.5 py-1.5 rounded-full text-xs font-bold bg-[#12141a] text-slate-300 border border-[#1e222d] hover:border-emerald-400 transition cursor-pointer">Büyüme Turu (&gt; $100k)</button>
+      </div>
+
       <!-- AngelList Tarzı Gelişmiş Filtreleme -->
       <section class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 gap-3 al-card-dark p-4 rounded-2xl">
         <input type="text" id="searchInput" onkeyup="filterStartups()" placeholder="Girişim adı ara..." class="sm:col-span-2 p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400">
@@ -418,13 +427,13 @@
 
   </main>
 
-  <!-- İLAN DÜZENLEME MODALI -->
+  <!-- İLAN DÜZENLEME MODALI (1. Madde: Kurucu Güncelleme Notu Eklendi) -->
   <div id="editModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
-    <div class="al-card-dark rounded-3xl max-w-md w-full p-6 relative text-white border border-[#1e222d] space-y-4">
+    <div class="al-card-dark rounded-3xl max-w-lg w-full p-6 relative text-white border border-[#1e222d] space-y-4 max-h-[90vh] overflow-y-auto">
       <button type="button" onclick="closeEditModal()" class="absolute top-4 right-4 text-slate-400 text-lg font-bold hover:text-white cursor-pointer">&times;</button>
       <div>
-        <h2 class="text-xl font-black text-white">Girişim İlanını Düzenle</h2>
-        <p class="text-[11px] text-slate-400">Proje bilgilerinizi ve toplanan yatırım miktarını güncelleyin.</p>
+        <h2 class="text-xl font-black text-white">Girişim İlanını & Güncellemeleri Düzenle</h2>
+        <p class="text-[11px] text-slate-400">Proje bilgilerinizi, fon ilerlemesini ve kurucu notunu güncelleyin.</p>
       </div>
       <input type="hidden" id="editId">
       <div class="space-y-3">
@@ -434,7 +443,7 @@
         </div>
         <div class="grid grid-cols-3 gap-2">
           <div>
-            <label class="block text-[9px] font-bold text-slate-400 uppercase mb-1">Hedef Yatırım ($)</label>
+            <label class="block text-[9px] font-bold text-slate-400 uppercase mb-1">Hedef ($)</label>
             <input type="text" id="editGoal" class="w-full p-2.5 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400">
           </div>
           <div>
@@ -449,6 +458,10 @@
         <div>
           <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Girişim Açıklaması</label>
           <textarea id="editDesc" rows="3" class="w-full p-2.5 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400"></textarea>
+        </div>
+        <div>
+          <label class="block text-[10px] font-bold text-emerald-400 uppercase mb-1">📢 Kurucu Gelişme Notu / Güncelleme</label>
+          <textarea id="editFounderUpdate" rows="2" placeholder="Örn: Bu hafta 3 yeni kurumsal pilot sözleşmesi imzaladık..." class="w-full p-2.5 bg-[#08090b] border border-emerald-500/30 rounded-xl text-xs text-white outline-none focus:border-emerald-400"></textarea>
         </div>
         <button type="button" onclick="saveEditedStartup()" class="w-full al-accent-bg font-black py-3 rounded-xl text-xs transition cursor-pointer">Değişiklikleri Kaydet</button>
       </div>
@@ -539,6 +552,12 @@
         </div>
         <p id="detailFounder" class="text-xs text-slate-400 font-semibold"></p>
         <p id="detailPreviousWorks" class="text-xs text-indigo-300 font-medium pt-1"></p>
+      </div>
+
+      <!-- Kurucu Güncelleme Notu Alanı -->
+      <div id="detailUpdateBox" class="hidden bg-emerald-500/10 p-4 rounded-2xl border border-emerald-500/30 space-y-1">
+        <div class="text-[11px] font-black text-emerald-400 uppercase tracking-widest flex items-center gap-1.5">📢 Kurucu Güncellemesi</div>
+        <p id="detailUpdateText" class="text-xs text-emerald-200 leading-relaxed"></p>
       </div>
 
       <!-- Değerleme ve İlerleme Çubuğu -->
@@ -1254,6 +1273,16 @@
       });
     }
 
+    // 3. Madde İçin Hızlı Check Size Filtre Fonksiyonu
+    function quickBudgetFilter(limit) {
+      var select = document.getElementById('budgetFilter');
+      if (limit === 0) select.value = "";
+      else if (limit === 50000) select.value = "50000";
+      else if (limit === 100000) select.value = "100000";
+      else if (limit === 500000) select.value = "500000";
+      filterStartups();
+    }
+
     // Favori Yönetimi
     function toggleFavorite(id) {
       var favs = JSON.parse(localStorage.getItem('user_favorites') || '[]');
@@ -1383,6 +1412,7 @@
       document.getElementById('editRaised').value = extractRaisedValue(item);
       document.getElementById('editMRR').value = item.mrr || 0;
       document.getElementById('editDesc').value = item.description || item.desc || '';
+      document.getElementById('editFounderUpdate').value = item.founder_update || '';
       document.getElementById('editModal').classList.remove('hidden');
     }
 
@@ -1390,6 +1420,7 @@
       document.getElementById('editModal').classList.add('hidden');
     }
 
+    // 1. Madde: Kurucu Güncelleme Notu Kaydetme Fonksiyonu
     async function saveEditedStartup() {
       var id = document.getElementById('editId').value;
       var title = document.getElementById('editTitle').value;
@@ -1397,6 +1428,7 @@
       var raised = Number(document.getElementById('editRaised').value) || 0;
       var mrr = Number(document.getElementById('editMRR').value) || 0;
       var desc = document.getElementById('editDesc').value;
+      var founderUpdate = document.getElementById('editFounderUpdate').value;
 
       if (!title || !desc) {
         showToast("Eksik Bilgi", "Lütfen gerekli alanları doldurun.");
@@ -1413,7 +1445,8 @@
             raised: raised,
             mrr: mrr,
             description: desc,
-            description_text: desc
+            description_text: desc,
+            founder_update: founderUpdate
           }).eq('id', id);
         } catch (e) {}
       }
@@ -1428,13 +1461,14 @@
           s.raised = raised;
           s.mrr = mrr;
           s.description = desc;
+          s.founder_update = founderUpdate;
         }
         return s;
       });
       localStorage.setItem('my_startups_list', JSON.stringify(localList));
 
       closeEditModal();
-      showToast("Başarılı", "İlanınız ve fon ilerleme durumu güncellendi!");
+      showToast("Başarılı", "İlanınız ve kurucu notu güncellendi!");
       loadStartups();
       renderMyListings();
     }
@@ -1483,7 +1517,8 @@
         website: websiteVal,
         pitch_deck: pitchDeckVal,
         description: descVal,
-        description_text: descVal
+        description_text: descVal,
+        founder_update: ''
       };
 
       if (sbClient) {
@@ -1582,6 +1617,16 @@
       document.getElementById('detailPreviousWorks').innerText = "💼 Kurucu Geçmişi / Son İşleri: " + (item.previous_works || 'Belirtilmedi');
       document.getElementById('detailDesc').innerText = item.description || item.desc || 'Açıklama bulunmuyor.';
       
+      // Kurucu Güncelleme Notu Gösterimi
+      var updateBox = document.getElementById('detailUpdateBox');
+      var updateText = document.getElementById('detailUpdateText');
+      if (item.founder_update && item.founder_update.trim() !== '') {
+        updateText.innerText = item.founder_update;
+        updateBox.classList.remove('hidden');
+      } else {
+        updateBox.classList.add('hidden');
+      }
+
       var goal = extractGoalValue(item);
       var raised = extractRaisedValue(item);
       var percent = Math.min(100, Math.round((raised / goal) * 100));
