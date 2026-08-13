@@ -77,7 +77,7 @@
         <button type="button" id="btn-startups" onclick="showTab('startups')" class="tab-btn px-4 py-2.5 rounded-full text-xs font-bold text-white bg-[#1e222d] shadow-sm transition cursor-pointer">🚀 Girişimler</button>
         <button type="button" id="btn-syndicates" onclick="showTab('syndicates')" class="tab-btn px-4 py-2.5 rounded-full text-xs font-semibold text-slate-400 hover:text-white transition cursor-pointer">🔥 Canlı Turlar</button>
         <button type="button" id="btn-acquisitions" onclick="showTab('acquisitions')" class="tab-btn px-4 py-2.5 rounded-full text-xs font-semibold text-slate-400 hover:text-white transition cursor-pointer">🛒 Proje Pazarı</button>
-        <button type="button" id="btn-calculator" onclick="showTab('calculator')" class="tab-btn px-4 py-2.5 rounded-full text-xs font-semibold text-slate-400 hover:text-white transition cursor-pointer">📊 Değerleme Aracı</button>
+        <button type="button" id="btn-my-listings" onclick="showTab('my-listings')" class="tab-btn px-4 py-2.5 rounded-full text-xs font-semibold text-slate-400 hover:text-white transition cursor-pointer">📢 İlanlarım</button>
         <button type="button" id="btn-favorites" onclick="showTab('favorites')" class="tab-btn px-4 py-2.5 rounded-full text-xs font-semibold text-slate-400 hover:text-white transition cursor-pointer">⭐ Favoriler</button>
         <button type="button" id="btn-admin" onclick="showTab('admin')" style="display: none;" class="tab-btn px-4 py-2.5 rounded-full text-xs font-black text-amber-400 bg-amber-500/10 border border-amber-500/30 transition cursor-pointer">⚡ Yönetici</button>
       </nav>
@@ -149,19 +149,6 @@
           <div class="w-14 h-14 rounded-2xl bg-indigo-500/10 flex items-center justify-center text-indigo-400 text-2xl font-black">🛒</div>
           <h3 class="text-2xl font-bold text-white">Micro-SaaS Proje Pazarı</h3>
           <p class="text-slate-400 text-xs leading-relaxed">Gelir elde eden hazır yazılım projelerinizi listeleyin ya da anahtar teslim karlı projeler satın alın.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- YATIRIM FIRSATLARI BÜLTEN ABONE KUTUSU (3. Madde Eklendi) -->
-    <section class="py-20 max-w-4xl mx-auto px-6 border-b border-[#1e222d]">
-      <div class="al-card-dark p-10 rounded-3xl border border-emerald-500/30 text-center space-y-6 bg-gradient-to-b from-[#12141a] to-[#08090b]">
-        <span class="text-xs font-extrabold text-emerald-400 uppercase tracking-widest bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">Özel Bülten</span>
-        <h2 class="text-3xl font-black text-white">Yeni Yatırım Turlarından İlk Siz Haberdar Olun</h2>
-        <p class="text-slate-400 text-xs max-w-xl mx-auto leading-relaxed">Her hafta platformda yeni yayınlanan erken aşama girişim turlarını ve karlı Micro-SaaS fırsatlarını e-posta kutunuza gönderelim.</p>
-        <div class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto pt-2">
-          <input type="email" id="newsletterEmail" placeholder="ornek@domain.com" class="w-full p-3.5 bg-[#08090b] border border-[#1e222d] rounded-2xl text-xs text-white outline-none focus:border-emerald-400 transition">
-          <button type="button" onclick="subscribeNewsletter()" class="al-accent-bg font-extrabold px-6 py-3.5 rounded-2xl text-xs transition cursor-pointer shrink-0">Abone Ol</button>
         </div>
       </div>
     </section>
@@ -336,31 +323,18 @@
       </div>
     </div>
 
-    <!-- 1. YATIRIMCI DEĞERLEME HESAPLAMA ARACI SEKMESİ -->
-    <div id="tab-calculator" class="content-tab space-y-6" style="display: none;">
-      <div class="al-card-dark p-8 rounded-3xl border border-[#1e222d] space-y-6 max-w-3xl mx-auto">
+    <!-- İLANLARIM (Kendi İlanlarını Yönetme Sekmesi) -->
+    <div id="tab-my-listings" class="content-tab space-y-6" style="display: none;">
+      <div class="al-card-dark p-8 rounded-3xl border border-[#1e222d] flex justify-between items-center">
         <div>
-          <span class="text-xs font-bold uppercase text-indigo-400">📊 AKILLI ASİSTAN</span>
-          <h2 class="text-2xl font-black text-white mt-1">Girişim Değerlemesi ve Hisse Hesaplayıcı</h2>
-          <p class="text-slate-400 text-xs mt-1">Yatırım tutarı ve devredilecek hisse oranını girerek şirket değerlemesini anında hesaplayın.</p>
+          <span class="text-xs font-bold uppercase text-emerald-400">📢 İLAN YÖNETİMİ</span>
+          <h2 class="text-2xl font-black text-white mt-1">Yayınladığınız Girişim İlanları</h2>
+          <p class="text-slate-400 text-xs mt-1">Buradan kendi projelerinizi güncelleyebilir veya yayından kaldırabilirsiniz.</p>
         </div>
-        
-        <div class="space-y-4">
-          <div>
-            <label class="block text-xs font-bold text-slate-400 uppercase mb-1.5">Alınacak Yatırım Tutarı ($)</label>
-            <input type="number" id="calcGoal" value="50000" oninput="calculateValuation()" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-indigo-400">
-          </div>
-          <div>
-            <label class="block text-xs font-bold text-slate-400 uppercase mb-1.5">Verilecek Hisse Oranı (%)</label>
-            <input type="number" id="calcEquity" value="10" oninput="calculateValuation()" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-indigo-400">
-          </div>
-        </div>
-
-        <div class="bg-[#08090b] p-6 rounded-2xl border border-indigo-500/30 text-center space-y-2">
-          <div class="text-xs font-bold text-slate-400 uppercase tracking-wider">Hesaplanan Şirket Değerlemesi (Post-Money Valuation)</div>
-          <div class="text-4xl font-black text-indigo-400" id="calcResultVal">$500,000</div>
-          <p class="text-[11px] text-slate-500">Bu değerleme, erken aşama girişim turlarında standart oranlara göre simüle edilmiştir.</p>
-        </div>
+        <button type="button" onclick="openSelectAddModal()" class="al-accent-bg text-[#08090b] font-extrabold text-xs px-5 py-2.5 rounded-full shadow-md transition cursor-pointer">+ Yeni İlan Ekle</button>
+      </div>
+      <div id="myListingsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="col-span-full text-center py-16 text-slate-500 text-sm font-semibold al-card-dark rounded-3xl">Henüz size ait bir ilan bulunmuyor.</div>
       </div>
     </div>
 
@@ -401,6 +375,39 @@
     </div>
 
   </main>
+
+  <!-- İLAN DÜZENLEME MODALI -->
+  <div id="editModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
+    <div class="al-card-dark rounded-3xl max-w-md w-full p-6 relative text-white border border-[#1e222d] space-y-4">
+      <button type="button" onclick="closeEditModal()" class="absolute top-4 right-4 text-slate-400 text-lg font-bold hover:text-white cursor-pointer">&times;</button>
+      <div>
+        <h2 class="text-xl font-black text-white">Girişim İlanını Düzenle</h2>
+        <p class="text-[11px] text-slate-400">Proje bilgilerinizi anında güncelleyin.</p>
+      </div>
+      <input type="hidden" id="editId">
+      <div class="space-y-3">
+        <div>
+          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Girişim Adı</label>
+          <input type="text" id="editTitle" class="w-full p-2.5 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400">
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Hedef Yatırım ($)</label>
+            <input type="text" id="editGoal" class="w-full p-2.5 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400">
+          </div>
+          <div>
+            <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Aylık Gelir (MRR $)</label>
+            <input type="text" id="editMRR" class="w-full p-2.5 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400">
+          </div>
+        </div>
+        <div>
+          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Girişim Açıklaması</label>
+          <textarea id="editDesc" rows="3" class="w-full p-2.5 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400"></textarea>
+        </div>
+        <button type="button" onclick="saveEditedStartup()" class="w-full al-accent-bg font-black py-3 rounded-xl text-xs transition cursor-pointer">Değişiklikleri Kaydet</button>
+      </div>
+    </div>
+  </div>
 
   <!-- SAĞ ALT KÖŞE WHATSAPP TARZI CANLI SOHBET ÇEKMECESİ -->
   <div id="floatingChatContainer" class="fixed bottom-6 right-6 z-50">
@@ -791,21 +798,6 @@
       }, 3500);
     }
 
-    function subscribeNewsletter() {
-      var email = document.getElementById('newsletterEmail').value.trim();
-      if (!email || !email.includes('@')) {
-        showToast("Hata", "Lütfen geçerli bir e-posta adresi girin.");
-        return;
-      }
-      var subs = JSON.parse(localStorage.getItem('newsletter_subscribers') || '[]');
-      if (!subs.includes(email)) {
-        subs.push(email);
-        localStorage.setItem('newsletter_subscribers', JSON.stringify(subs));
-      }
-      showToast("Başarılı", "Bültene başarıyla abone oldunuz!");
-      document.getElementById('newsletterEmail').value = '';
-    }
-
     function calculateValuation() {
       var goal = Number(document.getElementById('calcGoal').value) || 0;
       var equity = Number(document.getElementById('calcEquity').value) || 1;
@@ -882,6 +874,7 @@
 
       if (name === 'admin') renderAdminDashboard();
       if (name === 'favorites') renderFavorites();
+      if (name === 'my-listings') renderMyListings();
       if (name === 'calculator') calculateValuation();
     }
 
@@ -1274,6 +1267,108 @@
       });
     }
 
+    // İlanlarım Sekmesi ve Yönetimi
+    function renderMyListings() {
+      var grid = document.getElementById('myListingsGrid');
+      if (!grid) return;
+      grid.innerHTML = '';
+
+      var userEmail = currentUser ? currentUser.email : ADMIN_EMAIL;
+      var myListings = startups.filter(function(s) { 
+        return (s.user_email === userEmail) || (s.user_id === (currentUser ? currentUser.id : '')); 
+      });
+
+      if (myListings.length === 0) {
+        grid.innerHTML = '<div class="col-span-full text-center py-16 text-slate-500 text-sm font-semibold al-card-dark rounded-3xl">Henüz size ait bir ilan bulunmuyor. '+
+          '<button type="button" onclick="openSelectAddModal()" class="text-emerald-400 underline cursor-pointer ml-1">İlan Ekle</button></div>';
+        return;
+      }
+
+      myListings.forEach(function(item) {
+        var goal = extractGoalValue(item);
+        var card = document.createElement('div');
+        card.className = "al-card-dark rounded-3xl p-6 flex flex-col justify-between space-y-4 border border-[#1e222d]";
+        card.innerHTML = 
+          '<div>' +
+            '<div class="flex items-center justify-between mb-3">' +
+              '<span class="bg-[#08090b] text-emerald-400 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase border border-[#1e222d]">' + (item.sector || 'Teknoloji') + '</span>' +
+              '<span class="text-slate-500 text-[10px] font-bold uppercase">' + (item.stage || 'Erken Aşama') + '</span>' +
+            '</div>' +
+            '<h3 class="text-xl font-bold text-white mb-1">' + (item.name || item.title) + '</h3>' +
+            '<p class="text-slate-400 text-xs leading-relaxed line-clamp-2">' + (item.description || item.desc || '') + '</p>' +
+          '</div>' +
+          '<div class="pt-4 border-t border-[#1e222d] flex justify-between items-center">' +
+            '<span class="text-xs font-bold text-emerald-400">Hedef: $' + goal.toLocaleString() + '</span>' +
+            '<div class="flex gap-2">' +
+              '<button type="button" onclick="openEditModal(\'' + item.id + '\')" class="bg-indigo-500/10 text-indigo-400 border border-indigo-500/30 px-3 py-1.5 rounded-xl text-xs font-bold cursor-pointer transition hover:bg-indigo-500/20">Düzenle</button>' +
+              '<button type="button" onclick="deleteStartup(\'' + item.id + '\')" class="bg-rose-500/10 text-rose-400 border border-rose-500/30 px-3 py-1.5 rounded-xl text-xs font-bold cursor-pointer transition hover:bg-rose-500/20">Sil</button>' +
+            '</div>' +
+          '</div>';
+        grid.appendChild(card);
+      });
+    }
+
+    function openEditModal(id) {
+      var item = startups.find(function(s) { return String(s.id) === String(id); });
+      if (!item) return;
+      document.getElementById('editId').value = item.id;
+      document.getElementById('editTitle').value = item.name || item.title || '';
+      document.getElementById('editGoal').value = extractGoalValue(item);
+      document.getElementById('editMRR').value = item.mrr || 0;
+      document.getElementById('editDesc').value = item.description || item.desc || '';
+      document.getElementById('editModal').classList.remove('hidden');
+    }
+
+    function closeEditModal() {
+      document.getElementById('editModal').classList.add('hidden');
+    }
+
+    async function saveEditedStartup() {
+      var id = document.getElementById('editId').value;
+      var title = document.getElementById('editTitle').value;
+      var goal = Number(document.getElementById('editGoal').value) || 10000;
+      var mrr = Number(document.getElementById('editMRR').value) || 0;
+      var desc = document.getElementById('editDesc').value;
+
+      if (!title || !desc) {
+        showToast("Eksik Bilgi", "Lütfen gerekli alanları doldurun.");
+        return;
+      }
+
+      if (sbClient) {
+        try {
+          await sbClient.from('startups').update({
+            name: title,
+            title: title,
+            funding_goal: goal,
+            goal: goal,
+            mrr: mrr,
+            description: desc,
+            description_text: desc
+          }).eq('id', id);
+        } catch (e) {}
+      }
+
+      var localList = JSON.parse(localStorage.getItem('my_startups_list') || '[]');
+      localList = localList.map(function(s) {
+        if (String(s.id) === String(id)) {
+          s.name = title;
+          s.title = title;
+          s.funding_goal = goal;
+          s.goal = goal;
+          s.mrr = mrr;
+          s.description = desc;
+        }
+        return s;
+      });
+      localStorage.setItem('my_startups_list', JSON.stringify(localList));
+
+      closeEditModal();
+      showToast("Başarılı", "İlanınız güncellendi!");
+      loadStartups();
+      renderMyListings();
+    }
+
     async function handleAddStartup() {
       if (!currentUser) { showToast("Uyarı", "Giriş yapmalısınız!"); openAuthModal('login'); return; }
 
@@ -1617,6 +1712,7 @@
 
       await loadStartups();
       renderAdminDashboard();
+      renderMyListings();
       showToast("Bilgi", "İlan silindi.");
     }
 
