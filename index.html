@@ -43,7 +43,7 @@
       background: #10b981;
     }
   </style>
-  <!-- Sayfa yenilendiğinde (F5) oturum varsa landing flicker'ını (anlık ana sayfa görünmesini) tamamen engelleyen kod -->
+  <!-- Sayfa yenilendiğinde anlık ana sayfa görünmesini (flicker) kesin olarak engelleyen kod -->
   <script>
     if (localStorage.getItem('user_logged_in') === 'true') {
       document.write('<style id="flickerBlocker">#landingView { display: none !important; } #appView { display: block !important; }</style>');
@@ -97,7 +97,7 @@
     </div>
   </header>
 
-  <!-- ZİYARETÇİ HERO ARAYÜZÜ -->
+  <!-- ZİYARETÇİ HERO ARAYÜZÜ (Giriş yapılmışsa style script ile başlangıçta gizlenir) -->
   <div id="landingView" style="display: block;">
     <section class="relative hero-glow pt-24 pb-20 overflow-hidden border-b border-[#1e222d]">
       <div class="max-w-5xl mx-auto px-6 text-center space-y-8 relative z-10">
@@ -1043,23 +1043,16 @@
     }
 
     async function checkUserSession() {
-      if (!sbClient) { updateUserUI(null); removeAntiFlicker(); return; }
+      if (!sbClient) { updateUserUI(null); return; }
       try {
         const { data: { session } } = await sbClient.auth.getSession();
         if (session && session.user) {
           trackRegisteredUser(session.user.email);
           updateUserUI(session.user);
-          removeAntiFlicker();
           return;
         }
       } catch (e) {}
       updateUserUI(null);
-      removeAntiFlicker();
-    }
-
-    function removeAntiFlicker() {
-      var af = document.getElementById('flickerBlocker');
-      if (af) af.remove();
     }
 
     function updateUserUI(user) {
@@ -1401,7 +1394,7 @@
             '<span class="text-xs font-bold text-emerald-400">MRR: $' + (item.mrr || 0) + '</span>' +
             '<div class="flex gap-2">' +
               '<button type="button" onclick="openEditModal(\'' + item.id + '\')" class="bg-indigo-500/10 text-indigo-400 border border-indigo-500/30 px-3 py-1.5 rounded-xl text-xs font-bold cursor-pointer transition hover:bg-indigo-500/20">Düzenle</button>' +
-              '<button type="button" onclick="deleteStartup(\'' + item.id + '\')" class="bg-rose-500/10 text-rose-400 border border-rose-500/30 px-3 py-1.5 rounded-xl text-xs font-bold cursor-pointer transition hover:bg-rose-500/20">Sil</button>' +
+              '<button type="button" onclick="deleteStartup(\'' + item.id + '\')" class="bg-rose-500/10 text-rose-400 border border-rose-500/30 px-4 py-2 rounded-xl text-xs font-bold cursor-pointer">İlanı Sil</button>' +
             '</div>' +
           '</div>';
         grid.appendChild(card);
