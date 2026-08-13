@@ -42,20 +42,14 @@
     #messagesGrid::-webkit-scrollbar-thumb:hover {
       background: #10b981;
     }
-
-    /* KESİN ÇÖZÜM: Sayfa render edilmeden HTML sınıfına göre görünümleri kesin olarak yönetir */
-    html.logged-in #landingView { display: none !important; }
-    html.logged-in #appView { display: block !important; }
-    html.not-logged-in #landingView { display: block !important; }
-    html.not-logged-in #appView { display: none !important; }
   </style>
 
-  <!-- Tarayıcı sayfayı ilk çizen saniyede doğru sınıfı HTML'e ekler -->
+  <!-- KESİN ÇÖZÜM: Tarayıcı daha HTML'i okurken oturuma göre stilleri anında enjekte eder -->
   <script>
     if (localStorage.getItem('user_logged_in') === 'true') {
-      document.documentElement.className = 'logged-in scroll-smooth';
+      document.write('<style>#landingView { display: none !important; } #appView { display: block !important; }</style>');
     } else {
-      document.documentElement.className = 'not-logged-in scroll-smooth';
+      document.write('<style>#landingView { display: block !important; } #appView { display: none !important; }</style>');
     }
   </script>
 </head>
@@ -106,8 +100,8 @@
     </div>
   </header>
 
-  <!-- ZİYARETÇİ HERO ARAYÜZÜ -->
-  <div id="landingView">
+  <!-- ZİYARETÇİ HERO ARAYÜZÜ (Başlangıçta display: none ile gizli başlar) -->
+  <div id="landingView" style="display: none;">
     <section class="relative hero-glow pt-24 pb-20 overflow-hidden border-b border-[#1e222d]">
       <div class="max-w-5xl mx-auto px-6 text-center space-y-8 relative z-10">
         
@@ -274,7 +268,7 @@
   </div>
 
   <!-- UYGULAMA ALANI (Giriş Yapınca Görünür) -->
-  <main id="appView" class="max-w-7xl mx-auto px-6 py-10">
+  <main id="appView" class="max-w-7xl mx-auto px-6 py-10" style="display: none;">
 
     <div id="tab-startups" class="content-tab space-y-8" style="display: block;">
       <section class="al-card-dark p-8 rounded-3xl flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
@@ -1101,7 +1095,6 @@
           adminBtn.style.display = (currentEmail === ADMIN_EMAIL) ? 'inline-block' : 'none';
         }
 
-        // DEĞİŞİKLİK: Hafızadaki son aktif sekmeyi açıyoruz, sıfırlanmıyor
         showTab(localStorage.getItem('active_tab_name') || 'startups');
       } else {
         localStorage.removeItem('user_logged_in');
@@ -1186,15 +1179,6 @@
     }
 
     document.addEventListener('DOMContentLoaded', async function() {
-      const isLoggedIn = localStorage.getItem('user_logged_in') === 'true';
-      if (isLoggedIn) {
-        document.documentElement.classList.add('logged-in');
-        document.documentElement.classList.remove('not-logged-in');
-      } else {
-        document.documentElement.classList.add('not-logged-in');
-        document.documentElement.classList.remove('logged-in');
-      }
-
       var btn = document.getElementById('googleBtn');
       if (btn) {
         btn.addEventListener('click', async function(e) {
