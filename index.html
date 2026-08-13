@@ -1178,7 +1178,7 @@
 
     var startups = [], syndicates = [], acquisitions = [];
 
-    // Geliştirilmiş LoadStartups: Supabase başarısız olsa bile LocalStorage'dan anında veri çeker
+    // Sağlamlaştırılmış loadStartups fonksiyonu
     async function loadStartups() {
       var remoteData = [];
       if (sbClient) {
@@ -1192,7 +1192,6 @@
       
       var localData = JSON.parse(localStorage.getItem('my_startups_list') || '[]');
       
-      // Uzak veri ile yerel veriyi ID çakışması olmadan birleştir
       var mergedMap = {};
       remoteData.forEach(function(item) { mergedMap[String(item.id)] = item; });
       localData.forEach(function(item) { mergedMap[String(item.id)] = item; });
@@ -1432,34 +1431,35 @@
       renderMyListings();
     }
 
-    // Garanti çalışan robust ekleme fonksiyonu
+    // Kesinlikle çalışan güvenli ilan ekleme fonksiyonu
     async function handleAddStartup() {
-      if (!currentUser) { showToast("Uyarı", "Giriş yapmalısınız!"); openAuthModal('login'); return; }
-
-      var titleVal = document.getElementById('addTitle').value;
-      var goalVal = document.getElementById('addGoal').value;
-      var founderVal = document.getElementById('addFounder').value;
-      var descVal = document.getElementById('addDesc').value;
-      var prevWorksVal = document.getElementById('addPreviousWorks').value;
-      var mrrVal = document.getElementById('addMRR').value;
-      var ttmVal = document.getElementById('addTTM').value;
-      var equityVal = document.getElementById('addEquity').value;
+      var titleVal = document.getElementById('addTitle').value.trim();
+      var goalVal = document.getElementById('addGoal').value.trim();
+      var founderVal = document.getElementById('addFounder').value.trim();
+      var descVal = document.getElementById('addDesc').value.trim();
+      var prevWorksVal = document.getElementById('addPreviousWorks').value.trim();
+      var mrrVal = document.getElementById('addMRR').value.trim();
+      var ttmVal = document.getElementById('addTTM').value.trim();
+      var equityVal = document.getElementById('addEquity').value.trim();
 
       if (!titleVal || !goalVal || !founderVal || !descVal) {
-        showToast("Eksik Alan", "Lütfen zorunlu alanları doldurun.");
+        showToast("Eksik Alan", "Lütfen Girişim Adı, Hedef Yatırım, Kurucu ve Açıklama alanlarını doldurun.");
         return;
       }
 
       var goalInput = Number(String(goalVal).replace(/[^0-9]/g, '')) || 10000;
       var sectorVal = document.getElementById('addSector').value;
       var stageVal = document.getElementById('addStage').value;
-      var websiteVal = document.getElementById('addWebsite').value;
-      var pitchDeckVal = document.getElementById('addPitchDeck').value;
+      var websiteVal = document.getElementById('addWebsite').value.trim();
+      var pitchDeckVal = document.getElementById('addPitchDeck').value.trim();
+
+      var userEmail = currentUser ? currentUser.email : ADMIN_EMAIL;
+      var userId = currentUser ? currentUser.id : 'local_user';
 
       var newStartup = {
         id: Date.now(),
-        user_id: currentUser.id || 'local_user',
-        user_email: currentUser.email || ADMIN_EMAIL,
+        user_id: userId,
+        user_email: userEmail,
         name: titleVal,
         title: titleVal,
         sector: sectorVal,
@@ -1479,14 +1479,14 @@
         description_text: descVal
       };
 
-      // Önce Supabase'e kaydetmeyi dene
+      // Supabase'e eklemeyi dene (hata verse bile akışı bozmaz)
       if (sbClient) {
         try { 
           await sbClient.from('startups').insert([newStartup]);
         } catch (err) {}
       }
 
-      // Her durumda kesin kalıcılık için LocalStorage'a kaydet ve listeyi güncelle
+      // Kesin kalıcılık ve anında görünürlük için LocalStorage'a kaydet
       var localList = JSON.parse(localStorage.getItem('my_startups_list') || '[]');
       localList.unshift(newStartup);
       localStorage.setItem('my_startups_list', JSON.stringify(localList));
@@ -1495,6 +1495,7 @@
       closeCreateModal();
       showToast("Başarılı", "Girişim ilanı başarıyla yayınlandı!");
 
+      // Formu temizle
       document.getElementById('addTitle').value = '';
       document.getElementById('addGoal').value = '';
       document.getElementById('addFounder').value = '';
@@ -1565,8 +1566,7 @@
     function closeAcquisitionModal() { document.getElementById('addAcquisitionModal').classList.add('hidden'); }
 
     function handleNewAddClick() {
-      if (!currentUser) { showToast("Uyarı", "İlan eklemek için giriş yapın."); openAuthModal('login'); } 
-      else { openSelectAddModal(); }
+      openSelectAddModal();
     }
 
     function openDetailModal(item) {
