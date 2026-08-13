@@ -1149,7 +1149,7 @@
       }
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', async function() {
       var btn = document.getElementById('googleBtn');
       if (btn) {
         btn.addEventListener('click', async function(e) {
@@ -1159,8 +1159,8 @@
         });
       }
 
-      checkUserSession();
-      loadStartups();
+      await loadStartups();
+      await checkUserSession();
       loadSyndicates();
       loadAcquisitions();
     });
@@ -1178,7 +1178,6 @@
 
     var startups = [], syndicates = [], acquisitions = [];
 
-    // Sağlamlaştırılmış loadStartups fonksiyonu
     async function loadStartups() {
       var remoteData = [];
       if (sbClient) {
@@ -1198,6 +1197,7 @@
       
       startups = Object.values(mergedMap).sort(function(a, b) { return Number(b.id) - Number(a.id); });
       renderStartups(startups);
+      renderMyListings();
     }
 
     function renderStartups(data) {
@@ -1431,7 +1431,6 @@
       renderMyListings();
     }
 
-    // Kesinlikle çalışan güvenli ilan ekleme fonksiyonu
     async function handleAddStartup() {
       var titleVal = document.getElementById('addTitle').value.trim();
       var goalVal = document.getElementById('addGoal').value.trim();
@@ -1479,14 +1478,12 @@
         description_text: descVal
       };
 
-      // Supabase'e eklemeyi dene (hata verse bile akışı bozmaz)
       if (sbClient) {
         try { 
           await sbClient.from('startups').insert([newStartup]);
         } catch (err) {}
       }
 
-      // Kesin kalıcılık ve anında görünürlük için LocalStorage'a kaydet
       var localList = JSON.parse(localStorage.getItem('my_startups_list') || '[]');
       localList.unshift(newStartup);
       localStorage.setItem('my_startups_list', JSON.stringify(localList));
@@ -1495,7 +1492,6 @@
       closeCreateModal();
       showToast("Başarılı", "Girişim ilanı başarıyla yayınlandı!");
 
-      // Formu temizle
       document.getElementById('addTitle').value = '';
       document.getElementById('addGoal').value = '';
       document.getElementById('addFounder').value = '';
