@@ -42,20 +42,13 @@
     #messagesGrid::-webkit-scrollbar-thumb:hover {
       background: #10b981;
     }
-
-    /* KESİN ÇÖZÜM: Görünürlük HTML class'ı ile kontrol ediliyor. */
-    html.logged-in #landingView { display: none !important; }
-    html.logged-in #appView { display: block !important; }
-    html.not-logged-in #landingView { display: block !important; }
-    html.not-logged-in #appView { display: none !important; }
   </style>
-
-  <!-- Tarayıcı sayfayı çizmeye başlamadan saniyeler önce çalışan kontrol -->
+  <!-- KESİN ÇÖZÜM: Tarayıcı sayfayı çizer çizmez oturum durumuna göre ilgili görünümü kilitler -->
   <script>
     if (localStorage.getItem('user_logged_in') === 'true') {
-      document.documentElement.classList.add('logged-in');
+      document.write('<style id="flickerBlocker">#landingView { display: none !important; } #appView { display: block !important; }</style>');
     } else {
-      document.documentElement.classList.add('not-logged-in');
+      document.write('<style id="flickerBlocker">#appView { display: none !important; }</style>');
     }
   </script>
 </head>
@@ -106,7 +99,7 @@
     </div>
   </header>
 
-  <!-- ZİYARETÇİ HERO ARAYÜZÜ (İnline style sildik, sadece class'a göre çalışacak) -->
+  <!-- ZİYARETÇİ HERO ARAYÜZÜ (İnline style tamamen kaldırıldı) -->
   <div id="landingView">
     <section class="relative hero-glow pt-24 pb-20 overflow-hidden border-b border-[#1e222d]">
       <div class="max-w-5xl mx-auto px-6 text-center space-y-8 relative z-10">
@@ -267,13 +260,13 @@
         </div>
         <div class="al-card-dark p-6 rounded-2xl space-y-2">
           <h4 class="font-bold text-white text-sm">Yatırımcılarla nasıl iletişim kurabilirim?</h4>
-          <p class="text-slate-400 text-xs leading-relaxed">İlan detaylarında yer কপ kurucu adresleri veya site içi "İletişime Geç" formu üzerinden doğrudan irtibat sağlayabilirsiniz.</p>
+          <p class="text-slate-400 text-xs leading-relaxed">İlan detaylarında yer alan kurucu adresleri veya site içi "İletişime Geç" formu üzerinden doğrudan irtibat sağlayabilirsiniz.</p>
         </div>
       </div>
     </section>
   </div>
 
-  <!-- UYGULAMA ALANI (İnline style sildik, sadece class'a göre çalışacak) -->
+  <!-- UYGULAMA ALANI (Giriş Yapınca Görünür) -->
   <main id="appView" class="max-w-7xl mx-auto px-6 py-10">
 
     <div id="tab-startups" class="content-tab space-y-8" style="display: block;">
@@ -1080,7 +1073,6 @@
         trackRegisteredUser(user.email);
         localStorage.setItem('user_logged_in', 'true');
         
-        // CSS class ekleyerek landing'i gizle, app'i göster (Flicker olmadan)
         document.documentElement.classList.remove('not-logged-in');
         document.documentElement.classList.add('logged-in');
 
@@ -1106,7 +1098,6 @@
       } else {
         localStorage.removeItem('user_logged_in');
         
-        // CSS class ekleyerek landing'i göster, app'i gizle
         document.documentElement.classList.remove('logged-in');
         document.documentElement.classList.add('not-logged-in');
 
@@ -1187,7 +1178,6 @@
     }
 
     document.addEventListener('DOMContentLoaded', async function() {
-      // Sayfa yüklenir yüklenmez HTML class'ını kontrol et (yedek güvenlik)
       const isLoggedIn = localStorage.getItem('user_logged_in') === 'true';
       if (isLoggedIn) {
         document.documentElement.classList.add('logged-in');
