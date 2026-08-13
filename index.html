@@ -42,12 +42,20 @@
     #messagesGrid::-webkit-scrollbar-thumb:hover {
       background: #10b981;
     }
+
+    /* KESİN ÇÖZÜM: Görünürlük HTML class'ı ile kontrol ediliyor. */
+    html.logged-in #landingView { display: none !important; }
+    html.logged-in #appView { display: block !important; }
+    html.not-logged-in #landingView { display: block !important; }
+    html.not-logged-in #appView { display: none !important; }
   </style>
+
+  <!-- Tarayıcı sayfayı çizmeye başlamadan saniyeler önce çalışan kontrol -->
   <script>
     if (localStorage.getItem('user_logged_in') === 'true') {
-      document.write('<style id="flickerBlocker">#landingView { display: none !important; } #appView { display: block !important; }</style>');
+      document.documentElement.classList.add('logged-in');
     } else {
-      document.write('<style id="flickerBlocker">#appView { display: none !important; }</style>');
+      document.documentElement.classList.add('not-logged-in');
     }
   </script>
 </head>
@@ -98,8 +106,8 @@
     </div>
   </header>
 
-  <!-- ZİYARETÇİ HERO ARAYÜZÜ (Başlangıçta güvenli olması için display: none ile başlatıldı) -->
-  <div id="landingView" style="display: none;">
+  <!-- ZİYARETÇİ HERO ARAYÜZÜ (İnline style sildik, sadece class'a göre çalışacak) -->
+  <div id="landingView">
     <section class="relative hero-glow pt-24 pb-20 overflow-hidden border-b border-[#1e222d]">
       <div class="max-w-5xl mx-auto px-6 text-center space-y-8 relative z-10">
         
@@ -259,14 +267,14 @@
         </div>
         <div class="al-card-dark p-6 rounded-2xl space-y-2">
           <h4 class="font-bold text-white text-sm">Yatırımcılarla nasıl iletişim kurabilirim?</h4>
-          <p class="text-slate-400 text-xs leading-relaxed">İlan detaylarında yer alan kurucu adresleri veya site içi "İletişime Geç" formu üzerinden doğrudan irtibat sağlayabilirsiniz.</p>
+          <p class="text-slate-400 text-xs leading-relaxed">İlan detaylarında yer কপ kurucu adresleri veya site içi "İletişime Geç" formu üzerinden doğrudan irtibat sağlayabilirsiniz.</p>
         </div>
       </div>
     </section>
   </div>
 
-  <!-- UYGULAMA ALANI (Giriş Yapınca Görünür) -->
-  <main id="appView" class="max-w-7xl mx-auto px-6 py-10" style="display: none;">
+  <!-- UYGULAMA ALANI (İnline style sildik, sadece class'a göre çalışacak) -->
+  <main id="appView" class="max-w-7xl mx-auto px-6 py-10">
 
     <div id="tab-startups" class="content-tab space-y-8" style="display: block;">
       <section class="al-card-dark p-8 rounded-3xl flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
@@ -959,7 +967,10 @@
 
     function handleLogoClick() {
       if (currentUser) { showTab(activeTabName || 'startups'); } 
-      else { document.getElementById('landingView').style.display = 'block'; document.getElementById('appView').style.display = 'none'; }
+      else { 
+        document.documentElement.classList.remove('logged-in');
+        document.documentElement.classList.add('not-logged-in');
+      }
     }
 
     function openAuthModal(mode) {
@@ -1064,18 +1075,19 @@
       const visitorNav = document.getElementById('visitorNav');
       const appNav = document.getElementById('appNav');
       const adminBtn = document.getElementById('btn-admin');
-      const landingView = document.getElementById('landingView');
-      const appView = document.getElementById('appView');
 
       if (user) {
         trackRegisteredUser(user.email);
         localStorage.setItem('user_logged_in', 'true');
+        
+        // CSS class ekleyerek landing'i gizle, app'i göster (Flicker olmadan)
+        document.documentElement.classList.remove('not-logged-in');
+        document.documentElement.classList.add('logged-in');
+
         userBox.classList.remove('hidden');
         loginBtn.classList.add('hidden');
         if (visitorNav) visitorNav.style.display = 'none';
         if (appNav) { appNav.style.display = 'flex'; appNav.classList.remove('hidden'); }
-        landingView.style.display = 'none';
-        appView.style.display = 'block';
 
         var rawName = user.user_metadata?.full_name || user.user_metadata?.name;
         if (!rawName || rawName.trim() === '') {
@@ -1093,14 +1105,17 @@
         showTab(activeTabName || 'startups');
       } else {
         localStorage.removeItem('user_logged_in');
+        
+        // CSS class ekleyerek landing'i göster, app'i gizle
+        document.documentElement.classList.remove('logged-in');
+        document.documentElement.classList.add('not-logged-in');
+
         userBox.classList.add('hidden');
         loginBtn.classList.remove('hidden');
         if (appNav) { appNav.style.display = 'none'; appNav.classList.add('hidden'); }
         if (visitorNav) { visitorNav.style.display = 'flex'; visitorNav.classList.remove('hidden'); }
         if (adminBtn) adminBtn.style.display = 'none';
         userLabel.innerText = '';
-        landingView.style.display = 'block';
-        appView.style.display = 'none';
       }
     }
 
@@ -1172,6 +1187,16 @@
     }
 
     document.addEventListener('DOMContentLoaded', async function() {
+      // Sayfa yüklenir yüklenmez HTML class'ını kontrol et (yedek güvenlik)
+      const isLoggedIn = localStorage.getItem('user_logged_in') === 'true';
+      if (isLoggedIn) {
+        document.documentElement.classList.add('logged-in');
+        document.documentElement.classList.remove('not-logged-in');
+      } else {
+        document.documentElement.classList.add('not-logged-in');
+        document.documentElement.classList.remove('logged-in');
+      }
+
       var btn = document.getElementById('googleBtn');
       if (btn) {
         btn.addEventListener('click', async function(e) {
