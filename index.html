@@ -43,10 +43,12 @@
       background: #10b981;
     }
   </style>
-  <!-- Sayfa yenilendiğinde anlık ana sayfa görünmesini (flicker) kesin olarak engelleyen kod -->
+  <!-- Sayfa ilk render anında (F5 dahil) oturum durumuna göre flicker'ı %100 engelleyen kritik script -->
   <script>
     if (localStorage.getItem('user_logged_in') === 'true') {
       document.write('<style id="flickerBlocker">#landingView { display: none !important; } #appView { display: block !important; }</style>');
+    } else {
+      document.write('<style id="flickerBlocker">#appView { display: none !important; }</style>');
     }
   </script>
 </head>
@@ -97,8 +99,8 @@
     </div>
   </header>
 
-  <!-- ZİYARETÇİ HERO ARAYÜZÜ (Giriş yapılmışsa style script ile başlangıçta gizlenir) -->
-  <div id="landingView" style="display: block;">
+  <!-- ZİYARETÇİ HERO ARAYÜZÜ -->
+  <div id="landingView">
     <section class="relative hero-glow pt-24 pb-20 overflow-hidden border-b border-[#1e222d]">
       <div class="max-w-5xl mx-auto px-6 text-center space-y-8 relative z-10">
         
@@ -265,7 +267,7 @@
   </div>
 
   <!-- UYGULAMA ALANI (Giriş Yapınca Görünür) -->
-  <main id="appView" class="max-w-7xl mx-auto px-6 py-10" style="display: none;">
+  <main id="appView" class="max-w-7xl mx-auto px-6 py-10">
 
     <div id="tab-startups" class="content-tab space-y-8" style="display: block;">
       <section class="al-card-dark p-8 rounded-3xl flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
@@ -1043,16 +1045,23 @@
     }
 
     async function checkUserSession() {
-      if (!sbClient) { updateUserUI(null); return; }
+      if (!sbClient) { updateUserUI(null); removeAntiFlicker(); return; }
       try {
         const { data: { session } } = await sbClient.auth.getSession();
         if (session && session.user) {
           trackRegisteredUser(session.user.email);
           updateUserUI(session.user);
+          removeAntiFlicker();
           return;
         }
       } catch (e) {}
       updateUserUI(null);
+      removeAntiFlicker();
+    }
+
+    function removeAntiFlicker() {
+      var af = document.getElementById('flickerBlocker');
+      if (af) af.remove();
     }
 
     function updateUserUI(user) {
