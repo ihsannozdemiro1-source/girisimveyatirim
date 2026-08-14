@@ -5,10 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Girişim ve Yatırım - Ekosistem Portalı</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  
-  <!-- Clerk SDK Entegrasyonu (Kendi Publishable Key'ini buraya ekle) -->
-  <script async crossorigin="anonymous" data-clerk-publishable-key="BURAYA_CLERK_PUBLISHABLE_KEY_GELECEK" src="https://cdn.jsdelivr.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js" type="text/javascript"></script>
-
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
     body {
@@ -45,20 +42,14 @@
     #messagesGrid::-webkit-scrollbar-thumb:hover {
       background: #10b981;
     }
-
-    /* Görünürlük Sınıfları - Sayfa yenilendiğinde flicker (zıplama) olmasını engeller */
-    html.logged-in #landingView { display: none !important; }
-    html.logged-in #appView { display: block !important; }
-    html.not-logged-in #landingView { display: block !important; }
-    html.not-logged-in #appView { display: none !important; }
   </style>
 
-  <!-- Clerk Başlangıç Kontrolü -->
+  <!-- KESİN ÇÖZÜM: Tarayıcı sayfayı yükler yüklemez doğru view'i anında gösterir -->
   <script>
     if (localStorage.getItem('user_logged_in') === 'true') {
-      document.documentElement.className = 'logged-in scroll-smooth';
+      document.write('<style>#landingView { display: none !important; } #appView { display: block !important; }</style>');
     } else {
-      document.documentElement.className = 'not-logged-in scroll-smooth';
+      document.write('<style>#landingView { display: block !important; } #appView { display: none !important; }</style>');
     }
   </script>
 </head>
@@ -109,8 +100,8 @@
     </div>
   </header>
 
-  <!-- ZİYARETÇİ HERO ARAYÜZÜ -->
-  <div id="landingView">
+  <!-- ZİYARETÇİ HERO ARAYÜZÜ (Başlangıçta display: none ile güvenceye alındı) -->
+  <div id="landingView" style="display: none;">
     <section class="relative hero-glow pt-24 pb-20 overflow-hidden border-b border-[#1e222d]">
       <div class="max-w-5xl mx-auto px-6 text-center space-y-8 relative z-10">
         
@@ -277,7 +268,7 @@
   </div>
 
   <!-- UYGULAMA ALANI (Giriş Yapınca Görünür) -->
-  <main id="appView" class="max-w-7xl mx-auto px-6 py-10">
+  <main id="appView" class="max-w-7xl mx-auto px-6 py-10" style="display: none;">
 
     <div id="tab-startups" class="content-tab space-y-8" style="display: block;">
       <section class="al-card-dark p-8 rounded-3xl flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
@@ -656,6 +647,70 @@
     </div>
   </div>
 
+  <!-- GİRİŞ / KAYIT MODALI -->
+  <div id="authModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
+    <div class="al-card-dark rounded-3xl max-w-md w-full p-8 relative text-white space-y-6">
+      <button type="button" onclick="closeAuthModal()" class="absolute top-4 right-4 text-slate-500 text-xl font-bold hover:text-white cursor-pointer">&times;</button>
+      
+      <div id="authTabHeader" class="flex bg-[#08090b] p-1.5 rounded-2xl border border-[#1e222d]">
+        <button type="button" id="tabLoginBtn" onclick="switchAuthTab('login')" class="w-1/2 py-2.5 rounded-xl text-xs font-black transition bg-[#1e222d] text-white cursor-pointer">Giriş Yap</button>
+        <button type="button" id="tabSignupBtn" onclick="switchAuthTab('signup')" class="w-1/2 py-2.5 rounded-xl text-xs font-medium text-slate-400 hover:text-white transition cursor-pointer">Kayıt Ol</button>
+      </div>
+
+      <div id="authModalTitle" class="text-center">
+        <h2 class="text-2xl font-black">Tekrar Hoş Geldiniz</h2>
+        <p class="text-slate-400 text-xs mt-1">Ekosistem hesabınıza erişin.</p>
+      </div>
+
+      <div id="googleAuthBox" class="mb-2">
+        <button type="button" id="googleBtn" class="w-full bg-white hover:bg-slate-200 text-black font-bold py-3 rounded-full text-xs flex items-center justify-center gap-2 transition cursor-pointer">
+          <span>Google ile Devam Et</span>
+        </button>
+      </div>
+
+      <div id="orDivider" class="flex items-center my-2">
+        <div class="flex-grow border-t border-[#1e222d]"></div>
+        <span class="px-3 text-slate-500 text-[11px] font-semibold">veya E-Posta</span>
+        <div class="flex-grow border-t border-[#1e222d]"></div>
+      </div>
+
+      <div id="mainAuthForm" class="space-y-3">
+        <div id="fullNameBox" style="display: none;">
+          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Ad Soyad</label>
+          <input type="text" id="authFullName" placeholder="İhsan Özdemir" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs outline-none focus:border-emerald-400">
+        </div>
+        <div>
+          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">E-Posta Adresi</label>
+          <input type="email" id="authEmail" placeholder="ornek@domain.com" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs outline-none focus:border-emerald-400">
+        </div>
+        <div>
+          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Şifre</label>
+          <input type="password" id="authPassword" placeholder="******" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs outline-none focus:border-emerald-400">
+        </div>
+
+        <div id="forgotPasswordLinkBox" class="text-right">
+          <button type="button" onclick="switchAuthTab('forgot')" class="text-[11px] font-semibold text-slate-400 hover:text-emerald-400 transition cursor-pointer">Şifremi Unuttum?</button>
+        </div>
+
+        <button type="button" id="authSubmitBtn" onclick="handleAuthSubmit()" class="w-full al-accent-bg font-extrabold py-3.5 rounded-xl text-xs transition mt-2 cursor-pointer">Giriş Yap</button>
+      </div>
+
+      <div id="forgotStep1" style="display: none;" class="space-y-3">
+        <div class="bg-emerald-500/10 border border-emerald-500/20 p-3 rounded-xl text-emerald-400 text-xs font-semibold leading-relaxed text-center">
+          ✉️ E-posta adresinizi girin. Şifre sıfırlama bağlantısı gönderilecektir.
+        </div>
+        <div>
+          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Kayıtlı E-Posta</label>
+          <input type="email" id="forgotEmail" placeholder="ornek@domain.com" class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs outline-none focus:border-emerald-400">
+        </div>
+        <button type="button" onclick="sendSupabaseResetEmail()" class="w-full al-accent-bg font-extrabold py-3.5 rounded-xl text-xs transition cursor-pointer">Sıfırlama Bağlantısı Gönder</button>
+        <div class="text-center pt-2">
+          <button type="button" onclick="switchAuthTab('login')" class="text-xs text-slate-400 hover:text-white cursor-pointer">&larr; Giriş Ekranına Dön</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- İLAN TİPİ SEÇİMİ -->
   <div id="selectAddModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
     <div class="al-card-dark rounded-3xl max-w-md w-full p-8 relative text-white space-y-6">
@@ -793,9 +848,9 @@
     const ADMIN_EMAIL = 'ihsannozdemiro1@gmail.com';
     var activeContactEmail = "ihsannozdemiro1@gmail.com";
     var activeStartupName = "";
+    var currentAuthMode = 'login';
     var activeTabName = localStorage.getItem('active_tab_name') || 'startups';
     var activeModalStartupId = null;
-    var clerkUser = null;
 
     function showToast(title, desc) {
       var toast = document.getElementById('customToast');
@@ -905,90 +960,242 @@
     }
 
     function handleLogoClick() {
-      if (clerkUser) { 
-        showTab(activeTabName || 'startups'); 
-      } else { 
-        document.documentElement.classList.remove('logged-in');
-        document.documentElement.classList.add('not-logged-in');
+      if (currentUser) { showTab(activeTabName || 'startups'); } 
+      else { document.getElementById('landingView').style.display = 'block'; document.getElementById('appView').style.display = 'none'; }
+    }
+
+    function openAuthModal(mode) {
+      switchAuthTab(mode || 'login');
+      document.getElementById('authModal').classList.remove('hidden');
+    }
+    function closeAuthModal() { document.getElementById('authModal').classList.add('hidden'); }
+
+    function switchAuthTab(mode) {
+      currentAuthMode = mode;
+      var loginBtn = document.getElementById('tabLoginBtn');
+      var signupBtn = document.getElementById('tabSignupBtn');
+      var fullNameBox = document.getElementById('fullNameBox');
+      var submitBtn = document.getElementById('authSubmitBtn');
+      var mainForm = document.getElementById('mainAuthForm');
+      var forgotStep1 = document.getElementById('forgotStep1');
+      var tabHeader = document.getElementById('authTabHeader');
+      var googleBox = document.getElementById('googleAuthBox');
+      var divider = document.getElementById('orDivider');
+      var modalTitle = document.getElementById('authModalTitle');
+
+      mainForm.style.display = 'none';
+      forgotStep1.style.display = 'none';
+      tabHeader.style.display = 'flex';
+      googleBox.style.display = 'block';
+      divider.style.display = 'flex';
+      modalTitle.style.display = 'block';
+
+      if (mode === 'login') {
+        loginBtn.className = "w-1/2 py-2.5 rounded-xl text-xs font-black transition bg-[#1e222d] text-white cursor-pointer";
+        signupBtn.className = "w-1/2 py-2.5 rounded-xl text-xs font-medium text-slate-400 hover:text-white transition cursor-pointer";
+        fullNameBox.style.display = 'none';
+        submitBtn.innerText = "Giriş Yap";
+        mainForm.style.display = 'block';
+      } else if (mode === 'signup') {
+        signupBtn.className = "w-1/2 py-2.5 rounded-xl text-xs font-black transition bg-[#1e222d] text-white cursor-pointer";
+        loginBtn.className = "w-1/2 py-2.5 rounded-xl text-xs font-medium text-slate-400 hover:text-white transition cursor-pointer";
+        fullNameBox.style.display = 'block';
+        submitBtn.innerText = "Kayıt Ol";
+        mainForm.style.display = 'block';
+      } else if (mode === 'forgot') {
+        tabHeader.style.display = 'none';
+        googleBox.style.display = 'none';
+        divider.style.display = 'none';
+        modalTitle.style.display = 'none';
+        forgotStep1.style.display = 'block';
       }
     }
 
-    // Clerk Hazır Giriş Modallarını Tetikler (E-posta kodlu doğrulama Clerk tarafından otomatik sunulur)
-    function openAuthModal(mode) {
-      if (window.Clerk) {
-        if (mode === 'signup') {
-          Clerk.openSignUp({
-            afterSignUpUrl: window.location.href
+    async function sendSupabaseResetEmail() {
+      var emailVal = document.getElementById('forgotEmail').value.trim();
+      if (!emailVal || !emailVal.includes('@')) { 
+        showToast("Hata", "Lütfen geçerli bir e-posta adresi girin."); 
+        return; 
+      }
+      
+      if (sbClient) {
+        try {
+          const { error } = await sbClient.auth.resetPasswordForEmail(emailVal, {
+            redirectTo: window.location.origin
           });
-        } else {
-          Clerk.openSignIn({
-            afterSignInUrl: window.location.href
+          if (error) {
+            showToast("Hata", error.message);
+            return;
+          }
+        } catch (err) {
+          showToast("Hata", "E-posta gönderilemedi.");
+          return;
+        }
+      }
+
+      showToast("Başarılı", emailVal + " adresine şifre sıfırlama bağlantısı gönderildi.");
+      switchAuthTab('login');
+    }
+
+    const SUPABASE_URL = 'https://kaovkjsttcyyrwrbmtpb.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_NrZ4UXAzYjs7VZ52t7XJww_gMTDBJJl';
+    var sbClient = null, currentUser = null;
+
+    if (window.supabase && window.supabase.createClient) {
+      sbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    }
+
+    async function checkUserSession() {
+      if (!sbClient) { updateUserUI(null); return; }
+      try {
+        const { data: { session } } = await sbClient.auth.getSession();
+        if (session && session.user) {
+          trackRegisteredUser(session.user.email);
+          updateUserUI(session.user);
+          return;
+        }
+      } catch (e) {}
+      updateUserUI(null);
+    }
+
+    function updateUserUI(user) {
+      currentUser = user;
+      const userBox = document.getElementById('userProfileBox');
+      const loginBtn = document.getElementById('loginHeaderBtn');
+      const userLabel = document.getElementById('userEmailLabel');
+      const visitorNav = document.getElementById('visitorNav');
+      const appNav = document.getElementById('appNav');
+      const adminBtn = document.getElementById('btn-admin');
+      const landingView = document.getElementById('landingView');
+      const appView = document.getElementById('appView');
+
+      if (user) {
+        trackRegisteredUser(user.email);
+        localStorage.setItem('user_logged_in', 'true');
+        userBox.classList.remove('hidden');
+        loginBtn.classList.add('hidden');
+        if (visitorNav) visitorNav.style.display = 'none';
+        if (appNav) { appNav.style.display = 'flex'; appNav.classList.remove('hidden'); }
+        landingView.style.display = 'none';
+        appView.style.display = 'block';
+
+        var rawName = user.user_metadata?.full_name || user.user_metadata?.name;
+        if (!rawName || rawName.trim() === '') {
+          var emailPart = (user.email || 'Kullanıcı').split('@')[0];
+          rawName = emailPart.charAt(0).toUpperCase() + emailPart.slice(1);
+        }
+        
+        userLabel.innerText = "Hoş geldin, " + rawName;
+
+        if (adminBtn) {
+          var currentEmail = user.email;
+          adminBtn.style.display = (currentEmail === ADMIN_EMAIL) ? 'inline-block' : 'none';
+        }
+
+        showTab(localStorage.getItem('active_tab_name') || 'startups');
+      } else {
+        localStorage.removeItem('user_logged_in');
+        userBox.classList.add('hidden');
+        loginBtn.classList.remove('hidden');
+        if (appNav) { appNav.style.display = 'none'; appNav.classList.add('hidden'); }
+        if (visitorNav) { visitorNav.style.display = 'flex'; visitorNav.classList.remove('hidden'); }
+        if (adminBtn) adminBtn.style.display = 'none';
+        userLabel.innerText = '';
+        landingView.style.display = 'block';
+        appView.style.display = 'none';
+      }
+    }
+
+    async function handleAuthSubmit() {
+      const email = document.getElementById('authEmail').value.trim();
+      const password = document.getElementById('authPassword').value;
+      const fullName = document.getElementById('authFullName').value.trim();
+
+      if (!email || !email.includes('@') || !email.includes('.')) { 
+        showToast("Geçersiz E-Posta", "Lütfen geçerli bir e-posta adresi girin."); 
+        return; 
+      }
+      if (!password || password.length < 6) { 
+        showToast("Zayıf Şifre", "Şifre en az 6 karakter olmalıdır."); 
+        return; 
+      }
+      if (currentAuthMode === 'signup' && !fullName) { 
+        showToast("Eksik Bilgi", "Lütfen ad soyad girin."); 
+        return; 
+      }
+
+      if (!sbClient) {
+        showToast("Hata", "Veritabanı bağlantısı kurulamadı.");
+        return;
+      }
+
+      if (currentAuthMode === 'signup') {
+        try {
+          const { data, error } = await sbClient.auth.signUp({ 
+            email, 
+            password, 
+            options: { data: { full_name: fullName } } 
           });
+          if (error) {
+            showToast("Kayıt Hatası", error.message);
+            return;
+          }
+          trackRegisteredUser(email);
+          showToast("Başarılı", "Kayıt tamamlandı, giriş yapıldı!");
+          closeAuthModal();
+          if (data && data.session) {
+            updateUserUI(data.session.user);
+          } else {
+            const { data: signInData } = await sbClient.auth.signInWithPassword({ email, password });
+            if (signInData && signInData.session) {
+              updateUserUI(signInData.session.user);
+            }
+          }
+        } catch (err) {
+          showToast("Hata", "Kayıt işlemi başarısız.");
         }
       } else {
-        showToast("Hata", "Kimlik doğrulama sistemi yüklenemedi.");
+        try {
+          const { data, error } = await sbClient.auth.signInWithPassword({ email, password });
+          if (error) {
+            showToast("Giriş Başarısız", "E-posta veya şifre hatalı!");
+            return;
+          }
+          trackRegisteredUser(email);
+          if (data.session) {
+            showToast("Başarılı", "Giriş yapıldı!");
+            closeAuthModal();
+            updateUserUI(data.session.user);
+          }
+        } catch (e) {
+          showToast("Hata", "Giriş yapılırken hata oluştu.");
+        }
       }
     }
 
-    // Sayfa Yüklendiğinde Clerk Oturumunu Kontrol Et
-    window.addEventListener('load', async function () {
-      if (window.Clerk) {
-        await Clerk.load();
-        
-        clerkUser = Clerk.user;
-        const userBox = document.getElementById('userProfileBox');
-        const loginBtn = document.getElementById('loginHeaderBtn');
-        const userLabel = document.getElementById('userEmailLabel');
-        const visitorNav = document.getElementById('visitorNav');
-        const appNav = document.getElementById('appNav');
-        const adminBtn = document.getElementById('btn-admin');
-
-        if (clerkUser) {
-          var email = clerkUser.primaryEmailAddress ? clerkUser.primaryEmailAddress.emailAddress : '';
-          trackRegisteredUser(email);
-          localStorage.setItem('user_logged_in', 'true');
-
-          document.documentElement.classList.remove('not-logged-in');
-          document.documentElement.classList.add('logged-in');
-
-          userBox.classList.remove('hidden');
-          loginBtn.classList.add('hidden');
-          if (visitorNav) visitorNav.style.display = 'none';
-          if (appNav) { appNav.style.display = 'flex'; appNav.classList.remove('hidden'); }
-
-          var rawName = clerkUser.firstName || email.split('@')[0];
-          userLabel.innerText = "Hoş geldin, " + rawName;
-
-          if (adminBtn) {
-            adminBtn.style.display = (email === ADMIN_EMAIL) ? 'inline-block' : 'none';
-          }
-
-          showTab(localStorage.getItem('active_tab_name') || 'startups');
-        } else {
-          localStorage.removeItem('user_logged_in');
-          document.documentElement.classList.remove('logged-in');
-          document.documentElement.classList.add('not-logged-in');
-
-          userBox.classList.add('hidden');
-          loginBtn.classList.remove('hidden');
-          if (appNav) { appNav.style.display = 'none'; appNav.classList.add('hidden'); }
-          if (visitorNav) { visitorNav.style.display = 'flex'; visitorNav.classList.remove('hidden'); }
-          if (adminBtn) adminBtn.style.display = 'none';
-          userLabel.innerText = '';
-        }
+    document.addEventListener('DOMContentLoaded', async function() {
+      var btn = document.getElementById('googleBtn');
+      if (btn) {
+        btn.addEventListener('click', async function(e) {
+          e.preventDefault();
+          if (!sbClient) return;
+          await sbClient.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: window.location.origin } });
+        });
       }
 
       await loadStartups();
+      await checkUserSession();
       loadSyndicates();
       loadAcquisitions();
     });
 
     async function handleLogout() {
-      if (window.Clerk) {
-        await Clerk.signOut();
+      if (sbClient) { 
+        try { await sbClient.auth.signOut(); } catch (e) {} 
       }
       localStorage.removeItem('user_logged_in');
-      clerkUser = null;
+      currentUser = null;
+      updateUserUI(null);
       showToast("Çıkış", "Oturum kapatıldı.");
       window.location.reload();
     }
@@ -996,8 +1203,23 @@
     var startups = [], syndicates = [], acquisitions = [];
 
     async function loadStartups() {
+      var remoteData = [];
+      if (sbClient) {
+        try {
+          const { data, error } = await sbClient.from('startups').select('*').order('id', { ascending: false });
+          if (!error && data) {
+            remoteData = data;
+          }
+        } catch (err) {}
+      }
+      
       var localData = JSON.parse(localStorage.getItem('my_startups_list') || '[]');
-      startups = localData.sort(function(a, b) { return Number(b.id) - Number(a.id); });
+      
+      var mergedMap = {};
+      remoteData.forEach(function(item) { mergedMap[String(item.id)] = item; });
+      localData.forEach(function(item) { mergedMap[String(item.id)] = item; });
+      
+      startups = Object.values(mergedMap).sort(function(a, b) { return Number(b.id) - Number(a.id); });
       renderStartups(startups);
       renderMyListings();
     }
@@ -1146,9 +1368,9 @@
       if (!grid) return;
       grid.innerHTML = '';
 
-      var userEmail = clerkUser && clerkUser.primaryEmailAddress ? clerkUser.primaryEmailAddress.emailAddress : ADMIN_EMAIL;
+      var userEmail = currentUser ? currentUser.email : ADMIN_EMAIL;
       var myListings = startups.filter(function(s) { 
-        return (s.user_email === userEmail) || (s.user_id === (clerkUser ? clerkUser.id : '')); 
+        return (s.user_email === userEmail) || (s.user_id === (currentUser ? currentUser.id : '')); 
       });
 
       if (myListings.length === 0) {
@@ -1213,6 +1435,22 @@
         return;
       }
 
+      if (sbClient) {
+        try {
+          await sbClient.from('startups').update({
+            name: title,
+            title: title,
+            funding_goal: goal,
+            goal: goal,
+            raised: raised,
+            mrr: mrr,
+            description: desc,
+            description_text: desc,
+            founder_update: founderUpdate
+          }).eq('id', id);
+        } catch (e) {}
+      }
+
       var localList = JSON.parse(localStorage.getItem('my_startups_list') || '[]');
       localList = localList.map(function(s) {
         if (String(s.id) === String(id)) {
@@ -1256,8 +1494,8 @@
       var websiteVal = document.getElementById('addWebsite').value.trim();
       var pitchDeckVal = document.getElementById('addPitchDeck').value.trim();
 
-      var userEmail = clerkUser && clerkUser.primaryEmailAddress ? clerkUser.primaryEmailAddress.emailAddress : ADMIN_EMAIL;
-      var userId = clerkUser ? clerkUser.id : 'local_user';
+      var userEmail = currentUser ? currentUser.email : ADMIN_EMAIL;
+      var userId = currentUser ? currentUser.id : 'local_user';
 
       var newStartup = {
         id: Date.now(),
@@ -1283,6 +1521,12 @@
         founder_update: ''
       };
 
+      if (sbClient) {
+        try { 
+          await sbClient.from('startups').insert([newStartup]);
+        } catch (err) {}
+      }
+
       var localList = JSON.parse(localStorage.getItem('my_startups_list') || '[]');
       localList.unshift(newStartup);
       localStorage.setItem('my_startups_list', JSON.stringify(localList));
@@ -1304,6 +1548,12 @@
     }
 
     async function loadSyndicates() {
+      if (sbClient) {
+        try {
+          const { data } = await sbClient.from('syndicates').select('*').order('id', { ascending: false });
+          if (data && data.length > 0) { renderSyndicates(data); return; }
+        } catch (e) {}
+      }
       var localData = JSON.parse(localStorage.getItem('my_syndicates_list') || '[]');
       renderSyndicates(localData);
     }
@@ -1322,6 +1572,12 @@
     }
 
     async function loadAcquisitions() {
+      if (sbClient) {
+        try {
+          const { data } = await sbClient.from('acquisitions').select('*').order('id', { ascending: false });
+          if (data && data.length > 0) { renderAcquisitions(data); return; }
+        } catch (e) {}
+      }
       var localData = JSON.parse(localStorage.getItem('my_acquisitions_list') || '[]');
       renderAcquisitions(localData);
     }
@@ -1481,7 +1737,7 @@
       }
 
       msgs.slice().reverse().forEach(function(m) {
-        var myName = clerkUser && clerkUser.primaryEmailAddress ? clerkUser.primaryEmailAddress.emailAddress : "Ziyaretçi";
+        var myName = currentUser ? (currentUser.user_metadata?.full_name || currentUser.email) : "Ziyaretçi";
         var isMe = (m.sender === myName || m.sender.includes("Siz"));
 
         var bubbleWrapper = document.createElement('div');
@@ -1509,7 +1765,7 @@
       var content = input.value.trim();
       if (!content) return;
 
-      var senderName = clerkUser && clerkUser.primaryEmailAddress ? clerkUser.primaryEmailAddress.emailAddress : "Ziyaretçi";
+      var senderName = currentUser ? (currentUser.user_metadata?.full_name || currentUser.email) : "Ziyaretçi";
 
       var newMessage = {
         id: Date.now(),
@@ -1532,8 +1788,8 @@
       document.getElementById('adminTotalListings').innerText = startups.length + syndicates.length + acquisitions.length;
       
       var registeredUsers = JSON.parse(localStorage.getItem('platform_registered_users') || '[]');
-      if (clerkUser && clerkUser.primaryEmailAddress && !registeredUsers.includes(clerkUser.primaryEmailAddress.emailAddress)) {
-        registeredUsers.push(clerkUser.primaryEmailAddress.emailAddress);
+      if (currentUser && currentUser.email && !registeredUsers.includes(currentUser.email)) {
+        registeredUsers.push(currentUser.email);
         localStorage.setItem('platform_registered_users', JSON.stringify(registeredUsers));
       }
       var totalUsersCount = Math.max(1, registeredUsers.length);
@@ -1556,6 +1812,9 @@
 
     async function deleteStartup(id) {
       if (!confirm("Bu ilanı silmek istediğinize emin misiniz?")) return;
+      if (sbClient) {
+        try { await sbClient.from('startups').delete().eq('id', id); } catch (e) {}
+      }
       var localList = JSON.parse(localStorage.getItem('my_startups_list') || '[]');
       localList = localList.filter(function(s) { return String(s.id) !== String(id); });
       localStorage.setItem('my_startups_list', JSON.stringify(localList));
