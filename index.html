@@ -906,7 +906,7 @@
       }
     }
 
-    // Doğrudan Clerk Modal Tetikleyicileri (Butonların Çalışması İçin)
+    // CLERK İLE DOĞRUDAN GİRİŞ / KAYIT PENCERESİNİ AÇAN FONKSİYON
     function openAuthModal(mode) {
       if (window.Clerk) {
         if (mode === 'signup') {
@@ -915,7 +915,7 @@
           Clerk.openSignIn({ afterSignInUrl: window.location.href });
         }
       } else {
-        alert("Kimlik doğrulama sistemi yükleniyor, lütfen birkaç saniye sonra tekrar deneyin.");
+        showToast("Hata", "Kimlik doğrulama sistemi yükleniyor, lütfen bekleyin.");
       }
     }
 
