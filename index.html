@@ -723,7 +723,63 @@
           ← E-posta adresini değiştir
         </button>
       </div>
+<!-- E-POSTA DOĞRULAMA / OTP -->
+<div id="otpStep" style="display: none;" class="space-y-4">
 
+  <div class="text-center">
+    <div class="text-4xl mb-3">✉️</div>
+
+    <h2 class="text-2xl font-black text-white">
+      E-postanı doğrula
+    </h2>
+
+    <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+      <span id="otpEmailLabel"></span>
+      adresine 6 haneli doğrulama kodu gönderdik.
+    </p>
+  </div>
+
+  <div>
+    <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">
+      Doğrulama Kodu
+    </label>
+
+    <input
+      type="text"
+      id="otpCode"
+      maxlength="6"
+      inputmode="numeric"
+      autocomplete="one-time-code"
+      placeholder="123456"
+      class="w-full p-4 bg-[#08090b] border border-[#1e222d] rounded-xl text-center text-2xl font-black tracking-[0.5em] text-white outline-none focus:border-emerald-400"
+    >
+  </div>
+
+  <button
+    type="button"
+    onclick="verifyAuthCode()"
+    class="w-full al-accent-bg font-extrabold py-3.5 rounded-xl text-xs transition cursor-pointer"
+  >
+    Kodu Doğrula
+  </button>
+
+  <button
+    type="button"
+    onclick="resendVerificationCode()"
+    class="w-full text-xs font-bold text-slate-400 hover:text-emerald-400 transition cursor-pointer"
+  >
+    Kodu Tekrar Gönder
+  </button>
+
+  <button
+    type="button"
+    onclick="backToAuthForm()"
+    class="w-full text-xs text-slate-500 hover:text-white transition cursor-pointer"
+  >
+    ← Geri Dön
+  </button>
+
+</div>
       <div id="forgotStep1" style="display: none;" class="space-y-3">
         <div class="bg-emerald-500/10 border border-emerald-500/20 p-3 rounded-xl text-emerald-400 text-xs font-semibold leading-relaxed text-center">
           ✉️ E-posta adresinizi girin. Şifre sıfırlama bağlantısı gönderilecektir.
@@ -1168,15 +1224,331 @@
       }
     }
 
-    async function handleAuthSubmit() {
-      const email = document.getElementById('authEmail').value.trim();
-      const password = document.getElementById('authPassword').value;
-      const fullName = document.getElementById('authFullName').value.trim();
+  async function handleAuthSubmit() {
 
-      if (!email || !email.includes('@') || !email.includes('.')) {
-        showToast("Geçersiz E-Posta", "Lütfen geçerli bir e-posta adresi girin.");
+  const email = document.getElementById('authEmail').value.trim();
+  const password = document.getElementById('authPassword').value;
+  const fullName = document.getElementById('authFullName').value.trim();
+
+  if (!email || !email.includes('@') || !email.includes('.')) {
+    showToast(
+      "Geçersiz E-Posta",
+      "Lütfen geçerli bir e-posta adresi girin."
+    );
+    return;
+  }
+/* =========================
+   OTP DOĞRULAMA
+   ========================= */
+
+async function verifyAuthCode() {
+
+  const email =
+    document.getElementById('authEmail').value.trim();
+
+  const token =
+    document.getElementById('otpCode').value.trim();
+
+
+  if (!token || token.length !== 6) {
+
+    showToast(
+      "Hatalı Kod",
+      "Lütfen 6 haneli doğrulama kodunu girin."
+    );
+
+    return;
+  }
+
+
+  try {
+
+    const { data, error } =
+      await sbClient.auth.verifyOtp({
+
+        email: email,
+
+        token: token,
+
+        type: 'email'
+
+      });
+
+
+    if (error) {
+
+      console.error(error);
+
+      showToast(
+        "Doğrulama Başarısız",
+        error.message
+      );
+
+      return;
+    }
+
+
+    if (data && data.user) {
+
+      currentUser = data.user;
+
+      trackRegisteredUser(data.user.email);
+
+      updateUserUI(data.user);
+
+      closeAuthModal();
+
+      showToast(
+        "Hesap Doğrulandı",
+        "E-posta adresiniz başarıyla doğrulandı."
+      );
+    }
+
+  } catch (error) {
+
+    console.error(error);
+
+    showToast(
+      "Hata",
+      "Kod doğrulanırken bir hata oluştu."
+    );
+  }
+}
+
+
+/* =========================
+   KODU TEKRAR GÖNDER
+   ========================= */
+
+async function resendVerificationCode() {
+
+  const email =
+    document.getElementById('authEmail').value.trim();
+
+
+  if (!email) {
+
+    showToast(
+      "Hata",
+      "E-posta adresi bulunamadı."
+    );
+
+    return;
+  }
+
+
+  try {
+
+    const { error } =
+      await sbClient.auth.resend({
+
+        type: 'signup',
+
+        email: email
+
+      });
+
+
+    if (error) {
+
+      console.error(error);
+
+      showToast(
+        "Kod Gönderilemedi",
+        error.message
+      );
+
+      return;
+    }
+
+
+    showToast(
+      "Kod Tekrar Gönderildi",
+      "Yeni doğrulama kodu e-posta adresinize gönderildi."
+    );
+
+  } catch (error) {
+
+    console.error(error);
+
+    showToast(
+      "Hata",
+      "Kod gönderilirken hata oluştu."
+    );
+  }
+}
+
+
+/* =========================
+   OTP'DEN GERİ DÖN
+   ========================= */
+
+function backToAuthForm() {
+
+  document.getElementById('otpStep').style.display = 'none';
+
+  document.getElementById('mainAuthForm').style.display = 'block';
+
+  document.getElementById('googleAuthBox').style.display = 'block';
+
+  document.getElementById('orDivider').style.display = 'flex';
+
+  document.getElementById('authTabHeader').style.display = 'flex';
+
+  document.getElementById('authModalTitle').style.display = 'block';
+
+  document.getElementById('otpCode').value = '';
+
+}
+  if (!password || password.length < 6) {
+    showToast(
+      "Zayıf Şifre",
+      "Şifre en az 6 karakter olmalıdır."
+    );
+    return;
+  }
+
+  if (currentAuthMode === 'signup' && !fullName) {
+    showToast(
+      "Eksik Bilgi",
+      "Lütfen ad soyad girin."
+    );
+    return;
+  }
+
+  if (!sbClient) {
+    showToast(
+      "Hata",
+      "Veritabanı bağlantısı kurulamadı."
+    );
+    return;
+  }
+
+
+  /* =========================
+     KAYIT OL
+     ========================= */
+
+  if (currentAuthMode === 'signup') {
+
+    try {
+
+      const { data, error } = await sbClient.auth.signUp({
+        email: email,
+        password: password,
+        options: {
+          data: {
+            full_name: fullName
+          }
+        }
+      });
+
+      if (error) {
+
+        console.error(error);
+
+        showToast(
+          "Kayıt Hatası",
+          error.message
+        );
+
         return;
       }
+
+
+      /*
+       * Supabase Email Confirmation açıksa
+       * kullanıcıya doğrulama maili gönderilir.
+       */
+
+      document.getElementById('otpEmailLabel').innerText = email;
+
+      document.getElementById('mainAuthForm').style.display = 'none';
+
+      document.getElementById('googleAuthBox').style.display = 'none';
+
+      document.getElementById('orDivider').style.display = 'none';
+
+      document.getElementById('authTabHeader').style.display = 'none';
+
+      document.getElementById('authModalTitle').style.display = 'none';
+
+      document.getElementById('forgotStep1').style.display = 'none';
+
+      document.getElementById('otpStep').style.display = 'block';
+
+      document.getElementById('otpCode').value = '';
+
+      setTimeout(function () {
+        document.getElementById('otpCode').focus();
+      }, 100);
+
+      showToast(
+        "Kod Gönderildi",
+        "E-posta adresinize 6 haneli doğrulama kodu gönderildi."
+      );
+
+    } catch (err) {
+
+      console.error(err);
+
+      showToast(
+        "Hata",
+        "Kayıt işlemi başarısız."
+      );
+    }
+
+    return;
+  }
+
+
+  /* =========================
+     GİRİŞ YAP
+     ========================= */
+
+  try {
+
+    const { data, error } =
+      await sbClient.auth.signInWithPassword({
+        email: email,
+        password: password
+      });
+
+    if (error) {
+
+      showToast(
+        "Giriş Başarısız",
+        "E-posta veya şifre hatalı!"
+      );
+
+      return;
+    }
+
+    if (data && data.session) {
+
+      trackRegisteredUser(email);
+
+      showToast(
+        "Başarılı",
+        "Giriş yapıldı!"
+      );
+
+      closeAuthModal();
+
+      updateUserUI(data.session.user);
+    }
+
+  } catch (e) {
+
+    console.error(e);
+
+    showToast(
+      "Hata",
+      "Giriş yapılırken hata oluştu."
+    );
+  }
+}
+      
 
       if (!password || password.length < 6) {
         showToast("Zayıf Şifre", "Şifre en az 6 karakter olmalıdır.");
@@ -1276,7 +1648,7 @@
         const { data, error } = await sbClient.auth.verifyOtp({
           email: email,
           token: token,
-          type: 'signup'
+          type: 'email'
         });
 
         if (error) {
