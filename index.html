@@ -44,7 +44,7 @@
     }
   </style>
 
-  <!-- KESİN ÇÖZÜM: Tarayıcı daha HTML'i okurken oturuma göre stilleri anında enjekte eder -->
+  <!-- KESİN ÇÖZÜM: Tarayıcı sayfayı yükler yüklemez doğru view'i anında gösterir -->
   <script>
     if (localStorage.getItem('user_logged_in') === 'true') {
       document.write('<style>#landingView { display: none !important; } #appView { display: block !important; }</style>');
@@ -100,7 +100,7 @@
     </div>
   </header>
 
-  <!-- ZİYARETÇİ HERO ARAYÜZÜ (Başlangıçta display: none ile gizli başlar) -->
+  <!-- ZİYARETÇİ HERO ARAYÜZÜ (Başlangıçta display: none ile güvenceye alındı) -->
   <div id="landingView" style="display: none;">
     <section class="relative hero-glow pt-24 pb-20 overflow-hidden border-b border-[#1e222d]">
       <div class="max-w-5xl mx-auto px-6 text-center space-y-8 relative z-10">
@@ -961,10 +961,7 @@
 
     function handleLogoClick() {
       if (currentUser) { showTab(activeTabName || 'startups'); } 
-      else { 
-        document.documentElement.classList.remove('logged-in');
-        document.documentElement.classList.add('not-logged-in');
-      }
+      else { document.getElementById('landingView').style.display = 'block'; document.getElementById('appView').style.display = 'none'; }
     }
 
     function openAuthModal(mode) {
@@ -1069,18 +1066,18 @@
       const visitorNav = document.getElementById('visitorNav');
       const appNav = document.getElementById('appNav');
       const adminBtn = document.getElementById('btn-admin');
+      const landingView = document.getElementById('landingView');
+      const appView = document.getElementById('appView');
 
       if (user) {
         trackRegisteredUser(user.email);
         localStorage.setItem('user_logged_in', 'true');
-        
-        document.documentElement.classList.remove('not-logged-in');
-        document.documentElement.classList.add('logged-in');
-
         userBox.classList.remove('hidden');
         loginBtn.classList.add('hidden');
         if (visitorNav) visitorNav.style.display = 'none';
         if (appNav) { appNav.style.display = 'flex'; appNav.classList.remove('hidden'); }
+        landingView.style.display = 'none';
+        appView.style.display = 'block';
 
         var rawName = user.user_metadata?.full_name || user.user_metadata?.name;
         if (!rawName || rawName.trim() === '') {
@@ -1098,16 +1095,14 @@
         showTab(localStorage.getItem('active_tab_name') || 'startups');
       } else {
         localStorage.removeItem('user_logged_in');
-        
-        document.documentElement.classList.remove('logged-in');
-        document.documentElement.classList.add('not-logged-in');
-
         userBox.classList.add('hidden');
         loginBtn.classList.remove('hidden');
         if (appNav) { appNav.style.display = 'none'; appNav.classList.add('hidden'); }
         if (visitorNav) { visitorNav.style.display = 'flex'; visitorNav.classList.remove('hidden'); }
         if (adminBtn) adminBtn.style.display = 'none';
         userLabel.innerText = '';
+        landingView.style.display = 'block';
+        appView.style.display = 'none';
       }
     }
 
