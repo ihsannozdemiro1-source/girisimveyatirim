@@ -695,6 +695,35 @@
         <button type="button" id="authSubmitBtn" onclick="handleAuthSubmit()" class="w-full al-accent-bg font-extrabold py-3.5 rounded-xl text-xs transition mt-2 cursor-pointer">Giriş Yap</button>
       </div>
 
+      <div id="otpStep" style="display: none;" class="space-y-4">
+        <div class="text-center">
+          <div class="text-3xl mb-3">✉️</div>
+          <h3 class="text-lg font-black text-white">E-postanı doğrula</h3>
+          <p class="text-xs text-slate-400 mt-2">
+            <span id="otpEmailLabel"></span> adresine gönderdiğimiz 6 haneli kodu gir.
+          </p>
+        </div>
+
+        <input type="text" id="otpCode" maxlength="6" inputmode="numeric" autocomplete="one-time-code"
+          placeholder="123456"
+          class="w-full p-4 bg-[#08090b] border border-[#1e222d] rounded-xl text-center text-2xl font-black tracking-[0.5em] text-white outline-none focus:border-emerald-400">
+
+        <button type="button" onclick="verifySignupCode()"
+          class="w-full al-accent-bg font-extrabold py-3.5 rounded-xl text-xs transition cursor-pointer">
+          Kodu Doğrula
+        </button>
+
+        <button type="button" onclick="resendSignupCode()"
+          class="w-full text-xs font-bold text-slate-400 hover:text-emerald-400 transition cursor-pointer">
+          Kodu tekrar gönder
+        </button>
+
+        <button type="button" onclick="backToSignupForm()"
+          class="w-full text-xs text-slate-500 hover:text-white transition cursor-pointer">
+          ← E-posta adresini değiştir
+        </button>
+      </div>
+
       <div id="forgotStep1" style="display: none;" class="space-y-3">
         <div class="bg-emerald-500/10 border border-emerald-500/20 p-3 rounded-xl text-emerald-400 text-xs font-semibold leading-relaxed text-center">
           ✉️ E-posta adresinizi girin. Şifre sıfırlama bağlantısı gönderilecektir.
@@ -980,6 +1009,7 @@
       var fullNameBox = document.getElementById('fullNameBox');
       var submitBtn = document.getElementById('authSubmitBtn');
       var mainForm = document.getElementById('mainAuthForm');
+      var otpStep = document.getElementById('otpStep');
       var forgotStep1 = document.getElementById('forgotStep1');
       var tabHeader = document.getElementById('authTabHeader');
       var googleBox = document.getElementById('googleAuthBox');
@@ -987,6 +1017,7 @@
       var modalTitle = document.getElementById('authModalTitle');
 
       mainForm.style.display = 'none';
+      otpStep.style.display = 'none';
       forgotStep1.style.display = 'none';
       tabHeader.style.display = 'flex';
       googleBox.style.display = 'block';
@@ -999,12 +1030,14 @@
         fullNameBox.style.display = 'none';
         submitBtn.innerText = "Giriş Yap";
         mainForm.style.display = 'block';
+        modalTitle.innerHTML = '<h2 class="text-2xl font-black">Tekrar Hoş Geldiniz</h2><p class="text-slate-400 text-xs mt-1">Ekosistem hesabınıza erişin.</p>';
       } else if (mode === 'signup') {
         signupBtn.className = "w-1/2 py-2.5 rounded-xl text-xs font-black transition bg-[#1e222d] text-white cursor-pointer";
         loginBtn.className = "w-1/2 py-2.5 rounded-xl text-xs font-medium text-slate-400 hover:text-white transition cursor-pointer";
         fullNameBox.style.display = 'block';
         submitBtn.innerText = "Kayıt Ol";
         mainForm.style.display = 'block';
+        modalTitle.innerHTML = '<h2 class="text-2xl font-black">Hesap Oluştur</h2><p class="text-slate-400 text-xs mt-1">E-postanı doğrulayarak hesabını oluştur.</p>';
       } else if (mode === 'forgot') {
         tabHeader.style.display = 'none';
         googleBox.style.display = 'none';
@@ -1012,6 +1045,30 @@
         modalTitle.style.display = 'none';
         forgotStep1.style.display = 'block';
       }
+    }
+
+    function showSignupOtpStep(email) {
+      document.getElementById('mainAuthForm').style.display = 'none';
+      document.getElementById('googleAuthBox').style.display = 'none';
+      document.getElementById('orDivider').style.display = 'none';
+      document.getElementById('authTabHeader').style.display = 'none';
+      document.getElementById('authModalTitle').style.display = 'none';
+      document.getElementById('forgotStep1').style.display = 'none';
+      document.getElementById('otpStep').style.display = 'block';
+      document.getElementById('otpEmailLabel').innerText = email;
+      document.getElementById('otpCode').value = '';
+      setTimeout(function() { document.getElementById('otpCode').focus(); }, 50);
+    }
+
+    function backToSignupForm() {
+      document.getElementById('otpStep').style.display = 'none';
+      document.getElementById('authTabHeader').style.display = 'flex';
+      document.getElementById('googleAuthBox').style.display = 'block';
+      document.getElementById('orDivider').style.display = 'flex';
+      document.getElementById('authModalTitle').style.display = 'block';
+      document.getElementById('mainAuthForm').style.display = 'block';
+      currentAuthMode = 'signup';
+      document.getElementById('fullNameBox').style.display = 'block';
     }
 
     async function sendSupabaseResetEmail() {
@@ -1116,17 +1173,19 @@
       const password = document.getElementById('authPassword').value;
       const fullName = document.getElementById('authFullName').value.trim();
 
-      if (!email || !email.includes('@') || !email.includes('.')) { 
-        showToast("Geçersiz E-Posta", "Lütfen geçerli bir e-posta adresi girin."); 
-        return; 
+      if (!email || !email.includes('@') || !email.includes('.')) {
+        showToast("Geçersiz E-Posta", "Lütfen geçerli bir e-posta adresi girin.");
+        return;
       }
-      if (!password || password.length < 6) { 
-        showToast("Zayıf Şifre", "Şifre en az 6 karakter olmalıdır."); 
-        return; 
+
+      if (!password || password.length < 6) {
+        showToast("Zayıf Şifre", "Şifre en az 6 karakter olmalıdır.");
+        return;
       }
-      if (currentAuthMode === 'signup' && !fullName) { 
-        showToast("Eksik Bilgi", "Lütfen ad soyad girin."); 
-        return; 
+
+      if (currentAuthMode === 'signup' && !fullName) {
+        showToast("Eksik Bilgi", "Lütfen ad soyad girin.");
+        return;
       }
 
       if (!sbClient) {
@@ -1136,45 +1195,132 @@
 
       if (currentAuthMode === 'signup') {
         try {
-          const { data, error } = await sbClient.auth.signUp({ 
-            email, 
-            password, 
-            options: { data: { full_name: fullName } } 
+          const { data, error } = await sbClient.auth.signUp({
+            email: email,
+            password: password,
+            options: {
+              data: { full_name: fullName }
+            }
           });
+
           if (error) {
             showToast("Kayıt Hatası", error.message);
             return;
           }
-          trackRegisteredUser(email);
-          showToast("Başarılı", "Kayıt tamamlandı, giriş yapıldı!");
-          closeAuthModal();
+
+          // E-posta doğrulaması açıksa Supabase kullanıcıyı oturum açmadan döndürür.
+          // Bu durumda 6 haneli doğrulama ekranına geçiyoruz.
           if (data && data.session) {
+            trackRegisteredUser(email);
             updateUserUI(data.session.user);
-          } else {
-            const { data: signInData } = await sbClient.auth.signInWithPassword({ email, password });
-            if (signInData && signInData.session) {
-              updateUserUI(signInData.session.user);
-            }
-          }
-        } catch (err) {
-          showToast("Hata", "Kayıt işlemi başarısız.");
-        }
-      } else {
-        try {
-          const { data, error } = await sbClient.auth.signInWithPassword({ email, password });
-          if (error) {
-            showToast("Giriş Başarısız", "E-posta veya şifre hatalı!");
+            closeAuthModal();
+            showToast("Başarılı", "Hesabınız oluşturuldu ve giriş yapıldı!");
             return;
           }
+
           trackRegisteredUser(email);
+          showSignupOtpStep(email);
+          showToast("Kod Gönderildi", "E-postanıza 6 haneli doğrulama kodu gönderildi.");
+
+        } catch (err) {
+          console.error(err);
+          showToast("Hata", "Kayıt işlemi başarısız.");
+        }
+
+      } else {
+        try {
+          const { data, error } = await sbClient.auth.signInWithPassword({
+            email: email,
+            password: password
+          });
+
+          if (error) {
+            if ((error.message || '').toLowerCase().includes('email not confirmed')) {
+              showToast("E-posta Doğrulanmadı", "Önce e-posta adresinizi doğrulayın.");
+              showSignupOtpStep(email);
+            } else {
+              showToast("Giriş Başarısız", "E-posta veya şifre hatalı!");
+            }
+            return;
+          }
+
+          trackRegisteredUser(email);
+
           if (data.session) {
             showToast("Başarılı", "Giriş yapıldı!");
             closeAuthModal();
             updateUserUI(data.session.user);
           }
         } catch (e) {
+          console.error(e);
           showToast("Hata", "Giriş yapılırken hata oluştu.");
         }
+      }
+    }
+
+    async function verifySignupCode() {
+      const email = document.getElementById('authEmail').value.trim();
+      const token = document.getElementById('otpCode').value.trim();
+
+      if (!email || !token || !/^\d{6}$/.test(token)) {
+        showToast("Geçersiz Kod", "Lütfen 6 haneli doğrulama kodunu girin.");
+        return;
+      }
+
+      if (!sbClient) {
+        showToast("Hata", "Veritabanı bağlantısı kurulamadı.");
+        return;
+      }
+
+      try {
+        const { data, error } = await sbClient.auth.verifyOtp({
+          email: email,
+          token: token,
+          type: 'signup'
+        });
+
+        if (error) {
+          console.error(error);
+          showToast("Kod Hatalı", "Kod geçersiz veya süresi dolmuş.");
+          return;
+        }
+
+        if (data && data.user) {
+          trackRegisteredUser(email);
+          updateUserUI(data.user);
+          closeAuthModal();
+          showToast("Hoş Geldiniz!", "E-posta adresiniz doğrulandı.");
+        }
+      } catch (err) {
+        console.error(err);
+        showToast("Hata", "Kod doğrulanırken bir hata oluştu.");
+      }
+    }
+
+    async function resendSignupCode() {
+      const email = document.getElementById('authEmail').value.trim();
+
+      if (!email || !email.includes('@')) {
+        showToast("Hata", "Geçerli bir e-posta adresi girin.");
+        return;
+      }
+
+      try {
+        const { error } = await sbClient.auth.resend({
+          type: 'signup',
+          email: email
+        });
+
+        if (error) {
+          console.error(error);
+          showToast("Kod Gönderilemedi", error.message);
+          return;
+        }
+
+        showToast("Kod Tekrar Gönderildi", "Yeni doğrulama kodu e-posta adresinize gönderildi.");
+      } catch (err) {
+        console.error(err);
+        showToast("Hata", "Yeni kod gönderilemedi.");
       }
     }
 
