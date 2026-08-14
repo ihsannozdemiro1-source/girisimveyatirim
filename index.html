@@ -7,7 +7,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   
   <!-- Clerk SDK Entegrasyonu -->
-  <script async crossorigin="anonymous" data-clerk-publishable-key="pk_test_c3Ryb25nlk5wYXJyb3ctNDMuY2xlcmsuYWNjb3VudHMsZGV2JA" src="https://cdn.jsdelivr.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js" type="text/javascript"></script>
+  <script async crossorigin="anonymous" data-clerk-publishable-key="pk_test_c3Ryb25nlk5wYXJyb3ctNDMuY2xlcmsuYWNjb3VudHMuZGV2JA" src="https://cdn.jsdelivr.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js" type="text/javascript"></script>
 
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
@@ -95,7 +95,8 @@
           <span id="userEmailLabel" class="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-3 py-1.5 rounded-full border border-emerald-500/30"></span>
           <button type="button" onclick="handleLogout()" class="text-xs font-semibold text-slate-400 hover:text-rose-400 transition cursor-pointer">Çıkış Yap</button>
         </div>
-        <button type="button" id="loginHeaderBtn" onclick="openAuthModal('login')" class="text-xs font-bold text-slate-300 hover:text-white px-3 py-2 transition cursor-pointer">Giriş Yap</button>
+        <!-- Clerk Doğrudan Giriş Tetikleyicisi -->
+        <button type="button" id="loginHeaderBtn" onclick="Clerk.openSignIn()" class="text-xs font-bold text-slate-300 hover:text-white px-3 py-2 transition cursor-pointer">Giriş Yap</button>
         <button type="button" onclick="handleNewAddClick()" class="bg-white hover:bg-slate-200 text-[#08090b] font-extrabold text-xs px-5 py-2.5 rounded-full shadow-md transition cursor-pointer">
           + İlan Ekle
         </button>
@@ -123,10 +124,11 @@
         </p>
 
         <div class="max-w-2xl mx-auto pt-4 flex justify-center gap-4">
-          <button type="button" onclick="openAuthModal('signup')" class="al-accent-bg font-black text-xs px-8 py-4 rounded-xl transition shadow-lg cursor-pointer">
+          <!-- Clerk Doğrudan Kayıt Tetikleyicisi -->
+          <button type="button" onclick="Clerk.openSignUp()" class="al-accent-bg font-black text-xs px-8 py-4 rounded-xl transition shadow-lg cursor-pointer">
             Kayıt Ol &rarr;
           </button>
-          <button type="button" onclick="openAuthModal('login')" class="bg-[#12141a] hover:bg-[#1e222d] text-white border border-[#1e222d] font-bold text-xs px-8 py-4 rounded-xl transition cursor-pointer">
+          <button type="button" onclick="Clerk.openSignIn()" class="bg-[#12141a] hover:bg-[#1e222d] text-white border border-[#1e222d] font-bold text-xs px-8 py-4 rounded-xl transition cursor-pointer">
             Giriş Yap
           </button>
         </div>
@@ -906,20 +908,7 @@
       }
     }
 
-    // Clerk Giriş/Kayıt Modalını Açma
-    function openAuthModal(mode) {
-      if (window.Clerk) {
-        if (mode === 'signup') {
-          Clerk.openSignUp({ afterSignUpUrl: window.location.href });
-        } else {
-          Clerk.openSignIn({ afterSignInUrl: window.location.href });
-        }
-      } else {
-        showToast("Hata", "Kimlik doğrulama sistemi yüklenemedi.");
-      }
-    }
-
-    // Sayfa Yüklendiğinde Clerk Oturumunu Kontrol Et
+    // Sayfa Yüklendiğinde Clerk Oturumunu Kontrol Et ve Başlat
     window.addEventListener('load', async function () {
       if (window.Clerk) {
         await Clerk.load();
