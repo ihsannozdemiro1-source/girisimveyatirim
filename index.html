@@ -44,9 +44,9 @@
     }
   </style>
 
-  <!-- KESİN ÇÖZÜM: Tarayıcı HTML'i okurken oturuma göre doğru ekranı anında sabiter ve titremeyi önler -->
+  <!-- KESİN ÇÖZÜM: URL Hash kontrolü ile tarayıcı milisaniyesinde doğru ekranı gösterir, asla zıplama yapmaz -->
   <script>
-    if (localStorage.getItem('user_logged_in') === 'true') {
+    if (window.location.hash.startsWith('#app')) {
       document.write('<style>#landingView { display: none !important; } #appView { display: block !important; }</style>');
     } else {
       document.write('<style>#landingView { display: block !important; } #appView { display: none !important; }</style>');
@@ -184,21 +184,21 @@
           <div class="w-12 h-12 rounded-xl bg-teal-500/10 border border-teal-500/30 flex items-center justify-center text-teal-400 font-black text-lg shrink-0">01</div>
           <div>
             <h4 class="text-base font-bold text-white mb-1">Hızlı ve Sürtünmesiz Ağ</h4>
-            <p class="text-slate-400 text-xs leading-relaxed">Karmaşık bürokratik engelleri and uzun onay süreçlerini unutturuyoruz. Projenizi dakikalar içinde küresel yatırımcı ağına sunun.</p>
+            <p class="text-slate-400 text-xs leading-relaxed">Karmaşık bürokratik engelleri ve uzun onay süreçlerini unutturuyoruz. Projenizi dakikalar içinde küresel yatırımcı ağına sunun.</p>
           </div>
         </div>
         <div class="bg-gradient-to-r from-[#12141a] to-[#181d28] border border-[#1e222d] p-6 rounded-2xl flex items-center gap-6 shadow-md">
           <div class="w-12 h-12 rounded-xl bg-teal-500/10 border border-teal-500/30 flex items-center justify-center text-teal-400 font-black text-lg shrink-0">02</div>
           <div>
             <h4 class="text-base font-bold text-white mb-1">Doğrudan İletişim Köprüsü</h4>
-            <p class="text-slate-400 text-xs leading-relaxed">Aracı komisyoncuları and fon yöneticilerini aradan çıkararak kurucularla and melek yatırımcılarla birebir görüşme sağlayın.</p>
+            <p class="text-slate-400 text-xs leading-relaxed">Aracı komisyoncuları ve fon yöneticilerini aradan çıkararak kurucularla ve melek yatırımcılarla birebir görüşme sağlayın.</p>
           </div>
         </div>
         <div class="bg-gradient-to-r from-[#12141a] to-[#181d28] border border-[#1e222d] p-6 rounded-2xl flex items-center gap-6 shadow-md">
           <div class="w-12 h-12 rounded-xl bg-teal-500/10 border border-teal-500/30 flex items-center justify-center text-teal-400 font-black text-lg shrink-0">03</div>
           <div>
             <h4 class="text-base font-bold text-white mb-1">Ortak Bulut Senkronizasyonu</h4>
-            <p class="text-slate-400 text-xs leading-relaxed">İster telefondan ister bilgisayardan işlem yapın; tüm verileriniz bulut tabanında anlık olarak senkronize edilir and her yerden erişilebilir.</p>
+            <p class="text-slate-400 text-xs leading-relaxed">İster telefondan ister bilgisayardan işlem yapın; tüm verileriniz bulut tabanında anlık olarak senkronize edilir ve her yerden erişilebilir.</p>
           </div>
         </div>
       </div>
@@ -228,7 +228,7 @@
             <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">İlan Ver</span>
           </div>
           <h3 class="text-xl font-bold text-white">Projenizi Yayınlayın</h3>
-          <p class="text-slate-400 text-xs leading-relaxed">Girişiminizi, hedef yatırım tutarınızı and sektör bilgilerinizi girerek ilanınızı tüm ağa açın.</p>
+          <p class="text-slate-400 text-xs leading-relaxed">Girişiminizi, hedef yatırım tutarınızı ve sektör bilgilerinizi girerek ilanınızı tüm ağa açın.</p>
         </div>
 
         <div class="bg-gradient-to-b from-[#12141a] to-[#0d0f14] border border-[#1e222d] hover:border-indigo-500/50 p-8 rounded-3xl space-y-4 transition">
@@ -237,7 +237,7 @@
             <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Yatırım Al</span>
           </div>
           <h3 class="text-xl font-bold text-white">Bağlantı Kurun</h3>
-          <p class="text-slate-400 text-xs leading-relaxed">Melek yatırımcılardan teklifler alın, projenizi ölçeklendirin and ortaklık görüşmeleri başlatın.</p>
+          <p class="text-slate-400 text-xs leading-relaxed">Melek yatırımcılardan teklifler alın, projenizi ölçeklendirin ve ortaklık görüşmeleri başlatın.</p>
         </div>
       </div>
     </section>
@@ -253,7 +253,7 @@
       <div class="space-y-4">
         <div class="al-card-dark p-6 rounded-2xl space-y-2">
           <h4 class="font-bold text-white text-sm">Platforma ilan eklemek ücretli mi?</h4>
-          <p class="text-slate-400 text-xs leading-relaxed">Şu an erken aşama girişimciler and yatırımcılar için temel ilan yayınlama süreçleri tamamen ücretsizdir.</p>
+          <p class="text-slate-400 text-xs leading-relaxed">Şu an erken aşama girişimciler ve yatırımcılar için temel ilan yayınlama süreçleri tamamen ücretsizdir.</p>
         </div>
         <div class="al-card-dark p-6 rounded-2xl space-y-2">
           <h4 class="font-bold text-white text-sm">Eklediğim ilanlar diğer cihazlarda görünür mü?</h4>
@@ -564,7 +564,7 @@
         <p id="detailUpdateText" class="text-xs text-emerald-200 leading-relaxed"></p>
       </div>
 
-      <!-- Değerleme ve İlerleme Çubuğu -->
+      <!-- Değerleme and İlerleme Çubuğu -->
       <div class="bg-[#08090b] p-5 rounded-2xl border border-[#1e222d] space-y-3">
         <div class="flex justify-between items-center text-xs font-bold">
           <span id="detailRaisedText" class="text-emerald-400 text-sm"></span>
@@ -576,13 +576,24 @@
         <div id="valuationBox" class="pt-2 text-[11px] text-indigo-400 font-bold"></div>
       </div>
 
-      <!-- 1. ÖZELLİK: AI Due Diligence (Risk & Sağlamlık Raporu) -->
-      <div class="bg-[#08090b] p-4 rounded-2xl border border-emerald-500/30 space-y-2">
+      <!-- AI Pitch Deck & Yatırım Komitesi Analiz Raporu -->
+      <div class="bg-[#08090b] p-5 rounded-2xl border border-emerald-500/30 space-y-3">
         <div class="flex justify-between items-center">
-          <span class="text-[11px] font-black text-emerald-400 uppercase tracking-widest">🤖 AI Due Diligence (Ön Değerleme Raporu)</span>
-          <button type="button" onclick="runAiDueDiligence()" class="bg-emerald-500/25 hover:bg-emerald-500/40 text-emerald-300 border border-emerald-500/50 px-3.5 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer">Rapor Oluştur</button>
+          <span class="text-xs font-black text-emerald-400 uppercase tracking-widest flex items-center gap-1.5">
+            🤖 AI Yatırım Komitesi & Pitch Deck Analiz Raporu
+          </span>
+          <button type="button" onclick="runAiPitchDeckAudit()" class="al-accent-bg font-extrabold px-4 py-2 rounded-xl text-xs transition cursor-pointer">Raporu Üret</button>
         </div>
         <div id="aiAuditResult" class="text-xs text-slate-300 leading-relaxed hidden pt-2 border-t border-[#1e222d]"></div>
+      </div>
+
+      <!-- Güvenli Veri Odası (Data Room) Erişim Talebi -->
+      <div class="bg-[#12141a] p-5 rounded-2xl border border-indigo-500/30 flex justify-between items-center">
+        <div>
+          <div class="text-xs font-black text-indigo-400 uppercase tracking-wide">🔒 Gizli Veri Odası & Mali Tablolar</div>
+          <p class="text-[11px] text-slate-400 mt-0.5">Pitch Deck, birim ekonomi ve detaylı finansal model için erişim isteyin.</p>
+        </div>
+        <button type="button" onclick="requestDataRoomAccess()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-4 py-2.5 rounded-xl text-xs transition cursor-pointer">Erişim Talep Et</button>
       </div>
 
       <div id="detailLinksBox" class="flex flex-wrap gap-3"></div>
@@ -735,7 +746,7 @@
 
   <!-- İLAN EKLEME FORMU -->
   <div id="addModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
-    <div class="al-card-dark rounded-3xl max-w-md w-full p-6 relative text-white border border-[#1e222d] space-y-4">
+    <div class="al-card-dark rounded-3xl max-w-lg w-full p-6 relative text-white border border-[#1e222d] space-y-4 max-h-[90vh] overflow-y-auto">
       <button type="button" onclick="closeCreateModal()" class="absolute top-4 right-4 text-slate-400 text-lg font-bold hover:text-white cursor-pointer">&times;</button>
       <div>
         <h2 class="text-xl font-black text-white">Yeni Girişim İlanı Ekle</h2>
@@ -942,6 +953,7 @@
     function showTab(name) {
       activeTabName = name;
       localStorage.setItem('active_tab_name', name);
+      window.location.hash = 'app/' + name;
 
       var tabs = document.querySelectorAll('.content-tab');
       for (var i = 0; i < tabs.length; i++) tabs[i].style.display = 'none';
@@ -973,6 +985,7 @@
       if (localStorage.getItem('user_logged_in') === 'true') { 
         showTab(localStorage.getItem('active_tab_name') || 'startups'); 
       } else { 
+        window.location.hash = '';
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
     }
@@ -1104,11 +1117,13 @@
           adminBtn.style.display = (currentEmail === ADMIN_EMAIL) ? 'inline-block' : 'none';
         }
 
-        var savedTab = localStorage.getItem('active_tab_name') || 'startups';
-        showTab(savedTab);
+        var hashParts = window.location.hash.split('/');
+        var targetTab = hashParts[1] || localStorage.getItem('active_tab_name') || 'startups';
+        showTab(targetTab);
       } else {
         localStorage.removeItem('user_logged_in');
         localStorage.removeItem('active_tab_name');
+        window.location.hash = '';
 
         userBox.classList.add('hidden');
         loginBtn.classList.remove('hidden');
@@ -1143,8 +1158,9 @@
       closeAuthModal();
 
       setTimeout(function() {
+        window.location.hash = 'app/startups';
         window.location.reload();
-      }, 600);
+      }, 500);
     }
 
     document.addEventListener('DOMContentLoaded', async function() {
@@ -1153,6 +1169,7 @@
         btn.addEventListener('click', async function(e) {
           e.preventDefault();
           localStorage.setItem('user_logged_in', 'true');
+          window.location.hash = 'app/startups';
           window.location.reload();
         });
       }
@@ -1169,6 +1186,7 @@
       }
       localStorage.removeItem('user_logged_in');
       localStorage.removeItem('active_tab_name');
+      window.location.hash = '';
       currentUser = null;
       updateUserUI(null);
       showToast("Çıkış", "Oturum kapatıldı.");
@@ -1443,7 +1461,7 @@
       localStorage.setItem('my_startups_list', JSON.stringify(localList));
 
       closeEditModal();
-      showToast("Başarılı", "İlanınız ve kurucu notu güncellendi!");
+      showToast("Başarılı", "İlanınız and kurucu notu güncellendi!");
       loadStartups();
       renderMyListings();
     }
@@ -1459,7 +1477,7 @@
       var equityVal = document.getElementById('addEquity').value.trim();
 
       if (!titleVal || !goalVal || !founderVal || !descVal) {
-        showToast("Eksik Alan", "Lütfen Girişim Adı, Hedef Yatırım, Kurucu ve Açıklama alanlarını doldurun.");
+        showToast("Eksik Alan", "Lütfen Girişim Adı, Hedef Yatırım, Kurucu and Açıklama alanlarını doldurun.");
         return;
       }
 
@@ -1648,7 +1666,7 @@
       var note = document.getElementById('meetingNote').value;
 
       if (!sender || !date || !time) {
-        showToast("Uyarı", "Lütfen adınızı, tarih ve saat bilgilerini doldurun.");
+        showToast("Uyarı", "Lütfen adınızı, tarih and saat bilgilerini doldurun.");
         return;
       }
 
