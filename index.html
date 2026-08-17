@@ -77,7 +77,7 @@
         <a href="#faq-section" class="px-5 py-2.5 rounded-full text-xs font-semibold text-slate-300 hover:text-emerald-400 transition">SSS</a>
       </nav>
 
-      <nav id="appNav" class="items-center space-x-1.5 bg-[#12141a] p-1.5 rounded-full border border-[#1e222d]">
+      <nav id="appNav" style="display: none;" class="items-center space-x-1.5 bg-[#12141a] p-1.5 rounded-full border border-[#1e222d]">
         <button type="button" id="btn-startups" onclick="showTab('startups')" class="tab-btn px-4 py-2.5 rounded-full text-xs font-semibold text-slate-400 hover:text-white transition cursor-pointer">🚀 Girişimler</button>
         <button type="button" id="btn-syndicates" onclick="showTab('syndicates')" class="tab-btn px-4 py-2.5 rounded-full text-xs font-semibold text-slate-400 hover:text-white transition cursor-pointer">🔥 Canlı Turlar</button>
         <button type="button" id="btn-acquisitions" onclick="showTab('acquisitions')" class="tab-btn px-4 py-2.5 rounded-full text-xs font-semibold text-slate-400 hover:text-white transition cursor-pointer">🛒 Proje Pazarı</button>
@@ -100,8 +100,8 @@
     </div>
   </header>
 
-  <!-- ZİYARETÇİ HERO ARAYÜZÜ -->
-  <div id="landingView">
+  <!-- ZİYARETÇİ HERO ARAYÜZÜ (Başlangıçta display: none ile gizli başlar) -->
+  <div id="landingView" style="display: none;">
     <section class="relative hero-glow pt-24 pb-20 overflow-hidden border-b border-[#1e222d]">
       <div class="max-w-5xl mx-auto px-6 text-center space-y-8 relative z-10">
         
@@ -268,9 +268,9 @@
   </div>
 
   <!-- UYGULAMA ALANI (Giriş Yapınca Görünür) -->
-  <main id="appView" class="max-w-7xl mx-auto px-6 py-10">
+  <main id="appView" class="max-w-7xl mx-auto px-6 py-10" style="display: none;">
 
-    <div id="tab-startups" class="content-tab space-y-8" style="display: none;">
+    <div id="tab-startups" class="content-tab space-y-8" style="display: block;">
       <section class="al-card-dark p-8 rounded-3xl flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
         <div>
           <span class="text-xs font-bold uppercase tracking-wider text-emerald-400 mb-2 block">🚀 AKTİF GİRİŞİMLER</span>
@@ -284,21 +284,6 @@
           </div>
         </div>
       </section>
-
-      <!-- 3. ÖZELLİK: Deal Flow & Thesis Matcher (Akıllı Yatırım Tezi Arama Kutusu) -->
-      <div class="al-card-dark p-5 rounded-2xl border border-emerald-500/30 space-y-3 bg-gradient-to-r from-[#12141a] to-[#0a0c10]">
-        <div class="flex items-center justify-between">
-          <span class="text-xs font-black text-emerald-400 uppercase tracking-widest flex items-center gap-2">
-            🧠 AI Thesis Matcher (Akıllı Yatırım Tezi Arama)
-          </span>
-          <span class="text-[10px] text-slate-400">Normal dille arayın, AI niyetinizi anlasın</span>
-        </div>
-        <div class="flex gap-2">
-          <input type="text" id="aiThesisInput" placeholder="Örn: B2B SaaS ve lojistik odaklı, düşük bütçeli projeler..." class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400">
-          <button type="button" onclick="runAiThesisMatch()" class="al-accent-bg font-extrabold px-6 py-3 rounded-xl text-xs transition cursor-pointer shrink-0">AI ile Eşleştir</button>
-          <button type="button" onclick="resetAiThesisMatch()" class="bg-[#1e222d] hover:bg-slate-700 text-white font-bold px-4 py-3 rounded-xl text-xs transition cursor-pointer shrink-0">Temizle</button>
-        </div>
-      </div>
 
       <!-- Hızlı Check Size (Bütçe) Filtreleri -->
       <div class="flex flex-wrap items-center gap-2 pb-2">
@@ -591,15 +576,6 @@
         <div id="valuationBox" class="pt-2 text-[11px] text-indigo-400 font-bold"></div>
       </div>
 
-      <!-- 1. ÖZELLİK: AI Due Diligence (Risk & Sağlamlık Raporu) -->
-      <div class="bg-[#08090b] p-4 rounded-2xl border border-emerald-500/30 space-y-2">
-        <div class="flex justify-between items-center">
-          <span class="text-[11px] font-black text-emerald-400 uppercase tracking-widest">🤖 AI Due Diligence (Ön Değerleme Raporu)</span>
-          <button type="button" onclick="runAiDueDiligence()" class="bg-emerald-500/25 hover:bg-emerald-500/40 text-emerald-300 border border-emerald-500/50 px-3.5 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer">Rapor Oluştur</button>
-        </div>
-        <div id="aiAuditResult" class="text-xs text-slate-300 leading-relaxed hidden pt-2 border-t border-[#1e222d]"></div>
-      </div>
-
       <div id="detailLinksBox" class="flex flex-wrap gap-3"></div>
 
       <div class="space-y-2">
@@ -826,10 +802,7 @@
         </div>
 
         <div>
-          <div class="flex justify-between items-center mb-1">
-            <label class="block text-[10px] font-bold text-slate-400 uppercase">Girişim Açıklaması</label>
-            <button type="button" onclick="runAiModelDoctor()" class="text-[10px] text-emerald-400 hover:underline font-bold cursor-pointer">✨ AI ile İlanı Optimize Et</button>
-          </div>
+          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Girişim Açıklaması</label>
           <textarea id="addDesc" rows="2" placeholder="Projenizin çözdüğü problemi anlatın..." class="w-full p-2.5 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400 transition"></textarea>
         </div>
 
@@ -878,7 +851,6 @@
     var currentAuthMode = 'login';
     var activeTabName = localStorage.getItem('active_tab_name') || 'startups';
     var activeModalStartupId = null;
-    var activeModalStartupItem = null;
 
     function showToast(title, desc) {
       var toast = document.getElementById('customToast');
@@ -988,10 +960,10 @@
     }
 
     function handleLogoClick() {
-      if (localStorage.getItem('user_logged_in') === 'true') { 
-        showTab(localStorage.getItem('active_tab_name') || 'startups'); 
-      } else { 
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (currentUser) { showTab(activeTabName || 'startups'); } 
+      else { 
+        document.documentElement.classList.remove('logged-in');
+        document.documentElement.classList.add('not-logged-in');
       }
     }
 
@@ -1082,17 +1054,10 @@
         const { data: { session } } = await sbClient.auth.getSession();
         if (session && session.user) {
           trackRegisteredUser(session.user.email);
-          currentUser = session.user;
           updateUserUI(session.user);
           return;
         }
       } catch (e) {}
-      
-      if (localStorage.getItem('user_logged_in') === 'true') {
-        updateUserUI({ email: ADMIN_EMAIL, user_metadata: { full_name: 'İhsan Özdemir' } });
-        return;
-      }
-
       updateUserUI(null);
     }
 
@@ -1105,28 +1070,37 @@
       const appNav = document.getElementById('appNav');
       const adminBtn = document.getElementById('btn-admin');
 
-      if (user || localStorage.getItem('user_logged_in') === 'true') {
-        if (user && user.email) trackRegisteredUser(user.email);
+      if (user) {
+        trackRegisteredUser(user.email);
         localStorage.setItem('user_logged_in', 'true');
         
+        document.documentElement.classList.remove('not-logged-in');
+        document.documentElement.classList.add('logged-in');
+
         userBox.classList.remove('hidden');
         loginBtn.classList.add('hidden');
         if (visitorNav) visitorNav.style.display = 'none';
         if (appNav) { appNav.style.display = 'flex'; appNav.classList.remove('hidden'); }
 
-        var rawName = (user && (user.user_metadata?.full_name || user.user_metadata?.name)) || 'İhsan Özdemir';
+        var rawName = user.user_metadata?.full_name || user.user_metadata?.name;
+        if (!rawName || rawName.trim() === '') {
+          var emailPart = (user.email || 'Kullanıcı').split('@')[0];
+          rawName = emailPart.charAt(0).toUpperCase() + emailPart.slice(1);
+        }
+        
         userLabel.innerText = "Hoş geldin, " + rawName;
 
         if (adminBtn) {
-          var currentEmail = user ? user.email : ADMIN_EMAIL;
+          var currentEmail = user.email;
           adminBtn.style.display = (currentEmail === ADMIN_EMAIL) ? 'inline-block' : 'none';
         }
 
-        var savedTab = localStorage.getItem('active_tab_name') || 'startups';
-        showTab(savedTab);
+        showTab(localStorage.getItem('active_tab_name') || 'startups');
       } else {
         localStorage.removeItem('user_logged_in');
-        localStorage.removeItem('active_tab_name');
+        
+        document.documentElement.classList.remove('logged-in');
+        document.documentElement.classList.add('not-logged-in');
 
         userBox.classList.add('hidden');
         loginBtn.classList.remove('hidden');
@@ -1155,14 +1129,53 @@
         return; 
       }
 
-      localStorage.setItem('user_logged_in', 'true');
-      trackRegisteredUser(email);
-      showToast("Başarılı", "Giriş yapıldı, yönlendiriliyorsunuz...");
-      closeAuthModal();
+      if (!sbClient) {
+        showToast("Hata", "Veritabanı bağlantısı kurulamadı.");
+        return;
+      }
 
-      setTimeout(function() {
-        window.location.reload();
-      }, 600);
+      if (currentAuthMode === 'signup') {
+        try {
+          const { data, error } = await sbClient.auth.signUp({ 
+            email, 
+            password, 
+            options: { data: { full_name: fullName } } 
+          });
+          if (error) {
+            showToast("Kayıt Hatası", error.message);
+            return;
+          }
+          trackRegisteredUser(email);
+          showToast("Başarılı", "Kayıt tamamlandı, giriş yapıldı!");
+          closeAuthModal();
+          if (data && data.session) {
+            updateUserUI(data.session.user);
+          } else {
+            const { data: signInData } = await sbClient.auth.signInWithPassword({ email, password });
+            if (signInData && signInData.session) {
+              updateUserUI(signInData.session.user);
+            }
+          }
+        } catch (err) {
+          showToast("Hata", "Kayıt işlemi başarısız.");
+        }
+      } else {
+        try {
+          const { data, error } = await sbClient.auth.signInWithPassword({ email, password });
+          if (error) {
+            showToast("Giriş Başarısız", "E-posta veya şifre hatalı!");
+            return;
+          }
+          trackRegisteredUser(email);
+          if (data.session) {
+            showToast("Başarılı", "Giriş yapıldı!");
+            closeAuthModal();
+            updateUserUI(data.session.user);
+          }
+        } catch (e) {
+          showToast("Hata", "Giriş yapılırken hata oluştu.");
+        }
+      }
     }
 
     document.addEventListener('DOMContentLoaded', async function() {
@@ -1170,8 +1183,8 @@
       if (btn) {
         btn.addEventListener('click', async function(e) {
           e.preventDefault();
-          localStorage.setItem('user_logged_in', 'true');
-          window.location.reload();
+          if (!sbClient) return;
+          await sbClient.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: window.location.origin } });
         });
       }
 
@@ -1186,7 +1199,6 @@
         try { await sbClient.auth.signOut(); } catch (e) {} 
       }
       localStorage.removeItem('user_logged_in');
-      localStorage.removeItem('active_tab_name');
       currentUser = null;
       updateUserUI(null);
       showToast("Çıkış", "Oturum kapatıldı.");
@@ -1603,7 +1615,6 @@
 
     function openDetailModal(item) {
       activeModalStartupId = String(item.id);
-      activeModalStartupItem = item;
       document.getElementById('detailTitle').innerText = item.name || item.title || 'İsimsiz Girişim';
       document.getElementById('detailSector').innerText = item.sector || 'Teknoloji';
       document.getElementById('detailStage').innerText = item.stage || 'Erken Aşama';
@@ -1611,9 +1622,6 @@
       document.getElementById('detailPreviousWorks').innerText = "💼 Kurucu Geçmişi / Son İşleri: " + (item.previous_works || 'Belirtilmedi');
       document.getElementById('detailDesc').innerText = item.description || item.desc || 'Açıklama bulunmuyor.';
       
-      document.getElementById('aiAuditResult').classList.add('hidden');
-      document.getElementById('aiAuditResult').innerHTML = '';
-
       var updateBox = document.getElementById('detailUpdateBox');
       var updateText = document.getElementById('detailUpdateText');
       if (item.founder_update && item.founder_update.trim() !== '') {
@@ -1654,88 +1662,6 @@
     }
 
     function closeDetailModal() { document.getElementById('detailModal').classList.add('hidden'); }
-
-    // 1. AI Due Diligence (Ön Değerleme ve Sağlamlık Raporu Motoru)
-    function runAiDueDiligence() {
-      if (!activeModalStartupItem) return;
-      var item = activeModalStartupItem;
-      var resBox = document.getElementById('aiAuditResult');
-      resBox.classList.remove('hidden');
-      resBox.innerHTML = '<span class="text-emerald-400 animate-pulse">🤖 AI finansal metrikleri ve pazar risklerini analiz ediyor...</span>';
-
-      setTimeout(function() {
-        var goal = extractGoalValue(item);
-        var mrr = Number(item.mrr) || 0;
-        var arr = mrr * 12;
-        var riskScore = "Düşük Risk (Sağlam Yapı)";
-        var comment = "İstenen yatırım tutarı, mevcut MRR/ARR oranına kıyasla sağlıklı bir büyüme ivmesi gösteriyor.";
-        
-        if (mrr > 0 && (goal / arr) > 15) {
-          riskScore = "Orta / Yüksek Değerleme";
-          comment = "Talep edilen yatırım, yıllık gelire oranla agresif bir değerleme barındırıyor.";
-        } else if (mrr === 0) {
-          riskScore = "Erken Aşama / Yüksek Belirsizlik";
-          comment = "Henüz düzenli gelir (MRR) doğrulanmamış. Ekip yetkinliği ve MVP traction verileri incelenmeli.";
-        }
-
-        resBox.innerHTML = `
-          <div class="space-y-1.5 py-1">
-            <div class="font-bold text-white">📋 AI Risk & Denetim Özeti: <span class="text-emerald-400">${riskScore}</span></div>
-            <div>• <strong>Değerlendirme:</strong> ${comment}</div>
-            <div>• <strong>Hesaplanan ARR:</strong> $${arr.toLocaleString()}</div>
-            <div>• <strong>AI Tavsiyesi:</strong> Kurucu ile gerçekleştirilecek ön görüşmede müşteri edinme maliyeti (CAC) sorgulanmalıdır.</div>
-          </div>
-        `;
-      }, 800);
-    }
-
-    // 2. Pitch Deck & Model Doktoru (Canlı AI Optimizasyon)
-    function runAiModelDoctor() {
-      var descField = document.getElementById('addDesc');
-      var text = descField.value.trim();
-      if (!text) {
-        showToast("Uyarı", "Lütfen önce temel bir açıklama metni girin.");
-        return;
-      }
-      showToast("AI Çalışıyor", "Model doktoru açıklamanızı optimize ediyor...");
-      setTimeout(function() {
-        descField.value = text + "\n\n[AI Optimizasyon Notu]: Bu girişim, hedef pazarındaki büyük bir verimsizliği çözmekte olup, yüksek ölçeklenebilirlik potansiyeline ve net birim ekonomisine sahiptir.";
-        showToast("Başarılı", "İlan metniniz yatırımcı diline uyarlandı!");
-      }, 800);
-    }
-
-    // 3. Deal Flow & Thesis Matcher (Dinamik Yatırım Tezi Arama)
-    function runAiThesisMatch() {
-      var query = document.getElementById('aiThesisInput').value.toLowerCase().trim();
-      if (!query) {
-        showToast("Uyarı", "Lütfen aramak istediğiniz yatırım tezini yazın.");
-        return;
-      }
-
-      var filtered = startups.filter(function(s) {
-        var combinedText = ((s.name || s.title || '') + ' ' + (s.sector || '') + ' ' + (s.description || s.desc || '') + ' ' + (s.stage || '')).toLowerCase();
-        var matchCount = 0;
-        var words = query.split(' ');
-        words.forEach(function(w) {
-          if (w.length > 2 && combinedText.includes(w)) matchCount++;
-        });
-
-        if (query.includes('düşük') && Number(s.mrr || 0) < 5000) matchCount++;
-        if (query.includes('saas') && combinedText.includes('saas')) matchCount += 2;
-        if (query.includes('yapay zekâ') && combinedText.includes('yapay zekâ')) matchCount += 2;
-
-        return matchCount > 0 || combinedText.includes(query);
-      });
-
-      renderStartups(filtered);
-      showToast("AI Eşleşme", filtered.length + " adet girişim yatırım tezinize uygun bulundu!");
-    }
-
-    function resetAiThesisMatch() {
-      document.getElementById('aiThesisInput').value = '';
-      renderStartups(startups);
-      showToast("Sıfırlandı", "Tüm ilanlar listeleniyor.");
-    }
 
     function openMeetingModal() {
       closeDetailModal();
