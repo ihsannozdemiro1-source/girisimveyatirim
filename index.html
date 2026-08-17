@@ -44,7 +44,7 @@
     }
   </style>
 
-  <!-- KESİN ÇÖZÜM: Tarayıcı daha HTML'i okurken oturuma göre stilleri anında enjekte eder -->
+  <!-- KESİN ÇÖZÜM: Tarayıcı HTML'i okurken oturum durumuna göre yanlış ekranı tamamen gizler -->
   <script>
     if (localStorage.getItem('user_logged_in') === 'true') {
       document.write('<style>#landingView { display: none !important; } #appView { display: block !important; }</style>');
@@ -268,7 +268,7 @@
   </div>
 
   <!-- UYGULAMA ALANI (Giriş Yapınca Görünür) -->
-  <main id="appView" class="max-w-7xl mx-auto px-6 py-10">
+  <main id="appView">
 
     <div id="tab-startups" class="content-tab space-y-8" style="display: none;">
       <section class="al-card-dark p-8 rounded-3xl flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
@@ -989,7 +989,7 @@
 
     function handleLogoClick() {
       if (localStorage.getItem('user_logged_in') === 'true') { 
-        showTab(localStorage.getItem('active_tab_name') || 'startups'); 
+        showTab(activeTabName || 'startups'); 
       } else { 
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
@@ -1122,11 +1122,9 @@
           adminBtn.style.display = (currentEmail === ADMIN_EMAIL) ? 'inline-block' : 'none';
         }
 
-        var savedTab = localStorage.getItem('active_tab_name') || 'startups';
-        showTab(savedTab);
+        showTab(localStorage.getItem('active_tab_name') || 'startups');
       } else {
         localStorage.removeItem('user_logged_in');
-        localStorage.removeItem('active_tab_name');
 
         userBox.classList.add('hidden');
         loginBtn.classList.remove('hidden');
@@ -1162,7 +1160,7 @@
 
       setTimeout(function() {
         window.location.reload();
-      }, 600);
+      }, 500);
     }
 
     document.addEventListener('DOMContentLoaded', async function() {
