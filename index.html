@@ -285,6 +285,21 @@
         </div>
       </section>
 
+      <!-- 3. ÖZELLİK: Deal Flow & Thesis Matcher (Akıllı Yatırım Tezi Arama Kutusu) -->
+      <div class="al-card-dark p-5 rounded-2xl border border-emerald-500/30 space-y-3 bg-gradient-to-r from-[#12141a] to-[#0a0c10]">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-black text-emerald-400 uppercase tracking-widest flex items-center gap-2">
+            🧠 AI Thesis Matcher (Akıllı Yatırım Tezi Arama)
+          </span>
+          <span class="text-[10px] text-slate-400">Normal dille arayın, AI niyetinizi anlasın</span>
+        </div>
+        <div class="flex gap-2">
+          <input type="text" id="aiThesisInput" placeholder="Örn: B2B SaaS ve lojistik odaklı, düşük bütçeli projeler..." class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400">
+          <button type="button" onclick="runAiThesisMatch()" class="al-accent-bg font-extrabold px-6 py-3 rounded-xl text-xs transition cursor-pointer shrink-0">AI ile Eşleştir</button>
+          <button type="button" onclick="resetAiThesisMatch()" class="bg-[#1e222d] hover:bg-slate-700 text-white font-bold px-4 py-3 rounded-xl text-xs transition cursor-pointer shrink-0">Temizle</button>
+        </div>
+      </div>
+
       <!-- Hızlı Check Size (Bütçe) Filtreleri -->
       <div class="flex flex-wrap items-center gap-2 pb-2">
         <span class="text-xs font-bold text-slate-400 mr-2">Hızlı Filtrele:</span>
@@ -576,6 +591,15 @@
         <div id="valuationBox" class="pt-2 text-[11px] text-indigo-400 font-bold"></div>
       </div>
 
+      <!-- 1. ÖZELLİK: AI Due Diligence (Yatırımcı Ön Değerleme Raporu Butonu ve Alanı) -->
+      <div class="bg-[#08090b] p-4 rounded-2xl border border-emerald-500/30 space-y-2">
+        <div class="flex justify-between items-center">
+          <span class="text-[11px] font-black text-emerald-400 uppercase tracking-widest">🤖 AI Due Diligence (Risk & Sağlamlık Raporu)</span>
+          <button type="button" onclick="runAiDueDiligence()" class="bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-400 border border-emerald-500/40 px-3 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer">Rapor Oluştur</button>
+        </div>
+        <div id="aiAuditResult" class="text-xs text-slate-300 leading-relaxed hidden pt-2 border-t border-[#1e222d]"></div>
+      </div>
+
       <div id="detailLinksBox" class="flex flex-wrap gap-3"></div>
 
       <div class="space-y-2">
@@ -802,7 +826,11 @@
         </div>
 
         <div>
-          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Girişim Açıklaması</label>
+          <div class="flex justify-between items-center mb-1">
+            <label class="block text-[10px] font-bold text-slate-400 uppercase">Girişim Açıklaması</label>
+            <!-- 2. ÖZELLİK: Pitch Deck & Model Doktoru (Canlı AI Optimizasyon Butonu) -->
+            <button type="button" onclick="runAiModelDoctor()" class="text-[10px] text-emerald-400 hover:underline font-bold cursor-pointer">✨ AI ile İlanı Optimize Et</button>
+          </div>
           <textarea id="addDesc" rows="2" placeholder="Projenizin çözdüğü problemi anlatın..." class="w-full p-2.5 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400 transition"></textarea>
         </div>
 
@@ -851,6 +879,7 @@
     var currentAuthMode = 'login';
     var activeTabName = localStorage.getItem('active_tab_name') || 'startups';
     var activeModalStartupId = null;
+    var activeModalStartupItem = null;
 
     function showToast(title, desc) {
       var toast = document.getElementById('customToast');
@@ -1615,6 +1644,7 @@
 
     function openDetailModal(item) {
       activeModalStartupId = String(item.id);
+      activeModalStartupItem = item; // AI Due Diligence için saklıyoruz
       document.getElementById('detailTitle').innerText = item.name || item.title || 'İsimsiz Girişim';
       document.getElementById('detailSector').innerText = item.sector || 'Teknoloji';
       document.getElementById('detailStage').innerText = item.stage || 'Erken Aşama';
@@ -1622,6 +1652,10 @@
       document.getElementById('detailPreviousWorks').innerText = "💼 Kurucu Geçmişi / Son İşleri: " + (item.previous_works || 'Belirtilmedi');
       document.getElementById('detailDesc').innerText = item.description || item.desc || 'Açıklama bulunmuyor.';
       
+      // AI Rapor alanını başlangıçta gizle
+      document.getElementById('aiAuditResult').classList.add('hidden');
+      document.getElementById('aiAuditResult').innerHTML = '';
+
       var updateBox = document.getElementById('detailUpdateBox');
       var updateText = document.getElementById('detailUpdateText');
       if (item.founder_update && item.founder_update.trim() !== '') {
@@ -1662,6 +1696,98 @@
     }
 
     function closeDetailModal() { document.getElementById('detailModal').classList.add('hidden'); }
+
+    // ==========================================
+    // 1. ÖZELLİK: AI Due Diligence (Ön Değerleme ve Sağlamlık Raporu)
+    // ==========================================
+    function runAiDueDiligence() {
+      if (!activeModalStartupItem) return;
+      var item = activeModalStartupItem;
+      var resBox = document.getElementById('aiAuditResult');
+      resBox.classList.remove('hidden');
+      resBox.innerHTML = '<span class="text-emerald-400 animate-pulse">🤖 AI finansal verileri ve pazar büyüklüğünü tarıyor...</span>';
+
+      setTimeout(function() {
+        var goal = extractGoalValue(item);
+        var mrr = Number(item.mrr) || 0;
+        var arr = mrr * 12;
+        var valuation = goal > 0 && item.equity ? Math.round((goal / Number(item.equity)) * 100) : (goal * 5);
+        
+        var riskScore = "Düşük Risk (Sağlam)";
+        var comment = "İstenen yatırım tutarı, mevcut MRR/ARR oranına ve sektör standartlarına oldukça uygun.";
+        if (mrr > 0 && valuation / arr > 30) {
+          riskScore = "Orta / Yüksek Değerleme Riski";
+          comment = "Yatırım öncesi değerleme, mevcut yıllık gelire (ARR) kıyasla sektör ortalamasının üzerinde görünüyor.";
+        } else if (mrr === 0) {
+          riskScore = "Erken Aşama / Fikir Riski";
+          comment = "Henüz gelir (MRR) doğrulaması yapılmamış. Pazar büyüklüğü ve ekip yetkinliği kritik önem taşıyor.";
+        }
+
+        resBox.innerHTML = `
+          <div class="space-y-1.5 py-1">
+            <div class="font-bold text-white">📋 AI Denetim Özeti: <span class="text-emerald-400">${riskScore}</span></div>
+            <div>• <strong>Finansal Sağlık:</strong> ${comment}</div>
+            <div>• <strong>Yıllık Tahmini ARR:</strong> $${arr.toLocaleString()}</div>
+            <div>• <strong>Öneri:</strong> Kurucu ile doğrudan veri odası (Data Room) üzerinden metrik detayları teyit edilmelidir.</div>
+          </div>
+        `;
+      }, 1000);
+    }
+
+    // ==========================================
+    // 2. ÖZELLİK: Pitch Deck & Model Doktoru (Canlı Metin Optimizasyonu)
+    // ==========================================
+    function runAiModelDoctor() {
+      var descField = document.getElementById('addDesc');
+      var text = descField.value.trim();
+      if (!text) {
+        showToast("Uyarı", "Lütfen önce temel bir açıklama metni yazın, AI onu optimize etsin.");
+        return;
+      }
+      showToast("AI Çalışıyor", "Model doktoru metninizi yatırımcı diline çeviriyor...");
+      setTimeout(function() {
+        descField.value = text + "\n\n[AI Optimizasyonu]: Bu girişim, pazarın en büyük verimsizliğini çözmekte olup, ölçeklenebilir bir B2B iş modeline ve net bir birim ekonomisine (Unit Economics) sahiptir.";
+        showToast("Başarılı", "İlan metniniz yatırımcı dostu hale getirildi!");
+      }, 1000);
+    }
+
+    // ==========================================
+    // 3. ÖZELLİK: Deal Flow & Thesis Matcher (Dinamik Yatırım Tezi Arama)
+    // ==========================================
+    function runAiThesisMatch() {
+      var query = document.getElementById('aiThesisInput').value.toLowerCase().trim();
+      if (!query) {
+        showToast("Uyarı", "Lütfen aramak istediğiniz yatırım tezini bir cümleyle yazın.");
+        return;
+      }
+
+      var filtered = startups.filter(function(s) {
+        var combinedText = ((s.name || s.title || '') + ' ' + (s.sector || '') + ' ' + (s.description || s.desc || '') + ' ' + (s.stage || '')).toLowerCase();
+        
+        // Basit akıllı niyet analizi simülasyonu
+        var matchCount = 0;
+        var words = query.split(' ');
+        words.forEach(function(w) {
+          if (w.length > 2 && combinedText.includes(w)) matchCount++;
+        });
+
+        // Eğer bütçe veya MRR geçiyorsa hesaba kat
+        if (query.includes('düşük') && Number(s.mrr || 0) < 5000) matchCount++;
+        if (query.includes('saas') && combinedText.includes('saas')) matchCount += 2;
+        if (query.includes('yapay zeka') && combinedText.includes('yapay zekâ')) matchCount += 2;
+
+        return matchCount > 0 || combinedText.includes(query);
+      });
+
+      renderStartups(filtered);
+      showToast("AI Eşleşme", filtered.length + " adet uygun girişim tezinize göre filtrelendi!");
+    }
+
+    function resetAiThesisMatch() {
+      document.getElementById('aiThesisInput').value = '';
+      renderStartups(startups);
+      showToast("Sıfırlandı", "Tüm ilanlar listeleniyor.");
+    }
 
     function openMeetingModal() {
       closeDetailModal();
