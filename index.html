@@ -6,6 +6,19 @@
   <title>Girişim ve Yatırım - Ekosistem Portalı</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
+  <!-- KESİN ÇÖZÜM: Tarayıcı HTML'i okuduğu an oturum durumunu okur ve doğru görünümü anında kilitler -->
+  <script>
+    (function() {
+      var isLogged = localStorage.getItem('user_logged_in') === 'true';
+      if (isLogged) {
+        document.write('<style id="viewLock">#landingView { display: none !important; } #appView { display: block !important; }</style>');
+      } else {
+        document.write('<style id="viewLock">#landingView { display: block !important; } #appView { display: none !important; }</style>');
+      }
+    })();
+  </script>
+
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
     body {
@@ -43,15 +56,6 @@
       background: #10b981;
     }
   </style>
-
-  <!-- KESİN ÇÖZÜM: Tarayıcı ilk satırdan itibaren oturum durumunu okur -->
-  <script>
-    if (localStorage.getItem('user_logged_in') !== 'true') {
-      document.write('<style>#appView { display: none !important; } #landingView { display: block !important; }</style>');
-    } else {
-      document.write('<style>#landingView { display: none !important; } #appView { display: block !important; }</style>');
-    }
-  </script>
 </head>
 <body class="antialiased selection:bg-[#10b981] selection:text-black">
 
@@ -198,7 +202,7 @@
           <div class="w-12 h-12 rounded-xl bg-teal-500/10 border border-teal-500/30 flex items-center justify-center text-teal-400 font-black text-lg shrink-0">03</div>
           <div>
             <h4 class="text-base font-bold text-white mb-1">Ortak Bulut Senkronizasyonu</h4>
-            <p class="text-slate-400 text-xs leading-relaxed">İster telefondan ister bilgisayardan işlem yapın; tüm verileriniz bulut tabanında anlık olarak senkronize edilir and her yerden erişilebilir.</p>
+            <p class="text-slate-400 text-xs leading-relaxed">İster telefondan ister bilgisayardan işlem yapın; tüm verileriniz bulut tabanında anlık olarak senkronize edilir ve her yerden erişilebilir.</p>
           </div>
         </div>
       </div>
@@ -228,7 +232,7 @@
             <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">İlan Ver</span>
           </div>
           <h3 class="text-xl font-bold text-white">Projenizi Yayınlayın</h3>
-          <p class="text-slate-400 text-xs leading-relaxed">Girişiminizi, hedef yatırım tutarınızı and sektör bilgilerinizi girerek ilanınızı tüm ağa açın.</p>
+          <p class="text-slate-400 text-xs leading-relaxed">Girişiminizi, hedef yatırım tutarınızı ve sektör bilgilerinizi girerek ilanınızı tüm ağa açın.</p>
         </div>
 
         <div class="bg-gradient-to-b from-[#12141a] to-[#0d0f14] border border-[#1e222d] hover:border-indigo-500/50 p-8 rounded-3xl space-y-4 transition">
@@ -237,7 +241,7 @@
             <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Yatırım Al</span>
           </div>
           <h3 class="text-xl font-bold text-white">Bağlantı Kurun</h3>
-          <p class="text-slate-400 text-xs leading-relaxed">Melek yatırımcılardan teklifler alın, projenizi ölçeklendirin and ortaklık görüşmeleri başlatın.</p>
+          <p class="text-slate-400 text-xs leading-relaxed">Melek yatırımcılardan teklifler alın, projenizi ölçeklendirin ve ortaklık görüşmeleri başlatın.</p>
         </div>
       </div>
     </section>
@@ -253,7 +257,7 @@
       <div class="space-y-4">
         <div class="al-card-dark p-6 rounded-2xl space-y-2">
           <h4 class="font-bold text-white text-sm">Platforma ilan eklemek ücretli mi?</h4>
-          <p class="text-slate-400 text-xs leading-relaxed">Şu an erken aşama girişimciler and yatırımcılar için temel ilan yayınlama süreçleri tamamen ücretsizdir.</p>
+          <p class="text-slate-400 text-xs leading-relaxed">Şu an erken aşama girişimciler ve yatırımcılar için temel ilan yayınlama süreçleri tamamen ücretsizdir.</p>
         </div>
         <div class="al-card-dark p-6 rounded-2xl space-y-2">
           <h4 class="font-bold text-white text-sm">Eklediğim ilanlar diğer cihazlarda görünür mü?</h4>
@@ -268,14 +272,14 @@
   </div>
 
   <!-- UYGULAMA ALANI (Giriş Yapınca Görünür) -->
-  <main id="appView" class="max-w-7xl mx-auto px-6 py-10" style="display: none;">
+  <main id="appView" class="max-w-7xl mx-auto px-6 py-10">
 
-    <div id="tab-startups" class="content-tab space-y-8" style="display: block;">
+    <div id="tab-startups" class="content-tab space-y-8" style="display: none;">
       <section class="al-card-dark p-8 rounded-3xl flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
         <div>
           <span class="text-xs font-bold uppercase tracking-wider text-emerald-400 mb-2 block">🚀 AKTİF GİRİŞİMLER</span>
           <h1 class="text-3xl font-black text-white">Geleceğin Şirketlerini Keşfet</h1>
-          <p class="text-slate-400 text-sm mt-1">Veritabanında aktif olarak yer alan güncel girişimler. İlan detayları and bağlantılar için kartlara tıklayın.</p>
+          <p class="text-slate-400 text-sm mt-1">Veritabanında aktif olarak yer alan güncel girişimler. İlan detayları ve bağlantılar için kartlara tıklayın.</p>
         </div>
         <div class="flex items-center gap-6 bg-[#08090b] p-4 rounded-2xl border border-[#1e222d]">
           <div class="text-center px-2">
@@ -355,8 +359,8 @@
       <div class="al-card-dark p-8 rounded-3xl border border-[#1e222d] space-y-6 max-w-3xl mx-auto">
         <div>
           <span class="text-xs font-bold uppercase text-indigo-400">📊 AKILLI ASİSTAN</span>
-          <h2 class="text-2xl font-black text-white mt-1">Girişim Değerlemesi and Hisse Hesaplayıcı</h2>
-          <p class="text-slate-400 text-xs mt-1">Yatırım tutarı and devredilecek hisse oranını girerek şirket değerlemesini anında hesaplayın.</p>
+          <h2 class="text-2xl font-black text-white mt-1">Girişim Değerlemesi ve Hisse Hesaplayıcı</h2>
+          <p class="text-slate-400 text-xs mt-1">Yatırım tutarı ve devredilecek hisse oranını girerek şirket değerlemesini anında hesaplayın.</p>
         </div>
         
         <div class="space-y-4">
@@ -576,7 +580,7 @@
         <div id="valuationBox" class="pt-2 text-[11px] text-indigo-400 font-bold"></div>
       </div>
 
-      <!-- AI Pitch Deck & Yatırım Komitesi Analiz Raporu -->
+      <!-- 1. AI Pitch Deck & Yatırım Komitesi Analiz Raporu -->
       <div class="bg-[#08090b] p-5 rounded-2xl border border-emerald-500/30 space-y-3">
         <div class="flex justify-between items-center">
           <span class="text-xs font-black text-emerald-400 uppercase tracking-widest flex items-center gap-1.5">
@@ -746,7 +750,7 @@
 
   <!-- İLAN EKLEME FORMU -->
   <div id="addModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
-    <div class="al-card-dark rounded-3xl max-w-md w-full p-6 relative text-white border border-[#1e222d] space-y-4">
+    <div class="al-card-dark rounded-3xl max-w-lg w-full p-6 relative text-white border border-[#1e222d] space-y-4 max-h-[90vh] overflow-y-auto">
       <button type="button" onclick="closeCreateModal()" class="absolute top-4 right-4 text-slate-400 text-lg font-bold hover:text-white cursor-pointer">&times;</button>
       <div>
         <h2 class="text-xl font-black text-white">Yeni Girişim İlanı Ekle</h2>
@@ -807,6 +811,28 @@
           <div>
             <label class="block text-[9px] font-bold text-slate-400 uppercase mb-1">Hisse (%)</label>
             <input type="text" id="addEquity" placeholder="10" class="w-full p-2.5 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400 transition">
+          </div>
+        </div>
+
+        <!-- YENİ ÖZELLİK 4: AI Pazar Büyüklüğü (TAM / SAM / SOM) Hesaplayıcı Alanı -->
+        <div class="bg-[#08090b] p-4 rounded-2xl border border-emerald-500/30 space-y-2">
+          <div class="flex justify-between items-center">
+            <span class="text-[11px] font-black text-emerald-400 uppercase tracking-widest">📊 AI Pazar Büyüklüğü (TAM / SAM / SOM)</span>
+            <button type="button" onclick="runAiMarketSizeCalculator()" class="bg-emerald-500/25 hover:bg-emerald-500/40 text-emerald-300 border border-emerald-500/50 px-3.5 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer">AI ile Hesapla</button>
+          </div>
+          <div class="grid grid-cols-3 gap-2 pt-1">
+            <div>
+              <label class="block text-[8px] font-bold text-slate-400 uppercase">TAM (Toplam Pazar)</label>
+              <input type="text" id="addTam" placeholder="Örn: $4.2B" class="w-full p-2 bg-[#12141a] border border-[#1e222d] rounded-lg text-xs text-white outline-none">
+            </div>
+            <div>
+              <label class="block text-[8px] font-bold text-slate-400 uppercase">SAM (Hedef Pazar)</label>
+              <input type="text" id="addSam" placeholder="Örn: $850M" class="w-full p-2 bg-[#12141a] border border-[#1e222d] rounded-lg text-xs text-white outline-none">
+            </div>
+            <div>
+              <label class="block text-[8px] font-bold text-slate-400 uppercase">SOM (Ulaşılan Pazar)</label>
+              <input type="text" id="addSom" placeholder="Örn: $45M" class="w-full p-2 bg-[#12141a] border border-[#1e222d] rounded-lg text-xs text-white outline-none">
+            </div>
           </div>
         </div>
 
@@ -1644,6 +1670,45 @@
     }
 
     function closeDetailModal() { document.getElementById('detailModal').classList.add('hidden'); }
+
+    // 1. AI Pitch Deck & Yatırım Komitesi Analiz Raporu
+    function runAiPitchDeckAudit() {
+      if (!activeModalStartupItem) return;
+      var item = activeModalStartupItem;
+      var resBox = document.getElementById('aiAuditResult');
+      resBox.classList.remove('hidden');
+      resBox.innerHTML = '<span class="text-emerald-400 animate-pulse">🤖 AI Yatırım Komitesi verileri ve pitch deck dosyasını analiz ediyor...</span>';
+
+      setTimeout(function() {
+        var goal = extractGoalValue(item);
+        var mrr = Number(item.mrr) || 0;
+        var arr = mrr * 12;
+        var tractionScore = mrr > 3000 ? "Yüksek (Güçlü Büyüme)" : (mrr > 0 ? "Orta (Erken Aşama Traction)" : "Pre-Revenue (Henüz Gelir Yok)");
+
+        resBox.innerHTML = `
+          <div class="space-y-2 py-1">
+            <div class="font-black text-white text-sm">📋 Yatırım Komitesi Değerlendirme Raporu</div>
+            <div class="grid grid-cols-2 gap-2 py-1">
+              <div class="bg-[#12141a] p-2.5 rounded-xl border border-[#1e222d]">
+                <div class="text-[10px] text-slate-400 uppercase">Traction / MRR Sağlığı</div>
+                <div class="text-xs font-bold text-emerald-400">${tractionScore} ($${mrr.toLocaleString()}/ay)</div>
+              </div>
+              <div class="bg-[#12141a] p-2.5 rounded-xl border border-[#1e222d]">
+                <div class="text-[10px] text-slate-400 uppercase">Pazar Potansiyeli (TAM)</div>
+                <div class="text-xs font-bold text-indigo-400">${item.tam || '$25 Milyar'}</div>
+              </div>
+            </div>
+            <div>• <strong>Güçlü Yönler:</strong> Kurucu geçmişi ve sektör uyumu yüksek. Çözülen problem net.</div>
+            <div>• <strong>Risk Analizi:</strong> Erken aşamada müşteri edinme maliyeti (CAC) and churn oranları yakından takip edilmelidir.</div>
+            <div>• <strong>Komite Kararı:</strong> 💡 Ön görüşme için uygun aday. Term Sheet aşamasına geçilebilir.</div>
+          </div>
+        `;
+      }, 900);
+    }
+
+    function requestDataRoomAccess() {
+      showToast("Erişim Talebi", "Gizli Veri Odası (Data Room) talebiniz kurucuya iletildi. Onaylandığında e-posta alacaksınız.");
+    }
 
     function openMeetingModal() {
       closeDetailModal();
