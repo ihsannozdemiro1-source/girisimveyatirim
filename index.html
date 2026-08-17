@@ -44,20 +44,13 @@
     }
   </style>
 
-  <!-- KESİN ÇÖZÜM: Sayfa yüklenmeden önce tarayıcı hafızasını okuyup doğru ekranı sabiter -->
+  <!-- KESİN ÇÖZÜM: Tarayıcı ilk satırdan itibaren oturum durumunu okur -->
   <script>
-    var isLogged = localStorage.getItem('user_logged_in') === 'true';
-    var savedTab = localStorage.getItem('active_tab_name') || 'startups';
-    
-    document.write('<style>');
-    if (isLogged) {
-      document.write('#landingView { display: none !important; }');
-      document.write('#appView { display: block !important; }');
+    if (localStorage.getItem('user_logged_in') !== 'true') {
+      document.write('<style>#appView { display: none !important; } #landingView { display: block !important; }</style>');
     } else {
-      document.write('#landingView { display: block !important; }');
-      document.write('#appView { display: none !important; }');
+      document.write('<style>#landingView { display: none !important; } #appView { display: block !important; }</style>');
     }
-    document.write('</style>');
   </script>
 </head>
 <body class="antialiased selection:bg-[#10b981] selection:text-black">
@@ -205,7 +198,7 @@
           <div class="w-12 h-12 rounded-xl bg-teal-500/10 border border-teal-500/30 flex items-center justify-center text-teal-400 font-black text-lg shrink-0">03</div>
           <div>
             <h4 class="text-base font-bold text-white mb-1">Ortak Bulut Senkronizasyonu</h4>
-            <p class="text-slate-400 text-xs leading-relaxed">İster telefondan ister bilgisayardan işlem yapın; tüm verileriniz bulut tabanında anlık olarak senkronize edilir ve her yerden erişilebilir.</p>
+            <p class="text-slate-400 text-xs leading-relaxed">İster telefondan ister bilgisayardan işlem yapın; tüm verileriniz bulut tabanında anlık olarak senkronize edilir and her yerden erişilebilir.</p>
           </div>
         </div>
       </div>
@@ -235,7 +228,7 @@
             <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">İlan Ver</span>
           </div>
           <h3 class="text-xl font-bold text-white">Projenizi Yayınlayın</h3>
-          <p class="text-slate-400 text-xs leading-relaxed">Girişiminizi, hedef yatırım tutarınızı ve sektör bilgilerinizi girerek ilanınızı tüm ağa açın.</p>
+          <p class="text-slate-400 text-xs leading-relaxed">Girişiminizi, hedef yatırım tutarınızı and sektör bilgilerinizi girerek ilanınızı tüm ağa açın.</p>
         </div>
 
         <div class="bg-gradient-to-b from-[#12141a] to-[#0d0f14] border border-[#1e222d] hover:border-indigo-500/50 p-8 rounded-3xl space-y-4 transition">
@@ -244,7 +237,7 @@
             <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Yatırım Al</span>
           </div>
           <h3 class="text-xl font-bold text-white">Bağlantı Kurun</h3>
-          <p class="text-slate-400 text-xs leading-relaxed">Melek yatırımcılardan teklifler alın, projenizi ölçeklendirin ve ortaklık görüşmeleri başlatın.</p>
+          <p class="text-slate-400 text-xs leading-relaxed">Melek yatırımcılardan teklifler alın, projenizi ölçeklendirin and ortaklık görüşmeleri başlatın.</p>
         </div>
       </div>
     </section>
@@ -260,7 +253,7 @@
       <div class="space-y-4">
         <div class="al-card-dark p-6 rounded-2xl space-y-2">
           <h4 class="font-bold text-white text-sm">Platforma ilan eklemek ücretli mi?</h4>
-          <p class="text-slate-400 text-xs leading-relaxed">Şu an erken aşama girişimciler ve yatırımcılar için temel ilan yayınlama süreçleri tamamen ücretsizdir.</p>
+          <p class="text-slate-400 text-xs leading-relaxed">Şu an erken aşama girişimciler and yatırımcılar için temel ilan yayınlama süreçleri tamamen ücretsizdir.</p>
         </div>
         <div class="al-card-dark p-6 rounded-2xl space-y-2">
           <h4 class="font-bold text-white text-sm">Eklediğim ilanlar diğer cihazlarda görünür mü?</h4>
@@ -277,12 +270,12 @@
   <!-- UYGULAMA ALANI (Giriş Yapınca Görünür) -->
   <main id="appView" class="max-w-7xl mx-auto px-6 py-10" style="display: none;">
 
-    <div id="tab-startups" class="content-tab space-y-8" style="display: none;">
+    <div id="tab-startups" class="content-tab space-y-8" style="display: block;">
       <section class="al-card-dark p-8 rounded-3xl flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
         <div>
           <span class="text-xs font-bold uppercase tracking-wider text-emerald-400 mb-2 block">🚀 AKTİF GİRİŞİMLER</span>
           <h1 class="text-3xl font-black text-white">Geleceğin Şirketlerini Keşfet</h1>
-          <p class="text-slate-400 text-sm mt-1">Veritabanında aktif olarak yer alan güncel girişimler. İlan detayları ve bağlantılar için kartlara tıklayın.</p>
+          <p class="text-slate-400 text-sm mt-1">Veritabanında aktif olarak yer alan güncel girişimler. İlan detayları and bağlantılar için kartlara tıklayın.</p>
         </div>
         <div class="flex items-center gap-6 bg-[#08090b] p-4 rounded-2xl border border-[#1e222d]">
           <div class="text-center px-2">
@@ -362,8 +355,8 @@
       <div class="al-card-dark p-8 rounded-3xl border border-[#1e222d] space-y-6 max-w-3xl mx-auto">
         <div>
           <span class="text-xs font-bold uppercase text-indigo-400">📊 AKILLI ASİSTAN</span>
-          <h2 class="text-2xl font-black text-white mt-1">Girişim Değerlemesi ve Hisse Hesaplayıcı</h2>
-          <p class="text-slate-400 text-xs mt-1">Yatırım tutarı ve devredilecek hisse oranını girerek şirket değerlemesini anında hesaplayın.</p>
+          <h2 class="text-2xl font-black text-white mt-1">Girişim Değerlemesi and Hisse Hesaplayıcı</h2>
+          <p class="text-slate-400 text-xs mt-1">Yatırım tutarı and devredilecek hisse oranını girerek şirket değerlemesini anında hesaplayın.</p>
         </div>
         
         <div class="space-y-4">
@@ -581,6 +574,26 @@
           <div id="detailProgress" class="bg-emerald-400 h-2.5 rounded-full transition-all duration-500" style="width: 0%"></div>
         </div>
         <div id="valuationBox" class="pt-2 text-[11px] text-indigo-400 font-bold"></div>
+      </div>
+
+      <!-- AI Pitch Deck & Yatırım Komitesi Analiz Raporu -->
+      <div class="bg-[#08090b] p-5 rounded-2xl border border-emerald-500/30 space-y-3">
+        <div class="flex justify-between items-center">
+          <span class="text-xs font-black text-emerald-400 uppercase tracking-widest flex items-center gap-1.5">
+            🤖 AI Yatırım Komitesi & Pitch Deck Analiz Raporu
+          </span>
+          <button type="button" onclick="runAiPitchDeckAudit()" class="al-accent-bg font-extrabold px-4 py-2 rounded-xl text-xs transition cursor-pointer">Raporu Üret</button>
+        </div>
+        <div id="aiAuditResult" class="text-xs text-slate-300 leading-relaxed hidden pt-2 border-t border-[#1e222d]"></div>
+      </div>
+
+      <!-- Güvenli Veri Odası (Data Room) Erişim Talebi -->
+      <div class="bg-[#12141a] p-5 rounded-2xl border border-indigo-500/30 flex justify-between items-center">
+        <div>
+          <div class="text-xs font-black text-indigo-400 uppercase tracking-wide">🔒 Gizli Veri Odası & Mali Tablolar</div>
+          <p class="text-[11px] text-slate-400 mt-0.5">Pitch Deck, birim ekonomi and detaylı finansal model için erişim isteyin.</p>
+        </div>
+        <button type="button" onclick="requestDataRoomAccess()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-4 py-2.5 rounded-xl text-xs transition cursor-pointer">Erişim Talep Et</button>
       </div>
 
       <div id="detailLinksBox" class="flex flex-wrap gap-3"></div>
@@ -1441,7 +1454,7 @@
       localStorage.setItem('my_startups_list', JSON.stringify(localList));
 
       closeEditModal();
-      showToast("Başarılı", "İlanınız ve kurucu notu güncellendi!");
+      showToast("Başarılı", "İlanınız and kurucu notu güncellendi!");
       loadStartups();
       renderMyListings();
     }
@@ -1457,7 +1470,7 @@
       var equityVal = document.getElementById('addEquity').value.trim();
 
       if (!titleVal || !goalVal || !founderVal || !descVal) {
-        showToast("Eksik Alan", "Lütfen Girişim Adı, Hedef Yatırım, Kurucu ve Açıklama alanlarını doldurun.");
+        showToast("Eksik Alan", "Lütfen Girişim Adı, Hedef Yatırım, Kurucu and Açıklama alanlarını doldurun.");
         return;
       }
 
