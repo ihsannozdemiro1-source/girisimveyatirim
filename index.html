@@ -100,7 +100,7 @@
     </div>
   </header>
 
-  <!-- ZİYARETÇİ HERO ARAYÜZÜ (Başlangıçta display: none ile gizli başlar) -->
+  <!-- ZİYARETÇİ HERO ARAYÜZÜ -->
   <div id="landingView" style="display: none;">
     <section class="relative hero-glow pt-24 pb-20 overflow-hidden border-b border-[#1e222d]">
       <div class="max-w-5xl mx-auto px-6 text-center space-y-8 relative z-10">
@@ -591,11 +591,11 @@
         <div id="valuationBox" class="pt-2 text-[11px] text-indigo-400 font-bold"></div>
       </div>
 
-      <!-- 1. ÖZELLİK: AI Due Diligence (Yatırımcı Ön Değerleme Raporu Butonu ve Alanı) -->
+      <!-- 1. ÖZELLİK: AI Due Diligence (Risk & Sağlamlık Raporu) -->
       <div class="bg-[#08090b] p-4 rounded-2xl border border-emerald-500/30 space-y-2">
         <div class="flex justify-between items-center">
-          <span class="text-[11px] font-black text-emerald-400 uppercase tracking-widest">🤖 AI Due Diligence (Risk & Sağlamlık Raporu)</span>
-          <button type="button" onclick="runAiDueDiligence()" class="bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-400 border border-emerald-500/40 px-3 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer">Rapor Oluştur</button>
+          <span class="text-[11px] font-black text-emerald-400 uppercase tracking-widest">🤖 AI Due Diligence (Ön Değerleme Raporu)</span>
+          <button type="button" onclick="runAiDueDiligence()" class="bg-emerald-500/25 hover:bg-emerald-500/40 text-emerald-300 border border-emerald-500/50 px-3.5 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer">Rapor Oluştur</button>
         </div>
         <div id="aiAuditResult" class="text-xs text-slate-300 leading-relaxed hidden pt-2 border-t border-[#1e222d]"></div>
       </div>
@@ -1644,7 +1644,7 @@
 
     function openDetailModal(item) {
       activeModalStartupId = String(item.id);
-      activeModalStartupItem = item; // AI Due Diligence için saklıyoruz
+      activeModalStartupItem = item;
       document.getElementById('detailTitle').innerText = item.name || item.title || 'İsimsiz Girişim';
       document.getElementById('detailSector').innerText = item.sector || 'Teknoloji';
       document.getElementById('detailStage').innerText = item.stage || 'Erken Aşama';
@@ -1652,7 +1652,6 @@
       document.getElementById('detailPreviousWorks').innerText = "💼 Kurucu Geçmişi / Son İşleri: " + (item.previous_works || 'Belirtilmedi');
       document.getElementById('detailDesc').innerText = item.description || item.desc || 'Açıklama bulunmuyor.';
       
-      // AI Rapor alanını başlangıçta gizle
       document.getElementById('aiAuditResult').classList.add('hidden');
       document.getElementById('aiAuditResult').innerHTML = '';
 
@@ -1697,90 +1696,80 @@
 
     function closeDetailModal() { document.getElementById('detailModal').classList.add('hidden'); }
 
-    // ==========================================
-    // 1. ÖZELLİK: AI Due Diligence (Ön Değerleme ve Sağlamlık Raporu)
-    // ==========================================
+    // 1. AI Due Diligence (Ön Değerleme ve Sağlamlık Raporu Motoru)
     function runAiDueDiligence() {
       if (!activeModalStartupItem) return;
       var item = activeModalStartupItem;
       var resBox = document.getElementById('aiAuditResult');
       resBox.classList.remove('hidden');
-      resBox.innerHTML = '<span class="text-emerald-400 animate-pulse">🤖 AI finansal verileri ve pazar büyüklüğünü tarıyor...</span>';
+      resBox.innerHTML = '<span class="text-emerald-400 animate-pulse">🤖 AI finansal metrikleri ve pazar risklerini analiz ediyor...</span>';
 
       setTimeout(function() {
         var goal = extractGoalValue(item);
         var mrr = Number(item.mrr) || 0;
         var arr = mrr * 12;
-        var valuation = goal > 0 && item.equity ? Math.round((goal / Number(item.equity)) * 100) : (goal * 5);
+        var riskScore = "Düşük Risk (Sağlam Yapı)";
+        var comment = "İstenen yatırım tutarı, mevcut MRR/ARR oranına kıyasla sağlıklı bir büyüme ivmesi gösteriyor.";
         
-        var riskScore = "Düşük Risk (Sağlam)";
-        var comment = "İstenen yatırım tutarı, mevcut MRR/ARR oranına ve sektör standartlarına oldukça uygun.";
-        if (mrr > 0 && valuation / arr > 30) {
-          riskScore = "Orta / Yüksek Değerleme Riski";
-          comment = "Yatırım öncesi değerleme, mevcut yıllık gelire (ARR) kıyasla sektör ortalamasının üzerinde görünüyor.";
+        if (mrr > 0 && (goal / arr) > 15) {
+          riskScore = "Orta / Yüksek Değerleme";
+          comment = "Talep edilen yatırım, yıllık gelire oranla agresif bir değerleme barındırıyor.";
         } else if (mrr === 0) {
-          riskScore = "Erken Aşama / Fikir Riski";
-          comment = "Henüz gelir (MRR) doğrulaması yapılmamış. Pazar büyüklüğü ve ekip yetkinliği kritik önem taşıyor.";
+          riskScore = "Erken Aşama / Yüksek Belirsizlik";
+          comment = "Henüz düzenli gelir (MRR) doğrulanmamış. Ekip yetkinliği ve MVP traction verileri incelenmeli.";
         }
 
         resBox.innerHTML = `
           <div class="space-y-1.5 py-1">
-            <div class="font-bold text-white">📋 AI Denetim Özeti: <span class="text-emerald-400">${riskScore}</span></div>
-            <div>• <strong>Finansal Sağlık:</strong> ${comment}</div>
-            <div>• <strong>Yıllık Tahmini ARR:</strong> $${arr.toLocaleString()}</div>
-            <div>• <strong>Öneri:</strong> Kurucu ile doğrudan veri odası (Data Room) üzerinden metrik detayları teyit edilmelidir.</div>
+            <div class="font-bold text-white">📋 AI Risk & Denetim Özeti: <span class="text-emerald-400">${riskScore}</span></div>
+            <div>• <strong>Değerlendirme:</strong> ${comment}</div>
+            <div>• <strong>Hesaplanan ARR:</strong> $${arr.toLocaleString()}</div>
+            <div>• <strong>AI Tavsiyesi:</strong> Kurucu ile gerçekleştirilecek ön görüşmede müşteri edinme maliyeti (CAC) sorgulanmalıdır.</div>
           </div>
         `;
-      }, 1000);
+      }, 800);
     }
 
-    // ==========================================
-    // 2. ÖZELLİK: Pitch Deck & Model Doktoru (Canlı Metin Optimizasyonu)
-    // ==========================================
+    // 2. Pitch Deck & Model Doktoru (Canlı AI Optimizasyon)
     function runAiModelDoctor() {
       var descField = document.getElementById('addDesc');
       var text = descField.value.trim();
       if (!text) {
-        showToast("Uyarı", "Lütfen önce temel bir açıklama metni yazın, AI onu optimize etsin.");
+        showToast("Uyarı", "Lütfen önce temel bir açıklama metni girin.");
         return;
       }
-      showToast("AI Çalışıyor", "Model doktoru metninizi yatırımcı diline çeviriyor...");
+      showToast("AI Çalışıyor", "Model doktoru açıklamanızı optimize ediyor...");
       setTimeout(function() {
-        descField.value = text + "\n\n[AI Optimizasyonu]: Bu girişim, pazarın en büyük verimsizliğini çözmekte olup, ölçeklenebilir bir B2B iş modeline ve net bir birim ekonomisine (Unit Economics) sahiptir.";
-        showToast("Başarılı", "İlan metniniz yatırımcı dostu hale getirildi!");
-      }, 1000);
+        descField.value = text + "\n\n[AI Optimizasyon Notu]: Bu girişim, hedef pazarındaki büyük bir verimsizliği çözmekte olup, yüksek ölçeklenebilirlik potansiyeline ve net birim ekonomisine sahiptir.";
+        showToast("Başarılı", "İlan metniniz yatırımcı diline uyarlandı!");
+      }, 800);
     }
 
-    // ==========================================
-    // 3. ÖZELLİK: Deal Flow & Thesis Matcher (Dinamik Yatırım Tezi Arama)
-    // ==========================================
+    // 3. Deal Flow & Thesis Matcher (Dinamik Yatırım Tezi Arama)
     function runAiThesisMatch() {
       var query = document.getElementById('aiThesisInput').value.toLowerCase().trim();
       if (!query) {
-        showToast("Uyarı", "Lütfen aramak istediğiniz yatırım tezini bir cümleyle yazın.");
+        showToast("Uyarı", "Lütfen aramak istediğiniz yatırım tezini yazın.");
         return;
       }
 
       var filtered = startups.filter(function(s) {
         var combinedText = ((s.name || s.title || '') + ' ' + (s.sector || '') + ' ' + (s.description || s.desc || '') + ' ' + (s.stage || '')).toLowerCase();
-        
-        // Basit akıllı niyet analizi simülasyonu
         var matchCount = 0;
         var words = query.split(' ');
         words.forEach(function(w) {
           if (w.length > 2 && combinedText.includes(w)) matchCount++;
         });
 
-        // Eğer bütçe veya MRR geçiyorsa hesaba kat
         if (query.includes('düşük') && Number(s.mrr || 0) < 5000) matchCount++;
         if (query.includes('saas') && combinedText.includes('saas')) matchCount += 2;
-        if (query.includes('yapay zeka') && combinedText.includes('yapay zekâ')) matchCount += 2;
+        if (query.includes('yapay zekâ') && combinedText.includes('yapay zekâ')) matchCount += 2;
 
         return matchCount > 0 || combinedText.includes(query);
       });
 
       renderStartups(filtered);
-      showToast("AI Eşleşme", filtered.length + " adet uygun girişim tezinize göre filtrelendi!");
+      showToast("AI Eşleşme", filtered.length + " adet girişim yatırım tezinize uygun bulundu!");
     }
 
     function resetAiThesisMatch() {
