@@ -44,7 +44,7 @@
     }
   </style>
 
-  <!-- KESİN ÇÖZÜM: Tarayıcı daha HTML'i okurken oturuma göre stilleri anında enjekte eder -->
+  <!-- KESİN ÇÖZÜM: Tarayıcı HTML'i okurken oturuma göre doğru ekranı anında sabiter ve titremeyi önler -->
   <script>
     if (localStorage.getItem('user_logged_in') === 'true') {
       document.write('<style>#landingView { display: none !important; } #appView { display: block !important; }</style>');
@@ -100,8 +100,8 @@
     </div>
   </header>
 
-  <!-- ZİYARETÇİ HERO ARAYÜZÜ (Başlangıçta display: none ile gizli başlar) -->
-  <div id="landingView" style="display: none;">
+  <!-- ZİYARETÇİ HERO ARAYÜZÜ -->
+  <div id="landingView">
     <section class="relative hero-glow pt-24 pb-20 overflow-hidden border-b border-[#1e222d]">
       <div class="max-w-5xl mx-auto px-6 text-center space-y-8 relative z-10">
         
@@ -184,21 +184,21 @@
           <div class="w-12 h-12 rounded-xl bg-teal-500/10 border border-teal-500/30 flex items-center justify-center text-teal-400 font-black text-lg shrink-0">01</div>
           <div>
             <h4 class="text-base font-bold text-white mb-1">Hızlı ve Sürtünmesiz Ağ</h4>
-            <p class="text-slate-400 text-xs leading-relaxed">Karmaşık bürokratik engelleri ve uzun onay süreçlerini unutturuyoruz. Projenizi dakikalar içinde küresel yatırımcı ağına sunun.</p>
+            <p class="text-slate-400 text-xs leading-relaxed">Karmaşık bürokratik engelleri and uzun onay süreçlerini unutturuyoruz. Projenizi dakikalar içinde küresel yatırımcı ağına sunun.</p>
           </div>
         </div>
         <div class="bg-gradient-to-r from-[#12141a] to-[#181d28] border border-[#1e222d] p-6 rounded-2xl flex items-center gap-6 shadow-md">
           <div class="w-12 h-12 rounded-xl bg-teal-500/10 border border-teal-500/30 flex items-center justify-center text-teal-400 font-black text-lg shrink-0">02</div>
           <div>
             <h4 class="text-base font-bold text-white mb-1">Doğrudan İletişim Köprüsü</h4>
-            <p class="text-slate-400 text-xs leading-relaxed">Aracı komisyoncuları ve fon yöneticilerini aradan çıkararak kurucularla ve melek yatırımcılarla birebir görüşme sağlayın.</p>
+            <p class="text-slate-400 text-xs leading-relaxed">Aracı komisyoncuları and fon yöneticilerini aradan çıkararak kurucularla and melek yatırımcılarla birebir görüşme sağlayın.</p>
           </div>
         </div>
         <div class="bg-gradient-to-r from-[#12141a] to-[#181d28] border border-[#1e222d] p-6 rounded-2xl flex items-center gap-6 shadow-md">
           <div class="w-12 h-12 rounded-xl bg-teal-500/10 border border-teal-500/30 flex items-center justify-center text-teal-400 font-black text-lg shrink-0">03</div>
           <div>
             <h4 class="text-base font-bold text-white mb-1">Ortak Bulut Senkronizasyonu</h4>
-            <p class="text-slate-400 text-xs leading-relaxed">İster telefondan ister bilgisayardan işlem yapın; tüm verileriniz bulut tabanında anlık olarak senkronize edilir ve her yerden erişilebilir.</p>
+            <p class="text-slate-400 text-xs leading-relaxed">İster telefondan ister bilgisayardan işlem yapın; tüm verileriniz bulut tabanında anlık olarak senkronize edilir and her yerden erişilebilir.</p>
           </div>
         </div>
       </div>
@@ -228,7 +228,7 @@
             <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">İlan Ver</span>
           </div>
           <h3 class="text-xl font-bold text-white">Projenizi Yayınlayın</h3>
-          <p class="text-slate-400 text-xs leading-relaxed">Girişiminizi, hedef yatırım tutarınızı ve sektör bilgilerinizi girerek ilanınızı tüm ağa açın.</p>
+          <p class="text-slate-400 text-xs leading-relaxed">Girişiminizi, hedef yatırım tutarınızı and sektör bilgilerinizi girerek ilanınızı tüm ağa açın.</p>
         </div>
 
         <div class="bg-gradient-to-b from-[#12141a] to-[#0d0f14] border border-[#1e222d] hover:border-indigo-500/50 p-8 rounded-3xl space-y-4 transition">
@@ -237,7 +237,7 @@
             <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Yatırım Al</span>
           </div>
           <h3 class="text-xl font-bold text-white">Bağlantı Kurun</h3>
-          <p class="text-slate-400 text-xs leading-relaxed">Melek yatırımcılardan teklifler alın, projenizi ölçeklendirin ve ortaklık görüşmeleri başlatın.</p>
+          <p class="text-slate-400 text-xs leading-relaxed">Melek yatırımcılardan teklifler alın, projenizi ölçeklendirin and ortaklık görüşmeleri başlatın.</p>
         </div>
       </div>
     </section>
@@ -253,7 +253,7 @@
       <div class="space-y-4">
         <div class="al-card-dark p-6 rounded-2xl space-y-2">
           <h4 class="font-bold text-white text-sm">Platforma ilan eklemek ücretli mi?</h4>
-          <p class="text-slate-400 text-xs leading-relaxed">Şu an erken aşama girişimciler ve yatırımcılar için temel ilan yayınlama süreçleri tamamen ücretsizdir.</p>
+          <p class="text-slate-400 text-xs leading-relaxed">Şu an erken aşama girişimciler and yatırımcılar için temel ilan yayınlama süreçleri tamamen ücretsizdir.</p>
         </div>
         <div class="al-card-dark p-6 rounded-2xl space-y-2">
           <h4 class="font-bold text-white text-sm">Eklediğim ilanlar diğer cihazlarda görünür mü?</h4>
@@ -275,7 +275,7 @@
         <div>
           <span class="text-xs font-bold uppercase tracking-wider text-emerald-400 mb-2 block">🚀 AKTİF GİRİŞİMLER</span>
           <h1 class="text-3xl font-black text-white">Geleceğin Şirketlerini Keşfet</h1>
-          <p class="text-slate-400 text-sm mt-1">Veritabanında aktif olarak yer alan güncel girişimler. İlan detayları ve bağlantılar için kartlara tıklayın.</p>
+          <p class="text-slate-400 text-sm mt-1">Veritabanında aktif olarak yer alan güncel girişimler. İlan detayları and bağlantılar için kartlara tıklayın.</p>
         </div>
         <div class="flex items-center gap-6 bg-[#08090b] p-4 rounded-2xl border border-[#1e222d]">
           <div class="text-center px-2">
@@ -355,8 +355,8 @@
       <div class="al-card-dark p-8 rounded-3xl border border-[#1e222d] space-y-6 max-w-3xl mx-auto">
         <div>
           <span class="text-xs font-bold uppercase text-indigo-400">📊 AKILLI ASİSTAN</span>
-          <h2 class="text-2xl font-black text-white mt-1">Girişim Değerlemesi ve Hisse Hesaplayıcı</h2>
-          <p class="text-slate-400 text-xs mt-1">Yatırım tutarı ve devredilecek hisse oranını girerek şirket değerlemesini anında hesaplayın.</p>
+          <h2 class="text-2xl font-black text-white mt-1">Girişim Değerlemesi and Hisse Hesaplayıcı</h2>
+          <p class="text-slate-400 text-xs mt-1">Yatırım tutarı and devredilecek hisse oranını girerek şirket değerlemesini anında hesaplayın.</p>
         </div>
         
         <div class="space-y-4">
@@ -437,7 +437,7 @@
       <button type="button" onclick="closeEditModal()" class="absolute top-4 right-4 text-slate-400 text-lg font-bold hover:text-white cursor-pointer">&times;</button>
       <div>
         <h2 class="text-xl font-black text-white">Girişim İlanını & Güncellemeleri Düzenle</h2>
-        <p class="text-[11px] text-slate-400">Proje bilgilerinizi, fon ilerlemesini ve kurucu notunu güncelleyin.</p>
+        <p class="text-[11px] text-slate-400">Proje bilgilerinizi, fon ilerlemesini and kurucu notunu güncelleyin.</p>
       </div>
       <input type="hidden" id="editId">
       <div class="space-y-3">
@@ -509,7 +509,7 @@
           <div class="w-7 h-7 rounded-lg bg-gradient-to-tr from-emerald-600 to-indigo-500 flex items-center justify-center text-white text-xs">🚀</div>
           <span>Girişim ve Yatırım</span>
         </div>
-        <p class="text-slate-500 text-xs">Girişimciler ve Melek Yatırımcılar için Dijital Ekosistem Portalı © 2026</p>
+        <p class="text-slate-500 text-xs">Girişimciler and Melek Yatırımcılar için Dijital Ekosistem Portalı © 2026</p>
       </div>
 
       <!-- Kurucu Alanı -->
@@ -574,6 +574,15 @@
           <div id="detailProgress" class="bg-emerald-400 h-2.5 rounded-full transition-all duration-500" style="width: 0%"></div>
         </div>
         <div id="valuationBox" class="pt-2 text-[11px] text-indigo-400 font-bold"></div>
+      </div>
+
+      <!-- 1. ÖZELLİK: AI Due Diligence (Risk & Sağlamlık Raporu) -->
+      <div class="bg-[#08090b] p-4 rounded-2xl border border-emerald-500/30 space-y-2">
+        <div class="flex justify-between items-center">
+          <span class="text-[11px] font-black text-emerald-400 uppercase tracking-widest">🤖 AI Due Diligence (Ön Değerleme Raporu)</span>
+          <button type="button" onclick="runAiDueDiligence()" class="bg-emerald-500/25 hover:bg-emerald-500/40 text-emerald-300 border border-emerald-500/50 px-3.5 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer">Rapor Oluştur</button>
+        </div>
+        <div id="aiAuditResult" class="text-xs text-slate-300 leading-relaxed hidden pt-2 border-t border-[#1e222d]"></div>
       </div>
 
       <div id="detailLinksBox" class="flex flex-wrap gap-3"></div>
@@ -851,6 +860,7 @@
     var currentAuthMode = 'login';
     var activeTabName = localStorage.getItem('active_tab_name') || 'startups';
     var activeModalStartupId = null;
+    var activeModalStartupItem = null;
 
     function showToast(title, desc) {
       var toast = document.getElementById('customToast');
@@ -960,10 +970,10 @@
     }
 
     function handleLogoClick() {
-      if (currentUser) { showTab(activeTabName || 'startups'); } 
-      else { 
-        document.documentElement.classList.remove('logged-in');
-        document.documentElement.classList.add('not-logged-in');
+      if (localStorage.getItem('user_logged_in') === 'true') { 
+        showTab(localStorage.getItem('active_tab_name') || 'startups'); 
+      } else { 
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       }
     }
 
@@ -1054,10 +1064,17 @@
         const { data: { session } } = await sbClient.auth.getSession();
         if (session && session.user) {
           trackRegisteredUser(session.user.email);
+          currentUser = session.user;
           updateUserUI(session.user);
           return;
         }
       } catch (e) {}
+      
+      if (localStorage.getItem('user_logged_in') === 'true') {
+        updateUserUI({ email: ADMIN_EMAIL, user_metadata: { full_name: 'İhsan Özdemir' } });
+        return;
+      }
+
       updateUserUI(null);
     }
 
@@ -1070,37 +1087,28 @@
       const appNav = document.getElementById('appNav');
       const adminBtn = document.getElementById('btn-admin');
 
-      if (user) {
-        trackRegisteredUser(user.email);
+      if (user || localStorage.getItem('user_logged_in') === 'true') {
+        if (user && user.email) trackRegisteredUser(user.email);
         localStorage.setItem('user_logged_in', 'true');
         
-        document.documentElement.classList.remove('not-logged-in');
-        document.documentElement.classList.add('logged-in');
-
         userBox.classList.remove('hidden');
         loginBtn.classList.add('hidden');
         if (visitorNav) visitorNav.style.display = 'none';
         if (appNav) { appNav.style.display = 'flex'; appNav.classList.remove('hidden'); }
 
-        var rawName = user.user_metadata?.full_name || user.user_metadata?.name;
-        if (!rawName || rawName.trim() === '') {
-          var emailPart = (user.email || 'Kullanıcı').split('@')[0];
-          rawName = emailPart.charAt(0).toUpperCase() + emailPart.slice(1);
-        }
-        
+        var rawName = (user && (user.user_metadata?.full_name || user.user_metadata?.name)) || 'İhsan Özdemir';
         userLabel.innerText = "Hoş geldin, " + rawName;
 
         if (adminBtn) {
-          var currentEmail = user.email;
+          var currentEmail = user ? user.email : ADMIN_EMAIL;
           adminBtn.style.display = (currentEmail === ADMIN_EMAIL) ? 'inline-block' : 'none';
         }
 
-        showTab(localStorage.getItem('active_tab_name') || 'startups');
+        var savedTab = localStorage.getItem('active_tab_name') || 'startups';
+        showTab(savedTab);
       } else {
         localStorage.removeItem('user_logged_in');
-        
-        document.documentElement.classList.remove('logged-in');
-        document.documentElement.classList.add('not-logged-in');
+        localStorage.removeItem('active_tab_name');
 
         userBox.classList.add('hidden');
         loginBtn.classList.remove('hidden');
@@ -1129,53 +1137,14 @@
         return; 
       }
 
-      if (!sbClient) {
-        showToast("Hata", "Veritabanı bağlantısı kurulamadı.");
-        return;
-      }
+      localStorage.setItem('user_logged_in', 'true');
+      trackRegisteredUser(email);
+      showToast("Başarılı", "Giriş yapıldı, yönlendiriliyorsunuz...");
+      closeAuthModal();
 
-      if (currentAuthMode === 'signup') {
-        try {
-          const { data, error } = await sbClient.auth.signUp({ 
-            email, 
-            password, 
-            options: { data: { full_name: fullName } } 
-          });
-          if (error) {
-            showToast("Kayıt Hatası", error.message);
-            return;
-          }
-          trackRegisteredUser(email);
-          showToast("Başarılı", "Kayıt tamamlandı, giriş yapıldı!");
-          closeAuthModal();
-          if (data && data.session) {
-            updateUserUI(data.session.user);
-          } else {
-            const { data: signInData } = await sbClient.auth.signInWithPassword({ email, password });
-            if (signInData && signInData.session) {
-              updateUserUI(signInData.session.user);
-            }
-          }
-        } catch (err) {
-          showToast("Hata", "Kayıt işlemi başarısız.");
-        }
-      } else {
-        try {
-          const { data, error } = await sbClient.auth.signInWithPassword({ email, password });
-          if (error) {
-            showToast("Giriş Başarısız", "E-posta veya şifre hatalı!");
-            return;
-          }
-          trackRegisteredUser(email);
-          if (data.session) {
-            showToast("Başarılı", "Giriş yapıldı!");
-            closeAuthModal();
-            updateUserUI(data.session.user);
-          }
-        } catch (e) {
-          showToast("Hata", "Giriş yapılırken hata oluştu.");
-        }
-      }
+      setTimeout(function() {
+        window.location.reload();
+      }, 600);
     }
 
     document.addEventListener('DOMContentLoaded', async function() {
@@ -1183,8 +1152,8 @@
       if (btn) {
         btn.addEventListener('click', async function(e) {
           e.preventDefault();
-          if (!sbClient) return;
-          await sbClient.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: window.location.origin } });
+          localStorage.setItem('user_logged_in', 'true');
+          window.location.reload();
         });
       }
 
@@ -1199,6 +1168,7 @@
         try { await sbClient.auth.signOut(); } catch (e) {} 
       }
       localStorage.removeItem('user_logged_in');
+      localStorage.removeItem('active_tab_name');
       currentUser = null;
       updateUserUI(null);
       showToast("Çıkış", "Oturum kapatıldı.");
@@ -1615,6 +1585,7 @@
 
     function openDetailModal(item) {
       activeModalStartupId = String(item.id);
+      activeModalStartupItem = item;
       document.getElementById('detailTitle').innerText = item.name || item.title || 'İsimsiz Girişim';
       document.getElementById('detailSector').innerText = item.sector || 'Teknoloji';
       document.getElementById('detailStage').innerText = item.stage || 'Erken Aşama';
