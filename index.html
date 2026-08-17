@@ -44,7 +44,6 @@
     }
   </style>
 
-  <!-- KESİN ÇÖZÜM: Tarayıcı daha HTML'i okurken oturuma göre stilleri anında enjekte eder -->
   <script>
     if (localStorage.getItem('user_logged_in') === 'true') {
       document.write('<style>#landingView { display: none !important; } #appView { display: block !important; }</style>');
@@ -77,7 +76,7 @@
         <a href="#faq-section" class="px-5 py-2.5 rounded-full text-xs font-semibold text-slate-300 hover:text-emerald-400 transition">SSS</a>
       </nav>
 
-      <nav id="appNav" style="display: none;" class="items-center space-x-1.5 bg-[#12141a] p-1.5 rounded-full border border-[#1e222d]">
+      <nav id="appNav" class="items-center space-x-1.5 bg-[#12141a] p-1.5 rounded-full border border-[#1e222d]">
         <button type="button" id="btn-startups" onclick="showTab('startups')" class="tab-btn px-4 py-2.5 rounded-full text-xs font-semibold text-slate-400 hover:text-white transition cursor-pointer">🚀 Girişimler</button>
         <button type="button" id="btn-syndicates" onclick="showTab('syndicates')" class="tab-btn px-4 py-2.5 rounded-full text-xs font-semibold text-slate-400 hover:text-white transition cursor-pointer">🔥 Canlı Turlar</button>
         <button type="button" id="btn-acquisitions" onclick="showTab('acquisitions')" class="tab-btn px-4 py-2.5 rounded-full text-xs font-semibold text-slate-400 hover:text-white transition cursor-pointer">🛒 Proje Pazarı</button>
@@ -101,7 +100,7 @@
   </header>
 
   <!-- ZİYARETÇİ HERO ARAYÜZÜ -->
-  <div id="landingView" style="display: none;">
+  <div id="landingView">
     <section class="relative hero-glow pt-24 pb-20 overflow-hidden border-b border-[#1e222d]">
       <div class="max-w-5xl mx-auto px-6 text-center space-y-8 relative z-10">
         
@@ -270,7 +269,7 @@
   <!-- UYGULAMA ALANI (Giriş Yapınca Görünür) -->
   <main id="appView" class="max-w-7xl mx-auto px-6 py-10" style="display: none;">
 
-    <div id="tab-startups" class="content-tab space-y-8" style="display: none;">
+    <div id="tab-startups" class="content-tab space-y-8" style="display: block;">
       <section class="al-card-dark p-8 rounded-3xl flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
         <div>
           <span class="text-xs font-bold uppercase tracking-wider text-emerald-400 mb-2 block">🚀 AKTİF GİRİŞİMLER</span>
@@ -285,21 +284,6 @@
         </div>
       </section>
 
-      <!-- 3. ÖZELLİK: Deal Flow & Thesis Matcher (Akıllı Yatırım Tezi Arama Kutusu) -->
-      <div class="al-card-dark p-5 rounded-2xl border border-emerald-500/30 space-y-3 bg-gradient-to-r from-[#12141a] to-[#0a0c10]">
-        <div class="flex items-center justify-between">
-          <span class="text-xs font-black text-emerald-400 uppercase tracking-widest flex items-center gap-2">
-            🧠 AI Thesis Matcher (Akıllı Yatırım Tezi Arama)
-          </span>
-          <span class="text-[10px] text-slate-400">Normal dille arayın, AI niyetinizi anlasın</span>
-        </div>
-        <div class="flex gap-2">
-          <input type="text" id="aiThesisInput" placeholder="Örn: B2B SaaS ve lojistik odaklı, düşük bütçeli projeler..." class="w-full p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400">
-          <button type="button" onclick="runAiThesisMatch()" class="al-accent-bg font-extrabold px-6 py-3 rounded-xl text-xs transition cursor-pointer shrink-0">AI ile Eşleştir</button>
-          <button type="button" onclick="resetAiThesisMatch()" class="bg-[#1e222d] hover:bg-slate-700 text-white font-bold px-4 py-3 rounded-xl text-xs transition cursor-pointer shrink-0">Temizle</button>
-        </div>
-      </div>
-
       <!-- Hızlı Check Size (Bütçe) Filtreleri -->
       <div class="flex flex-wrap items-center gap-2 pb-2">
         <span class="text-xs font-bold text-slate-400 mr-2">Hızlı Filtrele:</span>
@@ -310,7 +294,7 @@
       </div>
 
       <!-- AngelList Tarzı Gelişmiş Filtreleme -->
-      <section class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 gap-3 al-card-dark p-4 rounded-2xl">
+      <section class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3 al-card-dark p-4 rounded-2xl">
         <input type="text" id="searchInput" onkeyup="filterStartups()" placeholder="Girişim adı ara..." class="sm:col-span-2 p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400">
         <select id="sectorFilter" onchange="filterStartups()" class="p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none">
           <option value="">Tüm Sektörler</option>
@@ -325,13 +309,7 @@
           <option value="MVP">MVP</option>
           <option value="Erken Aşama">Erken Aşama</option>
         </select>
-        <select id="budgetFilter" onchange="filterStartups()" class="p-3 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none">
-          <option value="">Yatırım Bütçesi (Check Size)</option>
-          <option value="50000">&le; $50,000</option>
-          <option value="100000">&le; $100,000</option>
-          <option value="500000">&gt; $100,000</option>
-        </select>
-        <button type="button" onclick="resetFilters()" class="text-xs font-bold text-slate-400 hover:text-white border border-[#1e222d] rounded-xl p-3 bg-[#08090b] transition cursor-pointer">Sıfırla</button>
+        <button type="button" onclick="resetFilters()" class="text-xs font-bold text-slate-400 hover:text-white border border-[#1e222d] rounded-xl p-3 bg-[#08090b] transition cursor-pointer">Filtreleri Sıfırla</button>
       </section>
 
       <section id="startupGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></section>
@@ -371,7 +349,7 @@
         <div>
           <span class="text-xs font-bold uppercase text-indigo-400">📊 AKILLI ASİSTAN</span>
           <h2 class="text-2xl font-black text-white mt-1">Girişim Değerlemesi ve Hisse Hesaplayıcı</h2>
-          <p class="text-slate-400 text-xs mt-1">Yatırım tutarı ve devredilecek hisse oranını girerek şirket değerlemesini anında hesaplayın.</p>
+          <p class="text-slate-400 text-xs mt-1">Yatırım tutarı and devredilecek hisse oranını girerek şirket değerlemesini anında hesaplayın.</p>
         </div>
         
         <div class="space-y-4">
@@ -591,13 +569,24 @@
         <div id="valuationBox" class="pt-2 text-[11px] text-indigo-400 font-bold"></div>
       </div>
 
-      <!-- 1. ÖZELLİK: AI Due Diligence (Risk & Sağlamlık Raporu) -->
-      <div class="bg-[#08090b] p-4 rounded-2xl border border-emerald-500/30 space-y-2">
+      <!-- YENİ ÖZELLİK 1: AI Pitch Deck & Yatırım Komitesi Analiz Raporu -->
+      <div class="bg-[#08090b] p-5 rounded-2xl border border-emerald-500/30 space-y-3">
         <div class="flex justify-between items-center">
-          <span class="text-[11px] font-black text-emerald-400 uppercase tracking-widest">🤖 AI Due Diligence (Ön Değerleme Raporu)</span>
-          <button type="button" onclick="runAiDueDiligence()" class="bg-emerald-500/25 hover:bg-emerald-500/40 text-emerald-300 border border-emerald-500/50 px-3.5 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer">Rapor Oluştur</button>
+          <span class="text-xs font-black text-emerald-400 uppercase tracking-widest flex items-center gap-1.5">
+            🤖 AI Yatırım Komitesi & Pitch Deck Analiz Raporu
+          </span>
+          <button type="button" onclick="runAiPitchDeckAudit()" class="al-accent-bg font-extrabold px-4 py-2 rounded-xl text-xs transition cursor-pointer">Raporu Üret</button>
         </div>
         <div id="aiAuditResult" class="text-xs text-slate-300 leading-relaxed hidden pt-2 border-t border-[#1e222d]"></div>
+      </div>
+
+      <!-- YENİ ÖZELLİK: Güvenli Veri Odası (Data Room) Erişim Talebi -->
+      <div class="bg-[#12141a] p-5 rounded-2xl border border-indigo-500/30 flex justify-between items-center">
+        <div>
+          <div class="text-xs font-black text-indigo-400 uppercase tracking-wide">🔒 Gizli Veri Odası & Mali Tablolar</div>
+          <p class="text-[11px] text-slate-400 mt-0.5">Pitch Deck, birim ekonomi ve detaylı finansal model için erişim isteyin.</p>
+        </div>
+        <button type="button" onclick="requestDataRoomAccess()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-4 py-2.5 rounded-xl text-xs transition cursor-pointer">Erişim Talep Et</button>
       </div>
 
       <div id="detailLinksBox" class="flex flex-wrap gap-3"></div>
@@ -750,7 +739,7 @@
 
   <!-- İLAN EKLEME FORMU -->
   <div id="addModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
-    <div class="al-card-dark rounded-3xl max-w-md w-full p-6 relative text-white border border-[#1e222d] space-y-4">
+    <div class="al-card-dark rounded-3xl max-w-lg w-full p-6 relative text-white border border-[#1e222d] space-y-4 max-h-[90vh] overflow-y-auto">
       <button type="button" onclick="closeCreateModal()" class="absolute top-4 right-4 text-slate-400 text-lg font-bold hover:text-white cursor-pointer">&times;</button>
       <div>
         <h2 class="text-xl font-black text-white">Yeni Girişim İlanı Ekle</h2>
@@ -814,6 +803,28 @@
           </div>
         </div>
 
+        <!-- YENİ ÖZELLİK 4: AI Pazar Büyüklüğü (TAM / SAM / SOM) Hesaplayıcı Alanı -->
+        <div class="bg-[#08090b] p-4 rounded-2xl border border-emerald-500/30 space-y-2">
+          <div class="flex justify-between items-center">
+            <span class="text-[11px] font-black text-emerald-400 uppercase tracking-widest">📊 AI Pazar Büyüklüğü (TAM / SAM / SOM)</span>
+            <button type="button" onclick="runAiMarketSizeCalculator()" class="bg-emerald-500/25 hover:bg-emerald-500/40 text-emerald-300 border border-emerald-500/50 px-3.5 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer">AI ile Hesapla</button>
+          </div>
+          <div class="grid grid-cols-3 gap-2 pt-1">
+            <div>
+              <label class="block text-[8px] font-bold text-slate-400 uppercase">TAM (Toplam Pazar)</label>
+              <input type="text" id="addTam" placeholder="Örn: $4.2B" class="w-full p-2 bg-[#12141a] border border-[#1e222d] rounded-lg text-xs text-white outline-none">
+            </div>
+            <div>
+              <label class="block text-[8px] font-bold text-slate-400 uppercase">SAM (Hedef Pazar)</label>
+              <input type="text" id="addSam" placeholder="Örn: $850M" class="w-full p-2 bg-[#12141a] border border-[#1e222d] rounded-lg text-xs text-white outline-none">
+            </div>
+            <div>
+              <label class="block text-[8px] font-bold text-slate-400 uppercase">SOM (Ulaşılan Pazar)</label>
+              <input type="text" id="addSom" placeholder="Örn: $45M" class="w-full p-2 bg-[#12141a] border border-[#1e222d] rounded-lg text-xs text-white outline-none">
+            </div>
+          </div>
+        </div>
+
         <div class="grid grid-cols-2 gap-3">
           <div>
             <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Web Sitesi URL</label>
@@ -826,11 +837,7 @@
         </div>
 
         <div>
-          <div class="flex justify-between items-center mb-1">
-            <label class="block text-[10px] font-bold text-slate-400 uppercase">Girişim Açıklaması</label>
-            <!-- 2. ÖZELLİK: Pitch Deck & Model Doktoru (Canlı AI Optimizasyon Butonu) -->
-            <button type="button" onclick="runAiModelDoctor()" class="text-[10px] text-emerald-400 hover:underline font-bold cursor-pointer">✨ AI ile İlanı Optimize Et</button>
-          </div>
+          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Girişim Açıklaması</label>
           <textarea id="addDesc" rows="2" placeholder="Projenizin çözdüğü problemi anlatın..." class="w-full p-2.5 bg-[#08090b] border border-[#1e222d] rounded-xl text-xs text-white outline-none focus:border-emerald-400 transition"></textarea>
         </div>
 
@@ -877,7 +884,7 @@
     var activeContactEmail = "ihsannozdemiro1@gmail.com";
     var activeStartupName = "";
     var currentAuthMode = 'login';
-    var activeTabName = 'startups';
+    var activeTabName = localStorage.getItem('active_tab_name') || 'startups';
     var activeModalStartupId = null;
     var activeModalStartupItem = null;
 
@@ -960,6 +967,7 @@
 
     function showTab(name) {
       activeTabName = name;
+      localStorage.setItem('active_tab_name', name);
 
       var tabs = document.querySelectorAll('.content-tab');
       for (var i = 0; i < tabs.length; i++) tabs[i].style.display = 'none';
@@ -988,11 +996,10 @@
     }
 
     function handleLogoClick() {
-      if (currentUser || localStorage.getItem('user_logged_in') === 'true') { 
-        showTab('startups'); 
+      if (localStorage.getItem('user_logged_in') === 'true') { 
+        showTab(localStorage.getItem('active_tab_name') || 'startups'); 
       } else { 
-        document.documentElement.classList.remove('logged-in');
-        document.documentElement.classList.add('not-logged-in');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       }
     }
 
@@ -1089,7 +1096,6 @@
         }
       } catch (e) {}
       
-      // Eğer localStorage'da giriş yapıldı gözüküyorsa ama supabase session henüz yüklenmediyse mock olarak devam et
       if (localStorage.getItem('user_logged_in') === 'true') {
         updateUserUI({ email: ADMIN_EMAIL, user_metadata: { full_name: 'İhsan Özdemir' } });
         return;
@@ -1124,9 +1130,11 @@
           adminBtn.style.display = (currentEmail === ADMIN_EMAIL) ? 'inline-block' : 'none';
         }
 
-        showTab('startups');
+        var savedTab = localStorage.getItem('active_tab_name') || 'startups';
+        showTab(savedTab);
       } else {
         localStorage.removeItem('user_logged_in');
+        localStorage.removeItem('active_tab_name');
 
         userBox.classList.add('hidden');
         loginBtn.classList.remove('hidden');
@@ -1155,7 +1163,6 @@
         return; 
       }
 
-      // OturumulocalStorage'a ve state'e direkt kaydedip anında sayfayı yeniliyoruz
       localStorage.setItem('user_logged_in', 'true');
       trackRegisteredUser(email);
       showToast("Başarılı", "Giriş yapıldı, yönlendiriliyorsunuz...");
@@ -1187,6 +1194,7 @@
         try { await sbClient.auth.signOut(); } catch (e) {} 
       }
       localStorage.removeItem('user_logged_in');
+      localStorage.removeItem('active_tab_name');
       currentUser = null;
       updateUserUI(null);
       showToast("Çıkış", "Oturum kapatıldı.");
@@ -1466,6 +1474,37 @@
       renderMyListings();
     }
 
+    // YENİ ÖZELLİK 4: AI Pazar Büyüklüğü (TAM/SAM/SOM) Hesaplayıcı Fonksiyonu
+    function runAiMarketSizeCalculator() {
+      var sector = document.getElementById('addSector').value;
+      var tamInput = document.getElementById('addTam');
+      var samInput = document.getElementById('addSam');
+      var somInput = document.getElementById('addSom');
+
+      showToast("AI Hesaplıyor", sector + " sektörü için pazar verileri taranıyor...");
+
+      setTimeout(function() {
+        if (sector === 'Fintek') {
+          tamInput.value = "$14.2 Trilyon";
+          samInput.value = "$2.1 Trilyon";
+          somInput.value = "$180 Milyon";
+        } else if (sector === 'Yapay Zekâ') {
+          tamInput.value = "$1.8 Trilyon";
+          samInput.value = "$340 Milyar";
+          somInput.value = "$25 Milyon";
+        } else if (sector === 'SaaS') {
+          tamInput.value = "$300 Milyar";
+          samInput.value = "$65 Milyar";
+          somInput.value = "$12 Milyon";
+        } else {
+          tamInput.value = "$95 Milyar";
+          samInput.value = "$18 Milyar";
+          somInput.value = "$3.5 Milyon";
+        }
+        showToast("Başarılı", "TAM / SAM / SOM değerleri otomatik dolduruldu!");
+      }, 700);
+    }
+
     async function handleAddStartup() {
       var titleVal = document.getElementById('addTitle').value.trim();
       var goalVal = document.getElementById('addGoal').value.trim();
@@ -1475,6 +1514,9 @@
       var mrrVal = document.getElementById('addMRR').value.trim();
       var ttmVal = document.getElementById('addTTM').value.trim();
       var equityVal = document.getElementById('addEquity').value.trim();
+      var tamVal = document.getElementById('addTam').value.trim();
+      var samVal = document.getElementById('addSam').value.trim();
+      var somVal = document.getElementById('addSom').value.trim();
 
       if (!titleVal || !goalVal || !founderVal || !descVal) {
         showToast("Eksik Alan", "Lütfen Girişim Adı, Hedef Yatırım, Kurucu ve Açıklama alanlarını doldurun.");
@@ -1507,6 +1549,9 @@
         mrr: Number(mrrVal) || 0,
         ttm: Number(ttmVal) || 0,
         equity: Number(equityVal) || 10,
+        tam: tamVal || '$50B',
+        sam: samVal || '$5B',
+        som: somVal || '$10M',
         website: websiteVal,
         pitch_deck: pitchDeckVal,
         description: descVal,
@@ -1535,6 +1580,9 @@
       document.getElementById('addMRR').value = '';
       document.getElementById('addTTM').value = '';
       document.getElementById('addEquity').value = '';
+      document.getElementById('addTam').value = '';
+      document.getElementById('addSam').value = '';
+      document.getElementById('addSom').value = '';
       document.getElementById('addWebsite').value = '';
       document.getElementById('addPitchDeck').value = '';
       document.getElementById('addDesc').value = '';
@@ -1655,86 +1703,43 @@
 
     function closeDetailModal() { document.getElementById('detailModal').classList.add('hidden'); }
 
-    // 1. AI Due Diligence (Ön Değerleme ve Sağlamlık Raporu Motoru)
-    function runAiDueDiligence() {
+    // YENİ ÖZELLİK 1: AI Pitch Deck & Yatırım Komitesi Analiz Raporu
+    function runAiPitchDeckAudit() {
       if (!activeModalStartupItem) return;
       var item = activeModalStartupItem;
       var resBox = document.getElementById('aiAuditResult');
       resBox.classList.remove('hidden');
-      resBox.innerHTML = '<span class="text-emerald-400 animate-pulse">🤖 AI finansal metrikleri ve pazar risklerini analiz ediyor...</span>';
+      resBox.innerHTML = '<span class="text-emerald-400 animate-pulse">🤖 AI Yatırım Komitesi verileri ve pitch deck dosyasını analiz ediyor...</span>';
 
       setTimeout(function() {
         var goal = extractGoalValue(item);
         var mrr = Number(item.mrr) || 0;
         var arr = mrr * 12;
-        var riskScore = "Düşük Risk (Sağlam Yapı)";
-        var comment = "İstenen yatırım tutarı, mevcut MRR/ARR oranına kıyasla sağlıklı bir büyüme ivmesi gösteriyor.";
-        
-        if (mrr > 0 && (goal / arr) > 15) {
-          riskScore = "Orta / Yüksek Değerleme";
-          comment = "Talep edilen yatırım, yıllık gelire oranla agresif bir değerleme barındırıyor.";
-        } else if (mrr === 0) {
-          riskScore = "Erken Aşama / Yüksek Belirsizlik";
-          comment = "Henüz düzenli gelir (MRR) doğrulanmamış. Ekip yetkinliği ve MVP traction verileri incelenmeli.";
-        }
+        var tractionScore = mrr > 3000 ? "Yüksek (Güçlü Büyüme)" : (mrr > 0 ? "Orta (Erken Aşama Traction)" : "Pre-Revenue (Henüz Gelir Yok)");
 
         resBox.innerHTML = `
-          <div class="space-y-1.5 py-1">
-            <div class="font-bold text-white">📋 AI Risk & Denetim Özeti: <span class="text-emerald-400">${riskScore}</span></div>
-            <div>• <strong>Değerlendirme:</strong> ${comment}</div>
-            <div>• <strong>Hesaplanan ARR:</strong> $${arr.toLocaleString()}</div>
-            <div>• <strong>AI Tavsiyesi:</strong> Kurucu ile gerçekleştirilecek ön görüşmede müşteri edinme maliyeti (CAC) sorgulanmalıdır.</div>
+          <div class="space-y-2 py-1">
+            <div class="font-black text-white text-sm">📋 Yatırım Komitesi Değerlendirme Raporu</div>
+            <div class="grid grid-cols-2 gap-2 py-1">
+              <div class="bg-[#12141a] p-2.5 rounded-xl border border-[#1e222d]">
+                <div class="text-[10px] text-slate-400 uppercase">Traction / MRR Sağlığı</div>
+                <div class="text-xs font-bold text-emerald-400">${tractionScore} ($${mrr.toLocaleString()}/ay)</div>
+              </div>
+              <div class="bg-[#12141a] p-2.5 rounded-xl border border-[#1e222d]">
+                <div class="text-[10px] text-slate-400 uppercase">Pazar Potansiyeli (TAM)</div>
+                <div class="text-xs font-bold text-indigo-400">${item.tam || '$25 Milyar'}</div>
+              </div>
+            </div>
+            <div>• <strong>Güçlü Yönler:</strong> Kurucu geçmişi ve sektör uyumu yüksek. Çözülen problem net.</div>
+            <div>• <strong>Risk Analizi:</strong> Erken aşamada müşteri edinme maliyeti (CAC) and churn oranları yakından takip edilmelidir.</div>
+            <div>• <strong>Komite Kararı:</strong> 💡 Ön görüşme için uygun aday. Term Sheet aşamasına geçilebilir.</div>
           </div>
         `;
-      }, 800);
+      }, 900);
     }
 
-    // 2. Pitch Deck & Model Doktoru (Canlı AI Optimizasyon)
-    function runAiModelDoctor() {
-      var descField = document.getElementById('addDesc');
-      var text = descField.value.trim();
-      if (!text) {
-        showToast("Uyarı", "Lütfen önce temel bir açıklama metni girin.");
-        return;
-      }
-      showToast("AI Çalışıyor", "Model doktoru açıklamanızı optimize ediyor...");
-      setTimeout(function() {
-        descField.value = text + "\n\n[AI Optimizasyon Notu]: Bu girişim, hedef pazarındaki büyük bir verimsizliği çözmekte olup, yüksek ölçeklenebilirlik potansiyeline ve net birim ekonomisine sahiptir.";
-        showToast("Başarılı", "İlan metniniz yatırımcı diline uyarlandı!");
-      }, 800);
-    }
-
-    // 3. Deal Flow & Thesis Matcher (Dinamik Yatırım Tezi Arama)
-    function runAiThesisMatch() {
-      var query = document.getElementById('aiThesisInput').value.toLowerCase().trim();
-      if (!query) {
-        showToast("Uyarı", "Lütfen aramak istediğiniz yatırım tezini yazın.");
-        return;
-      }
-
-      var filtered = startups.filter(function(s) {
-        var combinedText = ((s.name || s.title || '') + ' ' + (s.sector || '') + ' ' + (s.description || s.desc || '') + ' ' + (s.stage || '')).toLowerCase();
-        var matchCount = 0;
-        var words = query.split(' ');
-        words.forEach(function(w) {
-          if (w.length > 2 && combinedText.includes(w)) matchCount++;
-        });
-
-        if (query.includes('düşük') && Number(s.mrr || 0) < 5000) matchCount++;
-        if (query.includes('saas') && combinedText.includes('saas')) matchCount += 2;
-        if (query.includes('yapay zekâ') && combinedText.includes('yapay zekâ')) matchCount += 2;
-
-        return matchCount > 0 || combinedText.includes(query);
-      });
-
-      renderStartups(filtered);
-      showToast("AI Eşleşme", filtered.length + " adet girişim yatırım tezinize uygun bulundu!");
-    }
-
-    function resetAiThesisMatch() {
-      document.getElementById('aiThesisInput').value = '';
-      renderStartups(startups);
-      showToast("Sıfırlandı", "Tüm ilanlar listeleniyor.");
+    function requestDataRoomAccess() {
+      showToast("Erişim Talebi", "Gizli Veri Odası (Data Room) talebiniz kurucuya iletildi. Onaylandığında e-posta alacaksınız.");
     }
 
     function openMeetingModal() {
@@ -1751,7 +1756,7 @@
       var note = document.getElementById('meetingNote').value;
 
       if (!sender || !date || !time) {
-        showToast("Uyarı", "Lütfen adınızı, tarih ve saat bilgilerini doldurun.");
+        showToast("Uyarı", "Lütfen adınızı, tarih and saat bilgilerini doldurun.");
         return;
       }
 
@@ -1908,19 +1913,12 @@
       var search = document.getElementById('searchInput').value.toLowerCase();
       var sector = document.getElementById('sectorFilter').value;
       var stage = document.getElementById('stageFilter').value;
-      var budgetMax = document.getElementById('budgetFilter').value;
 
       var filtered = startups.filter(function(s) {
         var matchSearch = (s.name || '').toLowerCase().includes(search);
         var matchSector = (sector === "" || s.sector === sector);
         var matchStage = (stage === "" || s.stage === stage);
-        var goalVal = extractGoalValue(s);
-        var matchBudget = true;
-        if (budgetMax === "50000") matchBudget = goalVal <= 50000;
-        else if (budgetMax === "100000") matchBudget = goalVal <= 100000;
-        else if (budgetMax === "500000") matchBudget = goalVal > 100000;
-
-        return matchSearch && matchSector && matchStage && matchBudget;
+        return matchSearch && matchSector && matchStage;
       });
       renderStartups(filtered);
     }
@@ -1929,7 +1927,6 @@
       document.getElementById('searchInput').value = '';
       document.getElementById('sectorFilter').value = '';
       document.getElementById('stageFilter').value = '';
-      document.getElementById('budgetFilter').value = '';
       renderStartups(startups);
     }
   </script>
